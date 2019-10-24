@@ -1,0 +1,155 @@
+<div class="row wow fadeIn">
+  <div class="col-md-12 mb-4">
+    <div class="row mb-1">
+      <div class="col-md-8">
+        <h1 class="search-hlt"> SEARCH A COMPANY NAME ONLINE </h1>
+        <p class="search-des"> Ease of Doing Business in Sri Lanka. </p>
+      </div>
+      <div class="col-md-4" *ngIf="!Auth.AuthGuard()">
+        <div class="online-services-wrp float-right">
+          <button class="btn online-services" (click)="modal.showModal()">
+            <i class="fas fa-sign-in-alt"></i>
+            <strong> Login </strong>
+            <span> for Online Services </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row radio-wrp">
+     
+      <div class="col-md-10">
+        <div class="form-check-inline">
+        <label class="radio-inline">
+          <input type="radio" (click)="changeCriteria(2)" value=2 checked name="selectType" class="mr-3"> Begins with
+        </label>
+      </div>
+      <div class="form-check-inline">
+        <label class="radio-inline">
+            <input type="radio" (click)="changeCriteria(1)" value=1 name="selectType" class="mr-3"> Contains
+          </label>
+        </div>
+      </div>
+  
+   
+    </div>
+    <div class="mian-featured-area">
+      <div class="directory-searcher">
+        <form [formGroup]="formGroup">
+          <div class="row">
+            <div class="col-10 field" *ngIf="!Auth.AuthGuard()">
+              <input type="text" name="search" style="text-transform:uppercase" ng-pattern="/^[a-zA-Z]*$/"
+                formControlName="search" (keydown)="ckPageZero()" (keydown.enter)="ckSearch()" placeholder="Search for Company name/ Company number"
+                aria-label="Search">
+            </div>
+            <div class="col-1 field">
+              <button type="button" class="clear-button" mdbTooltip="Clear" (click)="this.Clean();" mdbWavesEffect>
+                <span>
+                  <i class="fas fa-times-circle"></i>
+                </span>
+              </button>
+            </div>
+            <div class="col-1 field">
+              <button type="button" class="sh-button" mdbTooltip="Click" (click)="ckSearch();" mdbWavesEffect>
+                <span>
+                  <i class="fas fa-search"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="seResults">
+        <small class="red-text float-right mt-2">About {{ this.meta['total'] }} results ({{ startFrom }} seconds)
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-bottom: 100px !important;" *ngIf="availableData">
+  <div class="row">
+    <div class="col-xl-12">
+      <section *ngIf="notHasData.available">
+        <div class="task-listing mt-5">
+          <div class="task-listing-details">
+            <div class="task-listing-description">
+              <h3 class="task-listing-title">
+                <b>{{ searchName | uppercase }}</b>
+              </h3>
+              <div class="task-tags margin-top-15">
+                <div class="row" *ngIf="notHasData.data?.length > 0">
+                  <div class="col-2">
+                    <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+                  </div>
+                  <div class="col-10">
+                    <small class="text text-danger" *ngFor='let avbData of notHasData.data'>* {{ avbData.message }}
+                      <br>
+                    </small>
+                    <small class="text text-primary">The name contradicts with the above rules but you can proceed.
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="task-listing-bid">
+            <div class="task-listing-bid-inner">
+              <button (click)="modal.showModal();" class="button button-sliding-icon ripple-effect">
+                Proceed Now
+                <i class="fas fa-long-arrow-alt-right"></i>
+              </button>
+            </div>
+          </div>
+          <span class="tg-themetag-blue tg-featuretag-blue">Available</span>
+        </div>
+      </section>
+      <section *ngIf="!notHasData.available">
+        <div style="margin-bottom: 100px !important;">
+          <div class="alert alert-danger" role="alert">
+            THIS NAME ALREADY EXISTS AND CANNOT BE RESERVED, PLEASE ADD A WORD AND TRY AGAIN !!
+          </div>
+        </div>
+      </section>
+      <section *ngIf="!availableData.available">
+        <div class="listings-container compact-list-layout margin-top-35">
+          <div class="job-listing with-apply-button" *ngFor='let result of availableData.data'>
+            <div class="job-listing-details">
+              <div class="job-listing-description">
+                <h3 class="job-listing-title">
+                  <b>{{ result.name }} {{ result.postfix }}</b>
+                </h3>
+              </div>
+              <div class="mr-auto" style="text-align: right;font-weight: bold;">
+                <small class="dashboard-status-button red" *ngIf="result.registration_no == null">Under Incorporation</small>
+                <b *ngIf="result.registration_no != null">{{ result.registration_no }}</b>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="row justify-content-md-center mt-3">
+    <nav aria-label="pagination " *ngIf="pager.pages && pager.pages.length">
+      <ul class="pagination pagination-circle pg-blue mb-0">
+        <li class="page-item " [ngClass]="{disabled:pager.currentPage === 1}">
+          <a class="page-link" aria-label="Previous" (click)="selectPage(1)">First</a>
+        </li>
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+          <a class="page-link" (click)="selectPage(pager.currentPage - 1)">Previous</a>
+        </li>
+        <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+          <a class="page-link" (click)="selectPage(page)">{{page}} </a>
+        </li>
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a class="page-link" (click)="selectPage(pager.currentPage + 1)"> Next</a>
+        </li>
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+          <a class="page-link" (click)="selectPage(pager.totalPages)">Last</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+<app-sign-in #modal></app-sign-in>

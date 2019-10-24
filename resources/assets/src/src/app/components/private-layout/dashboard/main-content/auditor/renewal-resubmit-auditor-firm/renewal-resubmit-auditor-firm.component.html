@@ -1,0 +1,146 @@
+<div class="clearfix top-margin">
+</div>
+<section>
+  <div class="container" style="padding-bottom: 50px;">
+    <div class="row">
+      <div class="col-md-11 nopadding">
+        <form role="form" method="post" class="f1">
+          <h3 style="text-align: center">auditor renewal form (firm resubmit)</h3>
+          <p style="text-align: center">Fill in all steps for completing renewal process.</p>
+          <div class="f1-steps">
+            <div class="f1-progress">
+              <div class="f1-progress-line" data-now-value="16.6" data-number-of-steps="3" [ngStyle]="{'width': progress.progressPercentage}"></div>
+            </div>
+            <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}}">
+              <div class="f1-step-icon">
+                <i class="{{item.icon}}"></i>
+              </div>
+              <p>{{item.label}}</p>
+            </div>
+          </div>
+          <fieldset [hidden]="stepOn != 0">
+            <div class="container download-container">
+              <h3>Document List</h3>
+              <div class="doc-block-wrapper">
+                <div class="doc-block">
+                  <h4>Application Form Download</h4>
+                  <div class="download-application-row">
+                    <div class="download-application-block">Application</div>
+                    <div class="doc-download">
+                      <button (click)="clickDownload()" type="button" class="btn btn-next">Download
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="dashboard-box" *ngIf="this.comments?.length > 0">
+                <ul class="dashboard-box-list">
+                  <li>
+                    <div class="col-md-12">
+                      <h3><strong>Comments</strong></h3>
+                    </div>
+                    <hr>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th width="50%" style="text-align: left">Comment</th>
+                          <th width="10%" style="text-align: center">Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let comment of this.comments">
+                          <td><span>{{ comment.comment }}</span></td>
+                          <td><span>{{ comment.createdAt | date: 'y-MM-dd' }}</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+            </div>
+          </fieldset>
+          <fieldset [hidden]="stepOn != 1">
+            <div class="alert alert-warning" role="alert">
+              <p>
+                <small>Please upload all files in pdf format,upload only A4 Size, portrait orientation and file size
+                  should be less
+                  than 4 MB.</small>
+              </p>
+              <p>
+                <small>Please remove cover page of 'ARTICLES OF THE ASSOCIATION' Document</small>.</p>
+            </div>
+            <hr>
+            <div class="container uploaded-container">
+              <div class="row upload-row">
+                <div class="col-9 doc">
+                  Application Form
+                </div>
+                <div class="col-12" *ngFor="let item of application; let i = index">
+                  <div class="col-12" *ngIf="item.setkey == 'DOCUMENT_REQUEST_TO_RESUBMIT'">
+                    <div class="col-3 float-right" style="margin-top: -10px">
+                      <label style="height: 37px; float:right;" for="app{{item.id}}" class="upload-wrapper btn btn-primary btn-sm download">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                      </label>
+                      <input style="display:block;position: fixed;top:-100000px" id="app{{item.id}}" type="file"
+                        (change)="updateFileUploaded($event,item.id,'renewal application','applicationUpload');"
+                        placeholder="Upload file" accept=".pdf">
+                    </div>
+                    <div>
+                      <span style="color: red"><i class="fa fa-exclamation-triangle"></i>{{item.value}} {{' :-
+                        '}}{{item.comment}}</span>
+                    </div>
+                  </div>
+                  <div class="col-12 uploaded-doc" *ngIf="item.pdfname">
+                    <span><i class="fas fa-file-pdf"></i></span>{{item.pdfname}}
+                    <button class="button red button-sm" [disabled]="item.setkey == 'DOCUMENT_APPROVED'" (click)="fileDeleteResubmited(item.id,'applicationUpload',i)">
+                      <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                    <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                      <i class="far fa-file-pdf"></i> View
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button [disabled]="!enableGoToSubmit" (click)="areYouSureSubmitYes()" type="button" class="btn btn-next">Submit
+                <i class="fas fa-forward"></i></button>
+            </div>
+          </fieldset>
+          <fieldset class="{{stepOn}}" [hidden]="stepOn != 2">
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="areYouSureSubmitYes()" type="button" class="btn btn-submit">PAY</button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div style="clear:both"></div>
+      <br />
+      <br />
+    </div>
+  </div>
+</section>
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockSubmit">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Are you sure want to proceed further?</h2>
+    </div>
+    <div class="body">
+      <p>If yes, you will not be able to revert back.</p>
+    </div>
+    <div class="footer">
+      <form>
+        <button type="submit" class="btn btn-success" (click)="submit()">Yes</button>
+        <button class="btn btn-danger" (click)="areYouSureSubmitNo()">No</button>
+      </form>
+    </div>
+  </div>
+</div>

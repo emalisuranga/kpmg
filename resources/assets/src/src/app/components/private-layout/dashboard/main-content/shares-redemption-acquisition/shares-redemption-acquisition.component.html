@@ -1,0 +1,1392 @@
+<div class="clearfix">
+  </div>
+  <section class="top-margin">
+    <div class="container" style="padding-bottom: 50px;">
+      <div class="row">
+  
+  
+        <!--end left col-->
+  
+  
+        <div class="col-md-11 nopadding">
+  
+  
+          <div class="f1">
+  
+            <h3 style="text-align: center">ACQUISITION OR REDEMPTION BY COMPANY OF OWN SHARES</h3>
+            <p style="text-align: center">Fill in all steps for completing the process.</p>
+            <div class="f1-steps">
+              <div class="f1-progress">
+                <div class="f1-progress-line" data-now-value="4.17" data-number-of-steps="12" [ngStyle]="{'width': progress.progressPercentage}"></div>
+              </div>
+  
+  
+  
+              <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}} status-{{i}}">
+                <div class="f1-step-icon">
+                  <i class="{{item.icon}}"></i>
+                </div>
+                <p>{{item.label}}</p>
+              </div>
+  
+            </div>
+  
+            <fieldset [hidden]="stepOn != 0">
+
+                <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                    <p style="text-align:center">{{externalGlobComment}}</p>
+               </div>
+  
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm">Company Type</label>
+                <div class="col-sm-9">{{compayType.value}}
+                </div>
+  
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm">Company Name</label>
+                <div class="col-sm-9">{{companyInfo.name}}{{ companyInfo.name ? ' '+ postFixEn : '' }}
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm">Registration Number</label>
+                <div class="col-sm-9">{{companyRegNumber}}
+                </div>
+              </div>
+              
+
+            
+              <div class="f1-buttons">
+  
+                <button  type="button" class="btn btn-next" id="btn1-next" (click)="changeProgressStatuses(1)">Next
+                  <i class="fas fa-forward"></i></button>
+              </div>
+            </fieldset>
+
+  
+            <fieldset [hidden]="stepOn != 1">
+
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                    <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+             
+                <div class="annual-records-secton stakeholder-section">
+  
+                    <div class="add-new-wrapper annual-records-add-new-wrapper">
+      
+                      <h2>
+                        <span class="add-new-wrapper-label">Record</span>
+                        <div class="line"></div>
+      
+                       <span  (click)="resetCallRecord()" *ngIf="moduleStatus != 'COMPANY_SHARE_FORM9_RESUBMIT'"> 
+                         <button  data-backdrop="static" data-keyboard="false" 
+                              type="button" mdbBtn class="relative waves-light add-new-stakholder"
+                             (click)="shareRecordModal.show()" mdbWavesEffect>
+                             <i class="fa fa-plus"></i> Add New</button>
+                       </span>
+      
+                      </h2>
+      
+                    </div>
+      
+      
+                    <div class="share-record-list stakeholder-list-wrapper">
+      
+                      <!-- list-->
+      
+                      <div *ngFor="let rec of form9RecordList.rec; let i = index" class="director-record stakeholder-record"
+                        style=" margin: 30px 0;border-radius: 20px;background: #fff;border: 1px solid rgb(243, 91, 63);">
+      
+                        <div (click)="showToggleCallRecord( rec.id)" class="stakeholder-record-summeru" style="background-color: #f35b3f;
+                            color: #fff;
+                            padding: 5px 10px;
+                            font-weight: lighter;
+                            font-size: 14px;
+                            border-top-left-radius: 18px;
+                            box-shadow: 1px 1px 2px #b3aea9;
+                            border-top-right-radius: 18px;
+                            cursor: pointer;
+                            width: 100%;
+                            border-radius: 20px;">
+      
+                          Record #{{i+1}}
+      
+                          <span *ngIf="moduleStatus != 'COMPANY_SHARE_FORM9_RESUBMIT'" (click)="removeShareRecord(i,rec.id)"
+                            title="remove record" style="float:right;" class="record-handler record-handler-remove">
+                            <i class="fa fa-trash"></i>
+                          </span>
+                          <span title="show details" style="float:right; margin:0 15px" class="record-handler">
+                            <i class="fa fa-pencil-alt"></i>
+                          </span>
+      
+      
+                        </div>
+      
+                        <div [hidden]="rec.showEditPane != rec.id" [class]="'stakeholder-record-inner'"
+                          class="stakeholder-record-inner" style="padding: 25px 10px 10px;">
+
+                          <div class="form-row" >
+
+                              <div class="sec_type_item form-group col-md-12">
+  
+                                  <p style="position: relative;margin-top: -20px;
+                                  top: 30px;">Type?<span class="req"> *</span></p>
+  
+                              </div>
+  
+                              <div class="sec_type_item form-group col-md-6">
+    
+                                <input (change)="validateCallRecordEdit(i); makeNullEdit(i)" [(ngModel)]="form9RecordList.rec[i].norm_type" type="radio" id="norm_type-natural-{{i}}" class="custom-control-input" name="norm_type_{{i}}" value="Person">
+                                <label style="font-size:14px;" class="custom-control-label radio-lbl" for="norm_type-natural-{{i}}">&nbsp;&nbsp;&nbsp;&nbsp;Person</label>
+                
+                              </div>
+            
+                              <div class="sec_type_item form-group col-md-6">
+    
+                                  <input (change)="validateCallRecordEdit(i); makeNullEdit(i)" [(ngModel)]="form9RecordList.rec[i].norm_type" type="radio" id="norm_type-firm-{{i}}" class="custom-control-input" name="norm_type_{{i}}" value="Corporate-body">
+                                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="norm_type-firm-{{i}}">&nbsp;&nbsp;&nbsp;&nbsp;Corporate-body</label>
+                  
+                             </div>
+  
+                          </div>
+
+                          <div class="form-row" *ngIf="form9RecordList.rec[i].norm_type == 'Person' ">
+
+                            <div class="sec_type_item form-group col-md-12">
+
+                                <p style="position: relative;margin-top: -20px;
+                                top: 30px;">Search By<span class="req"> *</span></p>
+
+                            </div>
+
+                            <div class="sec_type_item form-group col-md-6">
+  
+                              <input (change)="validateCallRecordEdit(i);makeNull1Edit(i)" [(ngModel)]="form9RecordList.rec[i].person_type" type="radio" id="person_type-natural-{{i}}" class="custom-control-input" name="person_type_{{i}}" value="NIC">
+                              <label style="font-size:14px;" class="custom-control-label radio-lbl" for="person_type-natural-{{i}}">&nbsp;&nbsp;&nbsp;&nbsp;NIC</label>
+              
+                            </div>
+          
+                            <div class="sec_type_item form-group col-md-6">
+  
+                                <input (change)="validateCallRecordEdit(i);makeNull1Edit(i)" [(ngModel)]="form9RecordList.rec[i].person_type" type="radio" id="person_type-firm-{{i}}" class="custom-control-input" name="person_type_{{i}}" value="Passport-No">
+                                <label style="font-size:14px;" class="custom-control-label radio-lbl" for="person_type-firm-{{i}}">&nbsp;&nbsp;&nbsp;&nbsp;Passport No</label>
+                
+                           </div>
+
+                        </div>
+  
+                          <div class="form-row" *ngIf="form9RecordList.rec[i].norm_type == 'Person' && form9RecordList.rec[i].person_type == 'NIC'">
+                            <div class="form-group col-md-12">
+              
+                                <label class="col-form-label col-form-label-sm">NIC of Person
+                                    <span class="req">*</span>
+                                </label>
+                                <input pattern="[0-9]{9}[x|X|v|V]|[0-9]{12}" maxlength="12"  (input)="validateCallRecordEdit(i)"  [(ngModel)]="form9RecordList.rec[i].nic"
+                              [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                              placeholder="" >
+                              <span class="req" style="font-size: 13px" *ngIf="!includenic(form9RecordList.rec[i].nic)">Invalid shareholder</span>
+                              
+                              </div>
+                        </div>
+
+                        <div class="form-row" *ngIf="form9RecordList.rec[i].norm_type == 'Person' && form9RecordList.rec[i].person_type == 'Passport-No'">
+                          <div class="form-group col-md-12">
+            
+                              <label class="col-form-label col-form-label-sm">Passport No of Person
+                                  <span class="req">*</span>
+                              </label>
+                              <input maxlength="15"  (input)="validateCallRecordEdit(i)"  [(ngModel)]="form9RecordList.rec[i].passno"
+                            [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                            placeholder="" >
+                            <span class="req" style="font-size: 13px" *ngIf="!includepass(form9RecordList.rec[i].passno)">Invalid shareholder</span>
+                            
+                            </div>
+                      </div>
+              
+                        <div class="form-row" *ngIf="form9RecordList.rec[i].norm_type == 'Corporate-body' ">
+                          <div class="form-group col-md-12">
+              
+                              <label class="col-form-label col-form-label-sm">Registration number of Corporate-body   
+                                  <span class="req">*</span>
+                              </label>
+                              <input maxlength="90"   (input)="validateCallRecordEdit(i)"  [(ngModel)]="form9RecordList.rec[i].regno"
+                            [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                            placeholder="" >
+                            <span class="req" style="font-size: 13px" *ngIf="!includeregno(form9RecordList.rec[i].regno)">Invalid shareholder firm</span>
+                            
+                            </div>
+                      </div>
+
+                          <div class="form-row" >
+
+                              <div class="sec_type_item form-group col-md-12">
+
+                                  <p style="position: relative;margin-top: -20px;
+                                  top: 30px;">Shares Acquired or Redeemed?<span class="req"> *</span></p>
+
+                              </div>
+
+                              <div class="sec_type_item form-group col-md-6">
+    
+                                <input (change)="validateCallRecordEdit(i)" [(ngModel)]="form9RecordList.rec[i].aquire_or_redeemed" type="radio" id="shareholder_type-natural-{{i}}" class="custom-control-input" name="shareholder_type_{{i}}" value="acquired">
+                                <label style="font-size:14px;" class="custom-control-label radio-lbl" for="shareholder_type-natural-{{i}}">&nbsp;&nbsp;&nbsp;&nbsp;Acquired</label>
+                
+                              </div>
+            
+                              <div class="sec_type_item form-group col-md-6">
+    
+                                  <input (change)="validateCallRecordEdit(i)" [(ngModel)]="form9RecordList.rec[i].aquire_or_redeemed" type="radio" id="shareholder_type-firm-{{i}}" class="custom-control-input" name="shareholder_type_{{i}}" value="redeemed">
+                                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="shareholder_type-firm-{{i}}">&nbsp;&nbsp;&nbsp;&nbsp;Redeemed</label>
+                  
+                             </div>
+
+                          </div>
+
+                        <!--  <div class="form-row">
+
+                              <label class="col-form-label col-form-label-sm">Shareholder name
+                                  <span class="req">*</span>
+                              </label>
+                            
+                              <select *ngIf="callShareList.share[i].shareholder_type == 'natural'" (change)="validateCallRecordEdit(i)" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="callShareList.share[i].shareholder_id"
+                              name="shareholder_id-{{i}}">
+                              <option value="">Choose...</option>
+                              <option *ngFor="let sh of shareholdersList.sh" value="{{sh.id}}">{{sh.name}}</option>
+                            </select>
+
+                            <select *ngIf="callShareList.share[i].shareholder_type == 'firm'" (change)="validateCallRecordEdit(i)" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="callShareList.share[i].shareholder_id"
+                              name="shareholder_id-{{i}}">
+                              <option value="">Choose...</option>
+                              <option *ngFor="let sh of shareholderFirmList.sh" value="{{sh.id}}">{{sh.name}}</option>
+                            </select>
+                          </div> -->
+
+                          <div class="form-row">
+                              <div class="form-group col-md-12">
+          
+                                  <label class="col-form-label col-form-label-sm">Name of person or a corporate-body from whom shares {{form9RecordList.rec[i].aquire_or_redeemed =='redeemed' ? 'Redeemed' : 'Acquired' }}   
+                                      <span class="req">*</span>
+                                  </label>
+                                  <input   (input)="validateCallRecordEdit(i)"  [(ngModel)]="form9RecordList.rec[i].person_name"
+                                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                                placeholder="" >
+                                
+                                </div>
+                          </div>
+
+                          <div class="form-row">
+                              <div class="form-group col-md-12">
+                                <label class="col-form-label col-form-label-sm">Class of share {{form9RecordList.rec[i].aquire_or_redeemed =='redeemed' ? 'Redeemed' : 'Acquired' }}<span class="req">*</span></label>
+                                  <select  (change)="validateCallRecordEdit(i); makeNullOtherEdit(i)"
+                                           class="form-control form-control-sm modal-input-sec-country" 
+                                           [(ngModel)]="form9RecordList.rec[i].share_class"
+                                           [ngModelOptions]="{standalone: true}">
+                                  <option value="">Choose...</option>
+                                  <option *ngFor="let t of share_types" value="{{t.key}}">{{t.value}}</option>
+                                  <!-- <option value="Other">Other</option> -->
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="form-row" *ngIf="rec.share_class == 'OTHER_SHARE' ">
+                              <div class="form-group col-md-12">
+                
+                                  <label class="col-form-label col-form-label-sm">Type the Class of share
+                                      <span class="req">*</span>
+                                  </label>
+                                  <input maxlength="90"  (input)="validateCallRecordEdit(i)" [(ngModel)]="form9RecordList.rec[i].other_share_class"
+                                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                                placeholder="" >
+                                
+                                </div>
+                          </div>
+
+                          <div class="form-row">
+                              <div class="form-group col-md-12">
+      
+                                  <label class="col-form-label col-form-label-sm">Number of Shares {{form9RecordList.rec[i].aquire_or_redeemed =='redeemed' ? 'Redeemed' : 'Acquired' }}
+                                      <span class="req">*</span>
+                                  </label>
+                                  <input  onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"  (input)="validateCallRecordEdit(i)"  [(ngModel)]="form9RecordList.rec[i].aquire_or_redeemed_value"
+                                  [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                                  placeholder="" >
+                                
+                                </div>
+                          </div>
+
+                          
+                          <div class="form-row">
+                              <div class="form-group col-md-12">
+          
+                                  <label class="col-form-label col-form-label-sm">Date of {{form9RecordList.rec[i].aquire_or_redeemed =='redeemed' ? 'Redemption' : 'Acquisition' }}  
+                                      <span class="req">*</span>
+                                  </label>
+                                  <input max="{{formattedTodayValue}}"  (input)="validateCallRecordEdit(i)"  type="date" [(ngModel)]="form9RecordList.rec[i].date"
+                                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                                placeholder="" >
+                                
+                                </div>
+                          </div>
+      
+                          <div style="clear:both"></div>
+    
+                          <button  style="float: right" (click)="submitShareRecord('remove')" [disabled]="!enableStep2SubmissionEdit"
+                            type="button" class="btn btn-next">
+                            <i class="fa fa-edit"></i>
+                            Edit</button>
+                            <div style="clear:both"></div>
+                            <br>  
+      
+                        </div>
+                        <!-- end rerord inner -->
+      
+                      </div>
+      
+                      <!-- end list -->
+      
+                      <p [hidden]="form9RecordList.rec.length" class="no-stakeholder no-director">No Record Added</p>
+      
+                    </div>
+      
+                </div>
+
+                <div class="share-summery-records" *ngIf="form9RecordList.rec.length">
+
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+
+                            <label class="col-form-label col-form-label-sm">Total number of company shares after cancellation
+                                <span class="req">*</span>
+                            </label>
+                            <input  onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"  [(ngModel)]="total_company_shares"
+                            [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                            placeholder="" >
+                          
+                          </div>
+                    </div>
+
+                    
+
+                      <!-- <div class="form-row" >
+
+                          <div class="sec_type_item form-group col-md-12">
+
+                              <p style="position: relative;
+                              top: 30px;">Signing Party Information <span class="req">*</span></p>
+
+                          </div>
+
+                          <div class="sec_type_item form-group col-md-6">
+
+                            <input [(ngModel)]="signing_party_designation" type="radio" id="signing_party_designation_director" class="custom-control-input" name="signing_party_designation" value="Director">
+                            <label style="font-size:14px;" class="custom-control-label radio-lbl" for="signing_party_designation_director">&nbsp;&nbsp;&nbsp;&nbsp;Director</label>
+            
+                          </div>
+        
+                          <div class="sec_type_item form-group col-md-6">
+
+                              <input [(ngModel)]="signing_party_designation" type="radio" id="signing_party_designation_secretory" class="custom-control-input" name="signing_party_designation" value="Secretary">
+                              <label style="font-size:14px;" class="custom-control-label radio-lbl" for="signing_party_designation_secretory">&nbsp;&nbsp;&nbsp;&nbsp;Secretary</label>
+              
+                          </div>
+
+                          <div class="sec_type_item form-group col-md-12" *ngIf="signing_party_designation">
+                              <label  class="col-form-label col-form-label-sm" for="singning_party_name">Full Name of the Signing Party Person<span class="req">*</span></label>
+                              <input [(ngModel)]="singning_party_name"  id="singning_party_name" class="form-control form-control-sm modal-input-director-address3" name="singning_party_name">
+                              
+              
+                          </div>
+
+                      </div> -->
+                      <div class="form-row">
+
+                        <div class="form-group col-md-12">
+                            <label class="col-form-label col-form-label-sm">Select the ground
+                                <span class="req">*</span>
+                            </label>
+                          <ng-select [disabled]="moduleStatus == 'COMPANY_SHARE_FORM9_RESUBMIT'" [multiple]="true" (change)="checkGroundType();" [(ngModel)]="ground" [ngModelOptions]="{standalone: true}"
+                            >
+                            <ng-option value="64">Under Clause 64</ng-option>
+                            <ng-option value="67">Under Clause 67</ng-option>
+                            <ng-option value="31">Under Section 31</ng-option>
+                            <ng-option value="CourtOrder">Under court order</ng-option>
+                            <!-- <option value="other">Other</option> -->
+                          </ng-select>
+                        </div>
+    
+                      </div>
+
+                      <div class="form-row" *ngIf="groundType">
+                          <div class="form-group col-md-12">
+        
+                            <label class="col-form-label col-form-label-sm">Are provisions provided in the company articles to acquisition or redeem their own shares by the company? <span class="req"> *</span></label>
+                            
+        
+                          </div>
+                          <div class="form-group col-md-3">
+                              <label class="col-md-6 col-form-label col-form-label-sm"
+                              ><input
+                              type="radio" [disabled]="moduleStatus == 'COMPANY_SHARE_FORM9_RESUBMIT'" [(ngModel)]="type_of_64_67" name="rad1"
+                              value="yes">&nbsp;Yes</label>
+                            
+                            </div>
+                            <div class="form-group col-md-3">
+                                
+                              <label class="col-md-6 col-form-label col-form-label-sm"
+                                ><input
+                                type="radio" [disabled]="moduleStatus == 'COMPANY_SHARE_FORM9_RESUBMIT'" [(ngModel)]="type_of_64_67" name="rad1"
+                                value="no">&nbsp;No</label>
+                              </div>
+                        </div>
+
+                      <div class="form-row">
+                        <div class="form-group col-md-12">
+      
+                          <label class="col-form-label col-form-label-sm"><b>Signed By</b> <span class="req">*</span></label>
+                          <ng-select [dropdownPosition]="'top'" [items]="members" groupBy="designation" bindValue="_id" bindLabel="name" [(ngModel)]="signbyid" [ngModelOptions]="{standalone: true}"
+                            style="z-index: 100;">
+                            <!-- <ng-option *ngFor="let member of members; let i = index" value="{{member.id}}-{{member.type}}">{{member.designation}} :- {{member.first_name}} {{member.last_name}} </ng-option> -->
+                            <!-- <option value="other">Other</option> -->
+                          </ng-select>
+                          <!-- <label class="col-form-label col-form-label-sm"
+                            *ngFor="let member of members; let i = index">{{member.designation}}&nbsp;:-&nbsp;{{member.first_name}}&nbsp;{{member.last_name}}&nbsp;<input
+                              type="radio" [(ngModel)]="signbyid" name="rad"
+                              value="{{member.id}}-{{member.type}}"></label> -->
+      
+                        </div>
+                      </div>
+  
+                </div>
+    
+              
+              <div class="f1-buttons">
+                <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                  Previous</button>
+                  <button   [disabled]="!(enableStep2Submission && signbyid && total_company_shares && ground?.length && (groundType ? type_of_64_67 : true))" (click)="submitShareRecord()" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+                <!--<button *ngIf="!share_records_already_exists"  [disabled]="!(enableStep2Submission)" (click)="submitShareRecord()" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+                <button *ngIf="share_records_already_exists"  (click)="changeProgressStatuses(4)" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>-->
+              </div>
+  
+          </fieldset>
+       
+  
+          <fieldset [hidden]="stepOn != 2">
+
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+  
+              <div class="container download-container">
+  
+  
+                  <h3>Document List</h3>
+    
+                  <div class="doc-block-wrapper">
+    
+                    <div class="doc-block" *ngFor="let doc of docList['docs']">
+    
+                      <div class="stakeholder-doc-row">
+    
+                        <div class="stakeholder-name">{{doc.name}}</div>
+                        <div class="doc-download">
+    
+    
+                          <a [href]="sanitize(doc.download_link)" target="_blank" download="{{doc.file_name_key}}.pdf"
+                            class="btn btn-primary btn-sm download doc-download-link">
+                            <i class="fas fa-cloud-download-alt"></i> Download
+                          </a>
+                        </div>
+                      </div>
+    
+                    </div>
+    
+                  </div>
+    
+    
+    
+                </div>
+             
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="changeProgressStatuses(3)" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+            </div>
+  
+          </fieldset>
+          <!-- end of 10th step -->
+  
+          <fieldset [hidden]="stepOn != 3">
+
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+  
+              <div class="container uploaded-container">
+  
+                  <div *ngFor="let doc of uploadList['docs']; let i = index">
+    
+                    <div class="row uploaded-row">
+    
+                      <div class="col-9 doc">
+                        <h3>{{doc.file_name}} <span *ngIf="doc.is_admin_requested" class="request_roc">(requested by ROC)</span> <span *ngIf="doc.is_required" class="req">*</span></h3>
+                      </div>
+                      <div class="col-3 no-padding">
+    
+    
+                        <label style="float:right" for="other-{{i}}" class="upload-wrapper btn btn-primary btn-sm download">
+                          <i class="fas fa-cloud-upload-alt"></i> Upload
+                        </label>
+                        <input style="display:block;position: fixed;top:-100000px" id="other-{{i}}" type="file" (change)="fileChange($event,doc.file_name,doc.dbid)"
+                          placeholder="Upload file" accept=".pdf">
+    
+                      </div>
+    
+                      <div class="col-12 uploaded-doc" *ngIf="doc.uploaded_path">
+  
+                          {{doc.uploaded_path}}
+  
+                          <button *ngIf="!doc.is_admin_requested" (click)="removeDoc(doc.dbid )"  class="button red button-sm remove-file">
+                              <i class="fas fa-trash-alt"></i> Delete
+                              </button>
+                        
+                          <button *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="view-file button blue button-sm">
+                              <i class="far fa-file-pdf"></i> View
+                          </button>
+  
+  
+                       
+                      </div>
+                      <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                        <strong>Comments:</strong> {{doc.doc_comment}}
+                      </div>
+    
+                    </div>
+    
+                  </div>
+    
+    
+                </div>
+                <div style="margin-bottom:6px" class="container uploaded-container">
+
+                  <div class="row uploaded-row">
+    
+                    <div class="col-4 doc">
+                      <h3>Other Documents
+                        <p style="font-size: 12px;color: darkorange;text-transform: none;" class="other_doc_des">You can upload any number of documents here</p>
+                      </h3>
+                    </div>
+                    <div class="col-5">
+                      <span style="float: left;width: 100%;margin-top: 2px">
+                            <input style="width: 96%;padding:5px;padding: 0 5px;text-align: center;font-size: 14px;" [(ngModel)]="other_doc_name" name="other_doc_name" placeholder="Enter document name here" />
+                           <!-- <span style="display: block;width: 4%; float: right;color: red;font-size: 24px;margin-top: -10px;">*</span> -->
+                      </span>
+                    </div>
+  
+                    <div class="col-3 no-padding">
+  
+  
+                      <label style="float:right" for="other-docs" class="upload-wrapper btn btn-primary btn-sm download {{!other_doc_name ? 'disable' : '' }}">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                      </label>
+  
+                      
+                      <input [disabled]="!other_doc_name"  style="display:block;position: fixed;top:-100000px" id="other-docs" type="file" (change)="uploadOtherDoc($event,'Other',uploadOtherList['doc_id'],other_doc_name)"
+                        placeholder="Upload file" accept=".pdf">
+  
+                    </div>
+  
+                    </div>
+  
+                  <div  class="form-group" *ngFor="let doc of uploadOtherList['docs']; let j = index">
+    
+                    <div class=" uploaded-row">
+    
+                    
+    
+                      <div style="font-size:12px;" class="uploaded-doc" *ngIf="doc.file_name">
+  
+                          {{doc.file_name}}
+                          <span class="approved_doc" *ngIf="doc.doc_status =='DOCUMENT_APPROVED'">Document Approved</span>
+  
+                          <button *ngIf="doc.doc_status !='DOCUMENT_APPROVED' && doc.uploaded_token" style="float: right; font-size: 12px;padding: 5px !important;" (click)="removeOtherDoc(doc.uploaded_token )"  class="button red button-sm">
+                              <i class="fas fa-trash-alt"></i> Delete
+                           </button>
+                        
+                          <button style="float: right; font-size: 12px;padding: 5px !important;margin-right:4px;" *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="button blue button-sm">
+                              <i class="far fa-file-pdf"></i> View
+                          </button>
+  
+                          <label  *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'" style="float: right;
+                          width: 110px;
+                          height: 30px;
+                          margin-top: -2px;
+                          line-height: 30px;
+                          margin-right: 0px;" for="other-resubmit-docs-{{doc.multiple_id}}" class="upload-wrapper btn btn-primary btn-sm download">
+                            <i class="fas fa-cloud-upload-alt"></i> Upload
+                          </label>
+                          <input *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'"  style="display:block;position: fixed;top:-100000px" id="other-resubmit-docs-{{doc.multiple_id}}" type="file" (change)="uploadOtherResumittedDoc($event,doc.multiple_id)"
+                        placeholder="Upload file" accept=".pdf">
+  
+  
+                       
+                      </div>
+                      <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                        <strong>Comments:</strong> {{doc.doc_comment}}
+                      </div>
+    
+                    </div>
+    
+                  </div>
+    
+    
+                </div>
+                <div style="margin-bottom:6px" class="container uploaded-container" *ngIf="uploadOther64or67List['doc_id'] != 0">
+
+                  <div class="row uploaded-row">
+    
+                    <div class="col-4 doc">
+                      <h3><span *ngIf="groundType && (type_of_64_67 ==='yes')">Articles of Association</span><span *ngIf="groundType && (type_of_64_67 ==='no')">Special Resolution</span>
+                        <p style="font-size: 12px;color: rgb(255, 0, 13);text-transform: none;" class="other_doc_des">*You need to upload this</p>
+                        <p style="font-size: 12px;color: darkorange;text-transform: none;" class="other_doc_des">You can upload any number of documents here</p>
+                      </h3>
+                    </div>
+                    <div class="col-5">
+                      <span style="float: left;width: 100%;margin-top: 2px">
+                            <input style="width: 96%;padding:5px;padding: 0 5px;text-align: center;font-size: 14px;" [(ngModel)]="other_doc64or67_name" name="other_doc64or67_name" placeholder="Enter document name here" />
+                           <!-- <span style="display: block;width: 4%; float: right;color: red;font-size: 24px;margin-top: -10px;">*</span> -->
+                      </span>
+                    </div>
+  
+                    <div class="col-3 no-padding">
+  
+  
+                      <label style="float:right" for="other-docs64or67" class="upload-wrapper btn btn-primary btn-sm download {{!other_doc64or67_name ? 'disable' : '' }}">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                      </label>
+  
+                      
+                      <input [disabled]="!other_doc64or67_name"  style="display:block;position: fixed;top:-100000px" id="other-docs64or67" type="file" (change)="uploadOtherDoc($event,'Other',uploadOther64or67List['doc_id'],other_doc64or67_name)"
+                        placeholder="Upload file" accept=".pdf">
+  
+                    </div>
+  
+                    </div>
+  
+                  <div  class="form-group" *ngFor="let doc of uploadOther64or67List['docs']; let j = index">
+    
+                    <div class=" uploaded-row">
+    
+                    
+    
+                      <div style="font-size:12px;" class="uploaded-doc" *ngIf="doc.file_name">
+  
+                          {{doc.file_name}}
+                          <span class="approved_doc" *ngIf="doc.doc_status =='DOCUMENT_APPROVED'">Document Approved</span>
+  
+                          <button *ngIf="doc.doc_status !='DOCUMENT_APPROVED' && doc.uploaded_token" style="float: right; font-size: 12px;padding: 5px !important;" (click)="removeOtherDoc(doc.uploaded_token )"  class="button red button-sm">
+                              <i class="fas fa-trash-alt"></i> Delete
+                           </button>
+                        
+                          <button style="float: right; font-size: 12px;padding: 5px !important;margin-right:4px;" *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="button blue button-sm">
+                              <i class="far fa-file-pdf"></i> View
+                          </button>
+  
+                          <label  *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'" style="float: right;
+                          width: 110px;
+                          height: 30px;
+                          margin-top: -2px;
+                          line-height: 30px;
+                          margin-right: 0px;" for="other-resubmit-docs64or67-{{doc.multiple_id}}" class="upload-wrapper btn btn-primary btn-sm download">
+                            <i class="fas fa-cloud-upload-alt"></i> Upload
+                          </label>
+                          <input *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'"  style="display:block;position: fixed;top:-100000px" id="other-resubmit-docs64or67-{{doc.multiple_id}}" type="file" (change)="uploadOtherResumittedDoc($event,doc.multiple_id)"
+                        placeholder="Upload file" accept=".pdf">
+  
+  
+                       
+                      </div>
+                      <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                        <strong>Comments:</strong> {{doc.doc_comment}}
+                      </div>
+    
+                    </div>
+    
+                  </div>
+    
+    
+                </div>
+                <div style="margin-bottom:6px" class="container uploaded-container" *ngIf="uploadOther31Docs['doc_id'] != 0">
+
+                  <div class="row uploaded-row">
+    
+                    <div class="col-4 doc">
+                      <h3>Consent Forms of Shareholders 
+                          <p style="font-size: 12px;color: rgb(255, 0, 13);text-transform: none;" class="other_doc_des">*You need to upload this</p>
+                        <p style="font-size: 12px;color: darkorange;text-transform: none;" class="other_doc_des">You can upload any number of documents here</p>
+                      </h3>
+                    </div>
+                    <div class="col-5">
+                      <span style="float: left;width: 100%;margin-top: 2px">
+                            <input style="width: 96%;padding:5px;padding: 0 5px;text-align: center;font-size: 14px;" [(ngModel)]="other_doc31_name" name="other_doc31_name" placeholder="Enter document name here" />
+                           <!-- <span style="display: block;width: 4%; float: right;color: red;font-size: 24px;margin-top: -10px;">*</span> -->
+                      </span>
+                    </div>
+  
+                    <div class="col-3 no-padding">
+  
+  
+                      <label style="float:right" for="other-docs31" class="upload-wrapper btn btn-primary btn-sm download {{!other_doc31_name ? 'disable' : '' }}">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                      </label>
+  
+                      
+                      <input [disabled]="!other_doc31_name"  style="display:block;position: fixed;top:-100000px" id="other-docs31" type="file" (change)="uploadOtherDoc($event,'Other',uploadOther31Docs['doc_id'],other_doc31_name)"
+                        placeholder="Upload file" accept=".pdf">
+  
+                    </div>
+  
+                    </div>
+  
+                  <div  class="form-group" *ngFor="let doc of uploadOther31Docs['docs']; let j = index">
+    
+                    <div class=" uploaded-row">
+    
+                    
+    
+                      <div style="font-size:12px;" class="uploaded-doc" *ngIf="doc.file_name">
+  
+                          {{doc.file_name}}
+                          <span class="approved_doc" *ngIf="doc.doc_status =='DOCUMENT_APPROVED'">Document Approved</span>
+  
+                          <button *ngIf="doc.doc_status !='DOCUMENT_APPROVED' && doc.uploaded_token" style="float: right; font-size: 12px;padding: 5px !important;" (click)="removeOtherDoc(doc.uploaded_token )"  class="button red button-sm">
+                              <i class="fas fa-trash-alt"></i> Delete
+                           </button>
+                        
+                          <button style="float: right; font-size: 12px;padding: 5px !important;margin-right:4px;" *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="button blue button-sm">
+                              <i class="far fa-file-pdf"></i> View
+                          </button>
+  
+                          <label  *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'" style="float: right;
+                          width: 110px;
+                          height: 30px;
+                          margin-top: -2px;
+                          line-height: 30px;
+                          margin-right: 0px;" for="other-resubmit-docs31-{{doc.multiple_id}}" class="upload-wrapper btn btn-primary btn-sm download">
+                            <i class="fas fa-cloud-upload-alt"></i> Upload
+                          </label>
+                          <input *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'"  style="display:block;position: fixed;top:-100000px" id="other-resubmit-docs31-{{doc.multiple_id}}" type="file" (change)="uploadOtherResumittedDoc($event,doc.multiple_id)"
+                        placeholder="Upload file" accept=".pdf">
+  
+  
+                       
+                      </div>
+                      <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                        <strong>Comments:</strong> {{doc.doc_comment}}
+                      </div>
+    
+                    </div>
+    
+                  </div>
+    
+    
+                </div>
+                <div style="margin-bottom:6px" class="container uploaded-container" *ngIf="uploadOtherCoDocs['doc_id'] != 0">
+
+                  <div class="row uploaded-row">
+    
+                    <div class="col-4 doc">
+                      <h3>Copy of Court Order 
+                          <p style="font-size: 12px;color: rgb(255, 0, 13);text-transform: none;" class="other_doc_des">*You need to upload this</p>
+                        <p style="font-size: 12px;color: darkorange;text-transform: none;" class="other_doc_des">You can upload any number of documents here</p>
+                      </h3>
+                    </div>
+                    <div class="col-5">
+                      <span style="float: left;width: 100%;margin-top: 2px">
+                            <input style="width: 96%;padding:5px;padding: 0 5px;text-align: center;font-size: 14px;" [(ngModel)]="other_docCO_name" name="other_docCO_name" placeholder="Enter document name here" />
+                           <!-- <span style="display: block;width: 4%; float: right;color: red;font-size: 24px;margin-top: -10px;">*</span> -->
+                      </span>
+                    </div>
+  
+                    <div class="col-3 no-padding">
+  
+  
+                      <label style="float:right" for="other-docsCO" class="upload-wrapper btn btn-primary btn-sm download {{!other_docCO_name ? 'disable' : '' }}">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                      </label>
+  
+                      
+                      <input [disabled]="!other_docCO_name"  style="display:block;position: fixed;top:-100000px" id="other-docsCO" type="file" (change)="uploadOtherDoc($event,'Other',uploadOtherCoDocs['doc_id'],other_docCO_name)"
+                        placeholder="Upload file" accept=".pdf">
+  
+                    </div>
+  
+                    </div>
+  
+                  <div  class="form-group" *ngFor="let doc of uploadOtherCoDocs['docs']; let j = index">
+    
+                    <div class=" uploaded-row">
+    
+                    
+    
+                      <div style="font-size:12px;" class="uploaded-doc" *ngIf="doc.file_name">
+  
+                          {{doc.file_name}}
+                          <span class="approved_doc" *ngIf="doc.doc_status =='DOCUMENT_APPROVED'">Document Approved</span>
+  
+                          <button *ngIf="doc.doc_status !='DOCUMENT_APPROVED' && doc.uploaded_token" style="float: right; font-size: 12px;padding: 5px !important;" (click)="removeOtherDoc(doc.uploaded_token )"  class="button red button-sm">
+                              <i class="fas fa-trash-alt"></i> Delete
+                           </button>
+                        
+                          <button style="float: right; font-size: 12px;padding: 5px !important;margin-right:4px;" *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="button blue button-sm">
+                              <i class="far fa-file-pdf"></i> View
+                          </button>
+  
+                          <label  *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'" style="float: right;
+                          width: 110px;
+                          height: 30px;
+                          margin-top: -2px;
+                          line-height: 30px;
+                          margin-right: 0px;" for="other-resubmit-docsCO-{{doc.multiple_id}}" class="upload-wrapper btn btn-primary btn-sm download">
+                            <i class="fas fa-cloud-upload-alt"></i> Upload
+                          </label>
+                          <input *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'"  style="display:block;position: fixed;top:-100000px" id="other-resubmit-docsCO-{{doc.multiple_id}}" type="file" (change)="uploadOtherResumittedDoc($event,doc.multiple_id)"
+                        placeholder="Upload file" accept=".pdf">
+  
+  
+                       
+                      </div>
+                      <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                        <strong>Comments:</strong> {{doc.doc_comment}}
+                      </div>
+    
+                    </div>
+    
+                  </div>
+    
+    
+                </div>
+                <div style="clear:both"></div>
+
+
+
+
+                  <div class="sec_type_item form-group col-md-12 document_confirm">
+
+                    <p style="font-size:14px;"  ><strong>SECTION 511.</strong> “Where in any return, report, certificate, balance
+                      sheet or other document, required by or for the purposes of
+                      this Act, any person wilfully makes a statement which is false
+                      in any material particular knowing it to be false, shall be
+                      guilty of an offence and be liable on conviction <u><b>to a fine not
+                        exceeding one million rupees or to imprisonment for a term
+                        not exceeding five years or to both such fine and
+                        imprisonment </b></u>”
+                    </p>
+                      <br/>
+                      <input  [(ngModel)]="document_confirm" type="checkbox" id="document_confirm" class="custom-control-input" [ngModelOptions]="{standalone: true}">
+                      <label style="font-size: 17px;
+                      color: darkred;
+                      font-weight: bold;" class="custom-control-label custom-control-sub-label radio-lbl" for="document_confirm">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I read over and understood
+                      </label>
+                       
+                  </div>
+                <div style="clear:both"></div>
+             
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button [disabled]="!(allFilesUploaded && document_confirm)" (click)="changeProgressStatuses(4)" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+            </div>
+  
+          </fieldset>
+          <!-- end of 11th step -->
+  
+          <fieldset [hidden]="stepOn != 4">
+
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+
+              <div class="payment-table" *ngIf="moduleStatus == 'COMPANY_SHARE_FORM9_PROCESSING'">
+  
+
+                  <div class="payment-row header">
+                      <div class="payment-row-inner">
+                    <div class="payment-cell">
+                      Payment Description
+                    </div>
+                   
+                    <div class="payment-cell">
+                     Unit Price (LKR)
+                    </div>
+                    <div class="payment-cell" style="text-align:right">
+                        Sub Total (LKR)
+                    </div>
+                    </div>
+    
+                  </div>
+                  
+                  <div class="payment-row">
+                
+                  <div class="payment-row-inner">
+                    <div class="payment-cell">
+                     Form 09
+                    </div>
+                  
+                    <div class="payment-cell" >
+                         {{ ( form7_payment | currency ).replace('$','') }}
+                    </div>
+                    <div class="payment-cell" style="text-align:right">
+    
+                        {{ ( form7_payment | currency ).replace('$','') }}
+    
+                   
+                      </div>
+    
+                  </div>
+                  </div>
+    
+              
+                  <br/>
+    
+    
+                  <div class="payment-row" style="font-weight: bold;
+                  color: #111;" >
+    
+                      <div class="payment-row-inner">
+    
+                      <div class="payment-cell">
+                          TOTAL FEE in LKR( Without VAT and Taxes) :
+                        </div>
+                       
+                        <div class="payment-cell">
+      
+                        </div>
+                        <div class="payment-cell"  style="text-align:right">
+        
+                            {{ ( total_wihtout_vat_tax | currency).replace('$','')}}
+         
+                        
+                          </div>
+    
+                          </div>
+    
+                  </div>
+    
+                  <div class="payment-row" style="font-weight: bold;
+                  color: #111;" >
+                  <div class="payment-row-inner">
+    
+                      <div class="payment-cell">
+                         Other Taxes in LKR&nbsp;( {{ other_tax}}%) :
+                        </div>
+                        
+                        <div class="payment-cell">
+      
+                        </div>
+                        <div class="payment-cell"  style="text-align:right">
+        
+                            {{  ( other_taxVal | currency ).replace('$','') }}
+         
+                        
+                          </div>
+    
+                          </div>
+    
+                  </div>
+    
+                  <div class="payment-row" style="font-weight: bold;
+                  color: #111;" >
+                  <div class="payment-row-inner">
+    
+                      <div class="payment-cell">
+                         VAT in LKR&nbsp;( {{ vat}}%) :
+                        </div>
+                        
+                        <div class="payment-cell">
+      
+                        </div>
+                        <div class="payment-cell"  style="text-align:right">
+        
+                           
+                            {{  ( vatVal | currency ).replace('$','') }}
+                        
+                          </div>
+    
+                          </div>
+    
+                  </div>
+    
+    
+                  <div class="payment-row" style="font-weight: bold;
+                  color: #111;" >
+                  <div class="payment-row-inner">
+    
+                      <div class="payment-cell">
+                        Convenience fee&nbsp;({{convinienceFee}}%) :
+                        </div>
+                        
+                        <div class="payment-cell">
+      
+                        </div>
+                        <div class="payment-cell"  style="text-align:right">
+                            {{  ( convinienceFeeVal | currency ).replace('$','') }}
+                           
+                          
+                        
+                          </div>
+    
+                          </div>
+    
+                  </div>
+    
+                
+    
+    
+    
+                  <div class="payment-row header" style=" background: #02001b;">
+    
+                      <div class="payment-row-inner">
+    
+    
+                    <div class="payment-cell">
+                      TOTAL FEE in LKR :
+                    </div>
+                    
+                    <div class="payment-cell no-of-copies">
+    
+                      </div>
+                    <div class="payment-cell" style="    font-size: 16px;
+                    color: #fff; text-align:right;">
+                    {{ ( total_with_vat_tax | currency ).replace('$','') }}
+                    </div>
+    
+                    </div>
+                    
+    
+                  </div>
+    
+                </div>
+              <div class="resubmit-message-block alert alert-primary" *ngIf="moduleStatus == 'COMPANY_SHARE_FORM9_RESUBMIT'">
+                 <p style="text-align:center">Please complete the process by clicking below resubmit button</p>
+              </div>
+  
+            
+             
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(3)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button *ngIf="moduleStatus == 'COMPANY_SHARE_FORM9_PROCESSING'"   (click)="pay()" type="button" class="btn btn-next"> Complete/Pay
+                    <i class="fas fa-edit"></i>
+              </button>
+              <button *ngIf="moduleStatus == 'COMPANY_SHARE_FORM9_RESUBMIT'"  (click)="resubmit()" type="button" class="btn btn-next"> Resubmit
+                  <i class="fas fa-check-double"></i>
+              </button>
+              
+            </div>
+  
+          </fieldset>
+        
+          </div>
+  
+        </div>
+        <div style="clear:both"></div>
+        <br />
+        <br />
+        <!--end right col main-->
+      </div>
+    </div>
+  </section>
+
+ 
+  <div [config]="{backdrop: false, ignoreBackdropClick: true}" mdbModal #shareRecordModal="mdbModal"  id="share-record-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close pull-right close-modal-item" aria-label="Close" (click)="shareRecordModal.hide()">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">Add New Record
+            <br />
+            <span *ngIf="shareRecordValitionMessage" class="stakeholder-validation">{{ shareRecordValitionMessage }}</span>
+          </h4>
+        </div>
+        <div class="modal-body">
+  
+          <div class="nic-check-block">
+
+              <div class="form-row">
+                  <div class="sec_type_item form-group col-md-12">
+  
+                    <p style="position: relative;margin-top: -20px;
+                    top: 30px;">Type?<span class="req"> *</span></p>
+  
+                </div>
+  
+                <div class="sec_type_item form-group col-md-6">
+  
+                  <input (change)="validateCallRecord(); makeNull()" [(ngModel)]="rec.norm_type" type="radio" id="norm_type-natural" class="custom-control-input" name="norm_type" value="Person">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="norm_type-natural">&nbsp;&nbsp;&nbsp;&nbsp;Person</label>
+  
+                </div>
+  
+                <div class="sec_type_item form-group col-md-6">
+  
+                    <input (change)="validateCallRecord(); makeNull()" [(ngModel)]="rec.norm_type" type="radio" id="norm_type-firm" class="custom-control-input" name="norm_type" value="Corporate-body">
+                    <label style="font-size:14px;" class="custom-control-label radio-lbl" for="norm_type-firm">&nbsp;&nbsp;&nbsp;&nbsp;Corporate-body</label>
+    
+               </div>
+              </div>
+
+              <div class="form-row"  *ngIf="rec.norm_type == 'Person'">
+                <div class="sec_type_item form-group col-md-12">
+
+                  <p style="position: relative;margin-top: -20px;
+                  top: 30px;">Search By<span class="req"> *</span></p>
+
+              </div>
+
+              <div class="sec_type_item form-group col-md-6">
+
+                <input (change)="validateCallRecord();makeNull1()" [(ngModel)]="rec.person_type" type="radio" id="person_type-natural" class="custom-control-input" name="person_type" value="NIC">
+                <label style="font-size:14px;" class="custom-control-label radio-lbl" for="person_type-natural">&nbsp;&nbsp;&nbsp;&nbsp;NIC</label>
+
+              </div>
+
+              <div class="sec_type_item form-group col-md-6">
+
+                  <input (change)="validateCallRecord();makeNull1()" [(ngModel)]="rec.person_type" type="radio" id="person_type-firm" class="custom-control-input" name="person_type" value="Passport-No">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="person_type-firm">&nbsp;&nbsp;&nbsp;&nbsp;Passport No</label>
+  
+             </div>
+            </div>
+  
+              <div class="form-row" *ngIf="rec.norm_type == 'Person' && rec.person_type == 'NIC'">
+                <div class="form-group col-md-12">
+  
+                    <label class="col-form-label col-form-label-sm">NIC of Person
+                        <span class="req">*</span>
+                    </label>
+                    <input pattern="[0-9]{9}[x|X|v|V]|[0-9]{12}" maxlength="12"  (input)="validateCallRecord()"  [(ngModel)]="rec.nic"
+                  [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                  placeholder="" >
+                  <span class="req" style="font-size: 13px" *ngIf="!includenic(rec.nic)">Invalid shareholder</span>
+                  
+                  </div>
+            </div>
+
+            <div class="form-row" *ngIf="rec.norm_type == 'Person' && rec.person_type == 'Passport-No'">
+              <div class="form-group col-md-12">
+
+                  <label class="col-form-label col-form-label-sm">Passport No of Person
+                      <span class="req">*</span>
+                  </label>
+                  <input maxlength="15"  (input)="validateCallRecord()"  [(ngModel)]="rec.passno"
+                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                placeholder="" >
+                <span class="req" style="font-size: 13px" *ngIf="!includepass(rec.passno)">Invalid shareholder</span>
+                
+                </div>
+          </div>
+  
+            <div class="form-row" *ngIf="rec.norm_type == 'Corporate-body' ">
+              <div class="form-group col-md-12">
+  
+                  <label class="col-form-label col-form-label-sm">Registration number of Corporate-body   
+                      <span class="req">*</span>
+                  </label>
+                  <input maxlength="90"   (input)="validateCallRecord()"  [(ngModel)]="rec.regno"
+                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                placeholder="" >
+                <span class="req" style="font-size: 13px" *ngIf="!includeregno(rec.regno)">Invalid shareholder firm</span>
+                
+                </div>
+          </div>
+  
+              <div class="form-row" >
+
+                  <div class="sec_type_item form-group col-md-12">
+
+                      <p style="position: relative;margin-top: -20px;
+                      top: 30px;">Shares Acquired or Redeemed?<span class="req"> *</span></p>
+
+                  </div>
+
+                  <div class="sec_type_item form-group col-md-6">
+
+                    <input (change)="validateCallRecord()" [(ngModel)]="rec.aquire_or_redeemed" type="radio" id="shareholder_type-natural" class="custom-control-input" name="shareholder_type" value="acquired">
+                    <label style="font-size:14px;" class="custom-control-label radio-lbl" for="shareholder_type-natural">&nbsp;&nbsp;&nbsp;&nbsp;Acquired</label>
+    
+                  </div>
+
+                  <div class="sec_type_item form-group col-md-6">
+
+                      <input (change)="validateCallRecord()" [(ngModel)]="rec.aquire_or_redeemed" type="radio" id="shareholder_type-firm" class="custom-control-input" name="shareholder_type" value="redeemed">
+                      <label style="font-size:14px;" class="custom-control-label radio-lbl" for="shareholder_type-firm">&nbsp;&nbsp;&nbsp;&nbsp;Redeemed</label>
+      
+                 </div>
+
+              </div>
+
+            <!--  <div class="form-row">
+
+                  <label class="col-form-label col-form-label-sm">Shareholder name
+                      <span class="req">*</span>
+                  </label>
+                
+                  <select *ngIf="callShareList.share[i].shareholder_type == 'natural'" (change)="validateCallRecordEdit(i)" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="callShareList.share[i].shareholder_id"
+                  name="shareholder_id-{{i}}">
+                  <option value="">Choose...</option>
+                  <option *ngFor="let sh of shareholdersList.sh" value="{{sh.id}}">{{sh.name}}</option>
+                </select>
+
+                <select *ngIf="callShareList.share[i].shareholder_type == 'firm'" (change)="validateCallRecordEdit(i)" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="callShareList.share[i].shareholder_id"
+                  name="shareholder_id-{{i}}">
+                  <option value="">Choose...</option>
+                  <option *ngFor="let sh of shareholderFirmList.sh" value="{{sh.id}}">{{sh.name}}</option>
+                </select>
+              </div> -->
+
+              <div class="form-row">
+                  <div class="form-group col-md-12">
+
+                      <label class="col-form-label col-form-label-sm">Name of person or a corporate-body from whom shares {{rec.aquire_or_redeemed =='redeemed' ? 'Redeemed' : 'Acquired' }}   
+                          <span class="req">*</span>
+                      </label>
+                      <input   (input)="validateCallRecord()"  [(ngModel)]="rec.person_name"
+                    [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                    placeholder="" >
+                    
+                    </div>
+              </div>
+
+              <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label class="col-form-label col-form-label-sm">Class of share {{rec.aquire_or_redeemed =='redeemed' ? 'Redeemed' : 'Acquired' }}<span class="req">*</span></label>
+                      <select  (change)="validateCallRecord(); makeNullOther()"
+                               class="form-control form-control-sm modal-input-sec-country" 
+                               [(ngModel)]="rec.share_class"
+                               [ngModelOptions]="{standalone: true}">
+                      <option value="">Choose...</option>
+                      <option *ngFor="let t of share_types" value="{{t.key}}">{{t.value}}</option>
+                      <!-- <option value="Other">Other</option> -->
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row" *ngIf="rec.share_class == 'OTHER_SHARE' ">
+                  <div class="form-group col-md-12">
+    
+                      <label class="col-form-label col-form-label-sm">Type the Class of share
+                          <span class="req">*</span>
+                      </label>
+                      <input maxlength="90"  (input)="validateCallRecord()"  [(ngModel)]="rec.other_share_class"
+                    [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                    placeholder="" >
+                    
+                    </div>
+              </div>
+
+              <div class="form-row">
+                  <div class="form-group col-md-12">
+
+                      <label class="col-form-label col-form-label-sm">Number of Shares {{rec.aquire_or_redeemed =='redeemed' ? 'Redeemed' : 'Acquired' }}
+                          <span class="req">*</span>
+                      </label>
+                      <input  onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"  (input)="validateCallRecord()"  [(ngModel)]="rec.aquire_or_redeemed_value"
+                      [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                      placeholder="" >
+                    
+                    </div>
+              </div>
+
+              
+              <div class="form-row">
+                  <div class="form-group col-md-12">
+
+                      <label class="col-form-label col-form-label-sm">Date of {{rec.aquire_or_redeemed =='redeemed' ? 'Redemption' : 'Acquisition' }}  
+                          <span class="req">*</span>
+                      </label>
+                      <input max="{{formattedTodayValue}}" (input)="validateCallRecord()"  type="date" [(ngModel)]="rec.date"
+                    [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                    placeholder="" >
+                    
+                    </div>
+              </div>
+  
+  
+            
+            <br />
+        
+          </div> 
+        </div>
+        <div class="modal-footer" style="justify-content: flex-end">
+        
+          <button [disabled]="!validShareRecordItem" (click)="saveShareRecord()" type="button" mdbBtn color="secondary" class="btn btn-sm relative waves-light add-new-stakeholder add-share-record-row"
+            mdbWavesEffect>ADD</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="payment-success-wrapper" *ngIf="payConfirm" >
+  
+      <div class="payment-success-body">
+    
+        <div class="header">
+    
+          <h2>Payment Confirmation</h2>
+        </div>
+    
+        <div class="body">
+           <p>Please confirm your payment by clicking below button.</p>
+        </div>
+    
+        <div class="footer">
+          <div style="text-align: center">
+            <form  ngNoForm action="{{ paymentGateway }}" method="post">
+              <input type="hidden" [(ngModel)]="cipher_message" name="clientPaymentRequest">
+              <button type="submit" class="btn btn-success col-md-8">&nbsp;<i class="far fa-credit-card"></i>&nbsp;Confirm and Continue Payment</button>
+            </form>
+          </div>
+    
+        </div>
+    
+        
+      </div>
+    
+    
+    
+    </div>
+  
+    <div class="payment-success-wrapper" *ngIf="resubmitSuccess">
+
+      <div class="payment-success-body">
+    
+        <div class="header">
+    
+          <h2>Success</h2>
+        </div>
+    
+        <div class="body">
+          <p>You have successfully resubmitted the  record for verification</p>
+        </div>
+    
+        <div class="footer">
+           
+          <button class="btn btn-success" (click)="resubmitMessageClick()">ok</button>
+        </div>
+      </div>
+    
+    
+    
+    </div>
+  
+  
+  
+  
+  
+  

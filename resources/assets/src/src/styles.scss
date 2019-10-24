@@ -1,0 +1,299 @@
+@import "theme-veriable";
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background: $background-color $im;
+}
+
+.seperate {
+  flex: 1 1 auto;
+}
+.black-overlay {
+  position: fixed !important;
+}
+
+.navbar {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+html,
+body{
+  height: 100%;
+}
+
+@media (max-width: 740px) {
+
+  html,
+  body,{
+    height: 1000px;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 850px) {
+
+  html,
+  body {
+    height: 650px;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 850px) {
+  .navbar:not(.top-nav-collapse) {
+    background: #1C2331 !important;
+  }
+}
+
+.force-overflow {
+  min-height: 450px;
+}
+
+*:focus {
+  outline: none;
+}
+
+h2 {
+  color: $secondary;
+}
+
+label {
+  color: $primary;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  border-radius: 20%;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $darkBlue;
+  box-shadow: inset 0 0 6px $darkBlue;
+}
+
+.btn {
+  box-shadow: 0 0px 0px 0;
+}
+
+.btn-mr {
+  margin-right: 26px $im;
+}
+
+.btn-mr0 {
+  margin: 0px $im;
+}
+
+.btn-blur {
+  border: 1px solid $primary $im;
+  color: $secondary $im;
+  font-size: 13px $im;
+  font-weight: 700 $im;
+  // background: $primary $im;
+  border-radius: 2px;
+  padding: 5px 20px;
+
+  &:hover {
+    text-decoration: none;
+    box-shadow: 0 0 0 0;
+  }
+}
+
+.files-container {
+  padding-top: 0rem $im;
+  border: 1px dotted $im;
+
+  .replace-button {
+    top: 20px;
+    left: 8px;
+  }
+
+  .delete-button {
+    left: 10px;
+    bottom: 10px;
+  }
+}
+
+.mat-card {
+  padding: 0px 16px $im;
+  background: transparent $im;
+  button {
+    display: none $im;
+  }
+}
+
+.mat-card:not([class*="mat-elevation-z"]) {
+  box-shadow: none $im;
+}
+
+.mat-raised-button:not([class*="mat-elevation-z"]) {
+  display: none $im;
+}
+
+.btn-primary{
+  background: $secondary $im;
+  color: $white;
+}
+h3{
+  font-family: 'Roboto', sans-serif;
+  color: $gray-600;
+  font-weight: bold;
+}
+.header-image {
+  margin-top: 40px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: none;
+  display: flex;
+  padding: 0;
+  overflow: hidden;
+  height: 145px;
+  flex: 0 0 130px;
+  width: 145px;
+}
+
+.button-sliding-icon{
+  background-color: $blue $im;
+  color: $white $im;
+}
+.top-margin{
+  padding-top: 7%;
+}
+
+.ng-select.ng-select-single .ng-select-container {
+  height: 33px  $im;
+  min-height: 33px  $im;
+}
+
+.ng-select .ng-select-container {
+  position: unset  $im;
+  font-size: 14px;
+  font-weight: 400;
+}
+.bg-back{
+  background: $white $im;
+  padding: 58px $im;
+  box-shadow: 0px 0px 1px 0px;
+}
+
+.app-loading {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 75%;
+}
+.app-loading .spinner {
+  height: 250px;
+  width: 250px;
+  animation: rotate 2s linear infinite;
+  transform-origin: center center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.app-loading .spinner .path {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  animation: dash 1.5s ease-in-out infinite;
+  stroke-linecap: round;
+  stroke: $secondary;
+}
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
+}
+
+@media (min-width: 992px){
+  .modal-lg {
+      max-width:  950px !important;
+  }
+}
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .header-wrp{position: relative !important;height: auto !important}
+  .top-margin {padding-top: 0% !important; }
+  .db-side-menu{ background-color: white !important; margin-top: 5px;}
+  .header-right-nav-hidden{display:none !important;}
+} 
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .header-wrp{position: relative !important;height: auto !important}
+  .top-margin {padding-top: 0% !important; }
+  .db-side-menu{ background-color: white !important; margin-top: 5px;}
+  .header-right-nav-hidden{display:none !important;}
+} 
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .header-wrp{position: relative !important;height: auto !important}
+  .db-side-menu{ background-color: white !important; margin-top: 5px;}
+  //.top-margin {padding-top: 7% !important; }
+  .header-right-nav-hidden{display:none !important;}
+} 
+
+@media  screen and (max-width: 850px) and (min-width: 800px){
+ // .db-side-menu nav{ background-color: white !important;}
+  .navbar:not(.top-nav-collapse) {background-color:white !important; margin-top: 5px;}
+  .header-right-nav-hidden{display:none !important;}
+}
+  
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .header-wrp{position: relative !important; height: auto !important}
+ // .top-margin {padding-top: 7% !important; }
+ .db-side-menu{ background-color: white !important; margin-top: 5px;}
+ .header-right-nav-hidden{display:block !important;}
+} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .header-wrp{position: fixed !important}
+  .top-margin {padding-top: 7% !important; }
+  .db-side-menu{ background-color: transparent !important;}
+  .header-right-nav-hidden{display:block !important;}
+}
+
+.wc-date-container{
+  height: 34px !important;
+  border-radius: 2px !important;
+  border: 1px solid #ced4da !important;
+}
+
+.wc-date-container > span{
+  color:  #495057 !important;
+  font-size: 1rem;
+}
+
+.cdk-overlay-container {
+  position: fixed;
+  z-index: 50000 !important;
+}

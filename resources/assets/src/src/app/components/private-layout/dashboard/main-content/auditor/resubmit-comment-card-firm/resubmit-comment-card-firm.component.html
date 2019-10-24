@@ -1,0 +1,65 @@
+<section>
+  <div class="row mb-5">
+    <div class="col-xl-12">
+      <div class="dashboard-box">
+        <ul class="dashboard-box-list">
+          <li>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="job-listing">
+                  <div class="job-listing-details">
+                    <a href="#">
+                      <img src="assets/images/icon/secretaryfirm.png" alt>
+                    </a>
+                    <div class="job-listing-description">
+                      <h3 class="job-listing-title">
+                        <strong>
+                          <a>Comments section</a>
+                        </strong>
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md">
+                <div class="float-right">
+                  <button (click)="continueResubmition()" class="button button-sliding-icon ripple-effect">
+                    <i class="icon-material-outline-arrow-right-alt"></i>
+                    <strong style="color:white;">Continue Resubmition</strong>
+                  </button>
+                </div>
+              </div>
+            </div>
+          <li>
+            <div class="dashboard-box" *ngIf="this.comments?.length > 0">
+              <ul class="dashboard-box-list">
+                <li>
+                  <div class="col-md-12">
+                    <h3><strong>Comments</strong></h3>
+                  </div>
+                  <hr>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th width="50%" style="text-align: left">Comment</th>
+                        <th width="10%" style="text-align: center">Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let comment of this.comments">
+                        <td><span>{{ comment.comment }}</span></td>
+                        <td><span>{{ comment.createdAt | date: 'y-MM-dd' }}</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

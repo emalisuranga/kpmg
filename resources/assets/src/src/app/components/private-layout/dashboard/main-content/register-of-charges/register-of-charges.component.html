@@ -1,0 +1,935 @@
+<div class="clearfix">
+</div>
+<section class="top-margin">
+  <div class="container" style="padding-bottom: 50px;">
+    <div class="row">
+
+
+      <!--end left col-->
+
+
+      <div class="col-md-11 nopadding">
+
+
+        <div class="f1">
+
+          <h3 style="text-align: center">REGISTER OF CHARGES, AND OF MEMORANDUM OF SATISFACTION OF CHARGES</h3>
+          <p style="text-align: center">Fill in all steps for completing the process.</p>
+          <div class="f1-steps">
+            <div class="f1-progress">
+              <div class="f1-progress-line" data-now-value="4.17" data-number-of-steps="12" [ngStyle]="{'width': progress.progressPercentage}"></div>
+            </div>
+
+
+
+            <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}} status-{{i}}">
+              <div class="f1-step-icon">
+                <i class="{{item.icon}}"></i>
+              </div>
+              <p>{{item.label}}</p>
+            </div>
+
+          </div>
+
+          <fieldset [hidden]="stepOn != 0">
+
+            <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm">Comapany Type</label>
+              <div class="col-sm-9">{{compayType.value}}
+              </div>
+
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm">Name of the
+                Company</label>
+              <div class="col-sm-9">{{companyInfo.name}}{{ companyInfo.name ? ' '+ postFixEn : '' }}
+              </div>
+            </div>
+            
+
+          
+            <div class="f1-buttons">
+
+              <button  type="button" class="btn btn-next" id="btn1-next" (click)="changeProgressStatuses(1)">Next
+                <i class="fas fa-forward"></i></button>
+            </div>
+          </fieldset>
+
+
+          <fieldset [hidden]="stepOn != 1">
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+           
+              <div class="annual-records-secton stakeholder-section">
+
+                  <div class="add-new-wrapper annual-records-add-new-wrapper">
+    
+                    <h2>
+                      <span class="add-new-wrapper-label">Register of Charges Record</span>
+                      <div class="line"></div>
+    
+                     <span  (click)="resetRecord()"> 
+                       <button  data-backdrop="static" data-keyboard="false" 
+                            type="button" mdbBtn class="relative waves-light add-new-stakholder"
+                           (click)="shareRecordModal.show()" mdbWavesEffect>
+                           <i class="fa fa-plus"></i> Add New</button>
+                     </span>
+    
+                    </h2>
+    
+                  </div>
+    
+    
+                  <div class="share-record-list stakeholder-list-wrapper">
+    
+                    <!-- list-->
+    
+                    <div *ngFor="let rec of registerRecordList.record; let i = index" class="director-record stakeholder-record"
+                      style=" margin: 30px 0;border-radius: 20px;background: #fff;border: 1px solid rgb(243, 91, 63);">
+    
+                      <div (click)="showToggleRecord( rec.id)" class="stakeholder-record-summeru" style="background-color: #f35b3f;
+                          color: #fff;
+                          padding: 5px 10px;
+                          font-weight: lighter;
+                          font-size: 14px;
+                          border-top-left-radius: 18px;
+                          box-shadow: 1px 1px 2px #b3aea9;
+                          border-top-right-radius: 18px;
+                          cursor: pointer;
+                          width: 100%;
+                          border-radius: 20px;">
+    
+                        Record #{{i+1}}
+    
+                        <span  (click)="removeRecord(i,rec.id)"
+                          title="remove record" style="float:right;" class="record-handler record-handler-remove">
+                          <i class="fa fa-trash"></i>
+                        </span>
+                        <span title="show details" style="float:right; margin:0 15px" class="record-handler">
+                          <i class="fa fa-pencil-alt"></i>
+                        </span>
+    
+    
+                      </div>
+    
+                      <div [hidden]="rec.showEditPane != rec.id" [class]="'stakeholder-record-inner'"
+                        class="stakeholder-record-inner" style="padding: 25px 10px 10px;">
+
+                        
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+    
+                                <label class="col-form-label col-form-label-sm">Total Amount Secured by a Series of Debentures
+                                    <span class="req">*</span>
+                                </label>
+                                  <input  onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"
+                                          (input)="validateRecordEdit(i)"
+                                          [(ngModel)]="registerRecordList.record[i].total_amount_secured"
+                                         [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                                         placeholder="" >
+                             </div>
+
+                             <div class="form-group col-md-6">
+                              <label class="col-form-label col-form-label-sm">Date of Each Issue of Series<span class="req">*</span></label>
+                              <input  (input)="validateRecordEdit(i)"
+                                      [(ngModel)]="registerRecordList.record[i].date_of_issue_series"
+                                      [ngModelOptions]="{standalone: true}"
+                                      type="date" 
+                                      onkeydown="return false"
+                                      class="form-control form-control-sm modal-input-director-oppointment"
+                                      placeholder="">
+                            </div>
+
+                            <div class="form-group col-md-6">
+    
+                              <label class="col-form-label col-form-label-sm">Memorandums of Satisfaction Amount
+                                  <span class="req">*</span>
+                              </label>
+                                <input  onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"
+                                        (input)="validateRecordEdit(i)"
+                                        [(ngModel)]="registerRecordList.record[i].satisfaction_amount"
+                                       [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                                       placeholder="" >
+                           </div>
+
+                           <div class="form-group col-md-6">
+    
+                            <label class="col-form-label col-form-label-sm">Amount or Rate Percent, of the Commission Allowance or Discount
+                                <span class="req">*</span>
+                            </label>
+                              <input  onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"
+                                      (input)="validateRecordEdit(i)"
+                                      [(ngModel)]="registerRecordList.record[i].amount_commisison_allowance"
+                                     [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                                     placeholder="" >
+                         </div>
+
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+        
+                                <label class="col-form-label col-form-label-sm">Amount of Each Issue of the Series
+                                    <span class="req">*</span>
+                                </label>
+                                  <input  onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"
+                                          (input)="validateRecordEdit(i)"
+                                          [(ngModel)]="registerRecordList.record[i].amount_issue_series"
+                                        [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                                        placeholder="" >
+                            </div>
+
+                            <div class="form-group col-md-6">
+                              <label class="col-form-label col-form-label-sm">Date of the Resolutions Authorizing the Issue of the Series<span class="req">*</span></label>
+                              <input  (input)="validateRecordEdit(i)"
+                                      [(ngModel)]="registerRecordList.record[i].date_of_resolutions"
+                                      [ngModelOptions]="{standalone: true}"
+                                      type="date" 
+                                      onkeydown="return false"
+                                      class="form-control form-control-sm modal-input-director-oppointment"
+                                      placeholder="">
+                            </div>
+
+                            <div class="form-group col-md-6">
+                              <label class="col-form-label col-form-label-sm">Date of the Covering Deed<span class="req">*</span></label>
+                              <input  (input)="validateRecordEdit(i)"
+                                      [(ngModel)]="registerRecordList.record[i].date_of_deed"
+                                      [ngModelOptions]="{standalone: true}"
+                                      type="date"
+                                      onkeydown="return false" 
+                                      class="form-control form-control-sm modal-input-director-oppointment"
+                                      placeholder="">
+                            </div>
+
+                            <div class="form-group col-md-12">
+                              <label class="col-form-label col-form-label-sm">General Description of the Property Charged<span class="req">*</span></label>
+                              <textarea  (input)="validateRecordEdit(i)"
+                                      [(ngModel)]="registerRecordList.record[i].description_of_property"
+                                      [ngModelOptions]="{standalone: true}"
+                                      class="form-control form-control-sm modal-input-director-oppointment"
+                                     ></textarea>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                              <label class="col-form-label col-form-label-sm">Name of the Trustee for the Debenture Holders<span class="req">*</span></label>
+                              <input  (input)="validateRecordEdit(i)"
+                                      [(ngModel)]="registerRecordList.record[i].name_of_trustee"
+                                      [ngModelOptions]="{standalone: true}"
+                                      class="form-control form-control-sm modal-input-director-oppointment"
+                                      placeholder="">
+                            </div>
+                        </div>
+                        <br style="clear:both"/>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+        
+                               <h4>Receiver or Manager</h4>
+                              
+                            </div>
+
+                            <div class="form-group col-md-6">
+                              <label class="col-form-label col-form-label-sm">Date of Ceasing to Act<span class="req">*</span></label>
+                              <input  (input)="validateRecordEdit(i)"
+                                      [(ngModel)]="registerRecordList.record[i].manager_date_of_ceasing"
+                                      [ngModelOptions]="{standalone: true}"
+                                      type="date" 
+                                      onkeydown="return false"
+                                      class="form-control form-control-sm modal-input-director-oppointment"
+                                      placeholder="">
+                            </div>
+
+                            <div class="form-group col-md-8">
+                              <label class="col-form-label col-form-label-sm">name<span class="req">*</span></label>
+                              <input  (input)="validateRecordEdit(i)"
+                                      [(ngModel)]="registerRecordList.record[i].manager_name"
+                                      [ngModelOptions]="{standalone: true}"
+                                      class="form-control form-control-sm modal-input-director-oppointment"
+                                      placeholder="">
+                            </div>
+
+                            <div class="form-group col-md-4">
+                              <label class="col-form-label col-form-label-sm">Date of Appointment<span class="req">*</span></label>
+                              <input  (input)="validateRecordEdit(i)"
+                                      [(ngModel)]="registerRecordList.record[i].manager_date_of_appointment"
+                                      [ngModelOptions]="{standalone: true}"
+                                      type="date"  
+                                      onkeydown="return false"
+                                      class="form-control form-control-sm modal-input-director-oppointment"
+                                      placeholder="">
+                            </div>
+
+                        </div>
+
+
+
+                        <hr/>
+    
+                        <div style="clear:both"></div>
+  
+                        <button  style="float: right" (click)="submitRecord('remove')" [disabled]="!enableStep2SubmissionEdit"
+                          type="button" class="btn btn-next">
+                          <i class="fa fa-edit"></i>
+                          Edit</button>
+    
+                      </div>
+                      <!-- end rerord inner -->
+    
+                    </div>
+      
+                    <!-- end list -->
+    
+                    <p [hidden]="registerRecordList.record.length" class="no-stakeholder no-director">No Record Added</p>
+    
+                  </div>
+    
+              </div>
+
+              <div class="share-summery-records" *ngIf="registerRecordList.record.length">
+
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label class="col-form-label col-form-label-sm">Date of Registration<span class="req">*</span></label>
+                      <input  [(ngModel)]="date_of_registration"
+                              [ngModelOptions]="{standalone: true}"
+                              type="date" 
+                              onkeydown="return false" 
+                              class="form-control form-control-sm modal-input-director-oppointment"
+                              placeholder="">
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label class="col-form-label col-form-label-sm">Serial No. of Document in file<span class="req">*</span></label>
+                      <input  [(ngModel)]="document_serial_no"
+                              [ngModelOptions]="{standalone: true}"
+                              class="form-control form-control-sm modal-input-director-oppointment"
+                              placeholder="">
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label class="col-form-label col-form-label-sm">Date of Creation of Each Charge and Description thereof<span class="req">*</span></label>
+                      <input  [(ngModel)]="date_of_creation_of_charge"
+                              [ngModelOptions]="{standalone: true}"
+                              type="date"  
+                              onkeydown="return false"
+                              class="form-control form-control-sm modal-input-director-oppointment"
+                              placeholder="">
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label class="col-form-label col-form-label-sm">Date of Acquisition of the Property<span class="req">*</span></label>
+                      <input  [(ngModel)]="date_of_acquisition_of_property"
+                              [ngModelOptions]="{standalone: true}"
+                              type="date"  
+                              onkeydown="return false"
+                              class="form-control form-control-sm modal-input-director-oppointment"
+                              placeholder="">
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label class="col-form-label col-form-label-sm">Amount Secured by the Charge
+                          <span class="req">*</span>
+                      </label>
+                        <input  onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"
+                                (input)="validateRecordEdit(i)"
+                                [(ngModel)]="amount_secured_by_charge"
+                              [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                              placeholder="" >
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label class="col-form-label col-form-label-sm">Short Particulars of the Property or Charged<span class="req">*</span></label>
+                      <textarea  [(ngModel)]="short_particulars_of_charge"
+                              [ngModelOptions]="{standalone: true}"
+                              type="date"  
+                              onkeydown="return false"
+                              class="form-control form-control-sm modal-input-director-oppointment"
+                              ></textarea>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label class="col-form-label col-form-label-sm">Name of the Persons entitled to the Charge<span class="req">*</span></label>
+                      <input  [(ngModel)]="person_name_entitled"
+                              [ngModelOptions]="{standalone: true}"
+                              class="form-control form-control-sm modal-input-director-oppointment"
+                              placeholder="">
+                    </div>
+                  </div>
+
+                    
+
+              </div>
+  
+            
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+                <button   [disabled]="!(enableStep2Submission &&
+                                       date_of_registration && document_serial_no &&
+                                       date_of_creation_of_charge &&
+                                       date_of_acquisition_of_property &&
+                                       amount_secured_by_charge &&
+                                       short_particulars_of_charge &&
+                                       person_name_entitled )" (click)="submitRecord()" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+              <!--<button *ngIf="!share_records_already_exists"  [disabled]="!(enableStep2Submission)" (click)="submitShareRecord()" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+              <button *ngIf="share_records_already_exists"  (click)="changeProgressStatuses(4)" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>-->
+            </div>
+
+        </fieldset>
+     
+
+        <fieldset [hidden]="stepOn != 2">
+            <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                <p style="text-align:center">{{externalGlobComment}}</p>
+            </div>
+
+            <div class="container download-container">
+
+
+                <h3>Document List</h3>
+  
+                <div class="doc-block-wrapper">
+  
+                  <div class="doc-block" *ngFor="let doc of docList['docs']">
+  
+                    <div class="stakeholder-doc-row">
+  
+                      <div class="stakeholder-name">{{doc.name}}</div>
+                      <div class="doc-download">
+  
+  
+                        <a [href]="sanitize(doc.download_link)" target="_blank" download="{{doc.file_name_key}}.pdf"
+                          class="btn btn-primary btn-sm download doc-download-link">
+                          <i class="fas fa-cloud-download-alt"></i> Download
+                        </a>
+                      </div>
+                    </div>
+  
+                  </div>
+  
+                </div>
+  
+  
+  
+              </div>
+           
+          <div class="f1-buttons">
+            <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+              Previous</button>
+            <button (click)="changeProgressStatuses(3)" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+          </div>
+
+        </fieldset>
+        <!-- end of 10th step -->
+
+        <fieldset [hidden]="stepOn != 3">
+
+            <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                <p style="text-align:center">{{externalGlobComment}}</p>
+            </div>
+
+            <div class="container uploaded-container">
+
+                <div *ngFor="let doc of uploadList['docs']; let i = index">
+  
+                  <div class="row uploaded-row">
+  
+                    <div class="col-9 doc">
+                      <h3>{{doc.file_name}} <span *ngIf="doc.is_admin_requested" class="request_roc">(requested by ROC)</span> <span *ngIf="doc.is_required" class="req">*</span></h3>
+                    </div>
+                    <div class="col-3 no-padding">
+  
+  
+                      <label style="float:right" for="other-{{i}}" class="upload-wrapper btn btn-primary btn-sm download">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                      </label>
+                      <input style="display:block;position: fixed;top:-100000px" id="other-{{i}}" type="file" (change)="fileChange($event,doc.file_name,doc.dbid)"
+                        placeholder="Upload file" accept=".pdf">
+  
+                    </div>
+  
+                    <div class="col-12 uploaded-doc" *ngIf="doc.uploaded_path">
+
+                        {{doc.uploaded_path}}
+
+                        <button *ngIf="!doc.is_admin_requested" (click)="removeDoc(doc.dbid )"  class="button red button-sm remove-file">
+                            <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                      
+                        <button *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="view-file button blue button-sm">
+                            <i class="far fa-file-pdf"></i> View
+                        </button>
+
+
+                     
+                    </div>
+                    <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                      <strong>Comments:</strong> {{doc.doc_comment}}
+                    </div>
+  
+                  </div>
+  
+                </div>
+  
+  
+              </div>
+           
+          <div class="f1-buttons">
+            <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+              Previous</button>
+            <button [disabled]="!allFilesUploaded" (click)="changeProgressStatuses(4)" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+          </div>
+
+        </fieldset>
+        <!-- end of 11th step -->
+
+        <fieldset [hidden]="stepOn != 4">
+
+          <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                <p style="text-align:center">{{externalGlobComment}}</p>
+          </div>
+
+          <div class="payment-table" *ngIf="moduleStatus == 'REGISTER_OF_CHARGES_PROCESSING'">
+  
+
+              <div class="payment-row header">
+                  <div class="payment-row-inner">
+                <div class="payment-cell">
+                  Payment Description
+                </div>
+               
+                <div class="payment-cell">
+                 Unit Price (LKR)
+                </div>
+                <div class="payment-cell" style="text-align:right">
+                    Sub Total (LKR)
+                </div>
+                </div>
+
+              </div>
+              
+              <div class="payment-row">
+            
+              <div class="payment-row-inner">
+                <div class="payment-cell">
+                 Form 11
+                </div>
+              
+                <div class="payment-cell" >
+                     {{ ( form11_payment | currency ).replace('$','') }}
+                </div>
+                <div class="payment-cell" style="text-align:right">
+
+                    {{ ( form11_payment | currency ).replace('$','') }}
+
+               
+                  </div>
+
+              </div>
+              </div>
+
+          
+              <br/>
+
+
+              <div class="payment-row" style="font-weight: bold;
+              color: #111;" >
+
+                  <div class="payment-row-inner">
+
+                  <div class="payment-cell">
+                      TOTAL FEE in LKR( Without VAT and Taxes) :
+                    </div>
+                   
+                    <div class="payment-cell">
+  
+                    </div>
+                    <div class="payment-cell"  style="text-align:right">
+    
+                        {{ ( total_wihtout_vat_tax | currency).replace('$','')}}
+     
+                    
+                      </div>
+
+                      </div>
+
+              </div>
+
+              <div class="payment-row" style="font-weight: bold;
+              color: #111;" >
+              <div class="payment-row-inner">
+
+                  <div class="payment-cell">
+                     Other Taxes in LKR&nbsp;( {{ other_tax}}%) :
+                    </div>
+                    
+                    <div class="payment-cell">
+  
+                    </div>
+                    <div class="payment-cell"  style="text-align:right">
+    
+                        {{  ( other_taxVal | currency ).replace('$','') }}
+     
+                    
+                      </div>
+
+                      </div>
+
+              </div>
+
+              <div class="payment-row" style="font-weight: bold;
+              color: #111;" >
+              <div class="payment-row-inner">
+
+                  <div class="payment-cell">
+                     VAT in LKR&nbsp;( {{ vat}}%) :
+                    </div>
+                    
+                    <div class="payment-cell">
+  
+                    </div>
+                    <div class="payment-cell"  style="text-align:right">
+    
+                       
+                        {{  ( vatVal | currency ).replace('$','') }}
+                    
+                      </div>
+
+                      </div>
+
+              </div>
+
+
+              <div class="payment-row" style="font-weight: bold;
+              color: #111;" >
+              <div class="payment-row-inner">
+
+                  <div class="payment-cell">
+                    Convenience fee&nbsp;({{convinienceFee}}%) :
+                    </div>
+                    
+                    <div class="payment-cell">
+  
+                    </div>
+                    <div class="payment-cell"  style="text-align:right">
+                        {{  ( convinienceFeeVal | currency ).replace('$','') }}
+                       
+                      
+                    
+                      </div>
+
+                      </div>
+
+              </div>
+
+            
+
+
+
+              <div class="payment-row header" style=" background: #02001b;">
+
+                  <div class="payment-row-inner">
+
+
+                <div class="payment-cell">
+                  TOTAL FEE in LKR :
+                </div>
+                
+                <div class="payment-cell no-of-copies">
+
+                  </div>
+                <div class="payment-cell" style="    font-size: 16px;
+                color: #fff; text-align:right;">
+                {{ ( total_with_vat_tax | currency ).replace('$','') }}
+                </div>
+
+                </div>
+                
+
+              </div>
+
+            </div>
+          <div class="resubmit-message-block alert alert-primary" *ngIf="moduleStatus == 'REGISTER_OF_CHARGES_RESUBMIT'">
+             <p style="text-align:center">Please complete \the process by clicking below resubmit button</p>
+          </div>
+
+          <div class="f1-buttons">
+            <button (click)="changeProgressStatuses(3)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+              Previous</button>
+            <button *ngIf="moduleStatus == 'REGISTER_OF_CHARGES_PROCESSING'"   (click)="pay()" type="button" class="btn btn-next"> Complete/Pay
+                  <i class="fas fa-edit"></i>
+            </button>
+
+            <button *ngIf="moduleStatus == 'REGISTER_OF_CHARGES_RESUBMIT'"  (click)="resubmit()" type="button" class="btn btn-next"> Resubmit
+                <i class="fas fa-check-double"></i>
+            </button>
+            
+          </div>
+
+        </fieldset>
+      
+        </div>
+
+      </div>
+      <div style="clear:both"></div>
+      <br />
+      <br />
+      <!--end right col main-->
+    </div>
+  </div>
+</section>
+
+
+<div [config]="{backdrop: false, ignoreBackdropClick: true}" mdbModal #shareRecordModal="mdbModal"  id="share-record-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right close-modal-item" aria-label="Close" (click)="shareRecordModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">Add New Record
+          <br />
+          <span *ngIf="shareRecordValitionMessage" class="stakeholder-validation">{{ shareRecordValitionMessage }}</span>
+        </h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="nic-check-block">
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+
+                <label class="col-form-label col-form-label-sm">Total Amount Secured by a Series of Debentures
+                    <span class="req">*</span>
+                </label>
+                  <input  onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"
+                          (input)="validateRecord()"
+                          [(ngModel)]="record.total_amount_secured"
+                         [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                         placeholder="" >
+             </div>
+
+             <div class="form-group col-md-6">
+              <label class="col-form-label col-form-label-sm">Date of Each Issue of Series<span class="req">*</span></label>
+              <input  (input)="validateRecord()"
+                      [(ngModel)]="record.date_of_issue_series"
+                      [ngModelOptions]="{standalone: true}"
+                      type="date"  
+                      onkeydown="return false"
+                      class="form-control form-control-sm modal-input-director-oppointment"
+                      placeholder="">
+            </div>
+
+            <div class="form-group col-md-6">
+
+              <label class="col-form-label col-form-label-sm">Memorandums of Satisfaction Amount
+                  <span class="req">*</span>
+              </label>
+                <input  onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"
+                        (input)="validateRecord()"
+                        [(ngModel)]="record.satisfaction_amount"
+                       [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                       placeholder="" >
+           </div>
+
+           <div class="form-group col-md-6">
+
+            <label class="col-form-label col-form-label-sm">Amount or Rate Percent, of the Commission Allowance or Discount
+                <span class="req">*</span>
+            </label>
+              <input  onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"
+                      (input)="validateRecord()"
+                      [(ngModel)]="record.amount_commisison_allowance"
+                     [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                     placeholder="" >
+         </div>
+
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+
+                <label class="col-form-label col-form-label-sm">Amount of Each Issue of the Series
+                    <span class="req">*</span>
+                </label>
+                  <input  onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"
+                          (input)="validateRecord()"
+                          [(ngModel)]="record.amount_issue_series"
+                        [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                        placeholder="" >
+            </div>
+
+            <div class="form-group col-md-6">
+              <label class="col-form-label col-form-label-sm">Date of the Resolutions Authorizing the Issue of the Series<span class="req">*</span></label>
+              <input  (input)="validateRecord()"
+                      [(ngModel)]="record.date_of_resolutions"
+                      [ngModelOptions]="{standalone: true}"
+                      type="date" 
+                      onkeydown="return false"
+                      class="form-control form-control-sm modal-input-director-oppointment"
+                      placeholder="">
+            </div>
+
+            <div class="form-group col-md-6">
+              <label class="col-form-label col-form-label-sm">Date of the Covering Deed<span class="req">*</span></label>
+              <input  (input)="validateRecord()"
+                      [(ngModel)]="record.date_of_deed"
+                      [ngModelOptions]="{standalone: true}"
+                      type="date" 
+                      onkeydown="return false"
+                      class="form-control form-control-sm modal-input-director-oppointment"
+                      placeholder="">
+            </div>
+
+            <div class="form-group col-md-12">
+              <label class="col-form-label col-form-label-sm">General Description of the Property Charged<span class="req">*</span></label>
+              <textarea  (input)="validateRecord()"
+                      [(ngModel)]="record.description_of_property"
+                      [ngModelOptions]="{standalone: true}"
+                      class="form-control form-control-sm modal-input-director-oppointment"
+                     ></textarea>
+            </div>
+
+            <div class="form-group col-md-12">
+              <label class="col-form-label col-form-label-sm">Name of the Trustee for the Debenture Holders<span class="req">*</span></label>
+              <input  (input)="validateRecord()"
+                      [(ngModel)]="record.name_of_trustee"
+                      [ngModelOptions]="{standalone: true}"
+                      class="form-control form-control-sm modal-input-director-oppointment"
+                      placeholder="">
+            </div>
+        </div>
+        <br style="clear:both"/>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+
+               <h4>Receiver or Manager</h4>
+              
+            </div>
+
+            <div class="form-group col-md-6">
+              <label class="col-form-label col-form-label-sm">Date of Ceasing to Act<span class="req">*</span></label>
+              <input  (input)="validateRecord()"
+                      [(ngModel)]="record.manager_date_of_ceasing"
+                      [ngModelOptions]="{standalone: true}"
+                      type="date"  
+                      onkeydown="return false"
+                      class="form-control form-control-sm modal-input-director-oppointment"
+                      placeholder="">
+            </div>
+
+            <div class="form-group col-md-8">
+              <label class="col-form-label col-form-label-sm">name<span class="req">*</span></label>
+              <input  (input)="validateRecord()"
+                      [(ngModel)]="record.manager_name"
+                      [ngModelOptions]="{standalone: true}"
+                      class="form-control form-control-sm modal-input-director-oppointment"
+                      placeholder="">
+            </div>
+
+            <div class="form-group col-md-4">
+              <label class="col-form-label col-form-label-sm">Date of Appointment<span class="req">*</span></label>
+              <input  (input)="validateRecord()"
+                      [(ngModel)]="record.manager_date_of_appointment"
+                      [ngModelOptions]="{standalone: true}"
+                      type="date"  
+                      onkeydown="return false"
+                      class="form-control form-control-sm modal-input-director-oppointment"
+                      placeholder="">
+            </div>
+
+        </div>
+
+
+          
+          <br />
+      
+        </div> 
+      </div>
+      <div class="modal-footer" style="justify-content: flex-end">
+      
+        <button [disabled]="!validShareRecordItem" (click)="saveRecord()" type="button" mdbBtn color="secondary" class="btn btn-sm relative waves-light add-new-stakeholder add-share-record-row"
+          mdbWavesEffect>ADD</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="payment-success-wrapper" *ngIf="payConfirm" >
+
+    <div class="payment-success-body">
+  
+      <div class="header">
+  
+        <h2>Payment Confirmation</h2>
+      </div>
+  
+      <div class="body">
+         <p>Please confirm your payment by clicking below button.</p>
+      </div>
+  
+      <div class="footer">
+        <div style="text-align: center">
+          <form  ngNoForm action="{{ paymentGateway }}" method="post">
+            <input type="hidden" [(ngModel)]="cipher_message" name="clientPaymentRequest">
+            <button type="submit" class="btn btn-success col-md-8">&nbsp;<i class="far fa-credit-card"></i>&nbsp;Confirm and Continue Payment</button>
+          </form>
+        </div>
+  
+      </div>
+  
+      
+    </div>
+  
+  
+  
+  </div>
+
+  <div class="payment-success-wrapper" *ngIf="resubmitSuccess">
+
+    <div class="payment-success-body">
+  
+      <div class="header">
+  
+        <h2>Success</h2>
+      </div>
+  
+      <div class="body">
+        <p>You have successfully resubmitted the  record for verification</p>
+      </div>
+  
+      <div class="footer">
+         
+        <button class="btn btn-success" (click)="resubmitMessageClick()">ok</button>
+      </div>
+    </div>
+  
+  
+  
+  </div>
+
+
+
+
+

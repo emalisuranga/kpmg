@@ -1,0 +1,428 @@
+<div class="top-margin">
+  <div class="container bg-back mb-5">
+    <div class="col-md-12">
+      <form class="mt-2" (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+        <h5>
+          <b>Personal Information</b>
+        </h5>
+        <hr>
+        <div class="row">
+          <div class="col-md-10">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <small for="staticTitle" class="col-sm-2">Title <sup class="text text-danger">*</sup></small>
+                  <div class="col-sm-9 ml-5">
+                    <mat-radio-group formControlName="title">
+                      <mat-radio-button class="ck-sm mr-5" *ngFor="let ititle of data.ititles" value="{{ ititle.id }}">{{
+                        ititle.value }}</mat-radio-button>
+                    </mat-radio-group>
+                    <div *ngIf="title.invalid && (title.dirty || title.touched  || onSubmit)">
+                      <small *ngIf="title.errors['required']" class="red-text">Title is required.</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <small for="staticEmail" class="col-sm-5">First Name<sup class="text text-danger">*</sup></small>
+                  <div class="col-sm-7">
+                    <input type="text" id="orangeForm-firstname" maxlength="100" formControlName="firstname"
+                      placeholder="First Name" class="form-control" required>
+                    <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched || onSubmit) ">
+                      <small *ngIf="firstname.errors['required']" class="red-text">First Name is required.</small>
+                      <small *ngIf="firstname.errors['pattern']" class="red-text">Invalid First Name. Please try
+                        Again!.</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row">
+                  <small for="staticEmail" class="col-sm-4">Last Name <sup class="text text-danger">*</sup></small>
+                  <div class="col-sm-7">
+                    <input type="text" id="orangeForm-lastname" maxlength="100" formControlName="lastname" placeholder="Last Name"
+                      class="form-control " required>
+                    <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched || onSubmit)">
+                      <small *ngIf="lastname.errors['required']" class="red-text">Last Name is required.</small>
+                      <small *ngIf="lastname.errors['pattern']" class="red-text">Invalid Last Name. Please try Again!.</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <small for="staticEmail" class="col-sm-2">Other Name</small>
+                  <div class="col-sm-9 left-margin">
+                    <input type="text" id="orangeForm-otherName" maxlength="100" formControlName="otherName"
+                      placeholder="Other Name" class="form-control ">
+                    <div *ngIf="otherName.invalid && (otherName.dirty || otherName.touched || onSubmit) ">
+                      <small *ngIf="otherName.errors['pattern']" class="red-text">Invalid Other Name. Please try
+                        Again!.</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <small for="staticEmail" class="col-sm-2">NIC <sup class="text text-danger">*</sup></small>
+                  <div class="col-sm-9 left-margin">
+                    <input type="text" maxlength="12" id="orangeForm-nic" formControlName="nic" placeholder="NIC" class="form-control ">
+                    <div *ngIf="nic.invalid && (nic.dirty || nic.touched || onSubmit)">
+                      <small *ngIf="nic.errors['required']" class="red-text">NIC Number is required.</small>
+                      <small *ngIf="nic.errors['nicValidate']" class="red-text">
+                        First 9 characters must be numbers and last character must be V or X letter
+                      </small>
+                      <small *ngIf="nic.errors['12nicValidate']" class="red-text">
+                        Incorrect NIC number
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--<div class="col-md-2 row">
+            <a mdbDropdownToggle (click)="Image.click()">
+              <div class="header-image freelancer-avatar">
+                <img [src]="imageUrl" alt="My Image">
+              </div>
+            </a>
+            <input hidden type="file" formControlName="avaterFile" #Image accept="image/*" (change)="onFileInput($event)">
+          </div> -->
+        </div>
+
+        <div class="form-group row">
+          <small for="staticEmail" class="col-sm-6">Do you want to add a passport number? </small>
+          <div class="col-sm-6">
+            <mat-checkbox class="ck-sm" [checked]="this.pasportSection" (change)="this.pasportSection = !this.pasportSection;"></mat-checkbox>
+          </div>
+        </div>
+
+        <div class="form-group row" *ngIf="pasportSection">
+          <small for="staticEmail" class="col-sm-2">Passport Number </small>
+          <div class="col-sm-10">
+            <input type="text" id="orangeForm-passport" maxlength="15" formControlName="passportid" placeholder="Passport Number"
+              class="form-control ml-2 ">
+          </div>
+        </div>
+
+
+        <div class="form-group row" *ngIf="pasportSection">
+          <small for="staticEmail" class="col-sm-2">P.I Country </small>
+          <div class="col-sm-10">
+            <input type="text" id="orangeForm-passportIssueCountry" formControlName="passportIssueCountry" placeholder="Passport Issue Country"
+              class="form-control ml-2 ">
+            <!-- <div *ngIf="passportIssueCountry.invalid && passportIssueCountry.touched">
+              <small *ngIf="passportIssueCountry.errors['required']" class="red-text">Passport Issue Country is required.</small>
+            </div> -->
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <small for="staticEmail" class="col-sm-2">Occupation</small>
+          <div class="col-sm-10">
+            <input type="text" pattern='[a-zA-Z ]*' maxlength="100" id="orangeForm-occupation" formControlName="occupation"
+              placeholder="Occupation" class="form-control ml-2 ">
+            <div *ngIf="occupation.invalid && (occupation.touched || occupation.dirty || onSubmit)">
+              <small *ngIf="occupation.errors['pattern']" class="red-text">Only Letters.</small>
+            </div>
+          </div>
+        </div>
+        <h5>
+          <b>Contact Information</b>
+        </h5>
+        <hr>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <small for="staticEmail" class="col-sm-4">Mobile number <sup class="text text-danger">*</sup></small>
+              <div class="col-sm-8">
+                <div class="input-group ml-2">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupPrepend">+94</span>
+                  </div>
+                  <input type="text" minlength="10" maxlength="10" pattern="[0-9]+" id="mobileNumber" formControlName="mobileNumber"
+                    class="form-control " placeholder="Mobile number">
+                </div>
+                <div *ngIf="mobileNumber.invalid && (mobileNumber.touched  || mobileNumber.dirty  || onSubmit)">
+                  <small *ngIf="mobileNumber.errors['minlength']" class="red-text ml-2">Mobile should be 10 digit</small>
+                  <small *ngIf="mobileNumber.errors['pattern']" class="red-text ml-2">Mobile number should be only
+                    numbers</small>
+                  <small *ngIf="mobileNumber.errors['required']" class="red-text ml-2">Mobile Number is required.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group row">
+              <small for="staticEmail" class="col-sm-3">Tel Number</small>
+              <div class="col-sm-9">
+                <div class="input-group ml-2">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupPrepend">+</span>
+                  </div>
+                  <input type="text" id="telephoneNumber" pattern="[0-9]+" minlength="10" maxlength="10"
+                    formControlName="telephoneNumber" class="form-control" placeholder="Telephone number">
+                </div>
+                <div *ngIf="telephoneNumber.invalid && (telephoneNumber.touched || telephoneNumber.dirty  || onSubmit)">
+                  <small *ngIf="telephoneNumber.errors['minlength']" class="red-text ml-2">Telephone should be 10 digit</small>
+                  <small *ngIf="telephoneNumber.errors['pattern']" class="red-text ml-2">Telephone number should be only numbers</small>
+                  <small *ngIf="mobileNumber.errors['required']" class="red-text ml-2">Telephone Number is required.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h5>
+          <b>Address</b>
+        </h5>
+        <hr>
+
+        <div class="form-group row">
+          <small for="staticEmail" class="col-sm-2">Address line 01 <sup class="text text-danger">*</sup></small>
+          <div class="col-sm-10">
+            <input type="text" id="orangeForm-address_01" maxlength="190" formControlName="address01" placeholder="Address line 01"
+              class="form-control ml-2 ">
+            <div *ngIf="address01.invalid && (address01.touched || address01.dirty  || onSubmit)">
+              <small *ngIf="address01.errors['required']" class="red-text ml-3">Address line 01 is required.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <small for="staticEmail" class="col-sm-2">Address line 02 <sup class="text text-danger">*</sup></small>
+          <div class="col-sm-10">
+            <input type="text" id="orangeForm-address_02" maxlength="190" formControlName="address02" placeholder="Address line 02"
+              class="form-control ml-2 ">
+            <div *ngIf="address02.invalid && (address02.touched || address02.dirty  || onSubmit)">
+              <small *ngIf="address02.errors['required']" class="red-text ml-3">Address line 02 is required.</small>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <small for="staticEmail" class="col-sm-2">Country<sup class="text text-danger">*</sup></small>
+          <div class="col-sm-10">
+            <input type="text" id="country" formControlName="country" class="form-control ml-2 " placeholder="Country"
+              readonly>
+            <div *ngIf="country.invalid && (country.touched || country.dirty  || onSubmit)">
+              <small *ngIf="country.errors['required']" class="red-text ml-3">Country name is required.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <small for="staticEmail" class="col-sm-4">Province <sup class="text text-danger">*</sup></small>
+              <div class="col-sm-8">
+                <div class="ml-2">
+                  <ng-select (ngModelChange)="this.district.reset();" class="custom" placeholder="Province"
+                    [searchable]="true" formControlName="province">
+                    <ng-option *ngFor="let province of data.provinces" [value]="province">{{ province.description_en }}</ng-option>
+                  </ng-select>
+                  <div *ngIf="province.invalid && (province.touched || province.dirty  || onSubmit)">
+                    <small *ngIf="province.errors['required']" class="red-text ml-3">Province name is required.</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group row">
+              <small for="staticEmail" class="col-sm-3">District <sup class="text text-danger">*</sup></small>
+              <div class="col-sm-9">
+                <div class="ml-2">
+                  <ng-select (ngModelChange)="this.city.reset();" class="custom" placeholder="District" [searchable]="true"
+                    formControlName="district">
+                    <ng-option *ngFor="let district of this.data.districts | district:province.value" [value]="district">{{
+                      district.description_en }}</ng-option>
+                  </ng-select>
+                  <div *ngIf="district.invalid && (district.touched || district.dirty  || onSubmit)">
+                    <small *ngIf="district.errors['required']" class="red-text ml-3">District name is required.</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <small for="staticEmail" class="col-sm-4">Divisional Secretariat <sup class="text text-danger">*</sup></small>
+              <div class="col-sm-8">
+                <div class="ml-2">
+                  <ng-select (ngModelChange)="this.gndivision.reset();" class="custom" placeholder="City" [searchable]="true"
+                    formControlName="city">
+                    <ng-option *ngFor="let city of data.citys | city:district.value" [value]="city">{{city.description_en}}</ng-option>
+                  </ng-select>
+                  <div *ngIf="city.invalid && (city.touched || city.dirty  || onSubmit)">
+                    <small *ngIf="city.errors['required']" class="red-text ml-3">Divisional Secretariat is required.</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group row">
+              <small for="staticEmail" class="col-sm-3">Grama Niladhari Division<sup class="text text-danger">*</sup></small>
+              <div class="col-sm-9">
+                <div class="ml-2">
+                  <ng-select class="custom" placeholder="GN Division" [searchable]="true" formControlName="gndivision">
+                    <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:city.value" [value]="gndivision.description_en">{{
+                      gndivision.description_en }}</ng-option>
+                  </ng-select>
+                  <div *ngIf="gndivision.invalid && (gndivision.touched || gndivision.dirty  || onSubmit)">
+                    <small *ngIf="gndivision.errors['required']" class="red-text ml-3">Grama Niladhari Division is required.</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <small for="staticEmail" class="col-sm-2">Post Code<sup class="text text-danger">*</sup></small>
+          <div class="col-sm-10">
+            <input type="text" id="orangeForm-postCode" maxlength="6" pattern="[0-9]+" formControlName="postCode"
+              placeholder="Post Code" class="form-control ml-2 ">
+            <div *ngIf="postCode.invalid && (postCode.touched || postCode.dirty  || onSubmit)">
+              <small *ngIf="postCode.errors['required']" class="red-text ml-3">Post Code is required.</small>
+              <small *ngIf="postCode.errors['pattern']" class="red-text ml-3">Post Code should be only numbers</small>
+              <br>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <small for="staticEmail" class="col-sm-6">Do you want to add a foreign address? </small>
+          <div class="col-sm-6">
+            <mat-checkbox class="ck-sm" [checked]="this.foreignAddress" (change)="this.foreignAddress = !this.foreignAddress;"></mat-checkbox>
+          </div>
+        </div>
+
+        <section *ngIf="foreignAddress">
+          <h5>
+            <b>Foreign Address</b>
+          </h5>
+          <hr>
+
+          <div class="form-group row">
+            <small for="staticEmail" class="col-sm-2">Address line 01</small>
+            <div class="col-sm-10">
+              <input type="text" id="orangeForm-frAddress_01" maxlength="190" formControlName="frAddress01" placeholder="Address line 01"
+                class="form-control ml-2 ">
+              <div *ngIf="frAddress01.invalid && (frAddress01.touched || frAddress01.dirty  || onSubmit)">
+                <small *ngIf="frAddress01.errors['required']" class="red-text">Address line 01 is required.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <small for="staticEmail" class="col-sm-2">Address line 02</small>
+            <div class="col-sm-10">
+              <input type="text" id="orangeForm-frAddress_02" maxlength="190" formControlName="frAddress02" placeholder="Address line 02"
+                class="form-control ml-2 ">
+              <div *ngIf="frAddress02.invalid && (frAddress02.touched || frAddress02.dirty  || onSubmit)">
+                <small *ngIf="frAddress02.errors['required']" class="red-text">Address line 02 is required.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <small for="staticEmail" class="col-sm-2">City</small>
+                <div class="col-sm-10">
+                  <input type="text" id="frCity" formControlName="frCity" class="form-control ml-2 " placeholder="City">
+                </div>
+          </div>
+
+          <div class="form-group row">
+            <small for="staticEmail" class="col-sm-2">State/Province</small>
+            <div class="col-sm-10">
+              <input type="text" id="frProvince" formControlName="frProvince" class="form-control ml-2 " placeholder="State/Province">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <small for="staticEmail" class="col-sm-2">Country </small>
+            <div class="col-sm-10" style="padding-right: 7px !important;">
+              <ng-select placeholder="Foreign Country"  class="ml-2" id="frCountry" [searchable]="true"
+                formControlName="frCountry">
+                <ng-option *ngFor="let crt of fcountry" [value]=crt.name>{{ crt.name }}</ng-option>
+              </ng-select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <small for="staticEmail" class="col-sm-2">Zip Code <sup class="text text-danger">*</sup></small>
+            <div class="col-sm-10">
+              <input type="text" id="orangeForm-frPostCode" maxlength="8" formControlName="frPostCode"
+                placeholder="Post Code" class="form-control ml-2 ">
+              <div *ngIf="frPostCode.invalid && (frPostCode.touched || frPostCode.dirty  || onSubmit)">
+                <small *ngIf="frPostCode.errors['required']" class="red-text">Zip Code is required.</small>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <hr/>
+        
+       <!-- <div class="form-group row">
+          <small for="staticEmail" class="col-sm-12">Select companies where you have been apointed as administrator <sup class="text text-danger">*</sup></small>
+          <div class="col-sm-12">
+            <ng-select [multiple]="true"  formControlName="adminAssignCompanies"  placeholder="Select companies where you have been apointed as administrator">
+                <ng-option *ngFor="let c of fcompanies" [value]="c.id"  >{{c.name}}</ng-option>
+             
+            </ng-select>
+          
+          
+          </div>
+        </div> -->
+
+       
+
+        <div class="float-right" style="visibility:hidden;">
+          <button #uploadbtn class="button green-4" type="submit" mdbWavesEffect>Next</button>
+        </div>
+      </form>
+      <div style="clear:both"></div>
+      <h4>Select companies where you have been linked as a lawyer, banker or other stakeholder</h4>
+
+      <div class="form-group row">
+        <small for="staticEmail" class="col-sm-12">Put company registration number here </small>
+        <div class="col-sm-10">
+          <input style="width:100%" [(ngModel)]="pvNumber" name="pvNumber"  />
+        </div>
+        <div class="col-sm-2" style="padding:0 8px 0 0">
+           <button class="upload-wrapper btn btn-primary btn-sm download" style="margin-top:1px;float: right;"  (click)="addAdminCompanies()">Add</button>
+        </div>
+      </div>
+
+      <div class="row admin-companies"  *ngFor="let doc of currentCompanyList">
+        <div class="col-sm-2">
+         {{doc.regNumber}}
+        </div>
+        <div class="col-sm-9">
+          {{doc.name}}
+         </div>
+         <div class="col-sm-1">
+          <button (click)="removeAssignedCompany(doc.id)" style="color: red;font-size: 20px;"><i class="far fa-times-circle"></i></button>
+         </div>
+      </div>
+      <div style="clear:both"></div>
+
+      <hr/>
+
+      <div class="float-right">
+        <button [disabled]="!adminCompanies.length" (click)="uploadbtn.click()" class="button green-4" type="submit" mdbWavesEffect>Next</button>
+      </div>
+     
+    </div>
+  </div>
+</div>

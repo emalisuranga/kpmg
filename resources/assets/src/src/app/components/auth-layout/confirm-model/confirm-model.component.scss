@@ -1,0 +1,11 @@
+@import "theme-veriable";
+
+.modal-footer {
+  display: initial $im;
+
+  .btn-primary {
+    background: $secondary $im;
+    width: 65%;
+    padding: 7px;
+  }
+}

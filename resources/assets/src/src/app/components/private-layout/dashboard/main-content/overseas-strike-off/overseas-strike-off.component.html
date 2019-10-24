@@ -1,0 +1,662 @@
+
+<section>
+  <div class="container top-margin" style="padding-bottom: 50px;">
+    <div class="row">
+      <div class="col-md-11 nopadding">
+        <div class="f1">
+          <h3 style="text-align: center">Overseas - Strike - Off</h3>
+          <p style="text-align: center">
+            Fill in all steps for Strike Off process.
+          </p>
+          <div class="f1-steps">
+            <div class="f1-progress">
+              <div class="f1-progress-line" data-now-value="12.5" data-number-of-steps="4"
+                [ngStyle]="{ width: progress.progressPercentage }"></div>
+            </div>
+            <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{ item.status }}">
+              <div class="f1-step-icon">
+                <i class="{{ item.icon }}"></i>
+              </div>
+              <p>{{ item.label }}</p>
+            </div>
+          </div>
+
+          <fieldset [hidden]="stepOn != 0">
+            <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+              <p style="text-align:center">{{ externalGlobComment }}</p>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm">Company Type</label>
+              <div class="col-sm-9">{{ companyInfo.postfix }}</div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm">Name of the Company</label>
+              <div class="col-sm-9">
+                {{ companyInfo.name }} {{ companyInfo.postfix }}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm">
+                Registration Number
+              </label>
+              <div class="col-sm-9">{{ companyRegNumber }}</div>
+            </div>
+
+            <!-- <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm">
+              Incorporated Country :
+              </label>
+              <div class="col-sm-9">
+                <input type="text" onkeydown="return false" [(ngModel)]="country" [ngModelOptions]="{ standalone: true }"
+                class="form-control form-control-sm modal-input-director-phone" />
+              </div>
+            </div> -->
+
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label class="col-form-label col-form-label-sm"><b>Incorporated Country :</b> <span class="req">*</span>
+                </label>
+              </div>
+              <div class="form-group col-md-4">
+                <input type="text" [(ngModel)]="country" [ngModelOptions]="{ standalone: true }" onkeypress="return ( ( event.which >= 65 && event.which <= 90)  || ( event.which >= 97 &&  event.which <= 122)  || event.which == 8 || event.which == 32 )"
+                  class="form-control form-control-sm modal-input-director-phone" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label class="col-form-label col-form-label-sm"><b>Date of the Company :</b> <span class="req">*</span>
+                </label>
+              </div>
+              <div class="form-group col-md-4">
+                <input type="date" onkeydown="return false" [(ngModel)]="ceasedDate"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control form-control-sm modal-input-director-phone" />
+              </div>
+            </div>
+
+            <div class="form-row">
+
+              <div class="sec_type_item form-group col-md-4">
+
+                <p><b>Signing Party Information:</b> <span class="req">*</span></p>
+
+              </div>
+
+              <div class="sec_type_item form-group col-md-6">
+
+                <input (change)="resetSignParty()" [(ngModel)]="signing_party_designation" type="radio"
+                  id="signing_party_designation_directortype" class="custom-control-input"
+                  name="signing_party_designation" value="Director">
+                <label style="font-size:14px;" class="custom-control-label radio-lbl"
+                  for="signing_party_designation_directortype">&nbsp;&nbsp;&nbsp;&nbsp;Director</label>
+
+              </div>
+
+              <div class="sec_type_item form-group col-md-6" *ngIf="this.signedSecs.length">
+
+                <input (change)="resetSignParty()" [(ngModel)]="signing_party_designation" type="radio"
+                  id="signing_party_designation_secretorytype" class="custom-control-input"
+                  name="signing_party_designation" value="Secretary">
+                <label style="font-size:14px;" class="custom-control-label radio-lbl"
+                  for="signing_party_designation_secretorytype">&nbsp;&nbsp;&nbsp;&nbsp;Secretary</label>
+
+              </div>
+
+              <div class="sec_type_item form-group col-md-6" *ngIf="this.signedSecFirms.length">
+
+                <input (change)="resetSignParty()" [(ngModel)]="signing_party_designation" type="radio"
+                  id="signing_party_designation_secretory_firmtype" class="custom-control-input"
+                  name="signing_party_designation" value="Secretary Firm">
+                <label style="font-size:14px;" class="custom-control-label radio-lbl"
+                  for="signing_party_designation_secretory_firmtype">&nbsp;&nbsp;&nbsp;&nbsp;Secretary Legal
+                  Person</label>
+
+              </div>
+
+
+            </div>
+
+            <div class="form-row" *ngIf="signing_party_designation == 'Director'">
+
+              <div class="sec_type_item form-group col-md-12">
+
+                <p style="position: relative;
+                                      top: 30px;">Please select a director from the below list <span
+                    class="req">*</span></p>
+
+              </div>
+
+              <div class="sec_type_item form-group col-md-12">
+
+                <select [(ngModel)]="singning_party_name" class="form-control form-control-sm"
+                  name="singning_party_name">
+
+                  <option value="">Choose..</option>
+                  <option *ngFor="let s of signedDirectors; let i = index" value="{{s['id']}}">{{s.name}}</option>
+                </select>
+
+
+
+              </div>
+            </div>
+
+            <div class="form-row" *ngIf="signing_party_designation == 'Secretary'">
+
+              <div class="sec_type_item form-group col-md-12">
+
+                <p style="position: relative;
+                                      top: 30px;">Please select a secretory from below list <span class="req">*</span>
+                </p>
+
+              </div>
+
+              <div class="sec_type_item form-group col-md-12">
+
+                <select [(ngModel)]="singning_party_name" class="form-control form-control-sm"
+                  name="singning_party_name">
+                  <option value="">Choose..</option>
+                  <option *ngFor="let s of signedSecs; let i = index" value="{{s['id']}}">{{s.name}}</option>
+                </select>
+
+              </div>
+            </div>
+
+            <div class="form-row" *ngIf="signing_party_designation == 'Secretary Firm'">
+
+              <div class="sec_type_item form-group col-md-12">
+
+                <p style="position: relative;
+                                      top: 30px;">Please select a secretory from below list <span class="req">*</span>
+                </p>
+
+              </div>
+
+              <div class="sec_type_item form-group col-md-12">
+
+                <select [(ngModel)]="singning_party_name" class="form-control form-control-sm"
+                  name="singning_party_name">
+                  <option value="">Choose..</option>
+                  <option *ngFor="let s of signedSecFirms; let i = index" value="{{s['id']}}">{{s.name}}</option>
+                </select>
+
+              </div>
+            </div>
+
+            <div class="f1-buttons">
+              <button [disabled]="!(ceasedDate && country && singning_party_name)" type="button" class="btn btn-next" id="btn1-next"
+                (click)="changeProgressStatuses(1)">
+                Next <i class="fas fa-forward"></i>
+              </button>
+            </div>
+          </fieldset>
+
+          <fieldset [hidden]="stepOn != 1">
+            <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+              <p style="text-align:center">{{externalGlobComment}}</p>
+            </div>
+            <div class="Members-secton stakeholder-section">
+
+              <!-- membs list --------------------------------------- and things -->
+
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <!-- list-->
+
+
+
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner"
+                  style="padding: 25px 10px 10px;">
+
+
+
+                  <div class="container download-container">
+
+                    <div class="container download-container">
+
+                      <div class="doc-block-wrapper">
+                        <div class="doc-block">
+                          <h4>Form 38 Download</h4>
+                          <div class="download-application-row">
+                            <div class="download-application-block">Form 38</div>
+                            <div class="doc-download">
+
+                              <button type="button" (click)="affairsGenerateDOC()" class="btn btn-next">Download
+                                <i class="fas fa-forward"></i></button>
+                              <!-- (click)="societyGeneratePDF()" -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i
+                  class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-primary">Next <i
+                  class="fas fa-forward"></i></button>
+            </div>
+
+          </fieldset>
+
+          <fieldset [hidden]="stepOn != 2">
+
+            <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+              <p style="text-align:center">{{externalGlobComment}}</p>
+            </div>
+
+            <div class="container uploaded-container">
+
+              <div *ngFor="let doc of uploadList['docs']; let i = index">
+                <div *ngIf="doc.file_name != 'Other Documents'">
+                  <div class="row uploaded-row">
+
+                    <div class="col-9 doc">
+                      <h3>{{doc.file_name}} <span *ngIf="doc.is_admin_requested" class="request_roc">(requested by
+                          ROC)</span> <span *ngIf="doc.is_required" class="req">*</span></h3>
+                    </div>
+                    <div class="col-3 no-padding" *ngIf="doc.doc_status !='DOCUMENT_APPROVED'">
+
+
+                      <label style="float:right" for="other-{{i}}"
+                        class="upload-wrapper btn btn-primary btn-sm download">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                      </label>
+                      <input style="display:block;position: fixed;top:-100000px" id="other-{{i}}" type="file"
+                        (change)="fileChange($event,doc.file_name,doc.dbid)" placeholder="Upload file" accept=".pdf">
+
+                    </div>
+
+                    <div class="col-12 uploaded-doc" *ngIf="doc.uploaded_path">
+
+                      {{doc.uploaded_path}}
+
+                      <span class="approved_doc" *ngIf="doc.doc_status =='DOCUMENT_APPROVED'">Document Approved</span>
+
+                      <button *ngIf="!(doc.is_admin_requested || doc.doc_status =='DOCUMENT_APPROVED')"
+                        (click)="removeDoc(doc.dbid )" class="button red button-sm remove-file">
+                        <i class="fas fa-trash-alt"></i> Delete
+                      </button>
+
+                      <button *ngIf="doc.uploaded_token" (click)="ngOnDownload(doc.uploaded_token)"
+                        class="view-file button blue button-sm">
+                        <i class="far fa-file-pdf"></i> View
+                      </button>
+
+
+
+                    </div>
+                    <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                      <strong>Comments:</strong> {{doc.doc_comment}}
+                    </div>
+
+                  </div>
+                </div>
+
+
+              </div>
+
+
+            </div>
+
+
+            <div style="margin-bottom:6px" class="container uploaded-container">
+
+              <div class="row uploaded-row">
+
+                <div class="col-4 doc">
+                  <h3>Other Documents
+                    <!-- <span style="display: block;width: 4%; float: right;color: red;font-size: 24px;margin-top: -10px;"> *</span> -->
+                    <p style="font-size: 12px;color: darkorange;text-transform: none;" class="other_doc_des">You can
+                      upload any
+                      number of documents here</p>
+                  </h3>
+                </div>
+                <div class="col-5">
+                  <span style="float: left;width: 100%;margin-top: 2px">
+                    <input style="width: 96%;padding:5px;padding: 0 5px;text-align: center;font-size: 14px;"
+                      [(ngModel)]="other_doc_name" name="other_doc_name" placeholder="Enter document name here" />
+
+                  </span>
+                </div>
+
+                <div class="col-3 no-padding">
+
+
+                  <label style="float:right" for="other-docs"
+                    class="upload-wrapper btn btn-primary btn-sm download {{!other_doc_name ? 'disable' : '' }}">
+                    <i class="fas fa-cloud-upload-alt"></i> Upload
+                  </label>
+
+
+                  <input [disabled]="!other_doc_name" style="display:block;position: fixed;top:-100000px"
+                    id="other-docs" type="file" (change)="uploadOtherDoc($event,'Other',uploadOtherList['doc_id'])"
+                    placeholder="Upload file" accept=".pdf">
+
+                </div>
+
+              </div>
+
+              <div class="form-group" *ngFor="let doc of uploadOtherList['docs']; let j = index">
+
+                <div class=" uploaded-row">
+
+
+
+                  <div style="font-size:12px;" class="uploaded-doc" *ngIf="doc.uploaded_path">
+
+                    {{doc.uploaded_path}}
+                    <span class="approved_doc" *ngIf="doc.doc_status =='DOCUMENT_APPROVED'">Document Approved</span>
+
+                    <button *ngIf="doc.doc_status !='DOCUMENT_APPROVED' && doc.uploaded_token"
+                      style="float: right; font-size: 12px;padding: 5px !important;"
+                      (click)="removeOtherDoc(doc.uploaded_token )" class="button red button-sm">
+                      <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+
+                    <button style="float: right; font-size: 12px;padding: 5px !important;margin-right:4px;"
+                      *ngIf="doc.uploaded_token" (click)="ngOnDownload(doc.uploaded_token)"
+                      class="button blue button-sm">
+                      <i class="far fa-file-pdf"></i> View
+                    </button>
+
+                    <label *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'" style="float: right;
+                          width: 110px;
+                          height: 30px;
+                          margin-top: -2px;
+                          line-height: 30px;
+                          margin-right: 0px;" for="other-resubmit-docs-{{doc.multiple_id}}"
+                      class="upload-wrapper btn btn-primary btn-sm download">
+                      <i class="fas fa-cloud-upload-alt"></i> Upload
+                    </label>
+                    <input *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'"
+                      style="display:block;position: fixed;top:-100000px" id="other-resubmit-docs-{{doc.multiple_id}}"
+                      type="file" (change)="uploadOtherResumittedDoc($event,doc.multiple_id)" placeholder="Upload file"
+                      accept=".pdf">
+
+
+
+                  </div>
+                  <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                    <strong>Comments:</strong> {{doc.doc_comment}}
+                  </div>
+
+                </div>
+
+              </div>
+              <div style="clear:both"></div>
+
+
+            </div>
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i
+                  class="fas fa-backward"></i>
+                Previous</button>
+              <button [disabled]="!allFilesUploaded"  *ngIf="moduleStatus == 'OVERSEAS_STRIKE_OFF_PROCESSING'"  (click)="changeProgressStatuses(3)" type="button"
+                class="btn btn-next">Next
+                <i class="fas fa-forward"></i></button>
+                  <button *ngIf="moduleStatus == 'OVERSEAS_STRIKE_OFF_RESUBMIT'" (click)="resubmit()" type="button" class="btn btn-next">
+                    Resubmit
+                    <i class="fas fa-check-double"></i>
+                  </button>
+            </div>
+
+          </fieldset>
+
+          <fieldset [hidden]="stepOn != 3">
+
+            <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+              <p style="text-align:center">{{externalGlobComment}}</p>
+            </div>
+
+            <div class="payment-table" *ngIf="moduleStatus == 'OVERSEAS_STRIKE_OFF_PROCESSING'">
+
+
+              <div class="payment-row header">
+                <div class="payment-row-inner">
+                  <div class="payment-cell">
+                    Payment Description
+                  </div>
+
+                  <div class="payment-cell">
+                    Unit Price (LKR)
+                  </div>
+                  <div class="payment-cell" style="text-align:right">
+                    Sub Total (LKR)
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="payment-row">
+
+                <div class="payment-row-inner">
+                  <div class="payment-cell">
+                    Registration Payment
+                  </div>
+
+                  <div class="payment-cell">
+                    {{ ( mainDoc_payment | currency ).replace('$','') }}
+                  </div>
+                  <div class="payment-cell" style="text-align:right">
+
+                    {{ ( mainDoc_payment | currency ).replace('$','') }}
+
+
+                  </div>
+
+                </div>
+              </div>
+
+
+              <br />
+
+
+              <div class="payment-row" style="font-weight: bold;
+                        color: #111;">
+
+                <div class="payment-row-inner">
+
+                  <div class="payment-cell">
+                    TOTAL FEE in LKR( Without VAT and Taxes) :
+                  </div>
+
+                  <div class="payment-cell">
+
+                  </div>
+                  <div class="payment-cell" style="text-align:right">
+
+                    {{ ( total_wihtout_vat_tax | currency).replace('$','')}}
+
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="payment-row" style="font-weight: bold;
+                        color: #111;">
+                <div class="payment-row-inner">
+
+                  <div class="payment-cell">
+                    Other Taxes in LKR&nbsp;( {{ other_tax}}%) :
+                  </div>
+
+                  <div class="payment-cell">
+
+                  </div>
+                  <div class="payment-cell" style="text-align:right">
+
+                    {{  ( other_taxVal | currency ).replace('$','') }}
+
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="payment-row" style="font-weight: bold;
+                        color: #111;">
+                <div class="payment-row-inner">
+
+                  <div class="payment-cell">
+                    VAT in LKR&nbsp;( {{ vat}}%) :
+                  </div>
+
+                  <div class="payment-cell">
+
+                  </div>
+                  <div class="payment-cell" style="text-align:right">
+
+
+                    {{  ( vatVal | currency ).replace('$','') }}
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="payment-row" style="font-weight: bold;
+                        color: #111;">
+                <div class="payment-row-inner">
+
+                  <div class="payment-cell">
+                    Convenience fee&nbsp;({{convinienceFee}}%) :
+                  </div>
+
+                  <div class="payment-cell">
+
+                  </div>
+                  <div class="payment-cell" style="text-align:right">
+                    {{  ( convinienceFeeVal | currency ).replace('$','') }}
+
+
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="payment-row header" style=" background: #02001b;">
+
+                <div class="payment-row-inner">
+
+
+                  <div class="payment-cell">
+                    TOTAL FEE in LKR :
+                  </div>
+
+                  <div class="payment-cell no-of-copies">
+
+                  </div>
+                  <div class="payment-cell" style="    font-size: 16px;
+                          color: #fff; text-align:right;">
+                    {{ ( total_with_vat_tax | currency ).replace('$','') }}
+                  </div>
+
+                </div>
+
+
+              </div>
+
+            </div>
+            <div class="resubmit-message-block alert alert-primary"
+              *ngIf="moduleStatus == 'OVERSEAS_STRIKE_OFF_RESUBMIT'">
+              <p style="text-align:center">Please complete the process by clicking below resubmit button</p>
+            </div>
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-previous"><i
+                  class="fas fa-backward"></i>
+                Previous</button>
+              <button *ngIf="moduleStatus == 'OVERSEAS_STRIKE_OFF_PROCESSING'" (click)="pay()" type="button"
+                class="btn btn-next">
+                Complete/Pay
+                <i class="fas fa-edit"></i>
+              </button>
+
+              <!-- <button *ngIf="moduleStatus == 'OFFSHORE_STRIKE_OFF_RESUBMIT'" (click)="resubmit()" type="button"
+                class="btn btn-next"> Resubmit
+                <i class="fas fa-check-double"></i>
+              </button> -->
+
+            </div>
+
+          </fieldset>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="payment-success-wrapper" *ngIf="payConfirm">
+
+  <div class="payment-success-body">
+
+    <div class="header">
+
+      <h2>Payment Confirmation</h2>
+    </div>
+
+    <div class="body">
+      <p>Please confirm your payment by clicking below button.</p>
+    </div>
+
+    <div class="footer">
+      <div style="text-align: center">
+        <form ngNoForm action="{{ paymentGateway }}" method="post">
+          <input type="hidden" [(ngModel)]="cipher_message" name="clientPaymentRequest">
+          <button type="submit" class="btn btn-success col-md-8">&nbsp;<i class="far fa-credit-card"></i>&nbsp;Confirm
+            and Continue Payment</button>
+        </form>
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+
+</div>
+
+<div class="payment-success-wrapper" *ngIf="resubmitSuccess">
+
+  <div class="payment-success-body">
+
+    <div class="header">
+
+      <h2>Success</h2>
+    </div>
+
+    <div class="body">
+      <p>You have successfully resubmitted the record for verification</p>
+    </div>
+
+    <div class="footer">
+
+      <button class="btn btn-success" (click)="resubmitMessageClick()">ok</button>
+    </div>
+  </div>
+
+
+
+</div>

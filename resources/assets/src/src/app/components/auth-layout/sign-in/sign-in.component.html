@@ -1,0 +1,63 @@
+<div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{ backdrop: true, ignoreBackdropClick: true }">
+  <div class="modal-dialog" role="document" style="max-width: 470px !important;">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">LOGIN</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form (ngSubmit)="onSubmit()" [formGroup]="formGroup" >
+        <div class="modal-body mx-3 mb-3">
+          <div class="mb-4">
+            <input type="email" name="email" (keydown.enter)="onKeydown()" formControlName="email" required placeholder="E-mail" class="form-control validate" autofocus>
+            <a class="email-enter-button" (click)="migratedAccount()"><i class="fas fa-arrow-circle-right"></i></a>
+            <div *ngIf="email.invalid && email.touched">
+              <small *ngIf="email.errors['email']" class="red-text">Please enter a valid email.</small>
+              <small *ngIf="email.errors['required']" class="red-text">Email is required.</small>
+            </div>
+          </div>
+          <div class="mb-4" [hidden]="showPassword" >
+            <!-- <input type="password" name="password" formControlName="password" placeholder="Password" class="form-control validate" required> -->
+            <input type="password" name="password" formControlName="password" placeholder="Password" class="form-control validate" required>
+            <div *ngIf="password.invalid && (password.dirty || password.touched)">
+              <small class="red-text">Password is required</small>
+            </div>
+          </div>
+          <div class="mb-2">
+            <div class="float-right font-small">
+              <a [routerLink]="['forgot/request/link']" (click)="frame.hide();" >Forgot Password</a>
+            </div>
+          </div>
+        </div>
+        <div class="modal-body mx-3  d-flex justify-content-center" *ngIf="isLoginError">
+          <small class="red-text">There was an error with your E-Mail/Password combination. Please try again.</small>
+        </div>
+        <div class="modal-footer d-flex justify-content-center" style="border-top: medium none !important;"  [hidden]="showPassword" >
+          <button type="submit" class="btn btn-round" [disabled]="!formGroup.valid" mdbWavesEffect>Login</button>
+        </div>
+
+      </form>
+      <div class="modal-footer mx-4 pt-3 mb-1" style="padding-bottom:0">
+        <p style="width:100%;margin:0" class="font-small d-flex justify-content-end">Not a member ?
+          <a class="blue-text ml-1" (click)="modal.onShow('/srilankan/register','/nonesrilankan/register', { sparam: 'sl', nsparam: 'n_sl' } );frame.hide();"> Register</a>
+        </p>
+      </div>
+
+      <div class="modal-footer mx-4 pt-3 mb-1" style="padding-bottom:0" *ngIf="showIncompleteActions">
+        <p style="width:100%;margin:0;" class="font-small d-flex justify-content-end">Are you a company administrator ?
+          <a class="blue-text ml-1" (click)="modal.onShowAdmin('/company-admin/register', { adminparam: 'sl'} );frame.hide();"> Register</a>
+        </p>
+      </div>
+
+      <div class="modal-footer mx-4 pt-3 mb-1" *ngIf="showIncompleteActions">
+        <p style="width:100%;margin:0;" class="font-small d-flex justify-content-end">Are you a lawyer,banker or other stakeholder ?
+          <a class="blue-text ml-1" (click)="modal.onShowOtherStakeholder('/srilankan-other-user/register', { adminparam: 'sl'} );frame.hide();"> Register</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-confirm-model  #modal></app-confirm-model>

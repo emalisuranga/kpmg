@@ -1,0 +1,55 @@
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class RoleGuard {
+
+  canCancel: Array<any> = [
+    'COMPANY_NAME_APPROVED',
+  ];
+
+  canIncorporate: Array<any> = [
+    'COMPANY_NAME_APPROVED',
+    'COMPANY_STATUS_REQUEST_TO_RESUBMIT',
+    'COMPANY_FOREIGN_STATUS_PAYMENT_PENDING',
+    'COMPANY_FOREIGN_REQUEST_TO_RESUBMIT',
+    'COMPANY_FOREIGN_REQUEST_TO_RESUBMIT1',
+    'COMPANY_FOREIGN_REQUEST_TO_RESUBMIT2'
+  ];
+
+  canForignCompany: Array<any> = [
+    'COMPANY_FOREIGN_REQUEST_TO_RESUBMIT',
+    'COMPANY_FOREIGN_REQUEST_TO_RESUBMIT1',
+    'COMPANY_FOREIGN_REQUEST_TO_RESUBMIT2'
+  ];
+
+  canOverseesOffshore: Array<any> = [
+    7,
+    8
+  ];
+
+  changeIcon: Array<any> = [
+    'COMPANY_NAME_CHANGE_APPROVED',
+    'COMPANY_NAME_APPROVED',
+    'COMPANY_NAME_CANCELED'
+  ];
+
+  canNameResubmit: Array<any> = [
+    'COMPANY_NAME_CHANGE_REQUEST_TO_RESUBMIT',
+    'COMPANY_NAME_APPROVED',
+  ];
+
+  isName: Array<any> = [
+    'COMPANY_NAME_PENDING',
+    'COMPANY_NAME_RULES_VERIFICATION',
+    'COMPANY_NAME_RECOMMEND_FOR_APPROVAL',
+    'COMPANY_NAME_NOT_RECOMMEND_FOR_APPROVAL',
+    'COMPANY_NAME_REQUEST_TO_RESUBMIT',
+    'COMPANY_NAME_RESUBMITTED',
+    'COMPANY_NAME_APPROVED',
+    'COMPANY_NAME_REJECTED',
+    'COMPANY_NAME_EXPIRED',
+    'COMPANY_NAME_CANCELED',
+  ];
+}

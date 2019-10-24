@@ -1,0 +1,16 @@
+<div class="container top-margin">
+  <div class="row justify-content-md-center top-margin">
+    <div class="col-md-6 col-sm-12">
+      <div class="sec-title-container less-padding-1 text-center" *ngIf="isDiv">
+        <h2>Your account has been activated</h2>
+        <hr>
+        <small><strong>You can proceed now. Please login</strong></small>
+        <div class="ce-title-line"></div>
+        <br>
+      </div>
+      <div class="sec-title-container less-padding-1 text-center" *ngIf="!isDiv">
+        <h2 class="test test-danger">{{ message }}</h2>
+      </div>
+    </div>
+  </div>
+</div>

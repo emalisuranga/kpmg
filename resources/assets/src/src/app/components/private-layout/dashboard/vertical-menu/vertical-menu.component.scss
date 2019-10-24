@@ -1,0 +1,276 @@
+@import "theme-veriable";
+
+ul {
+  list-style: none;
+  display: inline;
+}
+
+.stm-button {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.stm-button:before {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.15) 5px, rgba(0, 0, 0, 0.15) 10px, transparent 10px, transparent 15px);
+}
+
+.stm_separator_doubled:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 100%;
+  opacity: 0
+}
+
+.button_3d,
+.button_3d span {
+  position: relative;
+  display: inline-block
+}
+
+.stm_separator.stm_separator_style_2 {
+  width: 100%;
+  background-color: transparent !important;
+  background: repeating-linear-gradient(135deg, rgba(0, 0, 0, .15) 5px, rgba(0, 0, 0, .15) 10px, transparent 10px, transparent 15px)
+}
+
+.button_3d {
+  border: none;
+  outline: 0 !important
+}
+
+.button_3d span,
+.button_3d span:before {
+  padding: 12px 15px;
+  text-align: center;
+  border-radius: 3px
+}
+
+.btn__icon {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 40px;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.btn.btn_divider .btn__icon:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  right: -3px;
+  width: 3px;
+  background-color: $secondary $im;
+}
+
+.btn.btn_divider .btn__label,
+.btn.btn_divider .btn_subtitle_label {
+  padding-left: 17px
+}
+
+.btn.btn_divider.btn_icon-right .btn__icon:after {
+  right: auto;
+  left: -3px
+}
+
+.btn,
+.btn__text {
+  position: relative
+}
+
+.btn__icon:before {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center
+}
+
+.btn.btn_icon-left {
+  padding-left: 39px
+}
+
+.btn.btn_icon-left .btn__icon {
+  left: -4px
+}
+
+.btn.btn_icon-left .btn__icon_closer {
+  margin-top: -2px;
+  left: 20px
+}
+
+.btn.btn_icon-right {
+  padding-right: 39px
+}
+
+.btn.btn_icon-right .btn__icon {
+  right: -4px
+}
+
+.btn.btn_icon-right .btn__icon_closer {
+  margin-top: -2px;
+  right: 20px
+}
+
+.btn__text {
+  top: 1px
+}
+
+.btn_outline {
+  // border: 3px solid $secondary $im;
+  border: 1px solid $gray-500 $im;
+  color: $primary $im;
+}
+
+.btn {
+  text-align: left;
+  font-size: 15px;
+}
+
+.btn.btn_fullwidth {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: $gray-800;
+}
+
+@media (max-width:769px) {
+  .btn.btn_fullwidth {
+    width: auto;
+    max-width: 100%
+  }
+
+  .btn.btn_fullwidth.btn_icon-left {
+    padding-right: 15px !important
+  }
+
+  .btn.btn_fullwidth.btn_icon-right {
+    padding-left: 15px !important
+  }
+}
+
+.btn.text-center {
+  text-align: center !important
+}
+
+.stm-button_fullwidth {
+  width: 100%
+}
+
+.stm-button.stm-button_center {
+  display: block;
+  text-align: center
+}
+
+.btn.btn_subtitle {
+  padding: 5px 15px;
+  font-size: 14px
+}
+
+.btn .btn_subtitle_label {
+  display: block;
+  margin-top: -2px;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 12px;
+  text-transform: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden
+}
+
+.btn,
+.btn_xs {
+  font-size: 13px
+}
+
+.btn_xs {
+  padding: 7px 15px;
+  text-transform: none
+}
+
+.btn,
+.btn_lg {
+  text-transform: uppercase
+}
+
+.btn_lg {
+  padding: 14px 30px;
+  min-width: 145px;
+  text-align: center
+}
+
+.btn_fullwidth {
+  display: block
+}
+
+@media (max-width:1023px) {
+  .btn_fullwidth {
+    max-width: 400px !important
+  }
+}
+
+.stm-logo img,
+img,
+textarea {
+  max-width: 100%
+}
+
+.btn {
+  line-height: 19px;
+  font-weight: 700;
+  border-radius: 0;
+  outline: 0 !important;
+  border: 1px solid transparent
+}
+
+.btn:hover {
+  background-color: transparent !important
+}
+
+.btn.form-control {
+  line-height: 44px;
+  width: auto !important;
+  height: auto !important
+}
+
+.tparrows.persephone {
+  border: 3px solid #ccc;
+  background-color: transparent;
+  text-align: center
+}
+
+.active {
+  background: $white $im;
+  color: $black;
+  border-left: 4px solid $secondary $im;
+  :hover {
+    color: $primary;
+  }
+}
+
+.btn:not([disabled]):not(.disabled):active,
+.btn:not([disabled]):not(.disabled).active {
+  box-shadow: 0px 0px 0px 0px $im;
+}
+.vm-m-top{margin-top: 10px;}
+

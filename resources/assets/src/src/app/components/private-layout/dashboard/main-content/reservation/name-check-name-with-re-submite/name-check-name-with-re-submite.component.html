@@ -1,0 +1,111 @@
+<div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{ backdrop: true, ignoreBackdropClick: true }">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title w-100 font-weight-bold">Search Name :</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formGroup">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-3">
+                <select disabled class="shadow_select form-control" formControlName="companyType">
+                  <option *ngFor="let companyType of companyTypes" (click)="getSubCatogory(companyType.id)" [value]="companyType.id">
+                    {{ companyType.value | uppercase }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-4" *ngIf="subCatogorys.length > 0">
+                <input type="text" class="form-control" name="search" (click)="targetSelect($event)" style="text-transform:uppercase"
+                  formControlName="search" (keydown)="ckPageZero()" (keydown.enter)="ckSearch()" placeholder="Search Company Name "
+                  aria-label="Search">
+              </div>
+              <div class="col-md-7" *ngIf="subCatogorys.length <= 0">
+                <input type="text" class="form-control" name="search" (click)="targetSelect($event)" style="text-transform:uppercase"
+                  formControlName="search" (keydown)="ckPageZero()" (keydown.enter)="ckSearch()" placeholder="Search Company Name "
+                  aria-label="Search">
+              </div>
+              <div class="col-md-3" *ngIf="subCatogorys.length > 0">
+                <div class="mr-1">
+                  <select disabled class="shadow_select form-control" formControlName="postfix">
+                    <option *ngFor="let subCatogory of subCatogorys" [value]="subCatogory.postfix">
+                      {{subCatogory.postfix | uppercase}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <button type="button" class="button green-4" mdbTooltip="Click" (click)="ckSearch();">
+                  <span>
+                    <i class="fas fa-search"></i> Search
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <hr>
+        <div class="row">
+          <div class="col-md-12 col-xl-12">
+            <div *ngIf="availableData">
+              <section *ngIf="notHasData.available">
+                <div class="task-listing mt-5">
+                  <div class="task-listing-details">
+                    <div class="task-listing-description">
+                      <h3 class="task-listing-title">
+                        <b>{{ searchName | uppercase }} {{ postfixName }}</b>
+                      </h3>
+                      <ul class="task-icons">
+                        <li>
+                          <i class="fab fa-cc-visa fa-money" aria-hidden="true"></i>
+                        </li>
+                        <li>
+                          <i class="fab fa-cc-mastercard fa-money" aria-hidden="true"></i>
+                        </li>
+                      </ul>
+                      <div class="task-tags margin-top-15">
+                        <div class="row" *ngIf="notHasData.data?.length > 0">
+                          <div class="col-2">
+                            <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+                          </div>
+                          <div class="col-10">
+                            <small class="text text-danger" *ngFor='let avbData of notHasData.data'>* {{
+                              avbData.message }}
+                              <br>
+                            </small>
+                            <small class="text text-primary">The name contradicts with the above rules but you can
+                              proceed.
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="tg-themetag tg-featuretag">Available</span>
+                </div>
+                <hr>
+                <div class="task-listing-bid float-right">
+                  <button (click)="onResavation(); frame.hide()" class="button button-sliding-icon ripple-effect" style="background-color: #00027c;">
+                    Proceed Now
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                  </button>
+                </div>
+              </section>
+              <section *ngIf="!notHasData.available">
+                <div class="col-md-12">
+                  <center>
+                    <h3>Not Available</h3>
+                  </center>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

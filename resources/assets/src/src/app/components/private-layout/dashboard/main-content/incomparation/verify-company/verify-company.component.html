@@ -1,0 +1,57 @@
+<div class="clearfix">
+</div>
+<section class="top-margin">
+  <div class="container" style="padding-bottom: 50px;">
+    <div class="row">
+
+
+      <!--end left col-->
+
+
+      <div class="col-md-11 nopadding">
+
+
+        <div class="f1">
+          <br/><br/>
+          <h3 style="text-align: center">Company Verification of  Certificate Number: {{certificateNo}}</h3>
+          
+          
+
+          <fieldset>
+
+            <div class="verification-block ver-{{verified}}">
+                <div *ngIf="verificationMessage && verified" class="verification-message success">
+                    <p><i class="far fa-check-circle"></i>&nbsp;{{verificationMessage}}</p>
+  
+                     <div class="comoany-info">
+                       <strong>Company Name:</strong>&nbsp; {{companyName}}<br/>
+                       <strong>Incorporated At:</strong>&nbsp; {{incorpAt}}
+                     </div>
+                </div>
+  
+                <div *ngIf="verificationMessage && !verified" class="verification-message failed">
+                  <p><i class="fas fa-exclamation-triangle"></i>&nbsp;{{verificationMessage}}</p>
+                </div>
+
+            </div>
+
+              
+             
+          </fieldset>
+         
+
+
+
+
+
+        </div>
+
+      </div>
+      <div style="clear:both"></div>
+      <br />
+      <br />
+      <!--end right col main-->
+    </div>
+  </div>
+</section>
+

@@ -1,0 +1,241 @@
+@import "theme-veriable";
+
+/***drop ng-select****/
+.ng-select.ng-select-single .ng-select-container {
+    height: 40px;
+}
+
+.search-tender-wrapper{
+    border: 1px solid #888;
+    margin: 10px 0;
+    padding: 10px;
+    margin-bottom:10%;
+}
+.search-tender-wrapper .row {
+    border-bottom: 1px solid #888;
+}
+.search-tender-wrapper h3 {
+    font-size: 17px;
+    color: #fff;
+    padding: 6px 24px;
+}
+.searach-1-field {
+    margin: 5px 0;
+}
+.search-tender-wrapper .row {
+   
+    padding: 6px;
+  
+}
+.search-text-wrapper .md-form {margin: 0;}
+
+.search-tender-wrapper .row {
+    margin: 10px 0;
+}
+.no-tender-items h4 {
+    text-align: center;
+    color: red;
+    margin-top: 30px;
+}
+.pagination {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin: 24px 0;
+}
+
+span.paginate {
+    margin: 0 10px;
+    color: darkorange;
+    cursor: pointer;
+}
+.tender-publisher-block {
+    margin: 20px 0;
+    padding: 0 15px;
+    font-size: 14px;
+    color: darkorange;
+}
+span.paginate.page-indicator {
+    border: 1px solid;
+    padding: 0 5px;
+    min-width: 100px;
+    font-weight: bold;
+    margin-top: -2px;
+    cursor: default;
+}
+.search-close-tender-wrapper h3 {
+    font-size: 17px;
+    
+}
+
+.search-close-tender-wrapper p {
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+}
+.tender-list-wrapper {
+    width: 95%;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.search-close-tender-wrapper {color: #fff;}
+
+.search-close-tender-wrapper{
+    color: #fff;
+    border: 1px solid #888;
+    padding: 20px;
+}
+/*********/
+h3.tender-search-or {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    height: 40px;
+    line-height: 40px;
+}
+
+p.or {
+    z-index: 100;
+    position: relative;
+    width: 50px;
+    margin: auto;
+    background: #f0903b;
+}
+
+p.or-stroke {
+    position: absolute;
+    width: 100%;
+    background-color: #f0903b;
+    height: 0.5px;
+    left: 0;
+    right: 0;
+    top: 19px;
+    z-index: 99;
+}
+/*********/
+/***end drop ng-select***/
+
+
+.search-background{
+    background: url(/assets/images/header/12search-bg.jpg);
+    background-position: center;
+    background-size: cover;
+    height: 100%;
+    z-index: -100;
+    position: fixed;
+    width: 100%;
+}
+
+.input-group.md-form.form-sm.form-1 input{
+    border: 1px solid #bdbdbd;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+.input-group.md-form.form-sm.form-2 input {
+    border: 1px solid #bdbdbd;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
+.input-group.md-form.form-sm.form-2 input.red-border  {
+    border: 1px solid #ef9a9a;
+}
+.input-group.md-form.form-sm.form-2 input.lime-border  {
+    border: 1px solid #cddc39;
+}
+.input-group.md-form.form-sm.form-2 input.amber-border  {
+    border: 1px solid $secondary;
+    display: block;
+    height: 40px;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+span.published-on {
+    color: #1d008b;
+    font-size: 12px;
+    margin: 10px 0;
+}
+span#basic-text1,span#basic-text2{
+    background-color: #040d2e !important;
+    color: #fff;
+    width: 70px;
+    text-align: center;
+    display: block;
+    padding-top: 11px;
+    cursor: pointer;
+    height: 47px;
+    margin-top: -1px;
+}
+span#basic-text-disabled{
+    background-color: #ccc !important;
+    color: #fff;
+    width: 70px;
+    text-align: center;
+    display: block;
+    padding-top: 11px;
+    cursor: not-allowed;
+}
+.tender-panel{
+    background-color:#fff;
+    position: relative;
+}
+.tender-panel-inner{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 30px 0;
+    box-shadow: 1px 2px 4px #333;
+    background: #fff;
+    font-family: verdana;
+}
+
+.tender-left-wrapper {
+    width: 80%;
+    padding: 5px;
+    position: relative;
+}
+
+span.close-mark {
+    position: absolute;
+    top: -22px;
+    left: -14px;
+    display: block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background: black;
+    border-radius: 50%;
+    color: #fd7e14;
+}
+
+.tender-right-item button {
+    background-color: #fd7e14 !important;
+}
+.tender-panel h5 {
+    text-align: right;
+    display: block;
+    position: relative;
+    top: 16px;
+    padding-right: 19px;
+    font-weight: bold;
+}
+.panel-body {
+    font-size: 12px;
+    color: #111;
+    word-break: break-all;
+}
+
+.tender-right-item {
+    width: 20%;
+    text-align: right;
+}
+
+.tender-panel h5 {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    padding: 0 15px;
+}

@@ -1,0 +1,82 @@
+<header class="header-wrp" style="top:0">
+  <div class="content-glass"></div>
+  <nav class="navbar navbar-expand-lg navbar-light ">
+    <div class="container-fluid">
+      <div class="col-5 col-sm-5 col-md-6 col-lg-4">
+      <a class="navbar-brand" routerLink="home">
+        <img src="assets/images/header/drc-logo-498x84.png" alt="eRoc" srcset="" class="img-fluid">
+      </a>
+</div>
+
+      <div class="col-5 col-sm-5 col-lg-8">
+        <span class="seperate"></span>
+
+        <ul class="navbar-nav nav-flex-icons h-right-menu">
+
+          <li class="nav-item header-right-nav-hidden" *ngIf="!Auth.AuthGuard()">
+            <a class="btn-mr nav-link light-orenge-text" routerLink="/home" mdbWavesEffect>Home</a>
+          </li>
+          <li class="nav-item header-right-nav-hidden" *ngIf="Auth.AuthGuard()">
+            <a class=" btn-mr nav-link light-orenge-text" routerLink="/dashboard/home" mdbWavesEffect>Dashboard</a>
+          </li>
+          <!-- <li class="nav-item" *ngIf="Auth.AuthGuard()">
+          <li class="nav-item header-right-nav-hidden" *ngIf="Auth.AuthGuard()">
+            <a class=" btn-mr nav-link light-orenge-text" mdbWavesEffect>
+              <i class="far fa-question-circle"></i> Help
+            </a>
+          </li> -->
+          <!-- <li class="nav-item" *ngIf="Auth.AuthGuard()">
+            <div class="header-notifications">
+              <div class="header-notifications-trigger">
+                 <a routerLink="/payment" ><i class="fas fa-university"></i></a>
+              </div>
+            </div>
+          </li> -->
+          <li class="nav-item" *ngIf="!Auth.AuthGuard()">
+            <div class="header-widget">
+              <a class="btn btn-blur nav-link light-orenge-text" (click)="modal.showModal()" mdbWavesEffect>
+                <i class="fas fa-sign-in-alt"></i>
+                Login
+              </a>
+            </div>
+          </li>
+
+
+
+          <li class="nav-item" *ngIf="Auth.AuthGuard()">
+            <div class="header-widget">
+              <div class="header-notifications user-menu">
+                <div class="header-notifications-trigger">
+                  <div class="btn-group" mdbDropdown>
+                    <a mdbDropdownToggle class="avater">
+                      <div class="user-avatar status-online">
+                      <img [src]="user.getAvater | safeUrlPipe" alt="">
+                      </div>
+                      <h4> {{ 'Hi ' + user.getFirstName }}</h4>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <div class="drop-header">
+                        <h4>{{ user.getUserName }}</h4>
+                      </div>
+                      <div class="divider dropdown-divider"></div>
+                      <a class="dropdown-item" (click)="this.cklogOut()">
+                        <i class="fas fa-sign-out-alt mr-3"></i>Logout</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item" style="display:none;">
+            <a class="ml-4 btn-ml btn-mr nav-link light-orenge-text" mdbWavesEffect> සිංහල</a>
+          </li>
+          <li class="nav-item" style="display:none;">
+            <a class="btn-mr nav-link light-orenge-text" mdbWavesEffect>தமிழ் </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<app-sign-in #modal></app-sign-in>

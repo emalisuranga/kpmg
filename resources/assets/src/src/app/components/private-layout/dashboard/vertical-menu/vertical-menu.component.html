@@ -1,0 +1,112 @@
+
+    <!-- [ngClass]="{ 'show': navbarOpen }" -->
+    <nav class="navbar navbar-expand-xl navbar-light db-side-menu">
+    <button class="navbar-toggler" (click)="toggleNavbar()" type="button">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+<div class="collapse navbar-collapse vm-m-top" id="navbarSupportedContent" [ngClass]="{ 'show': navbarOpen }">
+ 
+  <ul>
+  <li *ngIf="!user.getTenderUser">
+    <a routerLink="home" routerLinkActive="active" class="btn btn_fullwidth btn_icon-left btn_divider" title="Company Incorperate">
+      <i class="btn__icon fas fa-building mr-3 "></i>
+      <span class="btn__label">Dashboard</span>
+    </a>
+  </li>
+  <li *ngIf="!user.getTenderUser">
+    <a routerLink="advance/name/reservation" routerLinkActive="active" class="btn btn_fullwidth btn_icon-left btn_divider"
+      title="Name Reservation">
+      <i class="btn__icon fas fa-cart-arrow-down mr-3 "></i>
+      <span class="btn__label">Name Reservation</span>
+    </a>
+  </li>
+  <li *ngIf="user.getTenderUser">
+    <a routerLink="/dashboard/tenders/list" routerLinkActive="active" class="btn btn_fullwidth btn_icon-left btn_divider"
+      title="Register For Tenders">
+      <i class="btn__icon fas fa-box-open mr-3 "></i>
+      <span class="btn__label">Publication of Tenders</span>
+    </a>
+  </li>
+  <li *ngIf="!user.getTenderUser">
+    <a routerLink="selectregisterauditor" routerLinkActive="active" class="btn btn_fullwidth btn_icon-left btn_divider" title="Register For Auditors">
+      <i class="btn__icon fas fas fa-pen-nib mr-3 "></i>
+      <span class="btn__label">Registration of Auditors</span>
+    </a>
+  </li>
+  <li *ngIf="!user.getTenderUser">
+    <a routerLink="selectregistersecretary" routerLinkActive="active" class="btn btn_fullwidth btn_icon-left btn_divider"
+      title="Register For Secutory">
+      <i class="btn__icon fas fa-users mr-3 "></i>
+      <span class="btn__label">Registration of Secretary</span>
+    </a>
+  </li>
+  <li *ngIf="!user.getTenderUser">
+    <a routerLink="selectregistersociety" routerLinkActive="active" class="btn btn_fullwidth btn_icon-left btn_divider"
+      title="Register For Society">
+      <i class="btn__icon fas fa-users mr-3 "></i>
+      <span class="btn__label">Register For Society</span>
+    </a>
+  </li>
+  <!-- <li *ngIf="!user.getTenderUser">
+    <a routerLink="#" routerLinkActive="active" class="btn btn_fullwidth btn_icon-left btn_divider" title="Amalgamation"
+      target="_self" data-iframe="true">
+      <i class="btn__icon fas fa-american-sign-language-interpreting mr-3 "></i>
+      <span class="btn__label">Amalgamation</span>
+    </a>
+  </li> -->
+  <li *ngIf="!user.getTenderUser">
+    <a routerLink="/dashboard/get-certificates" routerLinkActive="active" class="btn btn_fullwidth btn_icon-left btn_divider" title="Request Certified Copies"
+      target="_self" data-iframe="true">
+      <i class="btn__icon fas fa-certificate mr-3"></i>
+      <span class="btn__label">Request Certified Copies</span>
+    </a>
+  </li>
+  <li *ngIf="!user.getTenderUser" style="display:none;">
+    <a routerLink="#" routerLinkActive="active" class="btn btn_primary btn_fullwidth btn_default stm-button_5b840848e0c0a btn_icon-left btn_divider"
+      title="Other Service" target="_self" data-iframe="true">
+      <i class="btn__icon fas fa-headset mr-3 "></i>
+      <span class="btn__label">Other Services</span>
+    </a>
+  </li>
+  <li *ngIf="!user.getTenderUser && showIncompleteActions == true">
+    <a routerLink="/dashboard/correspondence-list" routerLinkActive="active" class="btn btn_fullwidth btn_icon-left btn_divider" title="Correspondence"
+      target="_self" data-iframe="true">
+      <i class="btn__icon fas fa-paper-plane mr-3"></i>
+      <span class="btn__label">Correspondence</span>
+    </a>
+  </li>
+  <li *ngIf="!user.getTenderUser && showIncompleteActions == true">
+    <a routerLink="/dashboard/othersCourtOrder-list" routerLinkActive="active"
+      class="btn btn_fullwidth btn_icon-left btn_divider" title="court_order" target="_self" data-iframe="true">
+      <i class="btn__icon fas fa-file-upload mr-3"></i>
+      <span class="btn__label">Court order/others</span>
+    </a>
+  </li>
+
+  <li *ngIf="!user.getTenderUser && showIncompleteActions == true">
+    <a routerLink="/dashboard/tenders-all" routerLinkActive="active" class="btn btn_fullwidth btn_icon-left btn_divider" title="Public Contracts"
+      target="_self" data-iframe="true">
+      <i class="btn__icon fas fa-handshake"></i>
+      <span class="btn__label">Registered Tenders</span>
+    </a>
+  </li>
+
+  <li *ngIf="!user.getTenderUser && showIncompleteActions == true">
+    <a routerLink="/dashboard/tenders-applied" routerLinkActive="active" class="btn btn_fullwidth btn_icon-left btn_divider" title="My Public Contracts"
+      target="_self" data-iframe="true">
+      <i class="btn__icon far fa-handshake"></i>
+      <span class="btn__label">My Tender Applications</span>
+    </a>
+  </li>
+
+  <li>
+    <a routerLink="settings" routerLinkActive="active" class="btn btn_primary btn_fullwidth btn_default stm-button_5b840848e0c0a btn_icon-left btn_divider"
+      title="Setting" target="_self" data-iframe="true">
+      <i class="btn__icon fas fa-cog mr-3 "></i>
+      <span class="btn__label">Settings</span>
+    </a>
+  </li>
+</ul>
+</div>
+</nav>

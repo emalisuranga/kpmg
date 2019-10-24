@@ -1,0 +1,244 @@
+<section>
+  <div class="row mb-5 mt-4">
+    <div class="col-xl-12">
+      <div class="headline">
+        <h3><i class="icon-material-outline-account-circle"></i> My Account</h3>
+      </div>
+      <hr>
+      <div class="dashboard-box">
+        <ul class="dashboard-box-list">
+          <li>
+            <form [formGroup]="updateUser" (submit)="onSubmit()">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="job-listing">
+                    <div class="job-listing-details">
+                      <div class="job-listing-description">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <a (click)="Image.click()" class="job-listing-company-logo">
+                              <div class="header-image">
+                                <img [src]="user.getAvater | safeUrlPipe" alt="">
+                              </div>
+                            </a>
+                            <input hidden type="file" formControlName="avaterFile" #Image accept="image/*" (change)="onFileInput($event)">
+                          </div>
+                          <div class="col-md-8">
+                            <h3 class="job-listing-title">
+                              <strong *ngIf="!hideAndShow">
+                                <a>
+                                  {{ user.getUserName }} <span *ngIf="user.getOtherName !== null">{{ '(' +
+                                    user.getOtherName + ')'}}</span>
+                                </a>
+                              </strong>
+                              <div class="row" *ngIf="hideAndShow">
+                                <div class="col-md-12">
+                                  <mat-radio-group formControlName="title">
+                                    <mat-radio-button class="ck-sm mr-3" *ngFor="let ititle of data.ititles" [value]=ititle.id>{{
+                                      ititle.value }}</mat-radio-button>
+                                  </mat-radio-group>
+                                  <div *ngIf="title.invalid && (title.dirty || title.touched)">
+                                    <small *ngIf="title.errors['required']" class="red-text">Title is required.</small>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <div class="form-group" *ngIf="hideAndShow">
+                                    <small>First Name</small>
+                                    <input type="text" formControlName="firstName" placeholder="First Name" class="form-control form-control-sm">
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <div class="form-group" *ngIf="hideAndShow">
+                                    <small>Last Name</small>
+                                    <input type="text" formControlName="lastName" placeholder="Last Name" class="form-control form-control-sm">
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <div class="form-group" *ngIf="hideAndShow">
+                                    <small>Other Name</small>
+                                    <input type="text" formControlName="otherName" placeholder="Other Name" class="form-control form-control-sm">
+                                  </div>
+                                </div>
+                              </div>
+                            </h3>
+                            <h5>
+                              <small *ngIf="!hideAndShow">
+                                <span *ngIf="user.getOccupation !== null">
+                                  {{ '(' + user.getOccupation + ')' }}
+                                </span>
+                              </small>
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <div class="form-group" *ngIf="hideAndShow">
+                                    <small>Occupation</small>
+                                    <input type="text" formControlName="occupation" placeholder="Occupation" class="form-control form-control-sm">
+                                  </div>
+                                </div>
+                              </div>
+                            </h5>
+                            <hr>
+                            <div class="row col-md-12">
+                              <small>
+                                <strong>Email Address : {{ user.getEmail }}</strong>
+                              </small>
+                            </div>
+                            <hr>
+                            <div class="row">
+                              <div class="col-md-6">
+                                <small *ngIf="!hideAndShow">
+                                  <strong>Mobile Number : {{ user.getMobile }}</strong>
+                                </small>
+                                <div class="form-group" *ngIf="hideAndShow">
+                                  <small>Mobile Number</small>
+                                  <input type="text" formControlName="mobileNumber" maxlength="10" placeholder="Mobile Number" class="form-control form-control-sm">
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <small *ngIf="!hideAndShow">
+                                  <strong>Telephone Number : {{ user.getTelephone }}</strong>
+                                </small>
+                                <div class="form-group" *ngIf="hideAndShow">
+                                  <small>Telephone Number</small>
+                                  <input type="text" formControlName="telephoneNumber" maxlength="20" placeholder="Telephone Number"
+                                    class="form-control form-control-sm">
+                                </div>
+                              </div>
+                            </div>
+                            <!-- <br> -->
+                            <!-- <h5><strong>Local Address</strong></h5> -->
+                            <hr>
+                            <div class="row col-md-12">
+                              <small *ngIf="!hideAndShow">
+                                <strong>Address : {{ user.getAddress }}</strong>
+                              </small>
+                            </div>
+                            <div class="row" *ngIf="hideAndShow">
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                  <small>Address line 01</small>
+                                  <input type="text" formControlName="addressLine01" placeholder="Address line 01"
+                                    class="form-control form-control-sm">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row" *ngIf="hideAndShow">
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                  <small>Address line 02</small>
+                                  <input type="text" formControlName="addressLine02" placeholder="Address line 02"
+                                    class="form-control form-control-sm">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row" *ngIf="hideAndShow">
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                  <small>Province</small>
+                                  <ng-select (ngModelChange)="this.district.reset();" class="custom" placeholder="Province"
+                                    [searchable]="true" formControlName="province">
+                                    <ng-option *ngFor="let province of data.provinces" [value]="province">{{
+                                      province.description_en }}</ng-option>
+                                  </ng-select>
+                                  <div *ngIf="province.invalid && province.touched">
+                                    <small *ngIf="province.errors['required']" class="red-text ml-3">Province name is
+                                      required.</small>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row" *ngIf="hideAndShow">
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                  <small>District</small>
+                                  <ng-select (ngModelChange)="this.city.reset();" class="custom" placeholder="District"
+                                    [searchable]="true" formControlName="district">
+                                    <ng-option *ngFor="let district of this.data.districts | district:province.value"
+                                      [value]="district">{{ district.description_en }}</ng-option>
+                                  </ng-select>
+                                  <div *ngIf="district.invalid && district.touched">
+                                    <small *ngIf="district.errors['required']" class="red-text ml-3">District name
+                                      is required.</small>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row" *ngIf="hideAndShow">
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                  <small>Divisional Secretariat Division</small>
+                                  <ng-select (ngModelChange)="this.gndivision.reset();" class="custom" placeholder="City"
+                                    [searchable]="true" formControlName="city">
+                                    <ng-option *ngFor="let city of data.citys | city:district.value" [value]="city">{{city.description_en}}</ng-option>
+                                  </ng-select>
+                                  <div *ngIf="city.invalid && city.touched">
+                                    <small *ngIf="city.errors['required']" class="red-text ml-3">City name is
+                                      required.</small>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row" *ngIf="hideAndShow">
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                  <small>GN Division</small>
+                                  <ng-select class="custom" placeholder="GN Division" [searchable]="true"
+                                    formControlName="gndivision">
+                                    <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:city.value"
+                                      [value]="gndivision.description_en">{{ gndivision.description_en }}</ng-option>
+                                  </ng-select>
+                                  <div *ngIf="gndivision.invalid && gndivision.touched">
+                                    <small *ngIf="gndivision.errors['required']" class="red-text ml-3">GN Division is
+                                      required.</small>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row" *ngIf="hideAndShow">
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                  <small>PostCode</small>
+                                  <input type="text" formControlName="postcode" placeholder="PostCode" class="form-control form-control-sm">
+                                </div>
+                              </div>
+                            </div>
+                            <br>                            
+                            <div class="job-listing-footer">
+                              <ul>
+                                <li>
+                                  <small>
+                                    <strong>
+                                      <i class="icon-material-outline-access-time"></i>
+                                      Date : {{ user.getDateTime | date:'yyyy-MM-dd' }} Time : {{ user.getDateTime |
+                                      date:'shortTime' }}
+                                    </strong>
+                                  </small>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="col-md-1">
+                            <div class="float-right">
+                              <a (click)="edit()" title="Edit" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="hideAndShow">
+                    <div class="float-right">
+                      <button type="submit" class="button button-sm green-4">Save</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,328 @@
+<section>
+    <div class="row mb-5">
+        <div class="col-xl-12">
+            <div style="padding:50px;" class="dashboard-box">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>
+                            <strong>
+                                <center>
+                                    Auditor Registration
+                                </center>
+                            </strong>
+                        </h3>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="float-right">
+                            <button (click)="basicModal.show()" routerLinkActive="active"
+                                class="btn btn-blur btn-mr0 nav-link light-orenge-text" type="button"
+                                mdbWavesEffect>Register
+                                as a Person</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="float-left">
+                            <button [routerLink]="['registerauditorfirm']"
+                                class="btn btn-blur btn-mr0 nav-link light-orenge-text" type="button" mdbWavesEffect>
+                                Register as a Firm</button>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div>
+        <div class="row mb-5">
+            <div class="col-xl-12">
+                <div *ngFor="let item of registeredUsers; let i = index" class="dashboard-box">
+                    <small class="dashboard-status-button float-right" style="z-index: 1;" appHighlight
+                        *ngIf="(!item.Renewstatuskey) && (!(item.statuskey === 'AUDITOR_APPROVED' || item.statuskey === 'AUDITOR_REJECTED' || item.statuskey === 'AUDITOR_PROCESSING' || item.statuskey === 'AUDITOR_REQUEST_TO_RESUBMIT' || item.statuskey === 'AUDITOR_CANCELED'))">In
+                        Progress</small>
+                    <small class="dashboard-status-button float-right" style="z-index: 1;" appHighlight
+                        *ngIf="item.Renewstatuskey && (!(item.Renewstatuskey === 'AUDITOR_RENEWAL_APPROVED' || item.Renewstatuskey === 'AUDITOR_RENEWAL_REJECTED' || item.Renewstatuskey === 'AUDITOR_RENEWAL_PROCESSING' || item.Renewstatuskey === 'AUDITOR_RENEWAL_REQUEST_TO_RESUBMIT'))">In
+                        Progress</small>
+                    <ul class="dashboard-box-list">
+                        <li>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="job-listing">
+                                        <div class="job-listing-details">
+                                            <a href="#">
+                                                <img src="assets/images/icon/secretary.png" alt>
+                                            </a>
+                                            <div class="job-listing-description">
+                                                <h3 class="job-listing-title"
+                                                    *ngIf="(item.statuskey === 'AUDITOR_APPROVED' && item.Renewstatuskey === '') || (item.statuskey === 'AUDITOR_APPROVED' && item.Renewstatuskey === 'AUDITOR_RENEWAL_APPROVED')">
+                                                    <strong>
+                                                        <a [routerLink]="['/dashboard/selectauditorindcard', item.id ]"
+                                                            routerLinkActive="active">
+                                                            {{item.fname}} {{item.lname}}
+                                                        </a>
+                                                    </strong>
+                                                </h3>
+                                                <h3 class="job-listing-title"
+                                                    *ngIf="!((item.statuskey === 'AUDITOR_APPROVED' && item.Renewstatuskey === '') || (item.statuskey === 'AUDITOR_APPROVED' && item.Renewstatuskey === 'AUDITOR_RENEWAL_APPROVED'))">
+                                                    <strong>
+                                                        {{item.fname}} {{item.lname}}
+                                                    </strong>
+                                                </h3>
+                                                <div class="job-listing-footer">
+                                                    <ul>
+                                                        <li *ngIf="item.nic">
+                                                            <small>
+                                                                <i class="icon-material-outline-business"></i>
+                                                                nic: {{item.nic}}
+                                                            </small>
+                                                        </li>
+                                                        <li *ngIf="item.passport">
+                                                            <small>
+                                                                <i class="icon-material-outline-business"></i>
+                                                                passport no: {{item.passport}}
+                                                            </small>
+                                                        </li>
+                                                        <li *ngIf="item.cnum">
+                                                            <small>
+                                                                <i class="icon-material-outline-assignment"></i>
+                                                                certificate no: {{item.cnum}}
+                                                            </small>
+                                                        </li>
+                                                        <li>
+                                                            <small>
+                                                                <i class="icon-material-outline-access-time"></i>
+                                                                created at: {{item.date.date}}
+                                                            </small>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md">
+                                    <div class="float-right"
+                                        *ngIf="(!item.Renewstatuskey) && ((item.statuskey === 'AUDITOR_APPROVED' || item.statuskey === 'AUDITOR_REJECTED' || item.statuskey === 'AUDITOR_PROCESSING' || item.statuskey === 'AUDITOR_REQUEST_TO_RESUBMIT' || item.statuskey === 'AUDITOR_CANCELED'))">
+                                        <button
+                                            (click)="continueRegistration(item.statuskey,item.nic,item.passport,item.id)"
+                                            class="button button-sliding-icon ripple-effect auditor-{{item.statuskey}}">
+                                            <i class="icon-material-outline-arrow-right-alt"></i>
+                                            <strong style="color:white;">{{item.status}}</strong>
+                                        </button>
+                                    </div>
+                                    <div class="float-right"
+                                        *ngIf="item.Renewstatuskey && ((item.Renewstatuskey === 'AUDITOR_RENEWAL_APPROVED' || item.Renewstatuskey === 'AUDITOR_RENEWAL_REJECTED' || item.Renewstatuskey === 'AUDITOR_RENEWAL_PROCESSING' || item.Renewstatuskey === 'AUDITOR_RENEWAL_REQUEST_TO_RESUBMIT'))">
+                                        <button (click)="continueRegistrationRenewal(item.Renewstatuskey,item.token)"
+                                            class="button button-sliding-icon ripple-effect auditor-{{item.Renewstatuskey}}">
+                                            <i class="icon-material-outline-arrow-right-alt"></i>
+                                            <strong style="color:white;">{{item.Renewstatus}}</strong>
+                                        </button>
+                                    </div>
+                                    <div class="float-right" style="margin-right: 10px;"
+                                        *ngIf="phase3 && item.statuskey == 'AUDITOR_APPROVED' && (item.strike_off == '' || item.strike_off == 'AUDITOR_DELISTING_PROCESSING') && (item.Renewstatuskey === 'AUDITOR_RENEWAL_APPROVED' || item.Renewstatuskey === '')">
+                                        <button (click)="auditorStrikeOff(item.id,'MODULE_AUDITOR')"
+                                            style="background-color: #007bff !important;"
+                                            class="button button-sliding-icon ripple-effect auditor-{{item.Renewstatuskey}}">
+                                            <i class="icon-material-outline-arrow-right-alt"></i>
+                                            <strong style="color:white;">Auditor Delisting</strong>
+                                        </button>
+                                    </div>
+                                    <div class="float-right" style="margin-right: 10px;"
+                                        *ngIf="phase3 &&  item.statuskey == 'AUDITOR_APPROVED'  && item.strike_off == 'AUDITOR_DELISTING_PENDING' && (item.Renewstatuskey === 'AUDITOR_RENEWAL_APPROVED' || item.Renewstatuskey === '')">
+                                        <button (click)="auditorStrikeOff(item.id,'MODULE_AUDITOR')"
+                                            style="background-color:#f99800 !important;"
+                                            class="button button-sliding-icon ripple-effect auditor-{{item.Renewstatuskey}}"
+                                            disabled>
+                                            <i class="icon-material-outline-arrow-right-alt"></i>
+                                            <strong style="color:white;">Processing Delisting</strong>
+                                        </button>
+                                    </div>
+                                    <div class="float-right" style="margin-right: 10px;"
+                                        *ngIf="phase3 && item.statuskey == 'AUDITOR_APPROVED' && item.strike_off == 'AUDITOR_DELISTING_RESUBMIT' && (item.Renewstatuskey === 'AUDITOR_RENEWAL_APPROVED' || item.Renewstatuskey === '')">
+                                        <button (click)="auditorStrikeOff(item.id,'MODULE_AUDITOR')"
+                                            style="background-color:#ea1f3d !important;"
+                                            class="button button-sliding-icon ripple-effect auditor-{{item.Renewstatuskey}}">
+                                            <i class="icon-material-outline-arrow-right-alt"></i>
+                                            <strong style="color:white;">Resubmit Delisting</strong>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="row mb-5">
+            <div class="col-xl-12">
+                <div *ngFor="let item of registeredFirms; let i = index" class="dashboard-box">
+                    <small class="dashboard-status-button float-right" style="z-index: 1;" appHighlight
+                        *ngIf="(!item.Renewstatuskey) && (!(item.statuskey === 'AUDITOR_APPROVED' || item.statuskey === 'AUDITOR_REJECTED' || item.statuskey === 'AUDITOR_PROCESSING' || item.statuskey === 'AUDITOR_REQUEST_TO_RESUBMIT' || item.statuskey === 'AUDITOR_CANCELED'))">In
+                        Progress</small>
+                    <small class="dashboard-status-button float-right" style="z-index: 1;" appHighlight
+                        *ngIf="item.Renewstatuskey && (!(item.Renewstatuskey === 'AUDITOR_RENEWAL_APPROVED' || item.Renewstatuskey === 'AUDITOR_RENEWAL_REJECTED' || item.Renewstatuskey === 'AUDITOR_RENEWAL_PROCESSING' || item.Renewstatuskey === 'AUDITOR_RENEWAL_REQUEST_TO_RESUBMIT'))">In
+                        Progress</small>
+                    <ul class="dashboard-box-list">
+                        <li>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="job-listing">
+                                        <div class="job-listing-details">
+                                            <a href="#">
+                                                <img src="assets/images/icon/secretaryfirm.png" alt>
+                                            </a>
+                                            <div class="job-listing-description">
+                                                <h3 class="job-listing-title"
+                                                    *ngIf="(item.statuskey === 'AUDITOR_APPROVED' && item.Renewstatuskey === '') || (item.statuskey === 'AUDITOR_APPROVED' && item.Renewstatuskey === 'AUDITOR_RENEWAL_APPROVED')">
+                                                    <strong>
+                                                        <a [routerLink]="['/dashboard/selectauditorfirmcard', item.id ]"
+                                                            routerLinkActive="active">
+                                                            {{item.name}}
+                                                        </a>
+                                                    </strong>
+                                                </h3>
+                                                <h3 class="job-listing-title"
+                                                    *ngIf="!((item.statuskey === 'AUDITOR_APPROVED' && item.Renewstatuskey === '') || (item.statuskey === 'AUDITOR_APPROVED' && item.Renewstatuskey === 'AUDITOR_RENEWAL_APPROVED'))">
+                                                    <strong>
+                                                        {{item.name}}
+                                                    </strong>
+                                                </h3>
+                                                <div class="job-listing-footer">
+                                                    <ul>
+                                                        <li *ngIf="item.cnum">
+                                                            <small>
+                                                                <i class="icon-material-outline-assignment"></i>
+                                                                certificate no: {{item.cnum}}
+                                                            </small>
+                                                        </li>
+                                                        <li>
+                                                            <small>
+                                                                <i class="icon-material-outline-access-time"></i>
+                                                                created at: {{item.date.date}}
+                                                            </small>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md">
+                                    <div class="float-right"
+                                        *ngIf="(!item.Renewstatuskey) && ((item.statuskey === 'AUDITOR_APPROVED' || item.statuskey === 'AUDITOR_REJECTED' || item.statuskey === 'AUDITOR_PROCESSING' || item.statuskey === 'AUDITOR_REQUEST_TO_RESUBMIT' || item.statuskey === 'AUDITOR_CANCELED'))">
+                                        <button (click)="continueRegistrationFirm(item.statuskey,item.id)"
+                                            class="button button-sliding-icon ripple-effect auditor-{{item.statuskey}}">
+                                            <i class="icon-material-outline-arrow-right-alt"></i>
+                                            <strong style="color:white;">{{item.status}}</strong>
+                                        </button>
+                                    </div>
+                                    <div class="float-right"
+                                        *ngIf="item.Renewstatuskey && ((item.Renewstatuskey === 'AUDITOR_RENEWAL_APPROVED' || item.Renewstatuskey === 'AUDITOR_RENEWAL_REJECTED' || item.Renewstatuskey === 'AUDITOR_RENEWAL_PROCESSING' || item.Renewstatuskey === 'AUDITOR_RENEWAL_REQUEST_TO_RESUBMIT'))">
+                                        <button
+                                            (click)="continueRegistrationRenewalFirm(item.Renewstatuskey,item.token)"
+                                            class="button button-sliding-icon ripple-effect auditor-{{item.Renewstatuskey}}">
+                                            <i class="icon-material-outline-arrow-right-alt"></i>
+                                            <strong style="color:white;">{{item.Renewstatus}}</strong>
+                                        </button>
+                                    </div>
+                                    <div class="float-right" style="margin-right: 10px;"
+                                        *ngIf="phase3 &&  item.statuskey == 'AUDITOR_APPROVED' && (item.strike_off == '' || item.strike_off == 'AUDITOR_DELISTING_PROCESSING') && (item.Renewstatuskey === 'AUDITOR_RENEWAL_APPROVED' || item.Renewstatuskey === '')">
+                                        <button (click)="auditorStrikeOff(item.id,'MODULE_AUDITOR_FIRM')"
+                                            style="background-color: #007bff !important;"
+                                            class="button button-sliding-icon ripple-effect auditor-{{item.Renewstatuskey}}">
+                                            <i class="icon-material-outline-arrow-right-alt"></i>
+                                            <strong style="color:white;">Auditor Delisting</strong>
+                                        </button>
+                                    </div>
+                                    <div class="float-right" style="margin-right: 10px;"
+                                        *ngIf="phase3 &&  item.statuskey == 'AUDITOR_APPROVED'  && item.strike_off == 'AUDITOR_DELISTING_PENDING' && (item.Renewstatuskey === 'AUDITOR_RENEWAL_APPROVED' || item.Renewstatuskey === '')">
+                                        <button (click)="auditorStrikeOff(item.id,'MODULE_AUDITOR_FIRM')"
+                                            style="background-color:#f99800 !important;"
+                                            class="button button-sliding-icon ripple-effect auditor-{{item.Renewstatuskey}}"
+                                            disabled>
+                                            <i class="icon-material-outline-arrow-right-alt"></i>
+                                            <strong style="color:white;">Processing Delisting</strong>
+                                        </button>
+                                    </div>
+                                    <div class="float-right" style="margin-right: 10px;"
+                                        *ngIf="phase3 && item.statuskey == 'AUDITOR_APPROVED' && item.strike_off == 'AUDITOR_DELISTING_RESUBMIT' && (item.Renewstatuskey === 'AUDITOR_RENEWAL_APPROVED' || item.Renewstatuskey === '')">
+                                        <button (click)="auditorStrikeOff(item.id,'MODULE_AUDITOR_FIRM')"
+                                            style="background-color:#ea1f3d !important;"
+                                            class="button button-sliding-icon ripple-effect auditor-{{item.Renewstatuskey}}">
+                                            <i class="icon-material-outline-arrow-right-alt"></i>
+                                            <strong style="color:white;">Resubmit Delisting</strong>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Confirm country modal for auditor individual-->
+<div mdbModal #basicModal="mdbModal" id="sec-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close pull-right close-modal-item" aria-label="Close"
+                    (click)="basicModal.hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">Country of
+                    Origin
+                    <br />
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="auditor-type-tab-wrapper">
+                    <div (click)="sriLankan()" class="tab local-tab active">Sri Lankan</div>
+                    <div (click)="nonSriLankan()" class="tab local-tab">Non Sri Lankan</div>
+                </div>
+                <div id="div1">
+                    <div class="form-group col-md-6 nic-field-wrapper">
+                        <label class="col-form-label col-form-label-sm">NIC No
+                            <span class="req">*</span>
+                        </label>
+                        <input (input)="nicValidate(nic)" pattern="[0-9]{9}[x|X|v|V]|[0-9]{12}" maxlength="12"
+                            name="nic" [(ngModel)]="nic" class="form-control form-control-sm modal-input-director-nic"
+                            placeholder="NIC">
+                        <span class="req-message">Valid NIC required</span>
+                        <button [disabled]="!enableNic" (click)="isAuditorRegSL(nic)"
+                            class="btn btn-success nic-continue-button">continue</button>
+                    </div>
+                </div>
+                <div id="div2">
+                    <br>
+                    <hr>
+                    <h3 align="center">Only Sri Lankan is permitted to be an Auditor</h3>
+                    <!-- <div class="form-group col-md-6 nic-field-wrapper">
+            <label class="col-form-label col-form-label-sm">Passport No
+              <span class="req">*</span>
+            </label>
+            <input maxlength="15" name="passport" [(ngModel)]="passport" class="form-control form-control-sm modal-input-director-nic"
+              placeholder="Passport No">
+            <span class="req-message">Valid Passport No required</span>
+            <button (click)="isAuditorRegNonSL(passport)" class="btn btn-success nic-continue-button">continue</button>
+          </div> -->
+                </div>
+            </div>
+            <div class="modal-footer" style="justify-content: flex-end">
+            </div>
+        </div>
+    </div>
+</div>

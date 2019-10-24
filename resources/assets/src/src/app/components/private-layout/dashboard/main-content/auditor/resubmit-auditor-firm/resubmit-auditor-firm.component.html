@@ -1,0 +1,636 @@
+<div class="clearfix top-margin">
+</div>
+<section>
+  <div class="container" style="padding-bottom: 50px;">
+    <div class="row">
+      <div class="col-md-11 nopadding">
+        <form role="form" method="post" class="f1">
+          <h3 style="text-align: center">auditor registration form (firm resubmit)</h3>
+          <p style="text-align: center">Fill in all steps for completing resubmit process.</p>
+          <div class="f1-steps">
+            <div class="f1-progress">
+              <div class="f1-progress-line" data-now-value="12.5" data-number-of-steps="4" [ngStyle]="{'width': progress.progressPercentage}"></div>
+            </div>
+            <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}}">
+              <div class="f1-step-icon">
+                <i class="{{item.icon}}"></i>
+              </div>
+              <p>{{item.label}}</p>
+            </div>
+          </div>
+          <fieldset [hidden]="stepOn != 0">
+            <div class="auditor personal details section">
+              <br>
+              <div class="form-group row">
+                <label f class="col-sm-5 col-form-label col-form-label-sm">Select your qualification type
+                  <span class="req">*</span>
+                </label>
+                <label class="col-sm-1 col-form-label col-form-label-sm">
+                  <input disabled type="radio" name="isqualification" value="CM" [(ngModel)]="qualification" />
+                  <span> CM</span>
+                </label>
+                <label class="col-sm-1 col-form-label col-form-label-sm">
+                  <input disabled type="radio" name="isqualification" value="RM" [(ngModel)]="qualification" />
+                  <span> RA</span>
+                </label>
+              </div>
+              <div class="form-group row">
+                <label f class="col-sm-9 col-form-label col-form-label-sm">Firm Partners
+                  <span class="req">*</span>
+                </label>
+                <div class="col-sm-12">
+                  <div class="director-secton stakeholder-section">
+                    <div class="add-new-wrapper director-add-new-wrapper">
+                      <h2>
+                        <span class="add-new-wrapper-label">Firm Partners</span>
+                        <div class="line"></div>
+                        <!-- <button type="button" mdbBtn class="relative waves-light add-new-stakholder" (click)="basicModal.show()"
+                          mdbWavesEffect>
+                          <i class="fa fa-plus"></i> Add New</button> -->
+                      </h2>
+                      <div class="director-list stakeholder-list-wrapper">
+                        <div *ngFor="let item of auditorFirmPartnerDetails; let i = index" class="director-record stakeholder-record"
+                          style=" margin: 30px 0;border-radius: 20px;background: #fff;border: 1px solid rgb(243, 91, 63);">
+                          <div class="stakeholder-record-summeru" style="background-color: #f35b3f;
+                              color: #fff;
+                              padding: 5px 10px;
+                              font-weight: lighter;
+                              font-size: 14px;
+                              border-top-left-radius: 18px;
+                              box-shadow: 1px 1px 2px #b3aea9;
+                              border-top-right-radius: 18px;
+                              cursor: pointer;
+                              width: 100%;
+                              border-radius: 20px;">
+                            {{item.fname}} {{item.lname}}
+                            <!-- <span (click)="removeFirmPartnerDetailsFromArray(i); auditorValidationStep1();" title="remove record"
+                              style="float:right;" class="record-handler record-handler-remove">
+                              <i class="fa fa-trash"></i>
+                            </span> -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="form-group row">
+                <label f class="col-sm-12 col-form-label col-form-label-sm">Business Name of Firm of which Applicants
+                  are
+                  Partners
+                  <span class="req">*</span></label>
+                <div class="col-sm-12">
+                  <input (input)="auditorValidationStep1()" class="form-control form-control-sm" name="firm_name"
+                    maxlength="100" [(ngModel)]="auditorFirmDetails.firmName" placeholder="Business Name">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="form-group col-md-6"><label class="col-form-label col-form-label-sm">Firm Name in Sinhala
+                  </label>
+                  <input class="form-control form-control-sm sinhalaname" id="sinhalaname" maxlength="190"
+                    [(ngModel)]="sinFirmName" [ngModelOptions]="{standalone: true}" (keyup)='this.loadsinhala()'>
+                  <small class="text text-danger float-right">Press the space bar after each word</small>
+                </div>
+                <div class="form-group col-md-6"><label class="col-form-label col-form-label-sm">Firm Name in Tamil
+                  </label>
+                  <input class="form-control form-control-sm tamilname" id="tamilname" maxlength="190"
+                    [(ngModel)]="tamFirmName" [ngModelOptions]="{standalone: true}" (keyup)='this.loadTamil()'>
+                  <small class="text text-danger float-right">Press the space bar after each word</small>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="form-group col-md-6"><label class="col-form-label col-form-label-sm">Email Address
+                    <span class="req">*</span>
+                  </label>
+                  <input (input)="auditorValidationStep1()" class="form-control form-control-sm email" id="email" type="email" maxlength="90"
+                    [(ngModel)]="email" [ngModelOptions]="{standalone: true}" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}">
+                    <span class="req-message">Valid email requried</span>
+                </div>
+                <div class="form-group col-md-6"><label class="col-form-label col-form-label-sm">Mobile No
+                    <span class="req">*</span>
+                  </label>
+                  <input (input)="auditorValidationStep1()" class="form-control form-control-sm mobile" id="mobile" maxlength="10"
+                    [(ngModel)]="mobile" pattern="\d{10}" type="tel" [ngModelOptions]="{standalone: true}">
+                  <span class="req-message">10 Digits mobile number requried</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="form-group col-md-6"><label class="col-form-label col-form-label-sm">Resident Telephone No
+                  </label>
+                  <input (input)="auditorValidationStep1()" class="form-control form-control-sm tel" id="tel" maxlength="10"
+                    [(ngModel)]="tel" pattern="\d{10}" type="tel" [ngModelOptions]="{standalone: true}">
+                  <span class="req-message">10 Digits telephone number requried</span>
+                </div>
+              </div>
+              <br>
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label col-form-label-sm">Business Address
+                  <span class="req">*</span></label>
+                <div class="col-sm-4">
+                  <input (input)="auditorValidationStep1()" class="form-control form-control-sm" name="business_address1"
+                    maxlength="100" [(ngModel)]="auditorFirmDetails.businessLocalAddress1" placeholder="Address1">
+                </div>
+                <div class="col-sm-4">
+                  <input (input)="auditorValidationStep1()" class="form-control form-control-sm" name="business_address2"
+                    maxlength="100" [(ngModel)]="auditorFirmDetails.businessLocalAddress2" placeholder="Address2">
+                </div>
+                <div class="col-sm-4">
+                  <input (input)="auditorValidationStep1()" class="form-control form-control-sm" name="postcode"
+                    maxlength="100" [(ngModel)]="auditorFirmDetails.businessPostCode" placeholder="Post Code">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm"> Province
+                </label>
+                <div class="col-sm-9">
+                  <ng-select (change)="auditorValidationStep1()" (ngModelChange)="this.auditorFirmDetails.businessDistrict = undefined;this.auditorFirmDetails.businessCity = undefined;this.auditorFirmDetails.gnDivision = undefined;"
+                    class="custom" placeholder="Province" [searchable]="true" [(ngModel)]="auditorFirmDetails.businessProvince"
+                    [ngModelOptions]="{standalone: true}">
+                    <ng-option *ngFor="let province of data.provinces" [value]="province">{{
+                      province.description_en }}</ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm"> District
+                </label>
+                <div class="col-sm-9">
+                  <ng-select (change)="auditorValidationStep1()" (ngModelChange)="this.auditorFirmDetails.businessCity = undefined;this.auditorFirmDetails.gnDivision = undefined;"
+                    class="custom" placeholder="District" [searchable]="true" [(ngModel)]="auditorFirmDetails.businessDistrict"
+                    [ngModelOptions]="{standalone: true}">
+                    <ng-option *ngFor="let district of this.data.districts | district:auditorFirmDetails.businessProvince"
+                      [value]="district">{{
+                      district.description_en }}</ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm"> City
+                </label>
+                <div class="col-sm-9">
+                  <ng-select (change)="auditorValidationStep1()" (ngModelChange)="this.auditorFirmDetails.gnDivision = undefined;"
+                    class="custom" placeholder="City" [searchable]="true" [(ngModel)]="auditorFirmDetails.businessCity"
+                    [ngModelOptions]="{standalone: true}">
+                    <ng-option *ngFor="let city of data.citys | city:auditorFirmDetails.businessDistrict" [value]="city">{{city.description_en}}</ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm"> GN Division
+                </label>
+                <div class="col-sm-9">
+                  <ng-select (change)="auditorValidationStep1()" class="custom" placeholder="GN Division" [searchable]="true"
+                    [(ngModel)]="auditorFirmDetails.gnDivision" [ngModelOptions]="{standalone: true}">
+                    <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:auditorFirmDetails.businessCity"
+                      [value]="gndivision">{{gndivision.description_en}}</ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="form-group col-md-6"><label class="col-form-label col-form-label-sm">Full Address in Sinhala
+                  </label>
+                  <input class="form-control form-control-sm adsinhalaname" id="adsinhalaname" maxlength="190"
+                    [(ngModel)]="sinFirmAd" [ngModelOptions]="{standalone: true}" (keyup)='this.adloadsinhala()'>
+                  <small class="text text-danger float-right">Press the space bar after each word</small>
+                </div>
+                <div class="form-group col-md-6"><label class="col-form-label col-form-label-sm">Full Address in Tamil
+                  </label>
+                  <input class="form-control form-control-sm adtamilname" id="adtamilname" maxlength="190"
+                    [(ngModel)]="tamFirmAd" [ngModelOptions]="{standalone: true}" (keyup)='this.adloadTamil()'>
+                  <small class="text text-danger float-right">Press the space bar after each word</small>
+                </div>
+              </div>
+              <hr style="border: 1px solid #f35b3f;">
+              <div class="form-group row">
+                <label f class="col-sm-5 col-form-label col-form-label-sm">Is this a existing registered auditor firm in
+                  ROC
+                  <span class="req">*</span>
+                </label>
+                <label class="col-sm-1 col-form-label col-form-label-sm">
+                  <input disabled (change)="auditorValidationStep1()" type="radio" name="isexisting"
+                    [(ngModel)]="auditorFirmDetails.isExistAud" value="0" (click)="show5()" />
+                  <span> No</span>
+                </label>
+                <label class="col-sm-1 col-form-label col-form-label-sm">
+                  <input disabled (change)="auditorValidationStep1()" type="radio" name="isexisting"
+                    [(ngModel)]="auditorFirmDetails.isExistAud" value="1" (click)="show6()" />
+                  <span> Yes</span>
+                </label>
+              </div>
+              <div id="div3" class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm">Certificate Number
+                  <span class="req">*</span>
+                </label>
+                <div class="col-sm-12">
+                  <input (input)="auditorValidationStep1()" class="form-control form-control-sm" name="certificatenum"
+                  minlength="3" maxlength="90" [(ngModel)]="auditorFirmDetails.certificateNo">
+                  <span class="req-message">Minimum length 3</span>
+                </div>
+              </div>
+            </div>
+            <div class="f1-buttons">
+              <button [disabled]="!enableStep1Submission" type="button" class="btn btn-next" id="btn1-next" (click)="areYouSureYes()">Next
+                <i class="fas fa-forward"></i></button>
+            </div>
+          </fieldset>
+          <fieldset [hidden]="stepOn != 1">
+            <div class="container download-container">
+              <h3>Document List</h3>
+              <div class="doc-block-wrapper">
+                <div class="doc-block">
+                  <h4>Partner's Application Forms Download </h4>
+                  <div class="download-application-row" *ngFor="let item of auditorIDs; let i = index">
+                    <div class="download-application-block">Application{{i+1}}</div>
+                    <div class="doc-download">
+                      <button (click)="clickDownload(item.id)" type="button" class="btn btn-next">Download
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+            </div>
+          </fieldset>
+          <fieldset [hidden]="stepOn != 2">
+            <div class="alert alert-warning" role="alert">
+              <p>
+                <small>Please upload all files in pdf format,upload only A4 Size, portrait orientation and file size
+                  should be less
+                  than 4 MB.</small>
+              </p>
+              <!-- <p>
+                <small>Please remove cover page of 'ARTICLES OF THE ASSOCIATION' Document</small>.</p> -->
+            </div>
+            <hr>
+            <div class="container uploaded-container">
+              <div class="row upload-row">
+                <div class="col-9 doc">
+                  Application Forms <span class="req">*</span>
+                </div>
+                <!-- <div class="col-12">
+                  <div class="float-right">
+                    <label for="af" class="upload-wrapper btn btn-primary btn-sm download">
+                      <i class="fas fa-cloud-upload-alt"></i> Upload
+                    </label>
+                    <input style="display:block;position: fixed;top:-100000px" id="af" type="file" (change)="fileUpload($event,'application','applicationUpload'); gotoSubmit();"
+                      placeholder="Upload file" accept=".pdf">
+                  </div>
+                </div> -->
+                <div class="col-12" *ngFor="let item of application; let i = index">
+                  <div class="col-12" *ngIf="item.setkey == 'DOCUMENT_REQUEST_TO_RESUBMIT'">
+                    <div class="col-3 float-right" style="margin-top: -10px">
+                      <label style="height: 37px; float:right;" for="app{{item.id}}" class="upload-wrapper btn btn-primary btn-sm download">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                      </label>
+                      <input style="display:block;position: fixed;top:-100000px" id="app{{item.id}}" type="file"
+                        (change)="updateFileUploaded($event,item.id,'application','applicationUpload');" placeholder="Upload file"
+                        accept=".pdf">
+                    </div>
+                    <div>
+                      <span style="color: red"><i class="fa fa-exclamation-triangle"></i>{{item.value}} {{' :-
+                        '}}{{item.comment}}</span>
+                    </div>
+                  </div>
+                  <div class="col-12 uploaded-doc" *ngIf="item.pdfname">
+                    <span><i class="fas fa-file-pdf"></i></span>{{item.pdfname}}
+                    <button class="button red button-sm" [disabled]="item.setkey == 'DOCUMENT_APPROVED'" (click)="fileDeleteResubmited(item.id,'applicationUpload',i)">
+                      <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                    <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                      <i class="far fa-file-pdf"></i> View
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <hr *ngIf="regCertificateUploadList.length">
+              <div class="row upload-row" *ngIf="regCertificateUploadList.length">
+                <div class="col-9 doc">
+                  Certificate <span class="req">*</span>
+                </div>
+                <div class="col-12" *ngFor="let item of regCertificateUploadList; let i = index">
+                  <div class="col-12" *ngIf="item.setkey == 'DOCUMENT_REQUEST_TO_RESUBMIT'">
+                    <div class="col-3 float-right" style="margin-top: -10px">
+                      <label style="height: 37px; float:right;" for="cer{{item.id}}"
+                        class="upload-wrapper btn btn-primary btn-sm download">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                      </label>
+                      <input style="display:block;position: fixed;top:-100000px" id="cer{{item.id}}" type="file"
+                      (change)="updateFileUploaded($event,item.id,'regCertificateUpload','regCertificateUpload');"
+                        placeholder="Upload file" accept=".pdf">
+                    </div>
+                    <div>
+                      <span style="color: red"><i class="fa fa-exclamation-triangle"></i>{{item.value}} {{' :-
+                        '}}{{item.comment}}</span>
+                    </div>
+                  </div>
+                  <div class="col-12 uploaded-doc" *ngIf="item.pdfname">
+                    <span><i class="fas fa-file-pdf"></i></span>{{item.pdfname}}
+                    <button class="button red button-sm" [disabled]="item.setkey == 'DOCUMENT_APPROVED'"
+                      (click)="fileDeleteResubmited(item.id,'regCertificateUpload',i)">
+                      <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                    <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                      <i class="far fa-file-pdf"></i> View
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <hr *ngIf="additional.length">
+              <div class="row upload-row" style="padding: 10px" *ngIf="additional.length">
+                <div class="col-9 doc">
+                  Additional Documents
+                </div>
+                <div class="col-12" *ngFor="let item of additional; let i = index">
+                  <div class="col-3 float-right" style="margin-top: -10px" *ngIf="!item?.pdfname">
+                    <label for="ad{{item.id}}" style="height: 37px;"
+                      class="upload-wrapper btn btn-primary btn-sm download">
+                      <i class="fas fa-cloud-upload-alt"></i> Upload
+                    </label>
+                    <input style="display:block;position: fixed;top:-100000px" id="ad{{item.id}}" type="file"
+                      (change)="updateFileUploaded($event,item.id,'none','additionalUpload')" placeholder="Upload file"
+                      accept=".pdf">
+                  </div>
+                  <div class="col-6"
+                    *ngIf="item?.setkey == 'DOCUMENT_REQUESTED' || item?.setkey == 'DOCUMENT_REQUEST_TO_RESUBMIT'">
+                    <span style="color: red"><i class="fa fa-exclamation-triangle"></i>{{item.value}} {{' :-
+                          '}}{{item.comment}}</span>
+                  </div>
+                  <div class="col-12 uploaded-doc" *ngIf="item?.pdfname">
+                    <span style="margin-right: 10px"><i class="fas fa-file-pdf"></i></span>{{item.pdfname}}
+                    <button class="button red button-sm" [disabled]="item.setkey == 'DOCUMENT_APPROVED'"
+                      (click)="fileDeleteResubmited(item.id,'additionalUpload',i)">
+                      <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                    <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                      <i class="far fa-file-pdf"></i> View
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button [disabled]="!enableGoToPay" (click)="areYouSureSubmitYes()" type="button" class="btn btn-next">Submit
+                <i class="fas fa-forward"></i></button>
+            </div>
+          </fieldset>
+          <fieldset class="{{stepOn}}" [hidden]="stepOn != 3">
+            <div class="alert alert-warning" role="alert">
+              <p>
+                <small>For registration of individuals as Auditors : Rs 6,000.00</small>
+              </p>
+              <p>
+                <small>Follow the guidelines to payment process</small>.</p>
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button type="button" class="btn btn-submit">PAY</button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div style="clear:both"></div>
+      <br />
+      <br />
+    </div>
+  </div>
+</section>
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockBackToForm">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Are you sure want to proceed further?</h2>
+    </div>
+    <div class="body">
+      <p></p>
+    </div>
+    <div class="footer">
+      <button class="btn btn-success" (click)="auditorFirmDataUpdate()">Yes</button>
+      <button class="btn btn-danger" (click)="areYouSureNo()">No</button>
+    </div>
+  </div>
+</div>
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockPayment">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Are you sure want to proceed further?</h2>
+    </div>
+    <div class="body">
+      <p>If yes, you will not be able to revert back.</p>
+    </div>
+    <div class="footer">
+      <button type="submit" class="btn btn-success" (click)="submit()">Yes</button>
+      <button class="btn btn-danger" (click)="areYouSureSubmitNo()">No</button>
+    </div>
+  </div>
+</div>
+<!--Confirm country modal for auditor firm-->
+<div mdbModal #basicModal="mdbModal" id="sec-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right close-modal-item" aria-label="Close" (click)="basicModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">Country of Origin
+          <br />
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="auditor-type-tab-wrapper">
+          <div (click)="sriLankan()" class="tab local-tab active">Sri Lankan ? </div>
+          <div (click)="nonSriLankan()" class="tab local-tab">Non Sri Lankan</div>
+        </div>
+        <div id="div1">
+          <div class="form-group col-md-6 nic-field-wrapper">
+            <label class="col-form-label col-form-label-sm">NIC No
+              <span class="req">*</span>
+            </label>
+            <input (input)="nicValidate()" pattern="[0-9]{9}[x|X|v|V]" maxlength="10" name="nic" [(ngModel)]="nic"
+              class="form-control form-control-sm modal-input-director-nic" placeholder="NIC">
+            <span class="req-message">Valid NIC required</span>
+            <button (click)="isAuditorRegSL(nic); basicModal.hide();" class="btn btn-success nic-continue-button">continue</button>
+          </div>
+        </div>
+        <div id="div2">
+          <div class="form-group col-md-6 nic-field-wrapper">
+            <label class="col-form-label col-form-label-sm">Passport No
+              <span class="req">*</span>
+            </label>
+            <input maxlength="15" name="passport" [(ngModel)]="passport" class="form-control form-control-sm modal-input-director-nic"
+              placeholder="Passport No">
+            <span class="req-message">Valid Passport No required</span>
+            <button (click)="isAuditorRegNonSL(passport); basicModal.hide();" class="btn btn-success nic-continue-button">continue</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: flex-end">
+      </div>
+    </div>
+  </div>
+</div>
+<!--Add partner details sl modal for auditor firm-->
+<div mdbModal #slModal="mdbModal" id="sec-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right close-modal-item" aria-label="Close" (click)="slModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">Add Partner Details
+          <br />
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="auditor personal details section">
+          <div class="form-group row">
+            <div class="form-group col-md-2"><label class="col-form-label col-form-label-sm">Title
+                <span class="req">*</span></label>
+              <select class="form-control form-control-sm modal-input-director-title ng-pristine ng-valid ng-touched"
+                name="title" [(ngModel)]="auditorDetails.title">
+                <option *ngFor="let ititle of data.ititles" value="{{ ititle.id }}" id="{{ ititle.id }}" disabled>{{
+                  ititle.value }}</option>
+              </select>
+            </div>
+            <div class="form-group col-md-5"><label class="col-form-label col-form-label-sm">First Name(s)
+                <span class="req">*</span></label>
+              <input pattern="[a-zA-Z ]*" class="form-control form-control-sm" name="first_name" maxlength="100"
+                [(ngModel)]="auditorDetails.firstname" placeholder="First Name" readonly>
+              <span class="req-message">Valid name required</span>
+            </div>
+            <div class="form-group col-md-5"><label class="col-form-label col-form-label-sm">Surname
+                <span class="req">*</span></label>
+              <input pattern="[a-zA-Z ]*" class="form-control form-control-sm" name="last_name" maxlength="100"
+                [(ngModel)]="auditorDetails.lastname" placeholder="Surname" readonly>
+              <span class="req-message">Valid name required</span>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="form-group col-md-4"><label class="col-form-label col-form-label-sm">Nationality
+                <span class="req">*</span></label>
+              <input pattern="[a-zA-Z ]*" class="form-control form-control-sm" name="nationality" maxlength="100"
+                [(ngModel)]="auditorDetails.nationality" placeholder="Nationality" readonly>
+              <span class="req-message">Valid name required</span>
+            </div>
+            <div class="form-group col-md-4"><label class="col-form-label col-form-label-sm">Race
+                <span class="req">*</span></label>
+              <input pattern="[a-zA-Z ]*" class="form-control form-control-sm" name="race" maxlength="100" [(ngModel)]="auditorDetails.race"
+                placeholder="Race" readonly>
+              <span class="req-message">Valid name required</span>
+            </div>
+            <div class="form-group col-md-4"><label class="col-form-label col-form-label-sm">Date of Birth
+                <span class="req">*</span></label>
+              <input type="date" class="form-control form-control-sm" name="dob" [(ngModel)]="auditorDetails.birthDay"
+                placeholder="" readonly>
+              <span class="req-message">Valid name required</span>
+            </div>
+          </div>
+          <hr>
+          <br>
+          <div class="form-group row">
+            <label f class="col-sm-12 col-form-label col-form-label-sm">Any other particulars the partner desires to
+              state
+            </label>
+            <div class="col-sm-12">
+              <input class="form-control form-control-sm" name="other_state" maxlength="100" [(ngModel)]="otherState"
+                placeholder="">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: flex-end">
+        <button (click)="resetFirmPartnerDetails()" style="background-color: #bbb!important;" type="button" mdbBtn
+          color="secondary" class="btn btn-previous" mdbWavesEffect>RESET</button>&nbsp;
+        <button (click)="addAuditorFirmPartnerDetailsToArray(); auditorValidationStep1();" type="button" mdbBtn color="secondary"
+          class="btn btn-sm relative waves-light add-new-stakeholder add-director" mdbWavesEffect>ADD</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Add partner details non sl modal for auditor firm-->
+<div mdbModal #nonslModal="mdbModal" id="sec-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right close-modal-item" aria-label="Close" (click)="nonslModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">Add Partner Details
+          <br />
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="auditor personal details section">
+          <div class="form-group row">
+            <div class="form-group col-md-2"><label class="col-form-label col-form-label-sm">Title
+                <span class="req">*</span></label>
+              <select class="form-control form-control-sm modal-input-director-title ng-pristine ng-valid ng-touched"
+                name="title" [(ngModel)]="auditorDetails.title">
+                <option *ngFor="let ititle of data.ititles" value="{{ ititle.id }}" id="{{ ititle.id }}" disabled>{{
+                  ititle.value }}</option>
+              </select>
+            </div>
+            <div class="form-group col-md-5"><label class="col-form-label col-form-label-sm">First Name(s)
+                <span class="req">*</span></label>
+              <input pattern="[a-zA-Z ]*" class="form-control form-control-sm" name="first_name" maxlength="100"
+                [(ngModel)]="auditorDetails.firstname" placeholder="First Name" readonly>
+              <span class="req-message">Valid name required</span>
+            </div>
+            <div class="form-group col-md-5"><label class="col-form-label col-form-label-sm">Surname
+                <span class="req">*</span></label>
+              <input pattern="[a-zA-Z ]*" class="form-control form-control-sm" name="last_name" maxlength="100"
+                [(ngModel)]="auditorDetails.lastname" placeholder="Surname" readonly>
+              <span class="req-message">Valid name required</span>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="form-group col-md-4"><label class="col-form-label col-form-label-sm">Nationality
+                <span class="req">*</span></label>
+              <input pattern="[a-zA-Z ]*" class="form-control form-control-sm" name="nationality" maxlength="100"
+                [(ngModel)]="auditorDetails.nationality" placeholder="Nationality" readonly>
+              <span class="req-message">Valid name required</span>
+            </div>
+            <div class="form-group col-md-4"><label class="col-form-label col-form-label-sm">Race
+                <span class="req">*</span></label>
+              <input pattern="[a-zA-Z ]*" class="form-control form-control-sm" name="race" maxlength="100" [(ngModel)]="auditorDetails.race"
+                placeholder="Race" readonly>
+              <span class="req-message">Valid name required</span>
+            </div>
+            <div class="form-group col-md-4"><label class="col-form-label col-form-label-sm">Date of Birth
+                <span class="req">*</span></label>
+              <input type="date" class="form-control form-control-sm" name="dob" [(ngModel)]="auditorDetails.birthDay"
+                placeholder="" readonly>
+              <span class="req-message">Valid name required</span>
+            </div>
+          </div>
+          <hr>
+          <br>
+          <div class="form-group row">
+            <label f class="col-sm-12 col-form-label col-form-label-sm">Any other particulars the partner desires to
+              state
+            </label>
+            <div class="col-sm-12">
+              <input class="form-control form-control-sm" name="other_state" maxlength="100" [(ngModel)]="otherState"
+                placeholder="">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: flex-end">
+        <button (click)="resetFirmPartnerDetails()" style="background-color: #bbb!important;" type="button" mdbBtn
+          color="secondary" class="btn btn-previous" mdbWavesEffect>RESET</button>&nbsp;
+        <button (click)="addAuditorFirmPartnerDetailsToArray(); auditorValidationStep1();" type="button" mdbBtn color="secondary"
+          class="btn btn-sm relative waves-light add-new-stakeholder add-director" mdbWavesEffect>ADD</button>
+      </div>
+    </div>
+  </div>
+</div>

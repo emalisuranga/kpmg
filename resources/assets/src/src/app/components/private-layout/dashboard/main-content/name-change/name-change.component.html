@@ -1,0 +1,26 @@
+<div class="mb-5 top-margin ">
+  <div class="container mt-5">
+    <div class="col-md-12 ">
+      <div class="card">
+        <form>
+          <div class="card-header">
+            <h3><i class="icon-material-outline-business"></i> Name Change</h3>
+          </div>
+          <div class="card-body mx-3 mb-5">
+            <div class="row">
+              <div class="col-md-4">New Company Name</div>
+              <div class="col-md-1">:</div>
+              <div class="col-md-7">{{ newName }}</div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">Existing Company Name</div>
+              <div class="col-md-1">:</div>
+              <div class="col-md-7">{{ oldName | uppercase }}</div>
+            </div>
+            <router-outlet></router-outlet>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

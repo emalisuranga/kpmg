@@ -1,0 +1,96 @@
+<div class="content">
+  <div class="container top-margin">
+    <div class="row">
+      <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
+        <div class="box">
+          <h3 class="box-title">User payment agreement</h3>
+          <div class="plan-selection">
+            <div class="plan-data">
+              <small class="plan-text">Are you having any problems please email eroc@info.com or contact on
+                011-2123456.</small><br>
+              <small class="plan-text">User payment agreement</small><br>
+            </div>
+          </div>
+          <div class="plan-selection">
+            <div class="row justify-content-md-center mt-3">
+              <label for="card" class="method">
+                <div class="card-logos">
+                  <img src="assets/images/header/visa_logo.png" />
+                  <img src="assets/images/header/mastercard_logo.png" />
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+
+        <div class="widget">
+          <h4 class="widget-title">Order Summary</h4>
+          <div class="summary-block">
+            <div class="summary-content">
+              <div *ngFor="let it of this.iBy.getItem">
+                <div class="summary-head">
+                  <h5 class="summary-title">{{ it.description }}</h5>
+                </div>
+                <div class="summary-price">
+                  <p class="summary-text">{{ calculation.getValue(it.fee_type, it.quantity,false,'',false) | currency:'Rs.' }}</p>
+                </div>
+              </div>
+
+              <div class="summary-head" *ngIf="penalty">
+                <h5 class="summary-title">Compounding charges for not filling form 8 within 10 days from the resolution date</h5>
+              </div>
+              <div class="summary-price" *ngIf="penalty">
+                <p class="summary-text">{{ penalty | currency:'Rs.' }}</p>
+              </div>
+
+              <div class="summary-head" *ngIf="pub_penalty">
+                <h5 class="summary-title">Compounding charges for publishing public notice within 60 days </h5>
+              </div>
+              <div class="summary-price" *ngIf="pub_penalty">
+                <p class="summary-text">{{ pub_penalty | currency:'Rs.' }}</p>
+              </div>
+
+              <div class="summary-head" *ngIf="not_pub_penalty">
+                  <h5 class="summary-title">Compounding charges for not publishing public notice</h5>
+                </div>
+                <div class="summary-price" *ngIf="not_pub_penalty">
+                  <p class="summary-text">{{ not_pub_penalty | currency:'Rs.' }}</p>
+                </div>
+
+
+              <div class="summary-head">
+                <h5 class="summary-title">Tax ({{ calculation.getTaxPer }}%)</h5>
+              </div>
+              <div class="summary-price">
+                <p class="summary-text">{{ (calculation.getTaxAmount + ((penalty + pub_penalty + not_pub_penalty )*0.15)) | currency:'Rs.' }}</p>
+              </div>
+              <div class="summary-head">
+                <h5 class="summary-title">Convenience Fee</h5>
+              </div>
+              <div class="summary-price">
+                <p class="summary-text">{{ (calculation.getConvenienceFee + ((penalty + pub_penalty + not_pub_penalty )*0.15*0.02) ) | currency:'Rs.' }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="summary-content">
+            <div class="summary-head">
+              <h5 class="summary-title"><strong>Total Amount</strong></h5>
+            </div>
+            <div class="summary-price">
+              <p class="summary-text"><strong>{{ (calculation.getTotalAmount + (penalty + pub_penalty + not_pub_penalty ) +  ((penalty + pub_penalty + not_pub_penalty)*0.15) + ((penalty + pub_penalty + not_pub_penalty )*0.15*0.02) ) | currency:'Rs.' }}</strong></p>
+            </div>
+          </div>
+
+        </div>
+        <form ngNoForm action="{{ paymentGateway }}" method="post">
+          <input type="hidden" [(ngModel)]="cipher_message" name="clientPaymentRequest">
+          <button type="submit" class="button green-4 padding-20 col-md-12"><i class="far fa-credit-card"></i>
+            Continue</button>
+          <!-- <button (click)="onPay()" class="button green-4 btn-lg col-md-12"><i class="far fa-credit-card"></i> Continue</button> -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

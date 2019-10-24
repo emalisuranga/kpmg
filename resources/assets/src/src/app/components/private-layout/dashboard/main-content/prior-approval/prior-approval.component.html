@@ -1,0 +1,388 @@
+<section>
+  <div class="container top-margin" style="padding-bottom: 50px;">
+    <div class="row">
+      <div class="col-md-11 nopadding">
+        <div class="f1">
+          <h3 style="text-align: center">Request for Prior Approval</h3>
+          <p style="text-align: center">
+            Fill in all steps for Prior Approval process.
+          </p>
+          <div class="f1-steps">
+            <div class="f1-progress">
+              <div class="f1-progress-line" data-now-value="12.5" data-number-of-steps="4"
+                [ngStyle]="{ width: progress.progressPercentage }"></div>
+            </div>
+            <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{ item.status }}">
+              <div class="f1-step-icon">
+                <i class="{{ item.icon }}"></i>
+              </div>
+              <p>{{ item.label }}</p>
+            </div>
+          </div>
+
+          <fieldset [hidden]="stepOn != 0">
+            <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+              <p style="text-align:center">{{ externalGlobComment }}</p>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm">Company Type</label>
+              <div class="col-sm-9">{{ companyInfo.postfix }}</div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm">Name of the Company</label>
+              <div class="col-sm-9">
+                {{ companyInfo.name }}{{ companyInfo.postfix }}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm">Registration Number</label>
+              <div class="col-sm-9">{{ companyRegNumber }}</div>
+            </div>
+
+            <div class="f1-buttons">
+              <button type="button" class="btn btn-next" id="btn1-next" (click)="changeProgressStatuses(1)">
+                Next <i class="fas fa-forward"></i>
+              </button>
+            </div>
+          </fieldset>
+
+          <fieldset [hidden]="stepOn != 1">
+            <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+              <p style="text-align:center">{{externalGlobComment}}</p>
+            </div>
+
+
+
+            <div class="share-summery-records">
+
+              <div class="corr-letter">
+                <div class="to" style="margin-bottom:20px;font-size: 14px;">
+                  Mr D. N. R. Siriwardena,<br />
+                  Registrar General of Companies,<br />
+                  No. 400, D. R. Wijewardena Mawatha,<br />
+                  Colombo 10.
+                </div>
+                <p style="margin-top:15px;">Dear Sir,</p>
+                <div class="subject" style="margin-bottom: 30px;">
+                  <select (change)="validateCharge()" [disabled]="moduleStatus == 'PRIOR_APPROVAL_RESUBMIT'"
+                    class="form-control form-control-sm modal-input-director-title ng-pristine ng-valid ng-touched test"
+                    name="qualified" [(ngModel)]="subject" style="width: 98%;">
+                    <option [value]="category.key" *ngFor="let category of categories"> {{category.category}}</option>
+                  </select>
+                </div>
+                <div *ngIf="!PreBalDate && subject == 'CHANGE_OF_BALANCE_SHEET_DATE'" style="padding-bottom: 25px;">
+                  <label class="col-form-label col-form-label-sm" style="color:red;"><b>Please adapt balance sheet date
+                      for the first time before request prior approval</b>
+                  </label>
+                </div>
+                <div *ngIf="subject == 'CHANGE_OF_BALANCE_SHEET_DATE' && PreBalDate">
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Balance sheet date of the
+                          Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <input [disabled]="true" type="date" [(ngModel)]="PreBalDate"
+                        [ngModelOptions]="{standalone: true}"
+                        class="form-control form-control-sm modal-input-director-phone">
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Proposed balance sheet date of the
+                          Company :</b> <span class="req">*</span>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <input type="date" onkeydown="return false" [(ngModel)]="ProBalDate" [ngModelOptions]="{standalone: true}"
+                        (input)="validateCharge()" min="{{minDate | date:'yyyy-MM-dd'}}"
+                        max="{{maxDate | date:'yyyy-MM-dd'}}"
+                        class="form-control form-control-sm modal-input-director-phone">
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Effective Year :</b> <span class="req">*</span>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <select [(ngModel)]="effectiveYear" [ngModelOptions]="{standalone: true}"
+                        class="form-control form-control-sm modal-input-director-phone" (change)="validateCharge()">
+                        <option value="{{year}}" selected>{{year}}</option>
+                        <option value="{{onemoreyear}}">{{onemoreyear}}</option>
+                      </select>
+                    </div>
+
+                  </div>
+                </div>
+
+
+
+                <div class="body">
+
+                  <textarea style="width: 98%; display: inline-block;margin-bottom: 10px; min-width: auto;"
+                    [(ngModel)]="message" [ngModelOptions]="{standalone: true}"
+                    class="form-control form-control-sm modal-input-director-oppointment"
+                    placeholder="Enter your message here" (input)="validateCharge()"></textarea><span style="    position: relative;
+                                    top: -60px;
+                                    font-size: 20px;" class="req">*</span>
+
+                </div>
+
+                <p>Thank You.</p>
+                <div style="clear:both"></div>
+              </div>
+
+
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                </div>
+              </div>
+
+              <br />
+
+
+            </div>
+
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i
+                  class="fas fa-backward"></i>
+                Previous</button>
+              <button [disabled]="!validShareRecordItem" (click)="submitRecord()" type="button"
+                class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+            </div>
+
+          </fieldset>
+
+          <fieldset [hidden]="stepOn != 2">
+
+            <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+              <p style="text-align:center">{{externalGlobComment}}</p>
+            </div>
+
+            <div style="margin-bottom:6px" class="container uploaded-container">
+
+              <div class="row uploaded-row">
+
+                <div class="col-4 doc">
+                  <h3>Other Documents
+                    <!-- <span style="display: block;width: 4%; float: right;color: red;font-size: 24px;margin-top: -10px;"> *</span> -->
+                    <p style="font-size: 12px;color: darkorange;text-transform: none;" class="other_doc_des">You can
+                      upload any
+                      number of documents here</p>
+                  </h3>
+                </div>
+                <div class="col-5">
+                  <span style="float: left;width: 100%;margin-top: 2px">
+                    <input style="width: 96%;padding:5px;padding: 0 5px;text-align: center;font-size: 14px;"
+                      [(ngModel)]="other_doc_name" name="other_doc_name" placeholder="Enter document name here" />
+
+                  </span>
+                </div>
+
+                <div class="col-3 no-padding">
+
+
+                  <label style="float:right" for="other-docs"
+                    class="upload-wrapper btn btn-primary btn-sm download {{!other_doc_name ? 'disable' : '' }}">
+                    <i class="fas fa-cloud-upload-alt"></i> Upload
+                  </label>
+
+
+                  <input [disabled]="!other_doc_name" style="display:block;position: fixed;top:-100000px"
+                    id="other-docs" type="file" (change)="uploadOtherDoc($event,'Other',uploadOtherList['doc_id'])"
+                    placeholder="Upload file" accept=".pdf">
+
+                </div>
+
+              </div>
+
+              
+
+              <div class="form-group" *ngFor="let doc of uploadOtherList['docs']; let j = index">
+
+                <div class=" uploaded-row">
+
+                  <div class="row uploaded-row" *ngIf="doc.file_name != 'Other Documents' && doc.is_admin_requested"
+                    class="row uploaded-row">
+                    <div class="col-9 doc">
+                      <h3>{{doc.file_name}} <span *ngIf="doc.is_admin_requested" class="request_roc">(requested by
+                          ROC)</span>
+                        <!-- <span *ngIf="doc.is_required" class="req">*</span> -->
+                      </h3>
+                    </div>
+                    <div class="col-3 no-padding" *ngIf="doc.doc_status !='DOCUMENT_APPROVED'">
+                      <label style="float:right" for="other-{{i}}" class="upload-wrapper btn btn-primary btn-sm download">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                      </label>
+                      <input style="display:block;position: fixed;top:-100000px" id="other-{{i}}" type="file"
+                        (change)="fileChange($event,doc.file_name,doc.dbid)" placeholder="Upload file" accept=".pdf">
+                    </div>
+                  </div>
+                  
+                  <div style="font-size:12px;" class="uploaded-doc" *ngIf="doc.file_name">
+                  
+                    {{doc.file_name}}
+                    <span class="approved_doc" *ngIf="doc.doc_status =='DOCUMENT_APPROVED'">Document Approved</span>
+                  
+                    <div *ngIf=" doc.doc_status !=='DOCUMENT_APPROVED'">
+                      <button *ngIf="!(doc.is_admin_requested) && doc.uploaded_token "
+                        style="float: right; font-size: 12px;padding: 5px !important;" (click)="removeOtherDoc(doc.uploaded_token,doc.dbid)"
+                        class="button red button-sm">
+                        <i class="fas fa-trash-alt"></i> Delete
+                      </button>
+                    </div>
+                    
+                  
+                    <button style="float: right; font-size: 12px;padding: 5px !important;margin-right:4px;" *ngIf="doc.uploaded_token"
+                      (click)="ngOnDownload(doc.uploaded_token)" class="button blue button-sm">
+                      <i class="far fa-file-pdf"></i> View
+                    </button>
+
+                    <label *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'" style="float: right;
+                                          width: 110px;
+                                          height: 30px;
+                                          margin-top: -2px;
+                                          line-height: 30px;
+                                          margin-right: 0px;" for="other-resubmit-docs-{{doc.multiple_id}}"
+                      class="upload-wrapper btn btn-primary btn-sm download">
+                      <i class="fas fa-cloud-upload-alt"></i> Upload
+                    </label>
+                    <input *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'" style="display:block;position: fixed;top:-100000px"
+                      id="other-resubmit-docs-{{doc.multiple_id}}" type="file" (change)="uploadOtherResumittedDoc($event,doc.multiple_id)"
+                      placeholder="Upload file" accept=".pdf">
+                  
+                  
+                  
+                  </div>
+
+               
+
+                <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                  <strong>Comments:</strong> {{doc.doc_comment}}
+                </div>
+                </div>
+              </div>
+              <div style="clear:both"></div>
+
+
+            </div>
+            <div class="resubmit-message-block alert alert-primary" *ngIf="moduleStatus == 'PRIOR_APPROVAL_RESUBMIT'">
+              <p style="text-align:center">Please complete the process by clicking below resubmit button</p>
+            </div>
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous"><i
+                  class="fas fa-backward"></i>
+                Previous</button>
+              <button  *ngIf="moduleStatus === 'PRIOR_APPROVAL_PROCESSING' && payment === '0'" (click)="submit()"
+                type="button" class="btn btn-next"><i class="fas fa-paper-plane"></i>
+                Submit</button>
+              <button [disabled]="!(allFilesUploaded)" *ngIf="moduleStatus === 'PRIOR_APPROVAL_RESUBMIT' && payment === '0'" (click)="resubmit()"
+                type="button" class="btn btn-next">
+                Resubmit
+                <i class="fas fa-check-double"></i>
+              </button>
+              <button *ngIf="moduleStatus === 'PRIOR_APPROVAL_PROCESSING' && payment !== '0'" (click)="submit()"
+                type="button" class="btn btn-next">Next
+                <!-- <i class="fas fa-forward"></i> -->
+              </button>
+
+            </div>
+
+          </fieldset>
+
+          <fieldset class="{{stepOn}}" [hidden]="stepOn != 3">
+            <div class="content">
+              <div class="container top-margin">
+                <div class="row">
+                  <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
+                    <div class="box">
+                      <h3 class="box-title">User payment agreement</h3>
+                      <div class="plan-selection">
+                        <div class="plan-data">
+                          <small class="plan-text">If you are having any problems, please email eroc@info.com or
+                            contact
+                            on 011-2123456.</small><br>
+                          <small class="plan-text">User
+                            payment agreement</small><br>
+                        </div>
+                      </div>
+                      <div class="plan-selection">
+                        <div class="row justify-content-md-center mt-3">
+                          <label for="card" class="method">
+                            <div class="card-logos">
+                              <img src="assets/images/header/visa_logo.png" />
+                              <img src="assets/images/header/mastercard_logo.png" />
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                    <div class="widget">
+                      <h4 class="widget-title">Order Summary</h4>
+                      <div class="summary-block">
+                        <div class="summary-content">
+                          <div class="summary-head">
+                            <h5 class="summary-title">Registration fee</h5>
+                          </div>
+                          <div class="summary-price">
+                            <p class="summary-text">{{ calculation.getValue('PAYMENT_INDIVIUAL_AS_SECRETARIES') |
+                                          currency:'Rs.' }}</p>
+                          </div>
+                          <div class="summary-head">
+                            <h5 class="summary-title">Tax</h5>
+                          </div>
+                          <div class="summary-price">
+                            <p class="summary-text">{{ calculation.getTaxAmount | currency:'Rs.' }}</p>
+                          </div>
+                          <div class="summary-head">
+                            <h5 class="summary-title">Convenience Fee</h5>
+                          </div>
+                          <div class="summary-price">
+                            <p class="summary-text">{{ calculation.getConvenienceFee | currency:'Rs.' }}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="summary-content">
+                        <div class="summary-head">
+                          <h5 class="summary-title"><strong>Total Amount</strong></h5>
+                        </div>
+                        <div class="summary-price">
+                          <p class="summary-text"><strong>{{ calculation.getTotalAmount | currency:'Rs.' }}</strong></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(3)" type="button" class="btn btn-previous"><i
+                  class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="pay()" type="button" class="btn btn-submit">Complete/Pay</button>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

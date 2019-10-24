@@ -1,0 +1,670 @@
+<div class="clearfix top-margin">
+</div>
+<section>
+  <div class="container" style="padding-bottom: 50px;">
+    <div class="row">
+      <div class="col-md-11 nopadding">
+        <form role="form" method="post" class="f1">
+          <h3 style="text-align: center">Auditor Change (individual)</h3>
+          <p style="text-align: center">Fill in all steps for completing the process.</p>
+          <div class="f1-steps">
+            <div class="f1-progress">
+              <div class="f1-progress-line" data-now-value="12.5" data-number-of-steps="4"
+                [ngStyle]="{'width': progress.progressPercentage}"></div>
+            </div>
+            <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}}">
+              <div class="f1-step-icon">
+                <i class="{{item.icon}}"></i>
+              </div>
+              <p>{{item.label}}</p>
+            </div>
+          </div>
+          <fieldset [hidden]="stepOn != 0">
+            <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+
+              <p style="text-align:center">{{externalGlobComment}}</p>
+            </div>
+            <div style="position:relative">
+              <!-- <div style="position: absolute;
+              width: 100%;
+              height: 100%;
+              left: 0;
+              top: 0;
+              z-index: 999;
+              cursor: no-drop;
+            padding:30px"></div> -->
+
+              <h3 style="font-size:14px" for="staticCapital" class="col-sm-12">Please select change type(s)<span
+                  class="req">*</span></h3>
+              <div class="form-group row">
+                <div class="form-group col-md-6">
+                  <app-checkbox-group-component [(ngModel)]="type" [ngModelOptions]="{standalone: true}">
+                    <!-- <div class="sec_type_item form-group col-md-12" *ngFor="let opt of changetypes"  >
+    
+                      <app-checkbox-component class="custom-control-input" value="{{opt.key }}" id="alter-{{opt.key }}"></app-checkbox-component>
+                      <label style="font-size:14px;" class="custom-control-label radio-lbl" for="alter-{{opt.key }}">&nbsp;&nbsp;&nbsp;&nbsp;{{opt.value }}</label>
+            
+                  </div> -->
+                    <app-checkbox-component *ngFor="let opt of changetypes" value="{{opt.key }}"
+                      id="alter-{{opt.key }}">&nbsp;&nbsp;{{opt.value }}</app-checkbox-component>
+                  </app-checkbox-group-component>
+                </div>
+              </div>
+              <!-- <p>Selected items - {{type | json}}</p> -->
+
+            </div>
+            <div class="f1-buttons">
+              <button [disabled]="!(type?.length)" type="button" class="btn btn-next" id="btn1-next"
+                (click)="changeTypeSubmit()">Next
+                <i class="fas fa-forward"></i></button>
+            </div>
+          </fieldset>
+          <fieldset [hidden]="stepOn != 1">
+            <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+
+              <p style="text-align:center">{{externalGlobComment}}</p>
+            </div>
+            <div class="auditor personal details section">
+              <div *ngIf="checkType('NAME_CHANGE')">
+                <div class="form-group row">
+                  <div class="form-group col-md-2"><label class="col-form-label col-form-label-sm">Title
+                      <span class="req">*</span></label><select (change)="auditorValidationStep1()"
+                      class="form-control form-control-sm modal-input-director-title ng-pristine ng-valid ng-touched"
+                      name="title" [(ngModel)]="auditorDetails.title">
+                      <option value="">Choose...</option>
+                      <option *ngFor="let ititle of data.ititles" value="{{ ititle.id }}" id="{{ ititle.id }}">{{
+                            ititle.value }}</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-5"><label class="col-form-label col-form-label-sm">First Name(s)
+                      <span class="req">*</span></label>
+                    <input (input)="auditorValidationStep1()" pattern="[a-zA-Z ]*" class="form-control form-control-sm"
+                      name="first_name" maxlength="100" [(ngModel)]="auditorDetails.firstname" placeholder="First Name">
+                    <span class="req-message">Valid name required</span>
+                  </div>
+                  <div class="form-group col-md-5"><label class="col-form-label col-form-label-sm">Surname
+                      <span class="req">*</span></label>
+                    <input (input)="auditorValidationStep1()" pattern="[a-zA-Z ]*" class="form-control form-control-sm"
+                      name="last_name" maxlength="100" [(ngModel)]="auditorDetails.lastname" placeholder="Surname">
+                    <span class="req-message">Valid name required</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="form-group col-md-6"><label class="col-form-label col-form-label-sm">Full Name in Sinhala
+                    </label>
+                    <input class="form-control form-control-sm sinhalaname" id="sinhalaname" maxlength="190"
+                      [(ngModel)]="sinFullName" [ngModelOptions]="{standalone: true}" (keyup)='this.loadsinhala()'>
+                    <small class="text text-danger float-right">Press the space bar after each word</small>
+                  </div>
+                  <div class="form-group col-md-6"><label class="col-form-label col-form-label-sm">Full Name in Tamil
+                    </label>
+                    <input class="form-control form-control-sm tamilname" id="tamilname" maxlength="190"
+                      [(ngModel)]="tamFullName" [ngModelOptions]="{standalone: true}" (keyup)='this.loadTamil()'>
+                    <small class="text text-danger float-right">Press the space bar after each word</small>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="checkType('EMAIL_CHANGE')">
+                <div class="form-group row">
+                  <div class="form-group col-md-6"><label class="col-form-label col-form-label-sm">Email Address
+                      <span class="req">*</span>
+                    </label>
+                    <input (input)="auditorValidationStep1()" class="form-control form-control-sm email" id="email"
+                      type="email" maxlength="90" [(ngModel)]="email" [ngModelOptions]="{standalone: true}"
+                      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}">
+                    <span class="req-message">Valid email required</span>
+                  </div>
+
+                </div>
+              </div>
+
+              <div *ngIf="checkType('TEL_CHANGE')">
+                <div class="form-group row">
+
+                  <div class="form-group col-md-6"><label class="col-form-label col-form-label-sm">Mobile No
+                      <span class="req">*</span>
+                    </label>
+                    <input (input)="auditorValidationStep1()" class="form-control form-control-sm mobile" id="mobile"
+                      maxlength="10" [(ngModel)]="mobile" pattern="\d{10}" type="tel"
+                      [ngModelOptions]="{standalone: true}">
+                    <span class="req-message">10 Digits mobile number required</span>
+                  </div>
+                  <div class="form-group col-md-6"><label class="col-form-label col-form-label-sm">Resident Telephone No
+                    </label>
+                    <input (input)="auditorValidationStep1()" class="form-control form-control-sm tel" id="tel"
+                      maxlength="10" [(ngModel)]="tel" pattern="\d{10}" type="tel"
+                      [ngModelOptions]="{standalone: true}">
+                    <span class="req-message">10 Digits telephone number required</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <br>
+              <div *ngIf="checkType('ADDRESS_CHANGE')">
+                <div class="form-group row">
+                  <label class="col-sm-12 col-form-label col-form-label-sm">Residential Address
+                    <span class="req">*</span></label>
+                  <div class="col-sm-4">
+                    <input (input)="auditorValidationStep1()" class="form-control form-control-sm"
+                      name="residential_address1" maxlength="100" [(ngModel)]="auditorDetails.residentialLocalAddress1"
+                      placeholder="Address1">
+                  </div>
+                  <div class="col-sm-4">
+                    <input (input)="auditorValidationStep1()" class="form-control form-control-sm"
+                      name="residential_address2" maxlength="100" [(ngModel)]="auditorDetails.residentialLocalAddress2"
+                      placeholder="Address2">
+                  </div>
+                  <div class="col-sm-4">
+                    <input (input)="auditorValidationStep1()" class="form-control form-control-sm"
+                      name="residential_postcode" maxlength="100" [(ngModel)]="auditorDetails.residentialPostCode"
+                      placeholder="Post Code">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label col-form-label-sm"> Province
+                    <span class="req">*</span>
+                  </label>
+                  <div class="col-sm-9">
+                    <ng-select (change)="auditorValidationStep1()"
+                      (ngModelChange)="this.auditorDetails.residentialDistrict = undefined;this.auditorDetails.residentialCity = undefined;this.auditorDetails.rgnDivision = undefined;"
+                      class="custom" placeholder="Province" [searchable]="true"
+                      [(ngModel)]="auditorDetails.residentialProvince" [ngModelOptions]="{standalone: true}">
+                      <ng-option *ngFor="let province of data.provinces" [value]="province">{{
+                        province.description_en }}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label col-form-label-sm"> District
+                    <span class="req">*</span>
+                  </label>
+                  <div class="col-sm-9">
+                    <ng-select (change)="auditorValidationStep1()"
+                      (ngModelChange)="this.auditorDetails.residentialCity = undefined;this.auditorDetails.rgnDivision = undefined;"
+                      class="custom" placeholder="District" [searchable]="true"
+                      [(ngModel)]="auditorDetails.residentialDistrict" [ngModelOptions]="{standalone: true}">
+                      <ng-option
+                        *ngFor="let district of this.data.districts | district:auditorDetails.residentialProvince"
+                        [value]="district">{{
+                        district.description_en }}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label col-form-label-sm"> City
+                    <span class="req">*</span>
+                  </label>
+                  <div class="col-sm-9">
+                    <ng-select (change)="auditorValidationStep1()"
+                      (ngModelChange)="this.auditorDetails.rgnDivision = undefined;" class="custom" placeholder="City"
+                      [searchable]="true" [(ngModel)]="auditorDetails.residentialCity"
+                      [ngModelOptions]="{standalone: true}">
+                      <ng-option *ngFor="let city of data.citys | city:auditorDetails.residentialDistrict"
+                        [value]="city">{{city.description_en}}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label col-form-label-sm"> GN Division
+                    <span class="req">*</span>
+                  </label>
+                  <div class="col-sm-9">
+                    <ng-select (change)="auditorValidationStep1()" class="custom" placeholder="GN Division"
+                      [searchable]="true" [(ngModel)]="auditorDetails.rgnDivision"
+                      [ngModelOptions]="{standalone: true}">
+                      <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:auditorDetails.residentialCity"
+                        [value]="gndivision">{{gndivision.description_en}}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="form-group col-md-6"><label class="col-form-label col-form-label-sm">Full Address in
+                      Sinhala
+                    </label>
+                    <input class="form-control form-control-sm adsinhalaname" id="adsinhalaname" maxlength="190"
+                      [(ngModel)]="sinAd" [ngModelOptions]="{standalone: true}" (keyup)='this.adloadsinhala()'>
+                    <small class="text text-danger float-right">Press the space bar after each word</small>
+                  </div>
+                  <div class="form-group col-md-6"><label class="col-form-label col-form-label-sm">Full Address in Tamil
+                    </label>
+                    <input class="form-control form-control-sm adtamilname" id="adtamilname" maxlength="190"
+                      [(ngModel)]="tamAd" [ngModelOptions]="{standalone: true}" (keyup)='this.adloadTamil()'>
+                    <small class="text text-danger float-right">Press the space bar after each word</small>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div *ngIf="checkType('ADDRESS_CHANGE')">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label col-form-label-sm">Business Name, (if any)
+                  </label>
+                  <div class="col-sm-12">
+                    <input (input)="auditorValidationStep1()" class="form-control form-control-sm" name="business_name"
+                      maxlength="100" [(ngModel)]="auditorDetails.businessName" placeholder="Business Name">
+                  </div>
+                </div>
+                <div *ngIf="auditorDetails.businessName">
+                  <div class="form-group row">
+                    <label class="col-sm-12 col-form-label col-form-label-sm">Business Address
+                      <span class="req">*</span>
+                    </label>
+                    <div class="col-sm-4">
+                      <input (input)="auditorValidationStep1()" class="form-control form-control-sm"
+                        name="business_address1" maxlength="100" [(ngModel)]="auditorDetails.businessLocalAddress1"
+                        placeholder="Address1">
+                    </div>
+                    <div class="col-sm-4">
+                      <input (input)="auditorValidationStep1()" class="form-control form-control-sm"
+                        name="business_address2" maxlength="100" [(ngModel)]="auditorDetails.businessLocalAddress2"
+                        placeholder="Address2">
+                    </div>
+                    <div class="col-sm-4">
+                      <input (input)="auditorValidationStep1()" class="form-control form-control-sm"
+                        name="business_postcode" maxlength="100" [(ngModel)]="auditorDetails.businessPostCode"
+                        placeholder="Post Code">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label col-form-label-sm"> Province
+                    </label>
+                    <div class="col-sm-9">
+                      <ng-select (change)="auditorValidationStep1()"
+                        (ngModelChange)="this.auditorDetails.businessDistrict = undefined;this.auditorDetails.businessCity = undefined;this.auditorDetails.gnDivision = undefined;"
+                        class="custom" placeholder="Province" [searchable]="true"
+                        [(ngModel)]="auditorDetails.businessProvince" [ngModelOptions]="{standalone: true}">
+                        <ng-option *ngFor="let province of data.provinces" [value]="province">{{
+                                  province.description_en }}</ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label col-form-label-sm"> District
+                    </label>
+                    <div class="col-sm-9">
+                      <ng-select (change)="auditorValidationStep1()"
+                        (ngModelChange)="this.auditorDetails.businessCity = undefined;this.auditorDetails.gnDivision = undefined;"
+                        class="custom" placeholder="District" [searchable]="true"
+                        [(ngModel)]="auditorDetails.businessDistrict" [ngModelOptions]="{standalone: true}">
+                        <ng-option
+                          *ngFor="let district of this.data.districts | district:auditorDetails.businessProvince"
+                          [value]="district">{{
+                                  district.description_en }}</ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label col-form-label-sm"> City
+                    </label>
+                    <div class="col-sm-9">
+                      <ng-select (change)="auditorValidationStep1()"
+                        (ngModelChange)="this.auditorDetails.gnDivision = undefined;" class="custom" placeholder="City"
+                        [searchable]="true" [(ngModel)]="auditorDetails.businessCity"
+                        [ngModelOptions]="{standalone: true}">
+                        <ng-option *ngFor="let city of data.citys | city:auditorDetails.businessDistrict"
+                          [value]="city">
+                          {{city.description_en}}</ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label col-form-label-sm"> GN Division
+                    </label>
+                    <div class="col-sm-9">
+                      <ng-select (change)="auditorValidationStep1()" class="custom" placeholder="GN Division"
+                        [searchable]="true" [(ngModel)]="auditorDetails.gnDivision"
+                        [ngModelOptions]="{standalone: true}">
+                        <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:auditorDetails.businessCity"
+                          [value]="gndivision">{{gndivision.description_en}}</ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <!-- <div class="form-group row">
+                <div class="form-group col-md-4"><label class="col-form-label col-form-label-sm">Nationality
+                    <span class="req">*</span></label>
+                  <input (input)="auditorValidationStep1()" pattern="[a-zA-Z ]*" class="form-control form-control-sm"
+                    name="nationality" maxlength="100" [(ngModel)]="auditorDetails.nationality" placeholder="Nationality">
+                  <span class="req-message">Valid name required</span>
+                </div>
+                <div class="form-group col-md-4"><label class="col-form-label col-form-label-sm">Race
+                    <span class="req">*</span></label>
+                  <input (input)="auditorValidationStep1()" pattern="[a-zA-Z ]*" class="form-control form-control-sm"
+                    name="race" maxlength="100" [(ngModel)]="auditorDetails.race" placeholder="Race">
+                  <span class="req-message">Valid name required</span>
+                </div>
+                <div class="form-group col-md-4"><label class="col-form-label col-form-label-sm">Date of Birth
+                    <span class="req">*</span></label>
+                  <input (input)="auditorValidationStep1()" (change)="dateValidate('birthday');auditorValidationStep1();"
+                    type="date" class="form-control form-control-sm" name="dob" [(ngModel)]="auditorDetails.birthDay"
+                    placeholder="">
+                  <span class="req-message">Valid name required</span>
+                </div>
+              </div> -->
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i
+                  class="fas fa-backward"></i>
+                Previous</button>
+              <button [disabled]="!enableStep1Submission" (click)="areYouSureYes()" type="button"
+                class="btn btn-next">Next
+                <i class="fas fa-forward"></i></button>
+            </div>
+          </fieldset>
+          <!-- <fieldset [hidden]="stepOn != 2">
+            <div class="container download-container">
+              <h3>Document List</h3>
+              <div class="doc-block-wrapper">
+                <div class="doc-block">
+                  <h4>Application Form Download</h4>
+                  <div class="download-application-row">
+                    <div class="download-application-block">Application</div>
+                    <div class="doc-download">
+                      <button (click)="clickDownload()" type="button" class="btn btn-next">Download
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous"><i
+                  class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="changeProgressStatuses(3)" type="button" class="btn btn-next">Next <i
+                  class="fas fa-forward"></i></button>
+            </div>
+          </fieldset> -->
+          <fieldset [hidden]="stepOn != 2">
+            <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+
+              <p style="text-align:center">{{externalGlobComment}}</p>
+            </div>
+            <div class="alert alert-warning" role="alert">
+              <p>
+                <small>Please upload all files in pdf format,upload only A4 Size, portrait orientation and file size
+                  should be less
+                  than 4 MB.</small>
+              </p>
+              <!-- <p>
+                <small>Please remove cover page of 'ARTICLES OF THE ASSOCIATION' Document</small>.</p> -->
+            </div>
+            <hr>
+            <div class="container uploaded-container">
+              <div class="row upload-row">
+                <div class="col-3 doc">
+                  Other Documents
+                </div>
+                <div class="col-5">
+                  <input style="float: left;" class="form-control form-control-sm" name="description" maxlength="50"
+                    [(ngModel)]="description" placeholder="Mention The Relevant Document Name">
+                </div>
+                <div class="col-4 ">
+                  <div class="float-right">
+                    <!--<div class="float-right"  *ngIf="resignationUploadList?.length <= 0">-->
+                    <label for="od" class="reset-upload-val-action-elem upload-wrapper btn btn-primary btn-sm download">
+                      <i class="fas fa-cloud-upload-alt"></i> Upload
+                    </label>
+                    <input style="display:block;position: fixed;top:-100000px; float: right;" id="od" type="file"
+                      (change)="fileUpload($event,description,'extraUpload')" placeholder="Upload file" accept=".pdf">
+                  </div>
+                </div>
+                <div class="col-12" *ngFor="let item of extra; let i = index">
+                  <div class="col-3 float-right" style="margin-top: -10px" *ngIf="!item?.pdfname">
+                    <label for="od{{item.id}}" style="height: 37px;"
+                      class="upload-wrapper btn btn-primary btn-sm download">
+                      <i class="fas fa-cloud-upload-alt"></i> Upload
+                    </label>
+                    <input style="display:block;position: fixed;top:-100000px" id="od{{item.id}}" type="file"
+                      (change)="fileUploadUpdate($event,item.id,'none','extraUpload')" placeholder="Upload file"
+                      accept=".pdf">
+                  </div>
+
+                  <div class="col-12 uploaded-doc" *ngIf="item?.pdfname">
+                    <span *ngIf="!item.file_description"><i class="fas fa-file-pdf"></i>&nbsp; {{item.pdfname}}</span>
+                    <span *ngIf="item.file_description"><i class="fas fa-file-pdf"></i>&nbsp;
+                      {{item.file_description}}</span>
+                    <span class="approved_doc" *ngIf="item.setkey == 'DOCUMENT_APPROVED'">Document Approved</span>
+                    <button class="button red button-sm" *ngIf="!(item.setkey == 'DOCUMENT_APPROVED')"
+                      [disabled]="item.setkey == 'DOCUMENT_APPROVED'" (click)="fileDelete(item.id,'extraUpload',i)">
+                      <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                    <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                      <i class="far fa-file-pdf"></i> View
+                    </button>
+                  </div>
+                  <div class="col-6" *ngIf="item.setkey == 'DOCUMENT_REQUEST_TO_RESUBMIT'">
+                    <span style="color: red"><i class="fa fa-exclamation-triangle"></i>{{item.document_comment}}
+                      {{item.value}}</span>
+                  </div>
+                </div>
+
+              </div>
+              <hr *ngIf="additional.length">
+              <div class="row upload-row" *ngIf="additional.length">
+                <div class="col-3 doc">
+                  Additional Documents
+                </div>
+                <div class="col-12" style="margin-bottom: 10px" *ngFor="let item of additional; let i = index">
+                  <div class="col-3 float-right" style="margin-top: -10px" *ngIf="!item?.pdfname">
+                    <label for="ad{{item.id}}" style="height: 37px;"
+                      class="upload-wrapper btn btn-primary btn-sm download">
+                      <i class="fas fa-cloud-upload-alt"></i> Upload
+                    </label>
+                    <input style="display:block;position: fixed;top:-100000px" id="ad{{item.id}}" type="file"
+                      (change)="fileUploadUpdate($event,item.id,'none','additionalUpload')" placeholder="Upload file"
+                      accept=".pdf">
+                  </div>
+
+                  <div class="col-12 uploaded-doc" *ngIf="item?.pdfname">
+                    <span style="margin-right: 10px"><i class="fas fa-file-pdf"></i></span>{{item.pdfname}}
+                    <span class="approved_doc" *ngIf="item.setkey == 'DOCUMENT_APPROVED'">Document Approved</span>
+                    <button class="button red button-sm" *ngIf="!(item.setkey == 'DOCUMENT_APPROVED')"
+                      [disabled]="item.setkey == 'DOCUMENT_APPROVED'"
+                      (click)="fileDelete(item.id,'additionalUpload',i)">
+                      <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                    <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                      <i class="far fa-file-pdf"></i> View
+                    </button>
+                  </div>
+                  <div class="col-6"
+                    *ngIf="item?.setkey == 'DOCUMENT_REQUESTED' || item?.setkey == 'DOCUMENT_REQUEST_TO_RESUBMIT'">
+                    <span style="color: red"><i class="fa fa-exclamation-triangle"></i>{{item.document_comment}}
+                      {{item.value}}</span>
+                  </div>
+                </div>
+
+              </div>
+              <div style="clear:both"></div>
+
+
+              <div class="sec_type_item form-group col-md-12 document_confirm">
+
+                <p style="font-size:14px;"><strong>Section 511 of the Companies act No 07 of 2007:</strong> “Where in
+                  any return, report, certificate, balance
+                  sheet or other document, required by or for the purposes of
+                  this Act, any person wilfully makes a statement which is false
+                  in any material particular knowing it to be false, shall be
+                  guilty of an offence and be liable on conviction <u><b>to a fine not
+                      exceeding one million rupees or to imprisonment for a term
+                      not exceeding five years or to both such fine and
+                      imprisonment </b></u>”
+                </p>
+                <br />
+                <input [(ngModel)]="document_confirm" type="checkbox" id="document_confirm" class="custom-control-input"
+                  [ngModelOptions]="{standalone: true}">
+                <label style="font-size: 17px;
+                    color: darkred;
+                    font-weight: bold;" class="custom-control-label custom-control-sub-label radio-lbl"
+                  for="document_confirm">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I read over and understood
+                </label>
+
+              </div>
+              <div style="clear:both"></div>
+              <!-- <hr>
+              <div class="row upload-row">
+                <div class="col-3 doc">
+                  Certificate of Membership
+                </div>
+                <div class="col-5">
+                  <input style="float: left;" class="form-control form-control-sm" name="description" maxlength="50"
+                    [(ngModel)]="description" placeholder="Mention The Relevant Document Name">
+                </div>
+                <div class="col-4 ">
+                  <div class="float-right">
+                    <label for="pc" class="upload-wrapper btn btn-primary btn-sm download">
+                      <i class="fas fa-cloud-upload-alt"></i> Upload
+                    </label>
+                    <input style="display:block;position: fixed;top:-100000px; float: right;" id="pc" type="file"
+                      (change)="fileUpload($event,description,'pCertificateUpload')" placeholder="Upload file"
+                      accept=".pdf">
+                  </div>
+                </div>
+                <div class="col-12 uploaded-doc" *ngFor="let item of pCertificateUploadList; let i = index">
+                  <span><i class="fas fa-file-pdf"></i></span>{{item.pdfname}}
+                  <button class="button red button-sm" (click)="fileDelete(item.id,'pCertificateUpload',i)">
+                    <i class="fas fa-trash-alt"></i> Delete
+                  </button>
+                  <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                    <i class="far fa-file-pdf"></i> View
+                  </button>
+                </div>
+              </div> -->
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous"><i
+                  class="fas fa-backward"></i>
+                Previous</button>
+              <button [disabled]="!(document_confirm)" (click)="changeProgressStatuses(3)" type="button"
+                class="btn btn-next">Next
+                <i class="fas fa-forward"></i></button>
+              <!-- [disabled]="!enableGoToPay" -->
+            </div>
+          </fieldset>
+          <fieldset class="{{stepOn}}" [hidden]="stepOn != 3">
+            <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+
+              <p style="text-align:center">{{externalGlobComment}}</p>
+            </div>
+            <div class="content">
+              <!-- <div class="container top-margin">
+                <div class="row">
+                  <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
+                    <div class="box">
+                      <h3 class="box-title">User payment agreement</h3>
+                      <div class="plan-selection">
+                        <div class="plan-data">
+                          <small class="plan-text">If you are having any problems, please email eroc@info.com or
+                            contact
+                            on 011-2123456.</small><br>
+                          <small class="plan-text">User
+                            payment agreement</small><br>
+                        </div>
+                      </div>
+                      <div class="plan-selection">
+                        <div class="row justify-content-md-center mt-3">
+                          <label for="card" class="method">
+                            <div class="card-logos">
+                              <img src="assets/images/header/visa_logo.png" />
+                              <img src="assets/images/header/mastercard_logo.png" />
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                    <div class="widget">
+                      <h4 class="widget-title">Order Summary</h4>
+                      <div class="summary-block">
+                        <div class="summary-content">
+                          <div class="summary-head">
+                            <h5 class="summary-title">Registration fee</h5>
+                          </div>
+                          <div class="summary-price">
+                            <p class="summary-text">{{ calculation.getValue('PAYMENT_INDIVIUAL_AS_AUDITORS') |
+                              currency:'Rs.' }}</p>
+                          </div>
+                          <div class="summary-head">
+                            <h5 class="summary-title">Tax</h5>
+                          </div>
+                          <div class="summary-price">
+                            <p class="summary-text">{{ calculation.getTaxAmount | currency:'Rs.' }}</p>
+                          </div>
+                          <div class="summary-head">
+                            <h5 class="summary-title">Convenience Fee</h5>
+                          </div>
+                          <div class="summary-price">
+                            <p class="summary-text">{{ calculation.getConvenienceFee | currency:'Rs.' }}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="summary-content">
+                        <div class="summary-head">
+                          <h5 class="summary-title"><strong>Total Amount</strong></h5>
+                        </div>
+                        <div class="summary-price">
+                          <p class="summary-text"><strong>{{ calculation.getTotalAmount | currency:'Rs.' }}</strong></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+            <div class="resubmit-message-block alert alert-primary">
+              <p style="text-align:center">Please complete auditor change by clicking below 'Complete' button</p>
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-previous"><i
+                  class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="areYouSurePayYes()" type="button" class="btn btn-submit">Complete</button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div style="clear:both"></div>
+      <br />
+      <br />
+    </div>
+  </div>
+</section>
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockBackToForm">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Are you sure want to proceed further?</h2>
+    </div>
+    <div class="body">
+      <p></p>
+    </div>
+    <div class="footer">
+      <button style="margin-right: 10px" class="btn btn-success" (click)="auditorChangeDataSubmit()">Yes</button>
+      <button style="margin-left: 10px" class="btn btn-danger" (click)="areYouSureNo()">No</button>
+    </div>
+  </div>
+</div>
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockPayment">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Are you sure want to proceed further?</h2>
+    </div>
+    <div class="body">
+      <p>If yes, you will not be able to revert back.</p>
+    </div>
+    <div class="footer">
+      <button style="margin-right: 10px" class="btn btn-success" (click)="auditorChangeComplete()">Yes</button>
+      <button style="margin-left: 10px" class="btn btn-danger" (click)="areYouSurePayNo()">No</button>
+      <!-- <form ngNoForm action="{{ paymentGateway }}" method="post">
+        <input type="hidden" [(ngModel)]="cipher_message" name="clientPaymentRequest">
+        <button style="margin-right: 10px" type="submit" class="btn btn-success" (click)="getCipherToken()">Yes</button>
+        <button style="margin-left: 10px" class="btn btn-danger" (click)="areYouSurePayNo()">No</button>
+      </form> -->
+    </div>
+  </div>
+</div>

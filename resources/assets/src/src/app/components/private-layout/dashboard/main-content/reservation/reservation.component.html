@@ -1,0 +1,21 @@
+<div class="mb-5 top-margin ">
+  <div class="container bg-back mt-2">
+    <div class="col-md-12 ">
+      <div class="form-group row">
+        <h5 class="col-sm-4">
+          <b>Reservation Name </b>
+        </h5>
+        <h5 class="col-sm-8">
+          <b> {{ name | uppercase }} {{ postfixname }} </b>
+        </h5>
+      </div>
+      <hr>
+      <div class="form-group row">
+        <small for="staticEmail" class="col-sm-4">Applicant Name</small>
+        <small for="staticEmail" class="col-sm-8">{{ user.getUserName }}</small>
+      </div>
+      <hr>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

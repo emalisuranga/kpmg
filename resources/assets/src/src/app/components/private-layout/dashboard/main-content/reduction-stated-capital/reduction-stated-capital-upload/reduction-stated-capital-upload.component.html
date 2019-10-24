@@ -1,0 +1,93 @@
+<div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true" [config]="{ backdrop: true, ignoreBackdropClick: true }">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Form 8 - Upload <sup class="text text-danger">*</sup></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form >
+        <div class="modal-body mx-3 mb-3">
+          <div *ngIf="enable">
+            <div *ngFor="let doc of docs">
+              <h3>
+                <small>{{ doc.description }}</small>
+              </h3>
+              <hr>
+              <form #form>
+                <div class="form-group row" *ngFor="let field of doc.fields; let i = index;">
+                  <small class="col-sm-3 mt-2">{{ field.name }} <sup *ngIf="field.is_required === 'yes'"
+                      class="text text-danger">*</sup>
+                  </small>
+                  <div class="col-sm-1 mt-2">
+                    <span class="text text-primary" *ngIf="percentDone[field.id] !== undefined">
+                      <b>{{ percentDone[field.id] + '%' }}</b>
+                    </span>
+                  </div>
+                  <div class="col-sm-5 mt-2" *ngIf="percentDone[field.id] !== 100">
+                    <div class="progress" style="margin-top: 8px;">
+                      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                        [ngStyle]="{ 'width': percentDone[field.id] + '%' }"></div>
+                    </div>
+                  </div>
+                  <div class="col-sm-2 mt-2" *ngIf="percentDone[field.id] === 100">
+                    <div class="progress" style="margin-top: 8px;">
+                      <div class="progress-bar progress-bar-striped progress-bar-animated"
+                        [ngClass]="{'bg-success': percentDone[field.id] === 100  , 'bg-default': percentDone[field.id] !== 100 }"
+                        role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                        [ngStyle]="{ 'width': percentDone[field.id] + '%' }"></div>
+                    </div>
+                  </div>
+                  <div class="col-sm-4" *ngIf="percentDone[field.id] === 100">
+                    <div class="row">
+                      <div class="col mt-2">
+                        <div class="float-right">
+                          <small class="text text-primary">{{ fileName[field.id] }}</small>
+                        </div>
+                      </div>
+                      <div class="col mt-1">
+                        <div class="float-right">
+                          <button (click)="ngOnDownload(fileToken[field.id])" class="button blue button-sm">
+                            <i class="far fa-file-pdf"></i> View
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-2 mt-1" *ngIf="percentDone[field.id] > 99">
+                    <button (click)="ngOnDestroyfiles(fileToken[field.id],field.id, (field.is_required === 'yes'))"
+                      class="button red button-sm">
+                      <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                  </div>
+                  <div class="col-sm-2 mt-2" *ngIf="percentDone[field.id] < 99 || percentDone[field.id] === undefined">
+                    <button class="button green-4 button-sm" type="button" [disabled]="percentDone[field.id] >= 50"
+                      (click)="uploadbtn.click()"><i class="fas fa-cloud-upload-alt"></i> Upload</button>
+                    <input id="file-{{ i + 1 }}" class="upload-btn-wrapper" #uploadbtn type="file" accept=".pdf"
+                      (change)="upload($event.target.files,field.id, (field.is_required === 'yes')); form.reset(); ">
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="float-right mt-3 mb-3">
+              <button class="button ripple-effect green-4 ico" (click)="onContive()"
+              [ngClass]="{'gray':  this.reqcount !== this.uploadCount , 'green-4': this.reqcount === this.uploadCount}"
+              [disabled]="this.reqcount !== this.uploadCount">
+               Submit
+              </button>
+            </div>
+          </div>
+          <div *ngIf="!enable">
+            <small class="text text-danger">
+              Can't Your Process Complete. Please try again
+            </small>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

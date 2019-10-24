@@ -1,0 +1,558 @@
+<div class="clearfix top-margin">
+</div>
+<section>
+  <div class="container" style="padding-bottom: 50px;">
+    <div class="row">
+      <div class="col-md-11 nopadding">
+        <form role="form" method="post" class="f1">
+          <h3 style="text-align: center">auditor registration form (individual resubmit)</h3>
+          <p style="text-align: center">Fill in all steps for completing resubmit process.</p>
+          <div class="f1-steps">
+            <div class="f1-progress">
+              <div class="f1-progress-line" data-now-value="10" data-number-of-steps="5" [ngStyle]="{'width': progress.progressPercentage}"></div>
+            </div>
+            <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}}">
+              <div class="f1-step-icon">
+                <i class="{{item.icon}}"></i>
+              </div>
+              <p>{{item.label}}</p>
+            </div>
+          </div>
+          <fieldset [hidden]="stepOn != 0">
+            <div class="auditor personal details section">
+              <div class="form-group row">
+                <div class="form-group col-md-2"><label class="col-form-label col-form-label-sm">Title
+                    <span class="req">*</span></label><select (change)="auditorValidationStep1()" class="form-control form-control-sm modal-input-director-title ng-pristine ng-valid ng-touched"
+                    name="title" [(ngModel)]="auditorDetails.title">
+                    <option value="">Choose...</option>
+                    <option *ngFor="let ititle of data.ititles" value="{{ ititle.id }}" id="{{ ititle.id }}">{{
+                      ititle.value }}</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-5"><label class="col-form-label col-form-label-sm">First Name(s)
+                    <span class="req">*</span></label>
+                  <input (input)="auditorValidationStep1()" pattern="[a-zA-Z ]*" class="form-control form-control-sm"
+                    name="first_name" maxlength="100" [(ngModel)]="auditorDetails.firstname" placeholder="First Name">
+                  <span class="req-message">Valid name required</span>
+                </div>
+                <div class="form-group col-md-5"><label class="col-form-label col-form-label-sm">Surname
+                    <span class="req">*</span></label>
+                  <input (input)="auditorValidationStep1()" pattern="[a-zA-Z ]*" class="form-control form-control-sm"
+                    name="last_name" maxlength="100" [(ngModel)]="auditorDetails.lastname" placeholder="Surname">
+                  <span class="req-message">Valid name required</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label col-form-label-sm">Residential Address
+                  <span class="req">*</span></label>
+                <div class="col-sm-4">
+                  <input (input)="auditorValidationStep1()" class="form-control form-control-sm" name="residential_address1"
+                    maxlength="100" [(ngModel)]="auditorDetails.residentialLocalAddress1" placeholder="Address1">
+                </div>
+                <div class="col-sm-4">
+                  <input (input)="auditorValidationStep1()" class="form-control form-control-sm" name="residential_address2"
+                    maxlength="100" [(ngModel)]="auditorDetails.residentialLocalAddress2" placeholder="Address2">
+                </div>
+                <div class="col-sm-4">
+                  <input (input)="auditorValidationStep1()" class="form-control form-control-sm" name="residential_postcode"
+                    maxlength="100" [(ngModel)]="auditorDetails.residentialPostCode" placeholder="Post Code">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm"> Province
+                  <span class="req">*</span>
+                </label>
+                <div class="col-sm-9">
+                  <ng-select (change)="auditorValidationStep1()" (ngModelChange)="this.auditorDetails.residentialDistrict = undefined;this.auditorDetails.residentialCity = undefined;this.auditorDetails.rgnDivision = undefined;"
+                    class="custom" placeholder="Province" [searchable]="true" [(ngModel)]="auditorDetails.residentialProvince"
+                    [ngModelOptions]="{standalone: true}">
+                    <ng-option *ngFor="let province of data.provinces" [value]="province">{{
+                      province.description_en }}</ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm"> District
+                  <span class="req">*</span>
+                </label>
+                <div class="col-sm-9">
+                  <ng-select (change)="auditorValidationStep1()" (ngModelChange)="this.auditorDetails.residentialCity = undefined;this.auditorDetails.rgnDivision = undefined;"
+                    class="custom" placeholder="District" [searchable]="true" [(ngModel)]="auditorDetails.residentialDistrict"
+                    [ngModelOptions]="{standalone: true}">
+                    <ng-option *ngFor="let district of this.data.districts | district:auditorDetails.residentialProvince"
+                      [value]="district">{{
+                      district.description_en }}</ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm"> City
+                  <span class="req">*</span>
+                </label>
+                <div class="col-sm-9">
+                  <ng-select (change)="auditorValidationStep1()" (ngModelChange)="this.auditorDetails.rgnDivision = undefined;"
+                    class="custom" placeholder="City" [searchable]="true" [(ngModel)]="auditorDetails.residentialCity"
+                    [ngModelOptions]="{standalone: true}">
+                    <ng-option *ngFor="let city of data.citys | city:auditorDetails.residentialDistrict" [value]="city">{{city.description_en}}</ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm"> GN Division
+                  <span class="req">*</span>
+                </label>
+                <div class="col-sm-9">
+                  <ng-select (change)="auditorValidationStep1()" class="custom" placeholder="GN Division" [searchable]="true"
+                    [(ngModel)]="auditorDetails.rgnDivision" [ngModelOptions]="{standalone: true}">
+                    <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:auditorDetails.residentialCity"
+                      [value]="gndivision">{{gndivision.description_en}}</ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <br>
+              <div class="form-group row">
+                <label f class="col-sm-3 col-form-label col-form-label-sm">Business Name, (if any)
+                </label>
+                <div class="col-sm-12">
+                  <input (input)="auditorValidationStep1()" class="form-control form-control-sm" name="business_name"
+                    maxlength="100" [(ngModel)]="auditorDetails.businessName" placeholder="Business Name">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label col-form-label-sm">Business Address
+                </label>
+                <div class="col-sm-4">
+                  <input (input)="auditorValidationStep1()" class="form-control form-control-sm" name="business_address1"
+                    maxlength="100" [(ngModel)]="auditorDetails.businessLocalAddress1" placeholder="Address1">
+                </div>
+                <div class="col-sm-4">
+                  <input (input)="auditorValidationStep1()" class="form-control form-control-sm" name="business_address2"
+                    maxlength="100" [(ngModel)]="auditorDetails.businessLocalAddress2" placeholder="Address2">
+                </div>
+                <div class="col-sm-4">
+                  <input (input)="auditorValidationStep1()" class="form-control form-control-sm" name="postcode"
+                    maxlength="100" [(ngModel)]="auditorDetails.businessPostCode" placeholder="Post Code">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm"> Province
+                </label>
+                <div class="col-sm-9">
+                  <ng-select (change)="auditorValidationStep1()" (ngModelChange)="this.auditorDetails.businessDistrict = undefined;this.auditorDetails.businessCity = undefined;this.auditorDetails.gnDivision = undefined;"
+                    class="custom" placeholder="Province" [searchable]="true" [(ngModel)]="auditorDetails.businessProvince"
+                    [ngModelOptions]="{standalone: true}">
+                    <ng-option *ngFor="let province of data.provinces" [value]="province">{{
+                      province.description_en }}</ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm"> District
+                </label>
+                <div class="col-sm-9">
+                  <ng-select (change)="auditorValidationStep1()" (ngModelChange)="this.auditorDetails.businessCity = undefined;this.auditorDetails.gnDivision = undefined;"
+                    class="custom" placeholder="District" [searchable]="true" [(ngModel)]="auditorDetails.businessDistrict"
+                    [ngModelOptions]="{standalone: true}">
+                    <ng-option *ngFor="let district of this.data.districts | district:auditorDetails.businessProvince"
+                      [value]="district">{{
+                      district.description_en }}</ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm"> City
+                </label>
+                <div class="col-sm-9">
+                  <ng-select (change)="auditorValidationStep1()" (ngModelChange)="this.auditorDetails.gnDivision = undefined;"
+                    class="custom" placeholder="City" [searchable]="true" [(ngModel)]="auditorDetails.businessCity"
+                    [ngModelOptions]="{standalone: true}">
+                    <ng-option *ngFor="let city of data.citys | city:auditorDetails.businessDistrict" [value]="city">{{city.description_en}}</ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm"> GN Division
+                </label>
+                <div class="col-sm-9">
+                  <ng-select (change)="auditorValidationStep1()" class="custom" placeholder="GN Division" [searchable]="true"
+                    [(ngModel)]="auditorDetails.gnDivision" [ngModelOptions]="{standalone: true}">
+                    <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:auditorDetails.businessCity"
+                      [value]="gndivision">{{gndivision.description_en}}</ng-option>
+                  </ng-select>
+                </div>
+              </div>
+              <br>
+              <div class="form-group row">
+                <div class="form-group col-md-4"><label class="col-form-label col-form-label-sm">Nationality
+                    <span class="req">*</span></label>
+                  <input (input)="auditorValidationStep1()" pattern="[a-zA-Z ]*" class="form-control form-control-sm"
+                    name="nationality" maxlength="100" [(ngModel)]="auditorDetails.nationality" placeholder="Nationality">
+                  <span class="req-message">Valid name required</span>
+                </div>
+                <div class="form-group col-md-4"><label class="col-form-label col-form-label-sm">Race
+                    <span class="req">*</span></label>
+                  <input (input)="auditorValidationStep1()" pattern="[a-zA-Z ]*" class="form-control form-control-sm"
+                    name="race" maxlength="100" [(ngModel)]="auditorDetails.race" placeholder="Race">
+                  <span class="req-message">Valid name required</span>
+                </div>
+                <div class="form-group col-md-4"><label class="col-form-label col-form-label-sm">Date of Birth
+                    <span class="req">*</span></label>
+                  <input (input)="auditorValidationStep1()" (change)="dateValidate('birthday');auditorValidationStep1();"
+                    type="date" class="form-control form-control-sm" name="dob" [(ngModel)]="auditorDetails.birthDay"
+                    placeholder="">
+                  <span class="req-message">Valid date required</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="form-group col-md-4"><label class="col-form-label col-form-label-sm">Where Domiciled
+                    <span class="req">*</span></label>
+                  <input (input)="auditorValidationStep1()" pattern="[a-zA-Z ]*" class="form-control form-control-sm"
+                    name="whereDomiciled" maxlength="100" [(ngModel)]="auditorDetails.whereDomiciled" placeholder="Where Domiciled">
+                  <span class="req-message">Valid name required</span>
+                </div>
+                <div class="form-group col-md-4"><label class="col-form-label col-form-label-sm">Date of taking up
+                    residence in Srilanka
+                    <span class="req">*</span></label>
+                  <input (input)="auditorValidationStep1()" (change)="dateValidate('dtr');auditorValidationStep1();"
+                    type="date" class="form-control form-control-sm" name="dateTakeResidenceInSrilanka" [(ngModel)]="auditorDetails.dateTakeResidenceInSrilanka"
+                    placeholder="">
+                  <span class="req-message">Valid date required</span>
+                </div>
+                <div class="form-group col-md-4"><label class="col-form-label col-form-label-sm">Date of continuously
+                    resident in Srilanka
+                    <span class="req">*</span></label>
+                  <input (input)="auditorValidationStep1()" (change)="dateValidate('dcr');auditorValidationStep1();"
+                    type="date" class="form-control form-control-sm" name="dateConResidenceInSrilanka" [(ngModel)]="auditorDetails.dateConResidenceInSrilanka"
+                    placeholder="">
+                  <span class="req-message">Valid date required</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label f class="col-sm-12 col-form-label col-form-label-sm">Particulars of immovable property owned &
+                  other permanent interests in Sri Lanka
+                  <span class="req">*</span>
+                </label>
+                <div class="col-sm-12">
+                  <input (input)="auditorValidationStep1()" class="form-control form-control-sm" name="property"
+                    maxlength="100" [(ngModel)]="auditorDetails.ownedProperty" placeholder="">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label f class="col-sm-12 col-form-label col-form-label-sm">Other facts the applicant relies on to
+                  establish that he has a Sri Lanka domicile
+                  <span class="req">*</span>
+                </label>
+                <div class="col-sm-12">
+                  <input (input)="auditorValidationStep1()" class="form-control form-control-sm" name="facts" maxlength="100"
+                    [(ngModel)]="auditorDetails.otherFacts" placeholder="">
+                </div>
+              </div>
+              <br>
+            </div>
+            <div class="f1-buttons">
+              <button [disabled]="!enableStep1Submission" type="button" class="btn btn-next" id="btn1-next" (click)="changeProgressStatuses(1)">Next
+                <i class="fas fa-forward"></i></button>
+            </div>
+          </fieldset>
+          <fieldset [hidden]="stepOn != 1">
+            <div class="auditor other details section">
+              <div class="form-group row">
+                <label f class="col-sm-12 col-form-label col-form-label-sm">Sub-clauses of regulation 5(1) under
+                  which
+                  applicant is qualified
+                  <span class="req">*</span>
+                </label>
+                <div class="col-sm-12">
+                  <!-- <input (input)="auditorValidationStep2()" class="form-control form-control-sm" name="qualified"
+                    maxlength="100" [(ngModel)]="auditorDetails.subClauseQualified">
+                  <span class="req-message">Valid reason required</span> -->
+                  <select (change)="auditorValidationStep2(); changeSubClause();" class="form-control form-control-sm modal-input-director-title ng-pristine ng-valid ng-touched"
+                    name="qualified" [(ngModel)]="auditorDetails.subClauseQualified">
+                    <option value="">Choose...</option>
+                    <option value="5(1)a">5(1)a - Possess Certificate to Practice issued by the council of the
+                      Institute of chartered accountants of Ceylon</option>
+                    <option value="5(1)b">5(1)b - Has been an officer in the department of Inland revenue not below the
+                      rank of assessor</option>
+                    <option value="5(1)c">5(1)c - Posses Diploma in accountancy granted by the Ceylon Technical college
+                      or any institute or society recommend by the board</option>
+                    <option value="5(1)d">5(1)d - Has been a member of the Ceylon Audit service not below the rank of
+                      superintendent of audit. Class II, Being a person who has been appointed to that service on the
+                      results of competitive examination</option>
+                    <option value="5(1)e">5(1)e - Has been a member of the Ceylon government Accountants service not
+                      below class III of that service being a person appointed to that service on the results of
+                      competitive examination</option>
+                    <option value="5(1)f">5(1)f - A member of any other institute or society of accountants or
+                      secretaries approved by the board</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label f class="col-sm-12 col-form-label col-form-label-sm">Professional Qualifications
+                  <span class="req">*</span> (<a href="https://www.gazette.lk/" target="_blank">Gazette</a>)
+                </label>
+                <div class="col-sm-12">
+                  <input readonly (input)="auditorValidationStep2()" class="form-control form-control-sm" name="professional_qualifications"
+                    [(ngModel)]="auditorDetails.pQualification">
+                  <!-- <select (change)="auditorValidationStep2()" class="form-control form-control-sm modal-input-director-title ng-pristine ng-valid ng-touched"
+                    name="professional_qualifications" [(ngModel)]="auditorDetails.pQualification">
+                    <option value="">Choose...</option>
+                    <option value="Charterd Accountant">Charterd Accountant</option>
+                    <option value="HNDA (Higher National Diploma in Accountancy) Holder">HNDA (Higher National Diploma
+                      in Accountancy) Holder</option>
+                    <optgroup label="Should be a government Pensioner, who has following qualification">
+                      <option value="Has been an officer in the Department of Inland revenue not below the rank of Assessor">Has
+                        been an
+                        officer in the Department of Inland revenue not below the rank of Assessor</option>
+                      <option value="Has been a member of the Ceylon Audit service not below the rank of Superintendent of Audit, Class II">Has
+                        been a member of the Ceylon Audit service not below the
+                        rank of Superintendent of Audit, Class II</option>
+                      <option value="Has been a member of the Ceylon Government Accountant’s services not below class III (Gazzet date – 1964.09.04)">Has
+                        been a member of the Ceylon Government Accountant’s
+                        services not below class III (Gazzet date – 1964.09.04)</option>
+                    </optgroup>
+                  </select> -->
+                </div>
+              </div>
+              <br>
+              <div class="form-group row">
+                <label f class="col-sm-5 col-form-label col-form-label-sm">Have you been adjudged by a competent court
+                  to be of unsound mind
+                  <span class="req">*</span>
+                </label>
+                <label class="col-sm-1 col-form-label col-form-label-sm">
+                  <input (change)="auditorValidationStep2()" type="radio" name="unsound" [(ngModel)]="auditorDetails.isUnsoundMind"
+                    value="no" />
+                  <span> No</span>
+                </label>
+                <label class="col-sm-1 col-form-label col-form-label-sm">
+                  <input (change)="auditorValidationStep2(); isUnsoundMindPopUp();" type="radio" name="unsound"
+                    [(ngModel)]="auditorDetails.isUnsoundMind" value="yes" />
+                  <span> Yes</span>
+                </label>
+              </div>
+              <div class="form-group row">
+                <label f class="col-sm-5 col-form-label col-form-label-sm">Have you been adjudged an insolvent or
+                  bankrupt
+                  <span class="req">*</span>
+                </label>
+                <label class="col-sm-1 col-form-label col-form-label-sm">
+                  <input (change)="auditorValidationStep2()" name="bankrupt" [(ngModel)]="auditorDetails.isInsolventOrBankrupt"
+                    type="radio" value="no" (click)="show1()" />
+                  <span> No</span>
+                </label>
+                <label class="col-sm-1 col-form-label col-form-label-sm">
+                  <input (change)="auditorValidationStep2()" name="bankrupt" [(ngModel)]="auditorDetails.isInsolventOrBankrupt"
+                    type="radio" value="yes" (click)="show2()" />
+                  <span> Yes</span>
+                </label>
+              </div>
+              <div id="div1" class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm">Mention the reason
+                  <span class="req">*</span>
+                </label>
+                <div class="col-sm-12">
+                  <input (input)="auditorValidationStep2()" class="form-control form-control-sm" name="reason1"
+                    maxlength="100" [(ngModel)]="auditorDetails.reason1" placeholder="Reason">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label f class="col-sm-5 col-form-label col-form-label-sm">Have you been convicted by any competent
+                  court in Sri Lanka / Overseas
+                  <span class="req">*</span>
+                </label>
+                <label class="col-sm-1 col-form-label col-form-label-sm">
+                  <input (change)="auditorValidationStep2()" name="competent" [(ngModel)]="auditorDetails.isCompetentCourt"
+                    type="radio" value="no" (click)="show3()" />
+                  <span> No</span>
+                </label>
+                <label class="col-sm-1 col-form-label col-form-label-sm">
+                  <input (change)="auditorValidationStep2()" name="competent" [(ngModel)]="auditorDetails.isCompetentCourt"
+                    type="radio" value="yes" (click)="show4()" />
+                  <span> Yes</span>
+                </label>
+              </div>
+              <div class="form-group" id="div2">
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label col-form-label-sm">Mention the reason
+                    <span class="req">*</span>
+                  </label>
+                  <label class="col-sm-2 col-form-label col-form-label-sm">
+                    <input (change)="auditorValidationStep2()" name="reason" [(ngModel)]="auditorDetails.reason2" type="radio"
+                      value="pardoned" />
+                    <span> Pardoned</span>
+                  </label>
+                  <label class="col-sm-2 col-form-label col-form-label-sm">
+                    <input (change)="auditorValidationStep2()" name="reason" [(ngModel)]="auditorDetails.reason2" type="radio"
+                      value="appeal" />
+                    <span> Appeal</span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label f class="col-sm-12 col-form-label col-form-label-sm">Any other particulars the applicant desires
+                  to state
+                  <span class="req">*</span>
+                </label>
+                <div class="col-sm-12">
+                  <input (input)="auditorValidationStep2()" class="form-control form-control-sm" name="any_other"
+                    maxlength="100" [(ngModel)]="auditorDetails.otherDetails" placeholder="">
+                </div>
+              </div>
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button [disabled]="!enableStep2Submission" (click)="areYouSureYes()" type="button" class="btn btn-next">Next
+                <i class="fas fa-forward"></i></button>
+            </div>
+          </fieldset>
+          <fieldset [hidden]="stepOn != 2">
+            <div class="container download-container">
+              <h3>Document List</h3>
+              <div class="doc-block-wrapper">
+                <div class="doc-block">
+                  <h4>Application Form Download</h4>
+                  <div class="download-application-row">
+                    <div class="download-application-block">Application</div>
+                    <div class="doc-download">
+                      <button (click)="clickDownload()" type="button" class="btn btn-next">Download
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(3)" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+            </div>
+          </fieldset>
+          <fieldset [hidden]="stepOn != 3">
+            <div class="alert alert-warning" role="alert">
+              <p>
+                <small>Please upload all files in pdf format,upload only A4 Size, portrait orientation and file size
+                  should be less
+                  than 4 MB.</small>
+              </p>
+              <p>
+                <small>Please remove cover page of 'ARTICLES OF THE ASSOCIATION' Document</small>.</p>
+            </div>
+            <hr>
+            <div class="container uploaded-container">
+              <div class="row upload-row">
+                <div class="col-9 doc">
+                  Application Forms
+                </div>
+                <div class="col-12" *ngFor="let item of application; let i = index">
+                  <div class="col-12" *ngIf="item.setkey == 'DOCUMENT_REQUEST_TO_RESUBMIT'">
+                    <div class="col-3 float-right" style="margin-top: -10px">
+                      <label style="height: 37px; float:right;" for="app{{item.id}}" class="upload-wrapper btn btn-primary btn-sm download">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                      </label>
+                      <input style="display:block;position: fixed;top:-100000px" id="app{{item.id}}" type="file"
+                        (change)="updateFileUploaded($event,item.id,'application','applicationUpload');" placeholder="Upload file"
+                        accept=".pdf">
+                    </div>
+                    <div>
+                      <span style="color: red"><i class="fa fa-exclamation-triangle"></i>{{item.value}} {{' :-
+                        '}}{{item.comment}}</span>
+                    </div>
+                  </div>
+                  <div class="col-12 uploaded-doc" *ngIf="item.pdfname">
+                    <span><i class="fas fa-file-pdf"></i></span>{{item.pdfname}}
+                    <button class="button red button-sm" [disabled]="item.setkey == 'DOCUMENT_APPROVED'" (click)="fileDeleteResubmited(item.id,'applicationUpload',i)">
+                      <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                    <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                      <i class="far fa-file-pdf"></i> View
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="row upload-row">
+                <div class="col-9 doc">
+                  Professional Certificates
+                </div>
+                <div class="col-12" *ngFor="let item of pCertificateUploadList; let i = index">
+                  <div class="col-12" *ngIf="item.setkey == 'DOCUMENT_REQUEST_TO_RESUBMIT'">
+                    <div class="col-3 float-right" style="margin-top: -10px">
+                      <label style="height: 37px; float:right;" for="pc{{item.id}}" class="upload-wrapper btn btn-primary btn-sm download">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                      </label>
+                      <input style="display:block;position: fixed;top:-100000px" id="pc{{item.id}}" type="file"
+                        (change)="updateFileUploaded($event,item.id,'application','pCertificateUpload');" placeholder="Upload file"
+                        accept=".pdf">
+                    </div>
+                    <div>
+                      <span style="color: red"><i class="fa fa-exclamation-triangle"></i>{{item.value}} {{' :-
+                        '}}{{item.comment}}</span>
+                    </div>
+                  </div>
+                  <div class="col-12 uploaded-doc" *ngIf="item.pdfname">
+                    <span><i class="fas fa-file-pdf"></i></span>{{item.pdfname}}
+                    <button class="button red button-sm" [disabled]="item.setkey == 'DOCUMENT_APPROVED'" (click)="fileDeleteResubmited(item.id,'applicationUpload',i)">
+                      <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                    <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                      <i class="far fa-file-pdf"></i> View
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button [disabled]="!enableGoToPay" (click)="areYouSureSubmitYes()" type="button" class="btn btn-next">Submit
+                <i class="fas fa-forward"></i></button>
+            </div>
+          </fieldset>
+          <fieldset class="{{stepOn}}" [hidden]="stepOn != 4">
+            <div class="alert alert-warning" role="alert">
+              <p>
+                <small>For registration of individuals as Auditors : Rs 6,000.00</small>
+              </p>
+              <p>
+                <small>Follow the guidelines to payment process</small>.</p>
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(3)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="areYouSureSubmitYes()" type="button" class="btn btn-submit">PAY</button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div style="clear:both"></div>
+      <br />
+      <br />
+    </div>
+  </div>
+</section>
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockBackToForm">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Are you sure want to proceed further?</h2>
+    </div>
+    <div class="body">
+      <p>If yes, you will not be able to revert back.</p>
+    </div>
+    <div class="footer">
+      <button class="btn btn-success" (click)="updateAuditorData()">Yes</button>
+      <button class="btn btn-danger" (click)="areYouSureNo()">No</button>
+    </div>
+  </div>
+</div>
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockPayment">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Are you sure want to proceed further? </h2>
+    </div>
+    <div class="body">
+      <p>If yes, you will not be able to revert back.</p>
+    </div>
+    <div class="footer">
+      <button type="submit" class="btn btn-success" (click)="submit()">Yes</button>
+      <button class="btn btn-danger" (click)="areYouSureSubmitNo()">No</button>
+    </div>
+  </div>
+</div>

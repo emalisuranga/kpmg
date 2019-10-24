@@ -1,0 +1,207 @@
+<div class="clearfix top-margin">
+</div>
+<section>
+  <div class="container" style="padding-bottom: 50px;">
+    <div class="row">
+      <div class="col-md-11 nopadding">
+        <form role="form" method="post" class="f1">
+          <h3 style="text-align: center">auditor renewal form (individual)</h3>
+          <p style="text-align: center">Fill in all steps for completing renewal process.</p>
+          <div class="f1-steps">
+            <div class="f1-progress">
+              <div class="f1-progress-line" data-now-value="16.6" data-number-of-steps="3" [ngStyle]="{'width': progress.progressPercentage}"></div>
+            </div>
+            <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}}">
+              <div class="f1-step-icon">
+                <i class="{{item.icon}}"></i>
+              </div>
+              <p>{{item.label}}</p>
+            </div>
+          </div>
+          <fieldset [hidden]="stepOn != 0">
+            <div class="container download-container">
+              <h3>Document List</h3>
+              <div class="doc-block-wrapper">
+                <div class="doc-block">
+                  <h4>Application Form Download</h4>
+                  <div class="download-application-row">
+                    <div class="download-application-block">Application</div>
+                    <div class="doc-download">
+                      <button (click)="clickDownload()" type="button" class="btn btn-next">Download
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+            </div>
+          </fieldset>
+          <fieldset [hidden]="stepOn != 1">
+            <div class="alert alert-warning" role="alert">
+              <p>
+                <small>Please upload all files in pdf format,upload only A4 Size, portrait orientation and file size
+                  should be less
+                  than 4 MB.</small>
+              </p>
+              <p>
+                <small>Please remove cover page of 'ARTICLES OF THE ASSOCIATION' Document</small>.</p>
+            </div>
+            <hr>
+            <div class="container uploaded-container">
+              <div class="row upload-row">
+                <div class="col-9 doc">
+                  Application Form
+                </div>
+                <div class="col">
+                  <div class="float-right" *ngIf="application?.length <= 0">
+                    <label for="af" class="upload-wrapper btn btn-primary btn-sm download">
+                      <i class="fas fa-cloud-upload-alt"></i> Upload
+                    </label>
+                    <input style="display:block;position: fixed;top:-100000px" id="af" type="file" (change)="fileUpload($event,'renewal application','renewalFormUpload'); gotoPay();"
+                      placeholder="Upload file" accept=".pdf">
+                  </div>
+                </div>
+                <div class="col-12 uploaded-doc" *ngFor="let item of application; let i = index">
+                  <span><i class="fas fa-file-pdf"></i></span>{{item.pdfname}}
+                  <button class="button red button-sm" (click)="fileDelete(item.id,'renewalFormUpload',i); gotoPay();">
+                    <i class="fas fa-trash-alt"></i> Delete
+                  </button>
+                  <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                    <i class="far fa-file-pdf"></i> View
+                  </button>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="container uploaded-container">
+              <div class="row upload-row">
+                <div class="col-9 doc">
+                  Practicing Certificate
+                </div>
+                <div class="col">
+                  <div class="float-right" *ngIf="prof?.length <= 0">
+                    <label for="pq" class="upload-wrapper btn btn-primary btn-sm download">
+                      <i class="fas fa-cloud-upload-alt"></i> Upload
+                    </label>
+                    <input style="display:block;position: fixed;top:-100000px" id="pq" type="file" (change)="fileUpload($event,'renewal pq','renewalPQUpload'); gotoPay();"
+                      placeholder="Upload file" accept=".pdf">
+                  </div>
+                </div>
+                <div class="col-12 uploaded-doc" *ngFor="let item of prof; let i = index">
+                  <span><i class="fas fa-file-pdf"></i></span>{{item.pdfname}}
+                  <button class="button red button-sm" (click)="fileDelete(item.id,'renewalPQUpload',i); gotoPay();">
+                    <i class="fas fa-trash-alt"></i> Delete
+                  </button>
+                  <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                    <i class="far fa-file-pdf"></i> View
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button [disabled]="!enableGoToPay" (click)="changeProgressStatuses(2)" type="button" class="btn btn-next">Next
+                <i class="fas fa-forward"></i></button>
+            </div>
+          </fieldset>
+          <fieldset class="{{stepOn}}" [hidden]="stepOn != 2">
+            <div class="content">
+              <div class="container top-margin">
+                <div class="row">
+                  <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
+                    <div class="box">
+                      <h3 class="box-title">User payment agreement</h3>
+                      <div class="plan-selection">
+                        <div class="plan-data">
+                          <small class="plan-text">If you are having any problems, please email eroc@info.com or
+                            contact
+                            on 011-2123456.</small><br>
+                          <small class="plan-text">User
+                            payment agreement</small><br>
+                        </div>
+                      </div>
+                      <div class="plan-selection">
+                        <div class="row justify-content-md-center mt-3">
+                          <label for="card" class="method">
+                            <div class="card-logos">
+                              <img src="assets/images/header/visa_logo.png" />
+                              <img src="assets/images/header/mastercard_logo.png" />
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                    <div class="widget">
+                      <h4 class="widget-title">Order Summary</h4>
+                      <div class="summary-block">
+                        <div class="summary-content">
+                          <div class="summary-head">
+                            <h5 class="summary-title">Registration fee</h5>
+                          </div>
+                          <div class="summary-price">
+                            <p class="summary-text">{{ calculation.getValue('PAYMENT_INDIVIUAL_AS_AUDITOR_RENEWAL') |
+                              currency:'Rs.' }}</p>
+                          </div>
+                          <div class="summary-head">
+                            <h5 class="summary-title">Tax</h5>
+                          </div>
+                          <div class="summary-price">
+                            <p class="summary-text">{{ calculation.getTaxAmount | currency:'Rs.' }}</p>
+                          </div>
+                          <div class="summary-head">
+                            <h5 class="summary-title">Convenience Fee</h5>
+                          </div>
+                          <div class="summary-price">
+                            <p class="summary-text">{{ calculation.getConvenienceFee | currency:'Rs.' }}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="summary-content">
+                        <div class="summary-head">
+                          <h5 class="summary-title"><strong>Total Amount</strong></h5>
+                        </div>
+                        <div class="summary-price">
+                          <p class="summary-text"><strong>{{ calculation.getTotalAmount | currency:'Rs.' }}</strong></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="areYouSurePayYes()" type="button" class="btn btn-submit">PAY</button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div style="clear:both"></div>
+      <br />
+      <br />
+    </div>
+  </div>
+</section>
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockPayment">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Are you sure want to proceed further?</h2>
+    </div>
+    <div class="body">
+      <p>If yes, you will not be able to revert back.</p>
+    </div>
+    <div class="footer">
+      <form ngNoForm action="{{ paymentGateway }}" method="post">
+        <input type="hidden" [(ngModel)]="cipher_message" name="clientPaymentRequest">
+        <button type="submit" class="btn btn-success" (click)="getCipherToken()">Yes</button>
+        <button class="btn btn-danger" (click)="areYouSurePayNo()">No</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,139 @@
+
+  <div class="clearfix">
+  </div>
+  
+  <section class="top-margin">
+  
+      <div class="container" style="padding-bottom: 50px;">
+          <div class="row">
+  
+              <div class="col-md-12 nopadding">
+  
+                  <div class="f1">
+                      <br/><br/>
+                      <h3 style="text-align: center">All Submitted Correspondences</h3>
+                      <p style="text-align: center">Please search  either by company name (without company postfix ) , company registration number or requset ID and proceed.</p>
+                      
+                      <div style="padding: 0; margin: 10px 0 30px;" class="col-sm-12 col-lg-12 search-text-wrapper">
+                            <button style="width: 250px;float: right;margin: 0;padding: 16px;font-size: 16px;"  (click)="createNew()" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Create New</button>
+                            <div style="clear:both"></div>
+                      </div>
+                      <fieldset>
+  
+                              <div class="tender-list-wrapper">
+  
+     
+                                      <div class="search-tender-wrapper">
+                                         
+                                          <div class="row">
+                                        
+                                          
+                                
+                                              <div class="col-sm-12 col-lg-12 search-text-wrapper searach-1-field">
+                                              
+                                                <div class="input-group md-form form-sm form-2 pl-0">
+                                                    <input  class="form-control my-0 py-1 amber-border" type="text" [(ngModel)]="request_id" placeholder="Request ID" aria-label="Search">
+                                                    <span style="display: inline-block;margin: 0 10px;margin-top: 7px;color: #111;
+                                                        font-weight: bold;" class="or">OR/AND</span>
+                                                   <input    class="form-control my-0 py-1 amber-border" type="text" [(ngModel)]="registration_no" placeholder="Company Registration Number here" aria-label="Search"> 
+                                                   <span style="display: inline-block;margin: 0 10px;margin-top: 7px;color: #111;
+                                                  font-weight: bold;" class="or">OR/AND</span>
+                                                   <input    class="form-control my-0 py-1 amber-border" type="text" [(ngModel)]="namePart" placeholder="Company name here" aria-label="Search">
+                                                 
+                                                </div>
+                                                <br/>
+                                              </div>
+                                
+                                              <div class="col-sm-12 col-lg-12 search-text-wrapper" style="text-align:center;margin-top: -26px;margin-bottom: 13px;">
+                                                      <button [disabled]="!(namePart || registration_no || request_id )" (click)="getCorrespondenceList()" class="btn btn-primary"><i class="fa fa-search"></i> SEARCH</button>
+                                
+                                               </div>
+                                
+                                             
+                                
+                                            </div>
+                                         
+                                            <div class="pagination" *ngIf="totalResultPages > 1">
+                                                <span *ngIf="currentPage > 1" class="paginate prev" (click)="getCorrespondenceList(1)"><i class="fas fa-backward"></i>&nbsp;First</span>
+                                                <span *ngIf="currentPage > 1" class="paginate prev" (click)="getCorrespondenceList( currentPage -1 )"><i class="far fa-arrow-alt-circle-left"></i>&nbsp;Previous</span>
+                                                <span  class="paginate page-indicator">{{currentPage}} of {{totalResultPages}}</span>
+                                                <span *ngIf="totalResultPages > currentPage" class="paginate next" (click)="getCorrespondenceList( currentPage + 1 )">Next&nbsp;<i class="far fa-arrow-alt-circle-right"></i></span>
+                                                <span *ngIf="totalResultPages > currentPage" class="paginate next" (click)="getCorrespondenceList( totalResultPages )">Last&nbsp;<i class="fas fa-forward"></i></span>
+                                               </div>
+                                           
+                                            <div  class="tender-panel" >
+
+                                                <!-- table-->
+
+                                                <table class="corr-table">
+                                                        <tr>
+                                                              <th>Request ID</th>
+                                                              <th>Date/Time</th>
+                                                              <th>Company</th>
+                                                              <th>comments</th>
+                                                              <th>Action</th>
+                                                        </tr>
+                                                        <tr *ngFor="let corr of companyList.list; let i = index">
+                                                            <td>{{corr['request_id']}}</td>
+                                                            <td>{{corr['date']}}</td>
+                                                            <td>{{corr['company_name']}} ({{corr['reg_no']}})</td>
+                                                           
+                                                            
+                                                            <td style="width:30%">{{corr['comment']}}</td>
+                                                            <td style="text-align:center">
+                                                                    <button (click)="goToExist(corr['company_id'], corr['request_id'])" style="margin:auto;background-color: #4285f4 !important; width:85%" *ngIf="corr['status'] == 'CORRESPONDENCE_PROCESSING'" type="button" class="btn btn-primary btn-sm">Submit</button>
+                                                                    <button (click)="goToExist(corr['company_id'], corr['request_id'])" style="margin:auto;width:85%" *ngIf="corr['status'] == 'CORRESPONDENCE_RESUBMIT'" type="button" class="btn btn-danger btn-sm">Resubmit</button>
+                                                                    <span class="approved-text" *ngIf="corr['status'] == 'CORRESPONDENCE_APPROVED'">Approved</span>
+                                                                    <span class="reject-text" *ngIf="corr['status'] == 'CORRESPONDENCE_REJECTED'">Rejected</span>
+                                                                    <span class="reject-text-comment" *ngIf="corr['status'] == 'CORRESPONDENCE_REJECTED' && corr['comment']">REASON: {{corr['comment']}}</span>
+                                                                    <span class="processing-text" *ngIf="!( corr['status'] == 'CORRESPONDENCE_APPROVED' || corr['status'] == 'CORRESPONDENCE_REJECTED' || corr['status'] == 'CORRESPONDENCE_RESUBMIT' || corr['status'] == 'CORRESPONDENCE_PROCESSING')">Request Processing</span>
+                                                                </td>
+                                                        </tr>
+
+                                                        <tr *ngIf="!companyList.list.length">
+
+                                                            <td colspan="5" style="text-align:center">
+                                                                    <h4>No Correspondence Records Found</h4>
+                                                            </td>
+
+                                                        </tr>
+                                                </table>
+
+                                                <!-- end table -->
+
+
+                                                
+                                                
+                                                
+                                            </div>
+                                
+                                            <div class="pagination" *ngIf="totalResultPages > 1">
+                                                    <span *ngIf="currentPage > 1" class="paginate prev" (click)="getCorrespondenceList(1)"><i class="fas fa-backward"></i>&nbsp;First</span>
+                                                    <span *ngIf="currentPage > 1" class="paginate prev" (click)="getCorrespondenceList( currentPage -1 )"><i class="far fa-arrow-alt-circle-left"></i>&nbsp;Previous</span>
+                                                    <span  class="paginate page-indicator">{{currentPage}} of {{totalResultPages}}</span>
+                                                    <span *ngIf="totalResultPages > currentPage" class="paginate next" (click)="getCorrespondenceList( currentPage + 1 )">Next&nbsp;<i class="far fa-arrow-alt-circle-right"></i></span>
+                                                    <span *ngIf="totalResultPages > currentPage" class="paginate next" (click)="getCorrespondenceList( totalResultPages )">Last&nbsp;<i class="fas fa-forward"></i></span>
+                                            </div>
+                                
+                                            
+                                      </div>
+                                      
+                                
+                                    
+                                      
+                                      
+                                
+                                
+                                
+                                  </div>
+  
+                      </fieldset>
+                  
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+    
+    
+  

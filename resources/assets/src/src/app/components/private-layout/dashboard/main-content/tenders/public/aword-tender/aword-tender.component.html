@@ -1,0 +1,1214 @@
+<div class="clearfix">
+</div>
+<section>
+  <div class="container" style="padding-bottom: 50px;">
+    <div class="row">
+
+
+      <div class="col-md-12 nopadding">
+
+
+        <form role="form" action="" method="post" class="f1">
+
+          <h3 style="text-align: center">Awarding of Applied Tender {{processStatus == 'TENDER_PCA2_REQUEST_TO_RESUBMIT' ? '(Resubmit)' : ''}}</h3>
+          <p style="text-align: center">Go through all steps for completing the process.</p>
+          <div class="f1-steps">
+            <div class="f1-progress">
+              <div class="f1-progress-line" data-now-value="12.5" data-number-of-steps="4" [ngStyle]="{'width': progress.progressPercentage}"></div>
+            </div>
+
+
+
+            <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}}">
+              <div class="f1-step-icon">
+                <i class="{{item.icon}}"></i>
+              </div>
+              <p>{{item.label}}</p>
+            </div>
+
+          </div>
+
+          <fieldset [hidden]="stepOn != 0">
+
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+
+            <div class="form-row" style="margin:20px 0">
+
+
+
+              <div class="form-group col-md-12">
+
+                <h5 >Tender Number :  <span class="label-val">{{tender.tenderNo}}</span>
+                 
+                </h5>
+               
+
+              </div>
+
+              <div class="form-group col-md-12">
+
+                <h5 >Description :
+                 
+               
+                  <span class="label-val">{{tender.description}}</span>
+                </h5>
+              </div>
+
+
+            </div>
+
+            <hr/>
+            <input type="hidden" [(ngModel)]="applyTender.applicant_type" name="applicant_type" />
+
+            <div class="tender-item-list">
+
+                <h4 class="alert alert-info items-title">You have been awarded following tender item.</h4>
+
+
+                <div *ngFor="let item of tenderItems.items; let i = index" class=" item-record">
+  
+                  <div class="item-record-inner">
+  
+                    <div class="form-row">
+                     <!-- <div class="form-group col-md-1">
+
+                          <input type="checkbox" id="applied_tender_selected_items_{{item.itemId}}" class="custom-control-input" name="applied_tender_selected_items[]" value="{{item.itemId}}"
+                          [checked]="itemShow.indexOf(item.itemId) >= 0" readonly
+                          >
+                        <label style="font-size:14px;" class="custom-control-label" for="applied_tender_selected_items_{{item.itemId}}"></label>
+
+                      </div>-->
+
+                      <div class="form-group col-md-3">
+                        <h5>Item Name :</h5>
+                      </div>
+                      <div class="form-group col-md-9">{{item.name}}</div>
+  
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                          <h5>Item Number :</h5>
+                        </div>
+                        <div style="word-break: break-all" class="form-group col-md-9">{{item.itemNo}}</div>
+    
+                      </div>
+  
+                    <div class="form-row">
+                      <div class="form-group col-md-3">
+                        <h5>Description :</h5>
+                      </div>
+                      <div style="word-break: break-all" class="form-group col-md-9">{{item.description}}</div>
+  
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                          <h5>Quantity :</h5>
+                        </div>
+                        <div class="form-group col-md-9">{{item.qty}}</div>
+    
+                      </div>
+  
+                      <div class="form-row">
+                          <div class="form-group col-md-3">
+                            <h5>Date From :</h5>
+                          </div>
+                          <div class="form-group col-md-9">{{item.dateFrom | date :"medium"}}</div>
+      
+                        </div>
+  
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                              <h5>Date To :</h5>
+                            </div>
+                            <div class="form-group col-md-9">{{item.dateTo | date :"medium"}}</div>
+        
+                          </div>
+  
+  
+                  </div>
+  
+                </div>
+  
+              </div>
+              <hr/>
+              
+              <div class="form-row contract-form-block"  style="margin:20px 0; width:100%">
+              
+                <h3>Contract Infomation</h3>
+          
+                  <div class="form-group col-md-12">
+    
+                    <label class="co l-form-label col-form-label-sm">The amount accepted for  award of the tender
+                      <span class="req">*</span>
+                    </label>
+                    <input [readonly]="processStatus == 'TENDER_PCA2_REQUEST_TO_RESUBMIT'" (input)="validateContractInfo()" onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"   [(ngModel)]="tenderItem.accepted_amount"  name="item-award-amount"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+    
+                  </div>
+
+                  <div class="form-group col-md-6">
+      
+                    <label class="col-form-label col-form-label-sm">Duration Of Contract:- From
+                          <span class="req">*</span>
+                    </label>
+                   <!-- <input  (input)="validateContractInfo()" name="item-datefrom" type="date"   [(ngModel)]="tenderItem.dateFrom" class="form-control form-control-sm modal-input-member-contact"
+                          placeholder=""> -->
+                          <owl-date-time-inline [disabled]="processStatus == 'TENDER_PCA2_REQUEST_TO_RESUBMIT'"  [dateTimeChange]="validateContractInfo()"  name="item-datefrom" [(ngModel)]="tenderItem.dateFrom"></owl-date-time-inline>
+                  </div>
+
+                  
+      
+                  <div class="form-group col-md-6">
+      
+                      <label class="col-form-label col-form-label-sm">Duration Of Contract:- To
+                          <span class="req">*</span>
+                      </label>
+                     <!-- <input  (input)="validateContractInfo()"  name="item-dateto" type="date"  [(ngModel)]="tenderItem.dateTo" class="form-control form-control-sm modal-input-member-email"
+                          placeholder=""> -->
+                      <owl-date-time-inline [disabled]="processStatus == 'TENDER_PCA2_REQUEST_TO_RESUBMIT'"  [dateTimeChange]="validateContractInfo()"  name="item-dateto" [(ngModel)]="tenderItem.dateTo"></owl-date-time-inline>
+                  </div>
+
+                  <div class="form-group col-md-12">
+    
+                    <label class="co l-form-label col-form-label-sm">By Whom Contract was Awarded
+                      <span class="req">*</span>
+                    </label>
+                    <input (input)="validateContractInfo()" [(ngModel)]="tenderItem.contract_awarded"  name="item-award-whome"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+    
+                  </div>
+
+                  <div class="form-group col-md-12">
+    
+                      <label class="co l-form-label col-form-label-sm">Nature of contract (give short description of contract)
+                       
+                      </label>
+                      <textarea   [(ngModel)]="tenderItem.contract_nature"  name="item-contract-nature"  class="form-control form-control-sm modal-input-tender-no" ></textarea>
+      
+                  </div>
+                  <div class="form-group col-md-6">
+                        <label class="co l-form-label col-form-label-sm">Applicant's Income tax file Number:
+                     
+                        </label>
+                        <input   [(ngModel)]="tenderItem.incometax_fileno"  name="item-award-incomtax-file-no"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+                  </div>
+                  <div class="form-group col-md-6">
+                      <label class="co l-form-label col-form-label-sm">Applicant's V.A.T file Number:
+                   
+                      </label>
+                      <input   [(ngModel)]="tenderItem.vat_fileno"  name="item-award-vat-file-no"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+                  </div>
+                  <br style="clear:both"/>
+             
+                  <p style="margin-top: 25px;">Tax paid for the 3 years immediately Preceeding the award of contract:</p>
+                  <div class="form-group row" style="width:100%">
+                   
+
+                      <div class="form-group col-md-4">
+                          <label class="co l-form-label col-form-label-sm">Income Tax (Year 3)
+                       
+                            </label>
+                            <input onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"   [(ngModel)]="tenderItem.contract_tax_year3"  name="item-contract-tax_year3"  class="form-control form-control-sm modal-input-tender-no" />
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label class="co l-form-label col-form-label-sm">Income Tax (Year 2)
+                         
+                              </label>
+                              <input onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"   [(ngModel)]="tenderItem.contract_tax_year2"  name="item-contract-tax_year2"  class="form-control form-control-sm modal-input-tender-no" />
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label class="co l-form-label col-form-label-sm">Income Tax (Year 1)
+                           
+                                </label>
+                                <input onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"   [(ngModel)]="tenderItem.contract_tax_year1"  name="item-contract-tax_year1"  class="form-control form-control-sm modal-input-tender-no" />
+                            </div>
+                     
+      
+                  </div>
+
+                  <div class="form-group row"  style="width:100%">
+                     
+                        <div class="form-group col-md-4">
+                            <label class="co l-form-label col-form-label-sm">VAT (Year 3)
+                         
+                              </label>
+                              <input onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"   [(ngModel)]="tenderItem.vat_year3"  name="item-contract-vat_year3"  class="form-control form-control-sm modal-input-tender-no" />
+                          </div>
+                          <div class="form-group col-md-4">
+                          <label class="co l-form-label col-form-label-sm">VAT (Year 2)
+                         
+                            </label>
+                            <input onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"   [(ngModel)]="tenderItem.vat_year2"  name="item-contract-vat_year2"  class="form-control form-control-sm modal-input-tender-no" />
+                        </div>
+                        <div class="form-group col-md-4">
+                        <label class="co l-form-label col-form-label-sm">VAT (Year 1)
+                         
+                          </label>
+                          <input onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"   [(ngModel)]="tenderItem.vat_year1"  name="item-contract-vat_year1"  class="form-control form-control-sm modal-input-tender-no" />
+                      </div>
+                       
+        
+                    </div>
+
+
+
+
+                </div>
+
+
+            
+            <div class="f1-buttons">
+              <button [disabled] ="!validateStep1"  (click)="updateContactDetails()" type="button" class="btn btn-next">Next
+                <i class="fas fa-forward"></i>
+              </button>
+            </div>
+
+
+          </fieldset>
+          <!-- end of fist step -->
+
+          <fieldset [hidden]="stepOn != 1">
+
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+
+
+              <input type="hidden" [(ngModel)]="applyTender.applicant_sub_type" name="applicant_type" />
+              <input type="hidden" [(ngModel)]="applyTender.is_srilankan" name="applicant-is-srilankan" />
+              <input type="hidden" [(ngModel)]="applyTender.apply_from" name="applicant-applying-from" />
+           
+
+              <div class="form-row tender-form-block"  style="margin:20px 0; width:100%"
+                *ngIf="applyTender.applicant_type != 'TENDER_TENDERER'" >
+            
+                    <div class="form-group col-md-12">
+      
+                      <label class="co l-form-label col-form-label-sm">Full Name of Applicant
+                       
+                      </label>
+                      <input readonly (input)="validateStep2Func()" [(ngModel)]="applyTender.applicant_name"  name="applicant-name"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+      
+                    </div>
+
+                    <div class="form-group col-md-12">
+      
+                        <label class="co l-form-label col-form-label-sm">Address of Applicant
+                         
+                        </label>
+                        <input readonly (input)="validateStep2Func()" [(ngModel)]="applyTender.applicant_address"  name="applicant-address"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+        
+                      </div>
+
+                      <div class="form-group col-md-12">
+      
+                        <label class="co l-form-label col-form-label-sm">Nationality of Applicant
+                        
+                        </label>
+                        
+                        <input readonly class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="applyTender.applicant_natianality"
+                        name="applicant-natianality" />
+        
+                      </div>
+
+                </div>
+
+                <div class="form-row tender-form-block"  style="margin:20px 0; width:100%">
+            
+                    <div class="form-group col-md-12">
+      
+                      <label class="co l-form-label col-form-label-sm">Full Name of tenderer
+                       
+                      </label>
+                      <input readonly (input)="validateStep2Func()" [(ngModel)]="applyTender.tenderer_name"  name="tender-name"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+      
+                    </div>
+
+                    <div class="form-group col-md-12">
+      
+                        <label class="co l-form-label col-form-label-sm">Address of Tenderer
+                         
+                        </label>
+                        <input readonly (input)="validateStep2Func()" [(ngModel)]="applyTender.tenderer_address"  name="tender-address"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+        
+                      </div>
+
+                      <div class="form-group col-md-12" *ngIf="applyTender.is_tenderer_srilankan != 'Srilankan'">
+      
+                          <label class="co l-form-label col-form-label-sm">Nationality of Tenderer
+                            
+                          </label>
+                          
+                          <input readonly (input)="validateStep2Func()" [(ngModel)]="applyTender.tenderer_natianality"  name="tender-natianality"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+          
+                      </div>
+
+                      
+
+                </div>
+
+              <div class="form-row tender-form-block"  style="margin:20px 0; width:100%">
+          
+                  <div class="form-group col-md-12">
+    
+                    <label class="co l-form-label col-form-label-sm">Applicant Email
+                    
+                    </label>
+                    <input readonly pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}" (input)="validateStep2Func()" [(ngModel)]="applyTender.appliant_email"  name="tender-email"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+                    <span class="req-message">Invalid Email </span>
+                  </div>
+
+                  <div class="form-group col-md-12">
+        
+                      <label class="co l-form-label col-form-label-sm">Signing Party Name
+                        <span class="req">*</span>
+                      </label>
+                      <input    (input)="validateStep2Func()" [(ngModel)]="tenderItem.signing_party_name"  name="tender-signing-party-name"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+                      
+                    </div>
+
+                 
+
+
+                    <p style="position: relative;
+                    top: 30px;">Signing Party Designation <span class="req">*</span></p>
+                    
+                    <div class="sec_type_wrapper form-row col-md-12">
+
+                        <div class="sec_type_item form-group col-md-6">
+
+                            <input (change)="validateStep2Func()" [(ngModel)]="tenderItem.signing_party_designation" type="radio" id="applicant-item-signing-party-designation-director" class="custom-control-input" name="applicant_item_signing_party_designation" value="Director"
+                              >
+                            <label style="font-size:14px;" class="custom-control-label radio-lbl" for="applicant-item-signing-party-designation-director">&nbsp;&nbsp;&nbsp;&nbsp;Director</label>
+            
+                          </div>
+        
+                          <div class="sec_type_item form-group col-md-6">
+
+                              <input (change)="validateStep2Func()" [(ngModel)]="tenderItem.signing_party_designation" type="radio" id="applicant-item-signing-party-designation-other" class="custom-control-input" name="applicant_item_signing_party_designation" value="Other"
+                                >
+                              <label style="font-size:14px;" class="custom-control-label radio-lbl" for="applicant-item-signing-party-designation-other">&nbsp;&nbsp;&nbsp;&nbsp;Other</label>
+              
+                         </div>
+
+                        
+                      </div>
+
+                      <div class="form-group col-md-12" *ngIf="tenderItem.signing_party_designation == 'Other'">
+
+                        <label class="co l-form-label col-form-label-sm">Please specify the designation
+                            <span class="req">*</span>
+                          </label>
+                          <input  (input)="validateStep2Func()" [(ngModel)]="tenderItem.signing_party_designation_other"  name="applicant-item-signing-party-designation-other"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+                          <!--<p class="doc-re-message"><strong>NOTE:</strong>&nbsp;You need to upload required letter under the doc upload section.</p>-->
+                      </div>
+
+                          
+
+
+              </div>
+
+              
+
+              <div class="tender-form-block"  style="margin:20px 0; width:100%"
+              *ngIf="
+              (applyTender.tenderer_sub_type == 'TENDER_COMPANY_PRIVATE' || applyTender.tenderer_sub_type == 'TENDER_COMPANY_PUBLIC')
+               " >
+
+
+                  <div class="add-new-wrapper close-member-add-new-wrapper" style="width: 70%;">
+                  
+                    <h2>
+                      <span class="add-new-wrapper-label">Directors's List</span>
+                      
+    
+                    </h2>
+    
+                  </div>
+    
+                  <div class="tender-member-list" style="display: block;padding:10px 0">
+    
+                    <div *ngFor="let member of applyTender.tender_directors.directors; let i = index" class="director-record stakeholder-record" style="margin: 10px 0;
+                    border-radius: 20px;
+                    background: #fff;
+                    border: 1px solid rgb(243, 91, 63);
+                    width: 100%;">
+    
+                      <div class="stakeholder-record-summeru" style="color: red;
+                        font-weight: lighter;
+                        font-size: 22px;
+                        border: none;
+                        cursor: pointer;
+                        width: 100%;
+                        height: 40px;
+                        background-color: transparent !important;
+                        border-radius: 0;
+                        box-shadow: none;">
+    
+                        <span style="color:#fd7e14;font-size: 15px">{{member.name}}</span>
+    
+                        
+                        <!--<span title="show record" style="float:right;color: #1f365c" class="record-handler record-handler-view">
+                          <i class="fa fa-eye"></i>&nbsp;&nbsp;
+                        </span>-->
+    
+    
+                      </div>
+    
+                      <div class="stakeholder-record-inner" style="padding: 25px 10px 10px;border-top: 1px solid #ddd">
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Name</strong>
+                          </div>
+                          <div class="form-group col-md-8">: {{member.name}}</div>
+    
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Address</strong>
+                          </div>
+                          <div class="form-group col-md-8">: {{member.address}}</div>
+    
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Nationality</strong>
+                          </div>
+                          <div class="form-group col-md-8">: {{member.natianality}}</div>
+    
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Nationality of Origin</strong>
+                          </div>
+                          <div class="form-group col-md-8">: {{member.natianality_origin}}</div>
+    
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                              <strong>Percentage of Shares Held</strong>
+                            </div>
+                            <div class="form-group col-md-8">: {{member.shares}}</div>
+      
+                          </div>
+    
+                      </div>
+    
+    
+    
+                    </div>
+    
+                  </div>
+
+
+
+              </div> 
+
+              <div class="tender-form-block"  style="margin:20px 0; width:100%"
+              *ngIf="applyTender.tenderer_sub_type =='TENDER_COMPANY_PRIVATE'" >
+
+
+                  <div class="add-new-wrapper close-member-add-new-wrapper" style="width: 70%;">
+                 
+                    <h2>
+                      <span class="add-new-wrapper-label">Shareholder's List of Tenderer</span>
+                   
+
+                    </h2>
+    
+                  </div>
+                 
+    
+                  <div class="tender-member-list" style="display: block;padding:10px 0">
+    
+                    <div *ngFor="let member of applyTender.tender_shareholders.shareholder; let i = index" class="director-record stakeholder-record" style="margin: 10px 0;
+                    border-radius: 20px;
+                    background: #fff;
+                    border: 1px solid rgb(243, 91, 63);
+                    width: 100%;">
+    
+                      <div class="stakeholder-record-summeru" style="color: red;
+                        font-weight: lighter;
+                        font-size: 22px;
+                        border: none;
+                        cursor: pointer;
+                        width: 100%;
+                        height: 40px;
+                        background-color: transparent !important;
+                        border-radius: 0;
+                        box-shadow: none;">
+    
+                        <span style="color:#fd7e14;font-size: 15px">{{member.name}}</span>
+    
+    
+                        <!--<span title="show record" style="float:right;color: #1f365c" class="record-handler record-handler-view">
+                          <i class="fa fa-eye"></i>&nbsp;&nbsp;
+                        </span>-->
+    
+    
+                      </div>
+    
+                      <div class="stakeholder-record-inner" style="padding: 25px 10px 10px;border-top: 1px solid #ddd">
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Name</strong>
+                          </div>
+                          <div class="form-group col-md-8">: {{member.name}}</div>
+    
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Address</strong>
+                          </div>
+                          <div class="form-group col-md-8">: {{member.address}}</div>
+    
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Nationality</strong>
+                          </div>
+                          <div class="form-group col-md-8">: {{member.natianality}}</div>
+    
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Nationality of Origin</strong>
+                          </div>
+                          <div class="form-group col-md-8">: {{member.natianality_origin}}</div>
+    
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                              <strong>Percentage of Shares Held</strong>
+                            </div>
+                            <div class="form-group col-md-8">: {{member.shares}}</div>
+      
+                          </div>
+    
+                      </div>
+    
+    
+    
+                    </div>
+    
+                  </div>
+
+
+
+              </div> 
+
+              <div class="tender-form-block"  style="margin:20px 0; width:100%"
+              *ngIf="
+                 (applyTender.tenderer_sub_type == 'TENDER_PARTNERSHIP' || applyTender.tenderer_sub_type == 'TENDER_PROPRIETORSHIP' || applyTender.tenderer_sub_type == 'TENDER_JOIN_VENTURE' )" >
+
+
+                  <div class="add-new-wrapper close-member-add-new-wrapper" style="width: 70%;">
+                  
+                    <h2>
+                      <span class="add-new-wrapper-label">
+                          {{applyTender.applicant_sub_type == 'TENDER_JOIN_VENTURE' ? 'List of Parties of Tenderer' : 'Firms/Consortium of persons list of Tenderer' }}
+                        
+                      </span>
+                    
+    
+                    </h2>
+    
+                  </div>
+                  <br/>
+    
+                  <div class="tender-member-list" style="display: block;padding:10px 0">
+    
+                    <div *ngFor="let member of applyTender.tender_members.member; let i = index" class="director-record stakeholder-record" style="margin: 10px 0;
+                    border-radius: 20px;
+                    background: #fff;
+                    border: 1px solid rgb(243, 91, 63);
+                    width: 100%;">
+    
+                      <div class="stakeholder-record-summeru" style="color: red;
+                        font-weight: lighter;
+                        font-size: 22px;
+                        border: none;
+                        cursor: pointer;
+                        width: 100%;
+                        height: 40px;
+                        background-color: transparent !important;
+                        border-radius: 0;
+                        box-shadow: none;">
+    
+                        <span style="color:#fd7e14;font-size: 15px">{{member.name}}</span>
+    
+  
+                        
+                        <!--<span title="show record" style="float:right;color: #1f365c" class="record-handler record-handler-view">
+                          <i class="fa fa-eye"></i>&nbsp;&nbsp;
+                        </span>-->
+    
+    
+                      </div>
+    
+                      <div class="stakeholder-record-inner" style="padding: 25px 10px 10px;border-top: 1px solid #ddd">
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Name</strong>
+                          </div>
+                          <div class="form-group col-md-8">: {{member.name}}</div>
+    
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Address</strong>
+                          </div>
+                          <div class="form-group col-md-8">: {{member.address}}</div>
+    
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Nationality</strong>
+                          </div>
+                          <div class="form-group col-md-8">: {{member.natianality}}</div>
+    
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Nationality of Origin</strong>
+                          </div>
+                          <div class="form-group col-md-8">: {{member.natianality_origin}}</div>
+    
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                              <strong>Percentage of Financial interest in the firm/consortium</strong>
+                            </div>
+                            <div class="form-group col-md-8">: {{member.shares}}</div>
+      
+                          </div>
+    
+                      </div>
+    
+    
+    
+                    </div>
+    
+                  </div>
+
+
+
+              </div> 
+            
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous">
+                <i class="fas fa-backward"></i> Previous</button>
+              <button [disabled] ="!validateStep2" (click)="submitSigningParty()" type="button" class="btn btn-next"> Next
+                <i class="fas fa-edit"></i>
+              </button>
+            </div>
+
+
+
+
+          </fieldset>
+
+          <fieldset [hidden]="stepOn != 2">
+
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+
+
+              <div class="container download-container">
+
+
+                  <h3>Document List</h3>
+    
+                  <div class="doc-block-wrapper">
+    
+                    <div class="doc-block" *ngFor="let doc of docList['docs']">
+    
+                      <div class="stakeholder-doc-row">
+    
+                        <div class="stakeholder-name">{{doc.name}}</div>
+                        <div class="doc-download">
+    
+    
+                          <a [href]="sanitize(doc.download_link)" target="_blank" download="{{doc.file_name_key}}.pdf"
+                            class="btn btn-primary btn-sm download doc-download-link">
+                            <i class="fas fa-cloud-download-alt"></i> Download
+                          </a>
+                        </div>
+                      </div>
+    
+                    </div>
+    
+                  </div>
+    
+    
+    
+                </div>
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous">
+                <i class="fas fa-backward"></i> Previous</button>
+              <button (click)="changeProgressStatuses(3)" type="button" class="btn btn-next"> Next
+                <i class="fas fa-edit"></i>
+              </button>
+            </div>
+
+
+
+
+          </fieldset>
+
+          <fieldset [hidden]="stepOn != 3">
+
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+
+              <div class="container uploaded-container">
+
+                  <div *ngFor="let doc of uploadList['docs']; let i = index">
+    
+                    <div class="row uploaded-row">
+    
+                      <div class="col-9 doc">
+                        <h3>{{doc.file_name}}</h3>
+                      </div>
+                      <div class="col-3 no-padding">
+    
+    
+                        <label style="float:right" for="other-{{i}}" class="upload-wrapper btn btn-primary btn-sm download">
+                          <i class="fas fa-cloud-upload-alt"></i> Upload
+                        </label>
+                        <input style="display:block;position: fixed;top:-100000px" id="other-{{i}}" type="file" (change)="fileChange($event,doc.file_name,doc.dbid, applyTender.id, tenderItems.items[0].itemId )"
+                          placeholder="Upload file" accept=".pdf">
+    
+                      </div>
+    
+                      <div class="col-12 uploaded-doc" *ngIf="uploadedList[doc.dbid]">
+
+                          {{uploadedList[doc.dbid]}}
+
+                          <button (click)="removeDoc( doc.dbid )"  class="button red button-sm remove-file">
+                              <i class="fas fa-trash-alt"></i> Delete
+                              </button>
+                       <button *ngIf="uploadedListArrWithToken[doc.dbid]"  (click)="ngOnDownload(uploadedListArrWithToken[doc.dbid])"   class="view-file button blue button-sm">
+                              <i class="far fa-file-pdf"></i> View
+                          </button>
+
+                       
+                      </div>
+                      <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                        <strong>Comments:</strong> {{doc.doc_comment}}
+                      </div>
+    
+                    </div>
+    
+                  </div>
+    
+    
+                </div>
+
+                <div style="margin-bottom:6px" class="container uploaded-container">
+
+                  <div class="row uploaded-row">
+    
+                    <div class="col-4 doc">
+                      <h3>Other Documents
+                        <p style="font-size: 12px;color: darkorange;text-transform: none;" class="other_doc_des">You can upload any number of documents here</p>
+                      </h3>
+                    </div>
+                    <div class="col-5">
+                      <span style="float: left;width: 100%;margin-top: 2px">
+                            <input style="width: 96%;padding:5px;padding: 0 5px;text-align: center;font-size: 14px;" [(ngModel)]="other_doc_name" name="other_doc_name" placeholder="Enter document name here" />
+                          <!--  <span style="display: block;width: 4%; float: right;color: red;font-size: 24px;margin-top: -10px;">*</span> -->
+                      </span>
+                    </div>
+  
+                    <div class="col-3 no-padding">
+  
+  
+                      <label style="float:right" for="other-docs" class="upload-wrapper btn btn-primary btn-sm download {{!other_doc_name ? 'disable' : '' }}">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                      </label>
+  
+                      
+                      <input [disabled]="!other_doc_name"  style="display:block;position: fixed;top:-100000px" id="other-docs" type="file" (change)="uploadOtherDoc($event,'Other',uploadOtherList['doc_id'])"
+                        placeholder="Upload file" accept=".pdf">
+  
+                    </div>
+  
+                    </div>
+  
+                  <div  class="form-group" *ngFor="let doc of uploadOtherList['docs']; let j = index">
+    
+                    <div class=" uploaded-row">
+    
+                    
+    
+                      <div style="font-size:12px;" class="uploaded-doc" *ngIf="doc.file_name">
+  
+                          {{doc.file_name}}
+                          <span class="approved_doc" *ngIf="doc.doc_status =='DOCUMENT_APPROVED'">Document Approved</span>
+  
+                          <button *ngIf="doc.doc_status !='DOCUMENT_APPROVED' && doc.uploaded_token" style="float: right; font-size: 12px;padding: 5px !important;" (click)="removeOtherDoc(doc.uploaded_token )"  class="button red button-sm">
+                              <i class="fas fa-trash-alt"></i> Delete
+                           </button>
+                        
+                          <button style="float: right; font-size: 12px;padding: 5px !important;margin-right:4px;" *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="button blue button-sm">
+                              <i class="far fa-file-pdf"></i> View
+                          </button>
+                          <label  *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'" style="float: right;
+                          width: 110px;
+                          height: 30px;
+                          margin-top: -2px;
+                          line-height: 30px;
+                          margin-right: 0px;" for="other-resubmit-docs-{{doc.multiple_id}}" class="upload-wrapper btn btn-primary btn-sm download">
+                            <i class="fas fa-cloud-upload-alt"></i> Upload
+                          </label>
+                          <input *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'"  style="display:block;position: fixed;top:-100000px" id="other-resubmit-docs-{{doc.multiple_id}}" type="file" (change)="uploadOtherResumittedDoc($event,doc.multiple_id)"
+                        placeholder="Upload file" accept=".pdf">
+  
+  
+                       
+                      </div>
+                      
+                      <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                        <strong>Comments:</strong> {{doc.doc_comment}}
+                      </div>
+    
+                    </div>
+    
+                  </div>
+                  <div style="clear:both"></div>
+  
+  
+  
+  
+                 <!-- <div class="sec_type_item form-group col-md-12 document_confirm">
+  
+                    <p style="font-size:14px;"  ><strong>SECTION 511.</strong> “Where in any return, report, certificate, balance
+                      sheet or other document, required by or for the purposes of
+                      this Act, any person wilfully makes a statement which is false
+                      in any material particular knowing it to be false, shall be
+                      guilty of an offence and be liable on conviction to a fine not
+                      exceeding one million rupees or to imprisonment for a term
+                      not exceeding five years or to both such fine and
+                      imprisonment”
+                    </p>
+                      <br/>
+                      <input  [(ngModel)]="document_confirm" type="checkbox" id="document_confirm" class="custom-control-input" [ngModelOptions]="{standalone: true}">
+                      <label style="font-size: 17px;
+                      color: darkred;
+                      font-weight: bold;" class="custom-control-label custom-control-sub-label radio-lbl" for="document_confirm">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I read over and understood
+                      </label>
+                       
+                  </div>
+                  <div style="clear:both"></div> -->
+  
+  
+                </div>
+
+                <div class="payment-table" *ngIf="processStatus != 'TENDER_PCA2_REQUEST_TO_RESUBMIT'">
+  
+
+                    <div class="payment-row header">
+                        <div class="payment-row-inner">
+                      <div class="payment-cell">
+                        Payment Description
+                      </div>
+                      <div class="payment-cell no-of-copies">
+                        No of Items
+                      </div>
+                      <div class="payment-cell">
+                       Unit Price (LKR)
+                      </div>
+                      <div class="payment-cell" style="text-align:right">
+                          Sub Total (LKR)
+                      </div>
+                      </div>
+      
+                    </div>
+                    
+                    <div class="payment-row">
+                  
+                    <div class="payment-row-inner">
+                      <div class="payment-cell">
+                        PCA 02 Form
+                      </div>
+                      <div class="payment-cell no-of-copies">
+      
+                       1
+                      </div>
+                      <div class="payment-cell" >
+                           {{ ( pca2_payment | currency ).replace('$','') }}
+                      </div>
+                      <div class="payment-cell" style="text-align:right">
+      
+                         {{ (( 1 * pca2_payment ) | currency).replace('$','') }}
+      
+                     
+                        </div>
+      
+                    </div>
+                    </div>
+      
+                
+                    <br/>
+     
+      
+                    <div class="payment-row" style="font-weight: bold;
+                    color: #111;" >
+      
+                        <div class="payment-row-inner">
+      
+                        <div class="payment-cell">
+                            TOTAL FEE in LKR( Without VAT and Taxes) :
+                          </div>
+                          <div class="payment-cell no-of-copies">
+          
+                          </div>
+                          <div class="payment-cell">
+        
+                          </div>
+                          <div class="payment-cell"  style="text-align:right">
+          
+                              {{ ( total_wihtout_vat_tax | currency).replace('$','')}}
+           
+                          
+                            </div>
+      
+                            </div>
+      
+                    </div>
+      
+                    <div class="payment-row" style="font-weight: bold;
+                    color: #111;" >
+                    <div class="payment-row-inner">
+      
+                        <div class="payment-cell">
+                           Other Taxes in LKR&nbsp;( {{ other_tax}}%) :
+                          </div>
+                          <div class="payment-cell no-of-copies">
+          
+                          </div>
+                          <div class="payment-cell">
+        
+                          </div>
+                          <div class="payment-cell"  style="text-align:right">
+          
+                              {{  ( other_taxVal | currency ).replace('$','') }}
+           
+                          
+                            </div>
+      
+                            </div>
+      
+                    </div>
+      
+                    <div class="payment-row" style="font-weight: bold;
+                    color: #111;" >
+                    <div class="payment-row-inner">
+      
+                        <div class="payment-cell">
+                           VAT in LKR&nbsp;( {{ vat}}%) :
+                          </div>
+                          <div class="payment-cell no-of-copies">
+          
+                          </div>
+                          <div class="payment-cell">
+        
+                          </div>
+                          <div class="payment-cell"  style="text-align:right">
+          
+                             
+                              {{  ( vatVal | currency ).replace('$','') }}
+                          
+                            </div>
+      
+                            </div>
+      
+                    </div>
+      
+      
+                    <div class="payment-row" style="font-weight: bold;
+                    color: #111;" >
+                    <div class="payment-row-inner">
+      
+                        <div class="payment-cell">
+                          Convenience fee&nbsp;({{convinienceFee}}%) :
+                          </div>
+                          <div class="payment-cell no-of-copies">
+          
+                          </div>
+                          <div class="payment-cell">
+        
+                          </div>
+                          <div class="payment-cell"  style="text-align:right">
+                              {{  ( convinienceFeeVal | currency ).replace('$','') }}
+                             
+                            
+                          
+                            </div>
+      
+                            </div>
+      
+                    </div>
+      
+                  
+      
+      
+      
+                    <div class="payment-row header" style=" background: #02001b;">
+      
+                        <div class="payment-row-inner">
+      
+      
+                      <div class="payment-cell">
+                        TOTAL FEE in LKR :
+                      </div>
+                      <div class="payment-cell no-of-copies">
+      
+                      </div>
+                      <div class="payment-cell no-of-copies">
+      
+                        </div>
+                      <div class="payment-cell" style="    font-size: 16px;
+                      color: #fff; text-align:right;">
+                      {{ ( total_with_vat_tax | currency ).replace('$','') }}
+                      </div>
+      
+                      </div>
+                      
+      
+                    </div>
+      
+                  </div>
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-previous">
+                <i class="fas fa-backward"></i> Previous</button>
+              <button *ngIf="processStatus !='TENDER_PCA2_REQUEST_TO_RESUBMIT'" [disabled]="!(allFilesUploaded)" (click)="award()" type="button" class="btn btn-next">Complete/Pay
+                <i class="fas fa-credit-cardt"></i>
+              </button>
+              <button *ngIf="processStatus =='TENDER_PCA2_REQUEST_TO_RESUBMIT'" [disabled]="!(allFilesUploaded)" (click)="resubmit()" type="button" class="btn btn-next">Complete/Resubmit
+                  <i class="fas fa-credit-cardt"></i>
+                </button>
+            </div>
+
+          </fieldset>
+
+
+
+
+        </form>
+
+      </div>
+      <div style="clear:both"></div>
+      <br />
+      <br />
+      <!--end right col main-->
+    </div>
+  </div>
+</section>
+
+
+
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="paySuccessStatus">
+
+   <!-- <div class="payment-success-body">
+  
+      <div class="header">
+  
+        <h2>Awarding Status</h2>
+      </div>
+  
+      <div class="body">
+        <p>Successfully Completed Your Awording Process</p>
+      </div>
+  
+      <div class="footer">
+        <button class="btn btn-success" (click)="PaySucess()">Yes</button>
+  
+      </div>
+    </div>-->
+
+    <div class="payment-success-body">
+    
+      <div class="header">
+  
+        <h2>Payment Confirmation</h2>
+      </div>
+  
+      <div class="body">
+         <p>Please confirm your payment by clicking below button.</p>
+      </div>
+  
+      <div class="footer">
+        <div style="text-align: center"  *ngIf="processStatus !='COMPANY_STATUS_REQUEST_TO_RESUBMIT'">
+          <form  ngNoForm action="{{ paymentGateway }}" method="post">
+            <input type="hidden" [(ngModel)]="cipher_message" name="clientPaymentRequest">
+            <button type="submit" class="btn btn-success col-md-8">&nbsp;<i class="far fa-credit-card"></i>&nbsp;Confirm and Continue Payment</button>
+          </form>
+        </div>
+  
+      </div>
+  
+      
+    </div>
+  
+  
+  
+  </div>
+
+  <div class="payment-success-wrapper pay-block-wrapper" *ngIf="ResubmitSuccessStatus">
+
+      <div class="payment-success-body">
+    
+        <div class="header">
+    
+          <h2>Resubmit Status</h2>
+        </div>
+    
+        <div class="body">
+          <p>Successfully Resubmitted your Request</p>
+        </div>
+    
+        <div class="footer">
+          <button class="btn btn-success" (click)="ResubmitSuccess()">Yes</button>
+  
+    
+        </div>
+      </div>
+    
+    </div>
+
+
+  <div class="payment-success-wrapper pay-block-wrapper invalid-request-wrapper" *ngIf="invalidEnter">
+
+      <div class="payment-success-body">
+    
+        <div class="header">
+    
+          <h2>Invalid Request</h2>
+        </div>
+    
+        <div class="body">
+          <p>{{invalidMessage}}</p>
+        </div>
+    
+        <div class="footer">
+          <button class="btn btn-success" (click)="PaySucess()">OK</button>
+    
+        </div>
+      </div>
+    
+    
+    
+    </div>

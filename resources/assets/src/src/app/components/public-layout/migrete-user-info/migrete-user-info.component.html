@@ -1,0 +1,417 @@
+<div class="container top-margin mb-5">
+  <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+    <div class="row mt-5 mb-5">
+      <div class="col-md-8 bg-back">
+        <h5>Personal Information</h5>
+        <hr>
+        <div class="form-group">
+          <small for="staticTitle" class="col-sm-2">Title <sup class="text text-danger">*</sup></small>
+          <div class="col-sm-9 ml-5">
+            <mat-radio-group formControlName="title">
+              <mat-radio-button class="ck-sm mr-5" *ngFor="let ititle of data.ititles" value="{{ ititle.id }}">{{
+                ititle.value }}</mat-radio-button>
+            </mat-radio-group>
+            <div *ngIf="title.invalid && (title.dirty || title.touched || onSubmit) ">
+              <small *ngIf="title.errors['required']" class="red-text">Title is required.</small>
+            </div>
+            <!-- <div *ngFor="let validation of general_information_message.title">
+              <small class="red-text" *ngIf="registerForm.get('title').hasError(validation.type) && (registerForm.get('title').dirty || registerForm.get('title').touched) || onSubmit">{{validation.message}}</small>
+            </div> -->
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-row">
+            <div class="col">
+              <label for="lbFirstName">First Name</label>
+              <input type="text" maxlength="100" class="form-control" formControlName="fname" placeholder="Enter your first Name">
+              <div *ngIf="fname.invalid && (fname.dirty || fname.touched || onSubmit) ">
+                <small *ngIf="fname.errors['required']" class="red-text">First Name is required.</small>
+                <small *ngIf="fname.errors['pattern']" class="red-text">Only character available.</small>
+              </div>
+            </div>
+            <div class="col">
+              <label for="lbLastName">Last Name</label>
+              <input type="text" maxlength="100" class="form-control" formControlName="lname" placeholder="Enter your last Name">
+              <div *ngIf="lname.invalid && (lname.dirty || lname.touched || onSubmit) ">
+                <small *ngIf="lname.errors['required']" class="red-text">Last Name is required.</small>
+                <small *ngIf="lname.errors['pattern']" class="red-text">Only character available.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="lbOtherName">Other Name</label>
+          <input type="text" maxlength="100" class="form-control" formControlName="oname" placeholder="Other Name">
+          <div *ngIf="oname.invalid && (oname.dirty || oname.touched || onSubmit) ">
+            <small *ngIf="oname.errors['pattern']" class="red-text">Only character available.</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="lbNic">NIC</label>
+          <input type="text" maxlength="12" class="form-control" formControlName="nic" placeholder="Nic Number">
+          <div *ngIf="nic.invalid && (nic.dirty || nic.touched || onSubmit) ">
+            <small *ngIf="nic.errors['required']" class="red-text">NIC is required.</small><br>
+          </div>
+          <div *ngIf="nic.invalid && (nic.dirty || nic.touched || onSubmit) ">
+            <small *ngIf="nic.errors['nicValidate']" class="red-text">First 9 characters must be numbers and last
+              character must be V or X letter or 12 characters.</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-group row">
+            <div class="col"><small for="lbPassportCk">Do you want to add a passport number? </small></div>
+            <div class="col">
+              <mat-checkbox formControlName="ckHasPassport"></mat-checkbox>
+            </div>
+          </div>
+        </div>
+        <section *ngIf="this.f.ckHasPassport.value">
+          <div class="form-group">
+            <label for="lbPassportNumber">Passport Number</label>
+            <input type="text" maxlength="15" class="form-control" formControlName="passportnumber" placeholder="Passport Number">
+            <div *ngIf="passportnumber.invalid && (passportnumber.dirty || passportnumber.touched || onSubmit) ">
+              <small *ngIf="passportnumber.errors['required']" class="red-text">Passport Number is required.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="lbPICountry">P.I Country</label>
+            <ng-select placeholder="Passport Issue Country" [searchable]="true" formControlName="piCountry">
+              <ng-option *ngFor="let crt of country" [value]=crt.name>{{ crt.name }}</ng-option>
+            </ng-select>
+          </div>
+        </section>
+        <div class="form-group">
+          <label for="lbNic">Occupation</label>
+          <input type="text" maxlength="100" class="form-control" formControlName="occupation" placeholder="Occupation">
+        </div>
+        <h5>Contact Information</h5>
+        <hr>
+        <div class="form-group">
+          <div class="form-row">
+            <div class="col">
+              <label for="lbMobile">Mobile number</label>
+              <input type="text" minlength="10" maxlength="10" pattern="[0-9]+" class="form-control" formControlName="mobileNumber"
+                placeholder="Mobile number">
+              <div *ngIf="mobileNumber.invalid && (mobileNumber.dirty || mobileNumber.touched || onSubmit) ">
+                <small *ngIf="mobileNumber.errors['required']" class="red-text">Mobile Number is required.</small>
+              </div>
+            </div>
+            <div class="col">
+              <label for="lbTel">Tel Number</label>
+              <input type="text" minlength="10" maxlength="10" pattern="[0-9]+" class="form-control" formControlName="telNumber"
+                placeholder="Tel number">
+              <div *ngIf="telNumber.invalid && (telNumber.dirty || telNumber.touched || onSubmit) ">
+                <small *ngIf="telNumber.errors['pattern']" class="red-text">Only number available.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!--<h5>Select Your Country</h5>
+        <hr>
+
+        <div class="form-group">
+          <label for="lbCountry">Country</label>
+          <ng-select placeholder="Country" [searchable]="true" formControlName="lcCountry" >
+            <ng-option *ngFor="let crt of country" [value]=crt.name>{{ crt.name }}</ng-option>
+          </ng-select>
+          <div *ngFor="let validation of local_address.lcCountry">
+            <small class="red-text" *ngIf="registerForm.get('lcCountry').hasError(validation.type) && (registerForm.get('lcCountry').dirty || registerForm.get('lcCountry').touched)">{{validation.message}}</small>
+          </div>
+        </div>-->
+
+        <section *ngIf="this.f.lcCountry.value == 'Sri Lanka'">
+          <h5>Address</h5>
+          <hr>
+          <input type="text" maxlength="190" class="form-control" formControlName="lcAddressId" style="display: none;">
+          <div class="form-group">
+            <label for="lbAddressline01">Address line 01</label>
+            <input type="text" maxlength="190" class="form-control" formControlName="lcAddress01" placeholder="Address line 01">
+            <div *ngIf="lcAddress01.invalid && (lcAddress01.dirty || lcAddress01.touched || onSubmit) ">
+              <small *ngIf="lcAddress01.errors['required']" class="red-text">Address 01 is required.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="lbAddressline02">Address line 02</label>
+            <input type="text" maxlength="190" class="form-control" formControlName="lcAddress02" placeholder="Address line 02">
+            <div *ngIf="lcAddress02.invalid && (lcAddress02.dirty || lcAddress02.touched || onSubmit) ">
+              <small *ngIf="lcAddress02.errors['required']" class="red-text">Address 02 is required.</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-row">
+              <div class="col">
+                <label for="lbMobile">Province <sup class="text text-danger">*</sup></label>
+                <ng-select (ngModelChange)="this.f.lcDistrict.reset();" class="custom" placeholder="Province"
+                  [searchable]="true" formControlName="lcProvince">
+                  <ng-option *ngFor="let province of data.provinces" [value]="province">{{ province.description_en }}</ng-option>
+                </ng-select>
+                <div *ngIf="lcProvince.invalid && (lcProvince.dirty || lcProvince.touched || onSubmit) ">
+                  <small *ngIf="lcProvince.errors['required']" class="red-text">Province is required.</small>
+                </div>
+              </div>
+              <div class="col">
+                <label for="lbTel">District <sup class="text text-danger">*</sup></label>
+                <ng-select (ngModelChange)="this.f.lcCity.reset();" class="custom" placeholder="District" [searchable]="true"
+                  formControlName="lcDistrict">
+                  <ng-option *ngFor="let district of this.data.districts | district:this.f.lcProvince.value" [value]="district">{{
+                    district.description_en }}</ng-option>
+                </ng-select>
+                <div *ngIf="lcDistrict.invalid && (lcDistrict.dirty || lcDistrict.touched || onSubmit) ">
+                  <small *ngIf="lcDistrict.errors['required']" class="red-text">District is required.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-row">
+              <div class="col">
+                <label for="lbMobile">Divisional Secretariat <sup class="text text-danger">*</sup></label>
+                <ng-select (ngModelChange)="this.f.lcGNDivision.reset();" class="custom" placeholder="City"
+                  [searchable]="true" formControlName="lcCity">
+                  <ng-option *ngFor="let city of data.citys | city:this.f.lcDistrict.value" [value]="city">{{city.description_en}}</ng-option>
+                </ng-select>
+                <div *ngIf="lcCity.invalid && (lcCity.dirty || lcCity.touched || onSubmit) ">
+                  <small *ngIf="lcCity.errors['required']" class="red-text">Divisional Secretariat is required.</small>
+                </div>
+              </div>
+              <div class="col">
+                <label for="lbTel">Grama Niladhari Division<sup class="text text-danger">*</sup></label>
+                <ng-select class="custom" placeholder="GN Division" [searchable]="true" formControlName="lcGNDivision">
+                  <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:this.f.lcCity.value" [value]="gndivision.description_en">{{
+                    gndivision.description_en }}</ng-option>
+                </ng-select>
+                <div *ngIf="lcGNDivision.invalid && (lcGNDivision.dirty || lcGNDivision.touched || onSubmit) ">
+                  <small *ngIf="lcGNDivision.errors['required']" class="red-text">Grama Niladhari Division is required.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="lbAddressline02">Post Code<sup class="text text-danger">*</sup></label>
+            <input type="text" maxlength="6" pattern="[0-9]+" formControlName="lcPostCode" class="form-control"
+              placeholder="Post Code">
+            <div *ngIf="lcPostCode.invalid && (lcPostCode.dirty || lcPostCode.touched || onSubmit) ">
+              <small *ngIf="lcPostCode.errors['required']" class="red-text">Post Code is required.</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-group row">
+              <div class="col"><small for="faddress">Do you have a foreign address? </small></div>
+              <div class="col">
+                <mat-checkbox formControlName="ckWantFrAddress"></mat-checkbox>
+              </div>
+            </div>
+          </div>
+
+          <section *ngIf="this.f.ckWantFrAddress.value">
+            <input type="text" maxlength="190" class="form-control" formControlName="frAddressId" style="display: none;">
+            <div class="form-group">
+              <label for="frAddressline01">Address line 01</label>
+              <input type="text" maxlength="190" class="form-control" formControlName="frAddress01" placeholder="Address line 01">
+            </div>
+            <div class="form-group">
+              <label for="frAddressline02">Address line 02</label>
+              <input type="text" class="form-control" formControlName="frAddress02" placeholder="Address line 02">
+            </div>
+
+            <div class="form-group">
+              <label for="frCountry">Country</label>
+              <ng-select placeholder="Country" [searchable]="true" formControlName="frCountry">
+                <ng-option *ngFor="let crt of country" value=crt.name>{{ crt.name }}</ng-option>
+              </ng-select>
+            </div>
+
+            <div class="form-group">
+              <label for="frPostCode">Zip Code<sup class="text text-danger">*</sup></label>
+              <input type="text" maxlength="6" pattern="[0-9]+" class="form-control" formControlName="frPostCode"
+                placeholder="Post Code">
+            </div>
+          </section>
+        </section>
+
+        <section *ngIf="this.f.lcCountry.value != 'Sri Lanka'">
+          <div class="form-group">
+            <input type="text" maxlength="190" class="form-control" formControlName="frAddressId" style="display: none;">
+            <label for="frAddressline01">Address line 01</label>
+            <input type="text" maxlength="190" class="form-control" formControlName="frAddress01" placeholder="Address line 01">
+          </div>
+          <div class="form-group">
+            <label for="frAddressline02">Address line 02</label>
+            <input type="text" class="form-control" formControlName="frAddress02" placeholder="Address line 02">
+            <div *ngIf="frAddress02.invalid && (frAddress02.dirty || frAddress02.touched || onSubmit) ">
+              <small *ngIf="frAddress02.errors['required']" class="red-text">Address line 02 is required.</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="frCountry">Country</label>
+            <ng-select placeholder="Country" [searchable]="true" formControlName="frCountry">
+              <ng-option *ngFor="let crt of country" [value]=crt.name>{{ crt.name }}</ng-option>
+            </ng-select>
+          </div>
+
+          <div class="form-group">
+            <label for="frPostCode">Zip Code<sup class="text text-danger">*</sup></label>
+            <input type="text" maxlength="6" pattern="[0-9]+" class="form-control" formControlName="frPostCode"
+              placeholder="Post Code">
+          </div>
+
+          <div class="form-group">
+            <div class="form-group row">
+              <div class="col"><small for="faddress">Do you have a Local address? </small></div>
+              <div class="col">
+                <mat-checkbox formControlName="ckWantlcAddress"></mat-checkbox>
+              </div>
+            </div>
+          </div>
+
+          <section *ngIf="this.f.ckWantlcAddress.value">
+            <input type="text" maxlength="190" class="form-control" formControlName="lcAddressId" style="display: none;">
+            <div class="form-group">
+              <label for="lbAddressline01">Address line 01</label>
+              <input type="text" maxlength="190" class="form-control" formControlName="lcAddress01" placeholder="Address line 01">
+              <div *ngIf="lbAddressline01.invalid && (lbAddressline01.dirty || lbAddressline01.touched || onSubmit) ">
+                <small *ngIf="lbAddressline01.errors['required']" class="red-text">Address line 01 is required.</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lbAddressline02">Address line 02</label>
+              <input type="text" maxlength="190" class="form-control" formControlName="lcAddress02" placeholder="Address line 02">
+              <div *ngIf="lcAddress02.invalid && (lcAddress02.dirty || lcAddress02.touched || onSubmit) ">
+                <small *ngIf="lcAddress02.errors['required']" class="red-text">Address line 02 is required.</small>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col">
+                  <label for="lbMobile">Province <sup class="text text-danger">*</sup></label>
+                  <ng-select (ngModelChange)="this.f.lcDistrict.reset();" class="custom" placeholder="Province"
+                    [searchable]="true" formControlName="lcProvince">
+                    <ng-option *ngFor="let province of data.provinces" [value]="province">{{ province.description_en }}</ng-option>
+                  </ng-select>
+                  <div *ngIf="lcProvince.invalid && (lcProvince.dirty || lcProvince.touched || onSubmit) ">
+                    <small *ngIf="lcProvince.errors['required']" class="red-text">Province is required.</small>
+                  </div>
+                </div>
+                <div class="col">
+                  <label for="lbTel">District <sup class="text text-danger">*</sup></label>
+                  <ng-select (ngModelChange)="this.f.lcCity.reset();" class="custom" placeholder="District"
+                    [searchable]="true" formControlName="lcDistrict">
+                    <ng-option *ngFor="let district of this.data.districts | district:this.f.lcProvince.value" [value]="district">{{
+                      district.description_en }}</ng-option>
+                  </ng-select>
+                  <div *ngIf="lcDistrict.invalid && (lcDistrict.dirty || lcDistrict.touched || onSubmit) ">
+                    <small *ngIf="lcDistrict.errors['required']" class="red-text">District is required.</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col">
+                  <label for="lbMobile">Divisional Secretariat <sup class="text text-danger">*</sup></label>
+                  <ng-select (ngModelChange)="this.f.lcGNDivision.reset();" class="custom" placeholder="City"
+                    [searchable]="true" formControlName="lcCity">
+                    <ng-option *ngFor="let city of data.citys | city:this.f.lcDistrict.value" [value]="city">{{city.description_en}}</ng-option>
+                  </ng-select>
+                  <div *ngIf="lcCity.invalid && (lcCity.dirty || lcCity.touched || onSubmit) ">
+                    <small *ngIf="lcCity.errors['required']" class="red-text">Divisional Secretariat is required.</small>
+                  </div>
+                </div>
+                <div class="col">
+                  <label for="lbTel">Grama Niladhari Division<sup class="text text-danger">*</sup></label>
+                  <ng-select class="custom" placeholder="GN Division" [searchable]="true" formControlName="lcGNDivision">
+                    <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:this.f.lcCity.value" [value]="gndivision.description_en">{{
+                      gndivision.description_en }}</ng-option>
+                  </ng-select>
+                  <div *ngIf="lcGNDivision.invalid && (lcGNDivision.dirty || lcGNDivision.touched || onSubmit) ">
+                    <small *ngIf="lcGNDivision.errors['required']" class="red-text">Grama Niladhari Division is
+                      required.</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="lbAddressline02">Post Code<sup class="text text-danger">*</sup></label>
+              <input type="text" maxlength="6" pattern="[0-9]+" formControlName="lcPostCode" class="form-control"
+                placeholder="Post Code">
+              <div *ngIf="lcPostCode.invalid && (lcPostCode.dirty || lcPostCode.touched || onSubmit) ">
+                <small *ngIf="lcPostCode.errors['required']" class="red-text">Post Code is required.</small>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <h5>Credential Information</h5>
+        <hr>
+        <section>
+          <div class="form-group">
+            <label for="lbEmailAddress">Email address <sup class="text text-danger">*</sup></label>
+            <input type="email" maxlength="100" id="orangeForm-email" formControlName="valemail" placeholder="E-mail"
+              class="form-control">
+            <div *ngIf="valemail.invalid && (valemail.dirty || valemail.touched || onSubmit)">
+              <small *ngIf="valemail.errors['required']" class="red-text">Email address is required.</small><br>
+              <small *ngIf="valemail.errors['email']" class="red-text">Please enter a valid email.</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="lbPassword">Password <sup class="text text-danger">*</sup></label>
+            <input type="password" maxlength="190" formControlName="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$#!%*?&])[A-Za-z\d$@$#!%*?&]{8,}"
+              placeholder="Password" class="form-control">
+            <div *ngIf="password.invalid && (password.dirty || password.touched || onSubmit) ">
+              <small *ngIf="password.errors['required']" class="red-text">Password is required.</small><br>
+            </div>
+            <div *ngIf="password.invalid && (password.dirty || password.touched || onSubmit) ">
+              <small *ngIf="password.errors['minlength']" class="red-text">Password must be at least 8 characters long.</small><br>
+            </div>
+            <div *ngIf="password.invalid && (password.dirty || password.touched || onSubmit) ">
+              <small *ngIf="password.errors['pattern']" class="red-text">Your password must be over 8 characters and
+                include an uppercase and a lowercase letter, a number and a special character.</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="lbConfirmPassword">Confirm Password <sup class="text text-danger">*</sup></label>
+            <input type="password" maxlength="190" formControlName="confirmPassword" placeholder="Password" class="form-control">
+            <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched || onSubmit) ">
+              <small *ngIf="confirmPassword.errors['required']" class="red-text">Confirm Password is required.</small><br>
+            </div>
+            <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched || onSubmit) ">
+              <small *ngIf="confirmPassword.errors['compare']" class="red-text">Password mismatch.</small>
+            </div>
+          </div>
+
+        </section>
+        <div class="form-group">
+          <div class="float-right">
+            <button class="button" [ngClass]="{'gray': registerForm.invalid, 'green-4': registerForm.valid}" type="submit"
+              mdbWavesEffect>Save and Continue</button>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-4 bg-back">
+        <small>Upload Profile Picture</small>
+        <div class="col-md-2 ml-5 row">
+          <a mdbDropdownToggle (click)="Image.click()">
+            <div class="header-image freelancer-avatar">
+              <img [src]="imageUrl" alt="My Image">
+            </div>
+          </a>
+          <input hidden type="file" formControlName="avaterFile" #Image accept="image/*" (change)="onFileInput($event)">
+        </div>
+        <hr>
+      </div>
+    </div>
+  </form>
+</div>

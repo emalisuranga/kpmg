@@ -1,0 +1,41 @@
+@import "theme-veriable";
+.bg-color {
+  // border-bottom: 1px solid $gray-500;
+  // border-top: 1px solid $gray-500;
+  box-shadow: 0px 0px 3px 0px $gray-500;
+  color: $black;
+}
+
+
+
+.container-fluid-10 {
+  width: 100%;
+  padding-right: 5px;
+  padding-left: 5px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .container-fluid-10 {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-fluid-10 {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container-fluid-10 {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container-fluid-10 {
+    max-width: 1410px;
+  }
+}

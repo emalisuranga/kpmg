@@ -1,0 +1,1040 @@
+<div class="clearfix">
+</div>
+
+<section>
+  <div class="container top-margin" style="padding-bottom: 50px;">
+    <div class="row">
+      <div class="col-md-11 nopadding">
+        <form role="form" method="post" class="f1">
+          <h3 style="text-align: center">Issue of Share Procedure</h3>
+          <p style="text-align: center">Fill in all steps for completing Issue of share process.</p>
+          <div class="f1-steps">
+            <div class="f1-progress">
+              <div class="f1-progress-line" data-now-value="10" data-number-of-steps="5"
+                [ngStyle]="{'width': progress.progressPercentage}"></div>
+            </div>
+            <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}}">
+              <div class="f1-step-icon">
+                <i class="{{item.icon}}"></i>
+              </div>
+              <p>{{item.label}}</p>
+            </div>
+          </div>
+
+          <!-- Shares details -->
+          <fieldset [hidden]="stepOn != 0">
+
+            <div class="add-new-wrapper shareholder-add-new-wrapper" style="margin:40px 0">
+              <h2>
+                <span style="width:220px" class="add-new-wrapper-label">Issue of Shares</span>
+                <div class="line"></div>
+
+                <button type="button" mdbBtn class="relative waves-light add-new-stakholder" (click)="membModal.show()"
+                  mdbWavesEffect>
+                  <i class="fa fa-plus"></i> ADD NEW</button>
+              </h2>
+            </div>
+
+            <div class="objective-list-wrapper-block">
+              <div *ngFor="let sharesRecord of newSharesRecords; let i = index" class="member-record stakeholder-record"
+                style=" margin: 30px 0;border-radius: 20px;background: #fff;border: 1px solid rgb(243, 91, 63);">
+
+                <div (click)="showToggle(i)" class="stakeholder-record-summeru" style="background-color: #f35b3f;
+                        color: #fff;
+                        padding: 5px 10px;
+                        font-weight: lighter;
+                        font-size: 14px;
+                        border-top-left-radius: 18px;
+                        box-shadow: 1px 1px 2px #b3aea9;
+                        border-top-right-radius: 18px;
+                        cursor: pointer;
+                        width: 100%;
+                        border-radius: 20px;">
+
+                  Record - {{i+1}}
+
+                  <span (click)="removeFromSharesList(i)" title="remove record" style="float:right;"
+                    class="record-handler record-handler-remove">
+                    <i class="fa fa-trash"></i>
+                  </span>
+                  <span title="show details" style="float:right; margin:0 15px" class="record-handler">
+                    <i class="fa fa-pencil-alt"></i>
+                  </span>
+                </div>
+
+                <div *ngIf="sharesRecord.showEditPaneForMemb" [class]="'stakeholder-record-inner'"
+                  class="stakeholder-record-inner" style="padding: 25px 10px 10px;">
+
+
+                  <!-- Type of Share -->
+                  <div class="form-row">
+                    <div class="form-group col-md-2">
+                      <label class="col-form-label col-form-label-sm">Type of Share
+                        <span class="req">*</span>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <select (change)="sharesDetailsValidationStep2(i)"
+                        class="form-control form-control-sm modal-input-director-title ng-pristine ng-valid ng-touched"
+                        name="typeofshare" [(ngModel)]="newSharesRecords[i].typeofshare">
+                        <option value="">Choose...</option>
+                        <option *ngFor="let isharetype of IssueOfSharesService.isharetypes" value="{{ isharetype.id }}"
+                          id="{{ isharetype.id }}">{{ isharetype.value }}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Date of Issue -->
+                  <div class="form-row">
+                    <div class="form-group col-md-2">
+                      <label class="col-form-label col-form-label-sm">Date of Issue :
+                        <span class="req">*</span>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <input type="date" [(ngModel)]="newSharesRecords[i].dateofissue"
+                        value="{{sharesRecord.dateofissue}}" [ngModelOptions]="{standalone: true}"
+                        (input)="sharesDetailsValidationStep2(i)"
+                        class="form-control form-control-sm modal-input-director-phone">
+                    </div>
+                  </div>
+
+                  <!-- Number of Shares -->
+                  <div class="form-row">
+                    <div class="form-group col-md-2">
+                      <label class="col-form-label col-form-label-sm">Number of Shares
+                        <span class="req">*</span>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <input (input)="sharesDetailsValidationStep2(i)" maxlength="9"
+                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                        class="form-control form-control-sm" name="issuedshares"
+                        [(ngModel)]="newSharesRecords[i].issuedshares" value="{{sharesRecord.issuedshares}}"
+                        placeholder="">
+                      <span class="req-message">Valid share amount required</span>
+                    </div>
+                  </div>
+
+                  <!-- radio buttons for Shares issue as cash -->
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label col-form-label-sm">Shares issue as cash
+                      <span class="req">*</span></label>
+                    <label class="col-sm-2 col-form-label col-form-label-sm"><input type="radio"
+                        [(ngModel)]="newSharesRecords[i].cashapplicability" (change)="sharesDetailsValidationStep2(i)"
+                        name="rad" (click)="show1edit(i)" value="1">Yes, we issue shares as cash
+                    </label>
+                    <label class="col-sm-2 col-form-label col-form-label-sm"><input type="radio"
+                        [(ngModel)]="newSharesRecords[i].cashapplicability" (change)="sharesDetailsValidationStep2(i)"
+                        checked name="rad" (click)="show2edit(i)" value="0">No, we didn't issue shares as cash
+                    </label>
+                  </div>
+
+                  <div class="form-row" *ngIf="newSharesRecords[i].cashapplicability == 1 ">
+                    <div class="form-group col-md-2">
+                    </div>
+                    <!-- Stated Capital -->
+                    <div class="form-group col-md-4" id="div1">
+                      <label class="col-form-label col-form-label-sm">No of shares for cash
+                        <span class="req">*</span>
+                      </label>
+                      <input (input)="sharesDetailsValidationStep2(i)" maxlength="9"
+                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                        class="form-control form-control-sm" name="noofsharesascash"
+                        [(ngModel)]="newSharesRecords[i].noofsharesascash" value="{{sharesRecord.noofsharesascash}}"
+                        placeholder="">
+                      <span class="req-message">Valid shares quantity required</span>
+                    </div>
+
+                    <!-- Consideration -->
+                    <div class="form-group col-md-6" id="div2">
+                      <label class="col-form-label col-form-label-sm">Consideration (Rs.)
+                        <span class="req">*</span>
+                      </label>
+                      <input (input)="sharesDetailsValidationStep2(i)" maxlength="9"
+                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                        class="form-control form-control-sm" name="consideration"
+                        [(ngModel)]="newSharesRecords[i].consideration" value="{{sharesRecord.consideration}}"
+                        placeholder="">
+                    </div>
+                  </div>
+
+                  <!-- radio buttons for Shares issue as non cash -->
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label col-form-label-sm">Shares issue as non cash
+                      <span class="req">*</span></label>
+                    <label class="col-sm-2 col-form-label col-form-label-sm"><input type="radio"
+                        [(ngModel)]="newSharesRecords[i].noncashapplicability"
+                        (change)="sharesDetailsValidationStep2(i)" name="rad1" (click)="show3edit(i)" value="1">Yes, we
+                      issue shares as non cash
+                    </label>
+                    <label class="col-sm-2 col-form-label col-form-label-sm"><input type="radio"
+                        [(ngModel)]="newSharesRecords[i].noncashapplicability"
+                        (change)="sharesDetailsValidationStep2(i)" checked name="rad1" (click)="show4edit(i)"
+                        value="0">No, we didn't issue shares as non cash
+                    </label>
+                  </div>
+
+                  <div class="form-row" *ngIf="newSharesRecords[i].noncashapplicability == 1 ">
+                    <div class="form-group col-md-2">
+                    </div>
+                    <!-- Stated Capital -->
+                    <div class="form-group col-md-4" id="div3">
+                      <label class="col-form-label col-form-label-sm">No of shares for non cash
+                        <span class="req">*</span>
+                      </label>
+                      <input (input)="sharesDetailsValidationStep2(i)" maxlength="9"
+                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                        class="form-control form-control-sm" name="noofsharesasnoncash"
+                        [(ngModel)]="newSharesRecords[i].noofsharesasnoncash"
+                        value="{{sharesRecord.noofsharesasnoncash}}" placeholder="">
+                      <span class="req-message">Valid shares quantity required</span>
+                    </div>
+                    <!-- Consideration value paid -->
+                    <div class="form-group col-md-6" id="div4">
+                      <label class="col-form-label col-form-label-sm">Shares value (for non cash)
+                        <span class="req">*</span>
+                      </label>
+                      <input maxlength="9"
+                        onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                        (input)="sharesDetailsValidationStep2(i)"
+                        [(ngModel)]="newSharesRecords[i].considerationotherthancash"
+                        [ngModelOptions]="{standalone: true}"
+                        class="form-control form-control-sm modal-input-director-address3" placeholder=""
+                        value="{{ sharesRecord.considerationotherthancash}}">
+                    </div>
+                  </div>
+
+                  <!-- Consideration other than cash -->
+                  <div class="form-row" *ngIf="newSharesRecords[i].noncashapplicability == 1 ">
+                    <div class="form-group col-md-2">
+                    </div>
+                    <div class="form-group col-md-10" id="div5">
+                      <label class="col-form-label col-form-label-sm">Consideration for shares issued
+                        <span class="req">*</span>
+                      </label>
+                      <textarea maxlength="200" (input)="sharesDetailsValidationStep2(i)"
+                        [(ngModel)]="newSharesRecords[i].considerationotherthancashtext"
+                        [ngModelOptions]="{standalone: true}"
+                        class="form-control form-control-sm modal-input-director-address3" placeholder=""
+                        value="{{ sharesRecord.considerationotherthancashtext}}"></textarea>
+                    </div>
+                  </div>
+
+                  <button style="float: right" [disabled]="!validSharesEdit" (click)="editSharesDataArray(i)"
+                    type="button" class="btn btn-next"><i class="fa fa-edit"></i>
+                    Save</button>
+                  <div style="clear:both"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- validation message -->
+            <div class="modal-header" *ngIf="validationMessageSubmit">
+              <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">
+                <span class="stakeholder-validation">{{ validationMessageSubmit }}</span>
+              </h4>
+            </div>
+
+            <!-- for easy of use -->
+            <!-- <div class="f1-buttons">
+
+              <button type="button" class="btn btn-primary" id="btn1-next" (click)="changeProgressStatuses(0)">Next
+                <i class="fas fa-forward"></i>
+              </button>
+            </div> -->
+
+            <!-- original button -->
+            <div class="f1-buttons">
+              <button type="button" class="btn btn-primary" id="btn1-next" (click)="areYouSureYes()">Next
+                <i class="fas fa-forward"></i>
+              </button>
+            </div>
+            <br>
+            <br>
+
+          </fieldset>
+          <!-- end of Shares details -->
+
+
+          <!-- Shareholders Details -->
+          <fieldset [hidden]="stepOn != 1">
+            <div class="Members-secton stakeholder-section">
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner"
+                  style="padding: 25px 10px 10px;">
+                  <div class="shareholder-section stakeholder-section">
+                    <div class="row uploaded-row">
+                      <div class="col-9 doc">
+                        <h3 style="margin-bottom: 25px;">
+                          Shareholders Bulk Upload
+                          <a *ngIf="exampleCSVs['sample_format']" class="samples-society-bulk"
+                            download="sample-csv-format.csv" href="{{exampleCSVs['sample_format']}}">
+                            <i class="fas fa-file-download"></i>&nbsp;Download the format of the document</a>
+                          <a *ngIf="exampleCSVs['dummy_data']" class="samples-society-bulk" download="dummy-data.csv"
+                            href="{{exampleCSVs['dummy_data']}}">
+                            <i class="fas fa-file-download"></i>&nbsp;Download Example Data (CSV file)</a>
+                        </h3>
+                        <div class="doc-description" style="line-height:normal">Please upload the .csv file where listed
+                          all Shareholders infomation</div>
+                        <br />
+                      </div>
+    
+                      <div class="col-3 no-padding">
+                        <label style="float:right" for="shareholder-scv-file"
+                          class="upload-wrapper btn btn-primary btn-sm download">
+                          <i class="fas fa-cloud-upload-alt"></i> Upload
+                        </label>
+                        <input #csvShareholdersUploadElem style="display:block;position: fixed;top:-100000px"
+                          id="shareholder-scv-file" type="file" (change)="shareholderBulkUpload($event )"
+                          placeholder="Upload file" accept=".csv">
+                      </div>
+                    </div>
+                  
+
+                  <div class="col-12">
+                    <div class="address-block local-address" >
+  
+                        <h4>Required Infomation for CSV file</h4>
+                        <p  class="bulk-share-info-part">Province, Related District and City Values for Shareholder's Local Address</p>
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <label class="col-form-label col-form-label-sm">Province</label>
+                            <ng-select
+                              class="custom"  placeholder="Province" [searchable]="true"
+                              [(ngModel)]="csvSupport.province" [ngModelOptions]="{standalone: true}">
+                              <ng-option *ngFor="let province of data.provinces" [value]="province">{{
+                                province.description_en }}</ng-option>
+                            </ng-select>
+                          </div>
+    
+                          <div class="form-group col-md-4">
+                            <label class="col-form-label col-form-label-sm">District</label>
+                            <ng-select 
+                               class="custom" placeholder="District" [searchable]="true"
+                              [(ngModel)]="csvSupport.district" [ngModelOptions]="{standalone: true}">
+                              <ng-option *ngFor="let district of this.data.districts | district:csvSupport.province"
+                                [value]="district">{{
+                                district.description_en }}</ng-option>
+                            </ng-select>
+                          </div>
+    
+                          <div class="form-group col-md-4">
+                            <label class="col-form-label col-form-label-sm">City</label>
+                            <ng-select
+                               class="custom" placeholder="City" [searchable]="true"
+                              [(ngModel)]="csvSupport.city" [ngModelOptions]="{standalone: true}">
+                              <ng-option *ngFor="let city of data.citys | city:csvSupport.district" [value]="city">
+                                {{city.description_en}}</ng-option>
+                            </ng-select>
+                          </div>
+    
+                          <div class="form-group col-md-12">
+                            <p class="info-value"><span>Selected Province Value:</span>&nbsp;{{csvSupport.province ? csvSupport.province.description_en : '-please select-'}}</p>
+                            <p class="info-value"><span>Selected District Value:</span>&nbsp;{{csvSupport.district ?  csvSupport.district.description_en : '-please select-'}}</p>
+                            <p class="info-value"><span>Selected City Value:</span>&nbsp;{{csvSupport.city? csvSupport.city.description_en : '-please select-'}}</p>
+                          </div>
+    
+                        </div>
+
+                        <p  class="bulk-share-info-part">Country values for Coutry and Passport issued Country fields</p>
+                        <div class="form-row">
+                            <div class="form-group col-md-12" >
+                                <label class="col-form-label col-form-label-sm">Country</label>
+                                <ng-select
+                                  class="custom" placeholder="Country" [searchable]="true"
+                                  [(ngModel)]="csvSupport.countryname" [ngModelOptions]="{standalone: true}">
+                                  <ng-option *ngFor="let crt of country" [value]="crt.name">
+                                    {{crt.name}}</ng-option>
+                                </ng-select>
+                              </div>
+                              <div class="form-group col-md-12">
+                                  <p class="info-value"><span>Selected Country Value:</span>&nbsp;{{csvSupport.countryname ? csvSupport.countryname : '-please select-'}}</p>
+                                </div>
+                        </div>
+                        <p  class="bulk-share-info-part">Title Value for Shareholder Induvidual</p>
+                        <div class="form-row">
+
+                            <div class="form-group col-md-3" >
+                              <select   class="form-control form-control-sm modal-input-director-title"
+                              [(ngModel)]="csvSupport.title" [ngModelOptions]="{standalone: true}">
+                              <option value="">Choose...</option>
+              
+                              <option value="Mr.">Mr.</option>
+                              <option value="Mrs.">Mrs.</option>
+                              <option value="Miss">Miss</option>
+                              <option value="Dr.">Dr.</option>
+                              <option value="Proff.">Proff.</option>
+                              <option value="Rev.">Rev.</option>
+              
+                            </select>
+                          </div>
+                          <div class="form-group col-md-9">
+                              <p class="info-value"><span>Selected Title Value:</span>&nbsp;{{csvSupport.title ? csvSupport.title : '-please select-'}}</p>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="Members-secton stakeholder-section">
+              <div class="currently-added-count-wrapper alert alert-info">
+                <div class="form-row">
+                  <div class="form-group col-md-8">
+                    <p><i class="fas fa-users"></i>&nbsp;{{totalExist}} shareholder records currently added.</p>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <button style="background-color: #bbb!important; float:right" (click)="resetShareholderRecords()"
+                      type="button" mdbBtn color="secondary" class="btn btn-previous"
+                      mdbWavesEffect>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESET&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i
+                  class="fas fa-backward"></i>
+                Previous</button>
+              <button [disabled]="!totalExist" type="button" class="btn btn-primary" id="btn1-next"
+                (click)="changeProgressStatuses(2)">Next
+                <i class="fas fa-forward"></i>
+              </button>
+
+
+            </div>
+
+            <br>
+            <br>
+
+          </fieldset>
+          <!-- end of shareholders details -->
+
+          <!-- Forms download -->
+          <fieldset [hidden]="stepOn != 2">
+
+            <div class="alert alert-warning" role="alert">
+              <p>
+                <small>If you want edit or delete this records please go to previous section and RESET shareholders
+                  records and again correctly upload csv files</small>
+              </p>
+            </div>
+
+            <div class="socity-wrapper">
+              <div class="society-wrapper-real">
+                <div class="society-item" *ngFor="let so of shinduvidual; let i = index" [hidden]="showItem != i">
+                  <div class="sos-navigation top">
+                    <div class="item-prev" *ngIf=" i >0 && indCount" (click)="prevItem(i)"><i
+                        class="fas fa-arrow-circle-left"></i>&nbsp;Previous</div>
+                    <div class="item-next" *ngIf=" indCount > (i+1)" (click)="nextItem(i)"><i
+                        class="fas fa-arrow-circle-right"></i>&nbsp;Next</div>
+                  </div>
+
+                  <div class="society-info-wrapper">
+                    <span>
+                      <center><b>Induvidual shareholders records</b></center>
+                    </span>
+                    <div class="so-q">
+                      <div class="so-q-left">&nbsp;&nbsp;&nbsp;Name</div>
+                      <div class="so-q-right">{{so['fname']}} {{so['lname']}}&nbsp;&nbsp;&nbsp;</div>
+                    </div>
+                    <div class="so-q" *ngIf="so['nic']">
+                      <div class="so-q-left">&nbsp;&nbsp;&nbsp;Nic</div>
+                      <div class="so-q-right"> {{so['nic']}}&nbsp;&nbsp;&nbsp;</div>
+                    </div>
+                    <div class="so-q" *ngIf="so['passport']">
+                      <div class="so-q-left">&nbsp;&nbsp;&nbsp;Passport</div>
+                      <div class="so-q-right"> {{so['passport']}}&nbsp;&nbsp;&nbsp;</div>
+                    </div>
+                    <div class="so-q">
+                      <div class="so-q-left">&nbsp;&nbsp;&nbsp;Current shares</div>
+                      <div class="so-q-right"> {{so['currentshares']}}&nbsp;&nbsp;&nbsp;</div>
+                    </div>
+                    <div class="so-q">
+                      <div class="so-q-left">&nbsp;&nbsp;&nbsp;New shares</div>
+                      <div class="so-q-right"> {{so['newshares']}}&nbsp;&nbsp;&nbsp;</div>
+                    </div>
+                    <div class="so-q">
+                      <div class="so-q-left">&nbsp;&nbsp;&nbsp;Total shares</div>
+                      <div class="so-q-right"> {{so['totalshares']}}&nbsp;&nbsp;&nbsp;</div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="socity-wrapper">
+              <div class="society-wrapper-real">
+                <div class="society-item" *ngFor="let so of sfirm; let i = index" [hidden]="showItemFirm != i">
+                  <div class="sos-navigation top">
+                    <div class="item-prev" *ngIf=" i >0 && firmCount" (click)="prevItemFirm(i)"><i
+                        class="fas fa-arrow-circle-left"></i>&nbsp;Previous</div>
+                    <div class="item-next" *ngIf=" firmCount > (i+1)" (click)="nextItemFirm(i)"><i
+                        class="fas fa-arrow-circle-right"></i>&nbsp;Next</div>
+                  </div>
+
+                  <div class="society-info-wrapper">
+                    <span>
+                      <center><b>shareholders firm records</b></center>
+                    </span>
+                    <div class="so-q">
+                      <div class="so-q-left">&nbsp;&nbsp;&nbsp;Firm name</div>
+                      <div class="so-q-right">{{so['name']}}&nbsp;&nbsp;&nbsp;</div>
+                    </div>
+                    <div class="so-q">
+                      <div class="so-q-left">&nbsp;&nbsp;&nbsp;Registration no</div>
+                      <div class="so-q-right"> {{so['regno']}}&nbsp;&nbsp;&nbsp;</div>
+                    </div>
+                    <div class="so-q">
+                      <div class="so-q-left">&nbsp;&nbsp;&nbsp;Current shares</div>
+                      <div class="so-q-right"> {{so['currentshares']}}&nbsp;&nbsp;&nbsp;</div>
+                    </div>
+                    <div class="so-q">
+                      <div class="so-q-left">&nbsp;&nbsp;&nbsp;New shares</div>
+                      <div class="so-q-right"> {{so['newshares']}}&nbsp;&nbsp;&nbsp;</div>
+                    </div>
+                    <div class="so-q">
+                      <div class="so-q-left">&nbsp;&nbsp;&nbsp;Total shares</div>
+                      <div class="so-q-right"> {{so['totalshares']}}&nbsp;&nbsp;&nbsp;</div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="Members-secton stakeholder-section">
+
+              <div class="container download-container">
+                <div class="doc-block-wrapper">
+                  <div class="doc-block">
+                    <h4>Current Issue of Shares</h4>
+                    <div class="download-application-row">
+                      <div class="download-application-block">Current Induvidual/Firm shareholders details</div>
+                      <div class="doc-download">
+
+                        <button type="button" (click)="currentShareholdersDetailsGeneratePDF()"
+                          class="btn btn-next">Download
+                          <i class="fas fa-forward"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="container download-container">
+                <div class="doc-block-wrapper">
+                  <div class="doc-block">
+                    <h4>Form 6 Download</h4>
+                    <div class="download-application-row">
+                      <div class="download-application-block">Form 6</div>
+                      <div class="doc-download">
+
+                        <button type="button" (click)="issueofSharesFormGeneratePDF()" class="btn btn-next">Download
+                          <i class="fas fa-forward"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous">Previous
+                <i class="fas fa-backward"></i>
+              </button>
+              <button (click)="changeProgressStatuses(3)" type="button" class="btn btn-primary">Next
+                <i class="fas fa-forward"></i>
+              </button>
+            </div>
+
+          </fieldset>
+          <!--end of Forms download-->
+
+
+          <!-- Forms upload -->
+          <fieldset [hidden]="stepOn != 3">
+            <div class="Members-secton stakeholder-section">
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner"
+                  style="padding: 25px 10px 10px;">
+
+                  <div class="alert alert-warning" role="alert">
+
+                    <p>
+                      <small>Please upload all files in pdf format,upload only A4 Size, portrait orientation and file
+                        size should
+                        be less than 4 MB.</small>
+                    </p>
+
+                  </div>
+
+                  <hr>
+                  <div class="container uploaded-container">
+
+                    <div class="container" style="background-color: white">
+                      <div class="row upload-row" style="padding: 10px">
+                        <div class="col-9 doc">
+                          <b>
+                            <h4>Form 6</h4>
+                          </b>
+                        </div>
+                        <div class="col">
+                          <div class="float-right" *ngIf="application?.length <= 0">
+                            <label for="af" class="upload-wrapper btn btn-primary btn-sm download">
+                              <i class="fas fa-cloud-upload-alt"></i> Upload
+                            </label>
+                            <input style="display:block;position: fixed;top:-100000px" id="af" type="file"
+                              (change)="fileUpload($event,'none','applicationUpload')" placeholder="Upload file"
+                              accept=".pdf">
+                          </div>
+                        </div>
+                        <div class="col-12 uploaded-doc" *ngFor="let item of application; let i = index">
+                          <span>
+                            <i class="fas fa-file-pdf"></i>
+                          </span>{{item.pdfname}}
+                          <button class="button red button-sm" (click)="fileDelete(item.id,'applicationUpload',i)">
+                            <i class="fas fa-trash-alt"></i> Delete
+                          </button>
+                          <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                            <i class="far fa-file-pdf"></i> View
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <!-- Aditional document upload -->
+                  <hr>
+                  <div class="container uploaded-container">
+                    <div class="container" style="background-color: white">
+                      <div class="row upload-row" style="padding: 10px">
+                        <div class="col-9 doc">
+                          <b>
+                            <h4>Aditional Documents</h4>
+                          </b>
+                        </div>
+                        <div class="col">
+                          <div class="float-right">
+                            <label for="cl" class="upload-wrapper btn btn-primary btn-sm download">
+                              <i class="fas fa-cloud-upload-alt"></i> Upload
+                            </label>
+                            <input style="display:block;position: fixed;top:-100000px" id="cl" type="file"
+                              (change)="fileUpload($event,'none','aditionalDocumentsUpload')" placeholder="Upload file"
+                              accept=".pdf">
+                          </div>
+                        </div>
+                        <div class="col-12 uploaded-doc" *ngFor="let item of aditionalDocumentList; let i = index">
+                          <span>
+                            <i class="fas fa-file-pdf"></i>
+                          </span>{{item.pdfname}}
+                          <button class="button red button-sm"
+                            (click)="fileDelete(item.id,'aditionalDocumentsUpload',i)">
+                            <i class="fas fa-trash-alt"></i> Delete
+                          </button>
+                          <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                            <i class="far fa-file-pdf"></i> View
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End of additional document upload -->
+                </div>
+              </div>
+            </div>
+
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-previous">
+                <i class="fas fa-backward"></i>
+                Previous</button>
+              <button [disabled]="!application?.length" (click)="changeProgressStatuses(4)" type="button"
+                class="btn btn-primary">Next
+                <i class="fas fa-forward"></i>
+              </button>
+              <!-- [disabled]="!enableGoToPay" -->
+
+            </div>
+
+
+          </fieldset>
+          <!--end of Forms upload-->
+
+          <!-- Payments -->
+          <fieldset class="{{stepOn}}" [hidden]="stepOn != 4">
+            <div class="Members-secton stakeholder-section">
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner"
+                  style="padding: 25px 10px 10px;">
+
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">
+                        <b>No. of Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyRegno}}
+                      </label>
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">
+                        <b>Company Name :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyName}}
+                      </label>
+                    </div>
+
+                  </div>
+
+                  <div class="content">
+                    <div class="container top-margin">
+                      <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
+                          <div class="box">
+                            <h3 class="box-title">User payment agreement</h3>
+                            <div class="plan-selection">
+                              <div class="plan-data">
+                                <small class="plan-text">If you are having any problems, please email eroc@info.com or
+                                  contact on 011-2123456.</small>
+                                <br>
+                                <small class="plan-text">User payment agreement</small>
+                                <br>
+                              </div>
+                            </div>
+                            <div class="plan-selection">
+                              <div class="row justify-content-md-center mt-3">
+                                <label for="card" class="method">
+                                  <div class="card-logos">
+                                    <img src="assets/images/header/visa_logo.png" />
+                                    <img src="assets/images/header/mastercard_logo.png" />
+                                  </div>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+
+                          <div class="widget">
+                            <h4 class="widget-title">Order Summary</h4>
+                            <div class="summary-block">
+                              <div class="summary-content">
+                                <div class="summary-head">
+                                  <h5 class="summary-title">Issue Of Shares Service Price</h5>
+                                </div>
+                                <div class="summary-price">
+                                  <p class="summary-text">
+                                    {{ calculation.getValue('PAYMENT_COMPANY_ADDRESS_CHANGE') | currency:'Rs.' }}</p>
+                                </div>
+                                <div class="summary-head">
+                                  <h5 class="summary-title">Tax</h5>
+                                </div>
+                                <div class="summary-price">
+                                  <p class="summary-text">{{ calculation.getTaxAmount | currency:'Rs.' }}</p>
+                                </div>
+                                <div class="summary-head">
+                                  <h5 class="summary-title">Convenience Fee</h5>
+                                </div>
+                                <div class="summary-price">
+                                  <p class="summary-text">{{ calculation.getConvenienceFee | currency:'Rs.' }}</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="summary-content">
+                              <div class="summary-head">
+                                <h5 class="summary-title">
+                                  <strong>Total Amount</strong>
+                                </h5>
+                              </div>
+                              <div class="summary-price">
+                                <p class="summary-text">
+                                  <strong>{{ calculation.getTotalAmount | currency:'Rs.' }}</strong>
+                                </p>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(3)" type="button" class="btn btn-previous">
+                <i class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="getCipherToken()" type="button" class="btn btn-primary">PAY</button>
+            </div>
+          </fieldset>
+          <!--end of payments-->
+
+        </form>
+
+      </div>
+      <div style="clear:both"></div>
+      <br />
+      <br />
+      <!--end right col main-->
+    </div>
+  </div>
+</section>
+
+
+
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockBackToForm">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Are you sure want to proceed further?</h2>
+    </div>
+    <div class="body">
+      <p>Make sure to enter the correct details and go further.</p>
+    </div>
+    <div class="footer">
+      <button style="margin-right: 10px" class="btn btn-success" (click)="validateSharesList()">Yes</button>
+      <button style="margin-left: 10px" class="btn btn-danger" (click)="areYouSureNo()">No</button>
+    </div>
+  </div>
+</div>
+
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockBackToForm2">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Are you sure want to proceed further?</h2>
+    </div>
+    <div class="body">
+      <p>Make sure to enter the correct details and go further.</p>
+    </div>
+    <div class="footer">
+      <button style="margin-right: 10px" class="btn btn-success" (click)="changeProgresstoStep3()">Yes</button>
+      <button style="margin-left: 10px" class="btn btn-danger" (click)="areYouSureNo2()">No</button>
+    </div>
+  </div>
+</div>
+
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockPayment">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Are you sure want to proceed further?</h2>
+    </div>
+    <div class="body">
+      <p>If yes, you will not be able to revert back.</p>
+    </div>
+    <div class="footer">
+      <form ngNoForm action="https://testlgps.lankagate.gov.lk:9443/lgps/accesslgps" method="post">
+        <input type="hidden" [(ngModel)]="cipher_message" name="clientPaymentRequest">
+        <button style="margin-right: 10px" type="submit" class="btn btn-success">Yes</button>
+        <button style="margin-left: 10px" class="btn btn-danger" (click)="areYouSurePayNo()">No</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--add member modal-->
+<div mdbModal #membModal="mdbModal" id="memb-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myBasicModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right close-modal-item" aria-label="Close" (click)="membModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">Add company shares
+          <br />
+          <span *ngIf="validationMessage" class="stakeholder-validation">{{ validationMessage }}</span>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="nic-check-block">
+
+          <!-- Type of Share -->
+          <div class="form-row">
+            <div class="form-group col-md-2">
+              <label class="col-form-label col-form-label-sm">Type of Share
+                <span class="req">*</span>
+              </label>
+            </div>
+            <div class="form-group col-md-4">
+              <select (change)="sharesDetailsValidationStep1()"
+                class="form-control form-control-sm modal-input-director-title ng-pristine ng-valid ng-touched"
+                name="typeofshare" [(ngModel)]="shares.typeofshare">
+                <option value="">Choose...</option>
+                <option *ngFor="let isharetype of IssueOfSharesService.isharetypes" value="{{ isharetype.id }}"
+                  id="{{ isharetype.id }}">{{ isharetype.value }}</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Date of Issue -->
+          <div class="form-row">
+            <div class="form-group col-md-2">
+              <label class="col-form-label col-form-label-sm">Date of Issue :
+                <span class="req">*</span>
+              </label>
+            </div>
+            <div class="form-group col-md-4">
+              <input type="date" [(ngModel)]="shares.dateofissue" [ngModelOptions]="{standalone: true}"
+                (input)="sharesDetailsValidationStep1()"
+                class="form-control form-control-sm modal-input-director-phone">
+            </div>
+          </div>
+
+          <!-- Number of Shares -->
+          <div class="form-row">
+            <div class="form-group col-md-2">
+              <label class="col-form-label col-form-label-sm">Number of Shares
+                <span class="req">*</span>
+              </label>
+            </div>
+            <div class="form-group col-md-4">
+              <input (input)="sharesDetailsValidationStep1()" maxlength="9"
+                onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                class="form-control form-control-sm" name="issuedshares" [(ngModel)]="shares.issuedshares"
+                placeholder="">
+              <span class="req-message">Valid share amount required</span>
+            </div>
+          </div>
+
+          <!-- radio buttons for shares issue as cash -->
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label col-form-label-sm">Shares issue as cash
+              <span class="req">*</span></label>
+            <label class="col-sm-2 col-form-label col-form-label-sm"><input type="radio"
+                [(ngModel)]="shares.cashapplicability" (change)="sharesDetailsValidationStep1()" name="rad"
+                (click)="show1()" value="1">Yes, we issue shares as cash
+            </label>
+            <label class="col-sm-2 col-form-label col-form-label-sm"><input type="radio"
+                [(ngModel)]="shares.cashapplicability" (change)="sharesDetailsValidationStep1()" checked name="rad"
+                (click)="show2()" value="0">No, we didn't issue shares as cash
+            </label>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-2">
+            </div>
+            <!-- Stated Capital -->
+            <div class="form-group col-md-4" id="div1">
+              <label class="col-form-label col-form-label-sm">No of shares for cash
+                <span class="req">*</span>
+              </label>
+              <input (input)="sharesDetailsValidationStep1()" maxlength="9"
+                onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                class="form-control form-control-sm" name="noofsharesascash" [(ngModel)]="shares.noofsharesascash"
+                placeholder="">
+              <span class="req-message">Valid shares quantity required</span>
+            </div>
+
+            <!-- Consideration -->
+            <div class="form-group col-md-6" id="div2">
+              <label class="col-form-label col-form-label-sm">Consideration (Rs.)
+                <span class="req">*</span>
+              </label>
+              <input (input)="sharesDetailsValidationStep1()" maxlength="9"
+                onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                class="form-control form-control-sm" name="consideration" [(ngModel)]="shares.consideration"
+                placeholder="">
+                <span class="req-message">Valid consideration required</span>
+            </div>
+          </div>
+
+          <!-- radio buttons for shares issue as non cash -->
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label col-form-label-sm">Shares issue as non cash
+              <span class="req">*</span></label>
+            <label class="col-sm-2 col-form-label col-form-label-sm"><input type="radio"
+                [(ngModel)]="shares.noncashapplicability" (change)="sharesDetailsValidationStep1()" name="rad1"
+                (click)="show3()" value="1">Yes, we issue shares as non cash
+            </label>
+            <label class="col-sm-2 col-form-label col-form-label-sm"><input type="radio"
+                [(ngModel)]="shares.noncashapplicability" (change)="sharesDetailsValidationStep1()" checked name="rad1"
+                (click)="show4()" value="0">No, we didn't issue shares as non cash
+            </label>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-2">
+            </div>
+            <!-- Stated Capital -->
+            <div class="form-group col-md-4" id="div3">
+              <label class="col-form-label col-form-label-sm">No of shares for non cash
+                <span class="req">*</span>
+              </label>
+              <input (input)="sharesDetailsValidationStep1()" maxlength="9"
+                onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                class="form-control form-control-sm" name="noofsharesasnoncash" [(ngModel)]="shares.noofsharesasnoncash"
+                placeholder="">
+              <span class="req-message">Valid shares quantity required</span>
+            </div>
+            <!-- Consideration other than cash -->
+            <div class="form-group col-md-6" id="div4">
+              <label class="col-form-label col-form-label-sm">Shares value (for non cash)
+                <span class="req">*</span>
+              </label>
+              <input maxlength="9"
+                onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"
+                (input)="sharesDetailsValidationStep1()" [(ngModel)]="shares.considerationotherthancash"
+                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                placeholder="" value="{{ shares.considerationotherthancash}}">
+                <span class="req-message">Valid shares value required</span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-2">
+            </div>
+            <div class="form-group col-md-10" id="div5">
+              <label class="col-form-label col-form-label-sm">Consideration for shares issued
+                <span class="req">*</span>
+              </label>
+              <input maxlength="200" (input)="sharesDetailsValidationStep1()"
+                [(ngModel)]="shares.considerationotherthancashtext" [ngModelOptions]="{standalone: true}"
+                class="form-control form-control-sm modal-input-director-address3" placeholder=""
+                value="{{ shares.considerationotherthancashtext}}">
+            </div>
+          </div>
+
+          <br />
+          <hr class="form-sep" />
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: flex-end">
+        <button style="background-color: #bbb!important;" type="button" mdbBtn color="secondary"
+          class="btn btn-previous" mdbWavesEffect>RESET</button>&nbsp;
+        <button [disabled]="!enableStep1Submission" (click)="addNewSharesRecord(); membModal.hide()" type="button"
+          mdbBtn color="secondary" class="btn btn-sm relative waves-light add-new-stakeholder add-memb"
+          mdbWavesEffect>ADD</button>
+      </div>
+    </div>
+  </div>
+</div>

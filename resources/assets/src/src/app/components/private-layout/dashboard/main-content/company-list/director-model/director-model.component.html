@@ -1,0 +1,42 @@
+<div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{ backdrop: true, ignoreBackdropClick: true }">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">SELECT DIRECTOR / SECRETARY <sup class="text text-danger">*</sup></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+        <div class="modal-body mx-3 mb-3">
+          <div *ngIf="enable">
+
+           <div class="form-group row" *ngIf="ResNumber">
+              <small for="staticEmail" class="col-sm-4 mt-2">Resolution Date  <sup class="text text-danger">*</sup></small>
+              <div class="col-sm-8">
+                <input placeholder="Resolution Date"  formControlName="resolutiondate" [max]="max" [min]="min" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"  class="form-control">
+                <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+              </div>
+            </div>
+
+            <ng-select class="custom" placeholder="--- Select Signatory ---" [searchable]="true" formControlName="selectCat">
+              <ng-option *ngFor="let item of member" value="{{ item.id + '-' + item.type }}">{{ item.title }}{{ item.first_name }} {{ item.last_name }} {{ '- ' + item.designation }}</ng-option>
+            </ng-select>
+
+            <div class="float-right mt-3 mb-3">
+              <button class="button ripple-effect ico" [disabled]="formGroup.invalid" [ngClass]="{'green-4': formGroup.valid, 'gray': formGroup.invalid}">
+                <i class="fas fa-download"></i> <small> Download</small>
+              </button>
+            </div>
+          </div>
+          <div *ngIf="!enable">
+            <small class="text text-danger">
+              Can't Your Process Complete. Please try again
+            </small>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

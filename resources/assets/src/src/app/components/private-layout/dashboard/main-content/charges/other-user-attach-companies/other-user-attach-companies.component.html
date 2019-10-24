@@ -1,0 +1,53 @@
+<div class="clearfix">
+</div>
+<section class="top-margin">
+  <div class="container" style="margin-top: 60px;
+  background-color: #fff;
+  padding: 50px;">
+    <div class="row">
+
+        <h4 style="width:100%">Select companies where you want to be attached</h4>
+
+        <div class="form-group row">
+          <small for="staticEmail" class="col-sm-12">Put company registration number here </small>
+          <div class="col-sm-10">
+            <input style="width:100%" [(ngModel)]="pvNumber" name="pvNumber"  />
+          </div>
+          <div class="col-sm-2" style="padding:0 8px 0 0">
+             <button class="upload-wrapper btn btn-primary btn-sm download" style="margin-top:1px;float: right;"  (click)="addCompanies()">Search</button>
+          </div>
+        </div>
+
+        <div style="width:100%" class="alert alert-success" *ngIf="message_succcess">
+          <p style="margin:0">{{message_succcess}}</p>
+        </div>
+        <div style="width:100%" class="alert alert-danger" *ngIf="message_fail">
+            <p style="margin:0">{{message_fail}}</p>
+          </div>
+        
+        <div class="row admin-companies"  *ngFor="let doc of currentCompanyList">
+          <div class="col-sm-2">
+           {{doc.regNumber}}
+          </div>
+          <div class="col-sm-9">
+            {{doc.name}}
+           </div>
+           <div class="col-sm-1">
+            <button (click)="removeAssignedCompany(doc.id)" style="color: red;font-size: 20px;"><i class="far fa-times-circle"></i></button>
+           </div>
+        </div>
+        <div style="clear:both"></div>
+        
+        <hr/>
+        
+        <div style="width:100%;margin-top: 30px">
+          
+          <button *ngIf="adminCompanies.length" [disabled]="!adminCompanies.length" (click)="updateJoinList()" class="button green-4" type="submit" mdbWavesEffect>Attach Above Company List</button>
+        </div>
+
+    </div>
+
+  </div>
+
+</section>
+

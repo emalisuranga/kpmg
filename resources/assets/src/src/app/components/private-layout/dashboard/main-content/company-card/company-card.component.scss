@@ -1,0 +1,144 @@
+@import "theme-veriable";
+
+.align-bottom-date {
+  position: absolute !important;
+  right: 0 !important;
+  bottom: 0 !important;
+}
+
+.payment-success-wrapper {
+  width:  70%;
+  height:  100%;
+  position:  fixed;
+  top: 0;
+  z-index: 9999999999999999;
+ // background: rgba(208, 204, 228, 0.9);
+}
+
+.payment-success-body {
+  width: 60%;
+  min-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 70px 0;
+  top: 0;
+  right:  0;
+  left:  0;
+  bottom:  0;
+ // background:  #fff;
+  background: rgba(208, 204, 228, 0.9);
+  border-radius: 5px;
+  align-content: center;
+  text-align:  center;
+}
+
+.payment-success-body .header {
+  border-bottom: 1px solid #e49a67;
+  padding-bottom: 10px;
+}
+.payment-success-body .header h2 {text-transform:  uppercase;font-size:  20px;font-weight:  bold;}
+
+.payment-success-body .body {
+  margin: 30px 0;
+  font-weight: normal;
+  color: #0c700c;
+  font-size: 17px;
+}
+span.req {
+  color: red;
+  font-size: 18px;
+}
+
+.task-listing-details {
+  padding: 20px 35px $im;
+}
+
+.icon-feather-edit {
+  color: $blue;
+}
+
+.timeline ul {
+  display: flex;
+  list-style: none;
+
+  .icon-box-check {
+    background-color: #ffd421;
+  }
+}
+
+.btn {
+  background: $white $im;
+  color: $darkBlue $im;
+  font-size: 12px;
+  border: 2px solid $secondary;
+
+  :hover {
+    background: $orange $im;
+    color: $white $im;
+  }
+}
+
+.button {
+  background-color: $blue $im;
+}
+
+.button-bl {
+  background: white;
+  color: gray;
+  border: 2px solid gray;
+}
+
+.button-sliding-icon {
+  background-color: $blue $im;
+  color: $white $im;
+}
+
+img {
+  max-width: 100%;
+  text-align: center;
+  left: 3%;
+  position: relative;
+}
+
+button.button.button-sliding-icon.ripple-effect.society-btn-COMPANY_ADDRESS_CHANGE_APPROVED {
+  background-color: GREEN !important;
+}
+button.button.button-sliding-icon.ripple-effect.society-btn-COMPANY_ADDRESS_CHANGE_REJECTED {
+  background-color: RED !important;
+}
+
+button.button.button-sliding-icon.ripple-effect.society-btn-ACCOUNTING_ADDRESS_CHANGE_APPROVED {
+  background-color: GREEN !important;
+}
+button.button.button-sliding-icon.ripple-effect.society-btn-ACCOUNTING_ADDRESS_CHANGE_REJECTED {
+  background-color: RED !important;
+}
+
+button.button.button-sliding-icon.ripple-effect.society-btn-BALANCE_SHEET_DATE_CHANGE_APPROVED {
+  background-color: GREEN !important;
+}
+button.button.button-sliding-icon.ripple-effect.society-btn-BALANCE_SHEET_DATE_CHANGE_REJECTED {
+  background-color: RED !important;
+}
+button.btn.btn-primary.float-right.processing-button {
+  background-color: #4285f4 !important;
+  border: none !important;
+  color: #fff !important;
+}
+button.btn.btn-primary.float-right.resubmit-button {
+  background-color:#d9534f !important;
+  border: none !important;
+  color: #fff !important;
+}
+ul.aa.dashboard-box-list {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+ul.aa.dashboard-box-list>li {
+  width: 50%;
+}
+ul.aa.dashboard-box-list>li .dashboard-box {
+ 
+  min-height: 220px;
+}

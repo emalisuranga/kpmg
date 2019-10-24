@@ -1,0 +1,86 @@
+<div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{ backdrop: true, ignoreBackdropClick: true }">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title w-100 font-weight-bold">Country of Origin</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <small>Please make the appropriate choice  to mark your country of Origin and Proceed</small>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-6">
+              <button class="btn btn-primary float-right" (click)="sriLankan()" role="button">Sri Lankan</button>
+          </div>
+          <div class="col-6">
+              <button class="btn btn-primary" (click)="nonSriLankan()" role="button">Non Sri Lankan</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div mdbModal #adminframe="mdbModal" class="modal fade left" id="adminframeModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{ backdrop: true, ignoreBackdropClick: true }">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title w-100 font-weight-bold">Register for Company Administrator</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="adminframe.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <small>Please click one of the options below and Proceed</small>
+      </div>
+     <div class="modal-footer">
+       
+        <div class="row">
+          <div class="col-6">
+              <button style="width:100%;" class="btn btn-primary float-right" (click)="companyAdmin()" role="button">Sri Lankan Company Administrator </button>
+          </div>
+          <div class="col-6">
+            <button style="width:100%;" class="btn btn-primary float-right" (click)="companyAdminNSL()" role="button">Non Sri Lankan Company Administrator </button>
+        </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mdbModal #otheruserframe="mdbModal" class="modal fade left" id="otheruserframeModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{ backdrop: true, ignoreBackdropClick: true }">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title w-100 font-weight-bold">Register for Lawyer/Banker or Other Stakeholder</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="otheruserframe.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <small>Please click one of the options below and Proceed</small>
+      </div>
+     <div class="modal-footer">
+       
+        <div class="row">
+          <div class="col-6">
+              <button style="width:100%;" class="btn btn-primary float-right" (click)="companyOtherUserSL()" role="button">Sri Lankan Lawyer/Banker or Other Stakeholder </button>
+          </div>
+          <div class="col-6">
+            <button style="width:100%;" class="btn btn-primary float-right" (click)="companyOtherUserNONSL()" role="button">Non Sri Lankan Lawyer/Banker or Other Stakeholder </button>
+        </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+button.btn.btn-primary.float-right.processing-button {
+    background-color: #4285f4 !important;
+    border: none !important;
+    color: #fff !important;
+  }
+  button.btn.btn-primary.float-right.resubmit-button {
+    background-color:#d9534f !important;
+    border: none !important;
+    color: #fff !important;
+  }
+  ul.aa.dashboard-box-list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+  }
+  ul.aa.dashboard-box-list>li {
+    width: 50%;
+  }
+  ul.aa.dashboard-box-list>li .dashboard-box {
+   
+    min-height: 220px;
+  }

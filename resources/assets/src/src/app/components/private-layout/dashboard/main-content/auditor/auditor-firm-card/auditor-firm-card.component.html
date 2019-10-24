@@ -1,0 +1,192 @@
+<section>
+    <div class="row mb-5">
+      <div class="col-xl-12">
+        <div class="dashboard-box">
+          <ul class="aa dashboard-box-list">
+            <li style="width: 100%;min-height: auto;">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="job-listing">
+                    <div class="job-listing-details">
+                      <a href="#" class="job-listing-company-logo">
+                          <img src="assets/images/icon/secretaryfirm.png" alt>
+                      </a>
+                      <div class="job-listing-description">
+                        <h3 class="job-listing-title">
+                          <strong>
+                            <a>
+                              {{ name?.name | uppercase }}
+                            </a>
+                          </strong>
+                        </h3>
+                        <div class="job-listing-footer">
+                          <ul>
+                            <li>
+                              <small>
+                                <i class="icon-material-outline-business"></i>
+                                {{ name?.id }}
+                              </small>
+                            </li>
+                            <li>
+                              <small>
+                                <i class="icon-material-outline-access-time"></i>
+                                Date : {{ name?.created_at | date:'yyyy-MM-dd' }} Time : {{ name?.created_at |
+                                date:'shortTime' }}
+                              </small>
+                            </li>
+                          </ul>
+                        </div>
+                        <small>
+                          <strong>Address :</strong>
+                          {{ name?.address1 }}, {{ name?.address2 }}, {{ name?.city }}
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-12">
+  
+                  <div style="margin-top:20px" class="alert alert-info" role="alert" *ngIf="ird.status == 'IRD_SUCCESS'">
+                      <p style="margin:0">
+                        <strong>Tax Identification Number</strong> : {{ird.taxpayer_identification_number}}
+                      
+                      </p>
+  
+                    </div>
+  
+                    <div style="margin-top:20px" class="alert alert-danger" role="alert" *ngIf="ird.status == 'IRD_ERROR'">
+                        <p style="text-align: center;
+                        font-size: 20px; margin:0">
+                          <strong>Your IRD request is failed because of following reson(s)</strong> 
+                        
+                        </p>
+                        <p [innerHTML]="ird.rejected_resion"></p>
+                        <hr/>
+                        <p><strong><i class="fa fa-info"></i> &nbsp;</strong> Please contact the inland revenue department for further clarifications.</p>
+                         
+      
+                      </div>
+              
+                
+              </div> -->
+  
+            
+              <hr>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group row">
+                    <small for="staticEmail" class="col-sm-2">Sinhala Name</small>
+                    <small class="col-sm-1">:</small>
+                    <small for="static" class="col-sm-9">{{ name?.name_si }}</small>
+                  </div>
+                  <div class="form-group row">
+                    <small for="staticEmail" class="col-sm-2">Tamil Name</small>
+                    <small class="col-sm-1">:</small>
+                    <small for="static" class="col-sm-9">{{ name?.name_ta }}</small>
+                  </div>
+                  <!-- <div class="form-group row">
+                    <small for="staticAbbreviations" class="col-sm-2">Abbreviations</small>
+                    <small class="col-sm-1">:</small>
+                    <small for="staticAbbre" class="col-sm-9">{{ name.abbreviation_desc }}</small>
+                  </div> -->
+                </div>
+              </div>
+            </li>
+  
+          <!-- start auditor changes  -->
+          <li *ngIf="name?.key === 'AUDITOR_APPROVED'">
+              <div class="dashboard-box">
+                <ul class="dashboard-box-list">
+                  <li>
+                    <div class="col-md-12">
+                      <h3><strong>Auditor Firm Change</strong></h3>
+                    </div>
+                   
+                    <table class="table">
+                      
+                      <tbody>
+                        <!-- (click)="continueRegistration(item.statuskey,item.id,item.name,item.name_si,item.name_ta,item.abbreviation_desc,item.type_id)" -->
+                        <tr>
+                          <td>
+  
+                             <p *ngIf="name['key'] === 'AUDITOR_APPROVED' && ( auditorfirmchangedetails[0]['setKey'] == '' )">
+                                 Make New Request
+                             </p>
+                             <p *ngIf="name['key'] === 'AUDITOR_APPROVED' && ( auditorfirmchangedetails[0]['setKey'] == 'AUDITOR_CHANGE_PROCESSING' )">
+                                Edit Current Request
+                             </p>
+                             <p *ngIf="name['key'] === 'AUDITOR_APPROVED' &&  auditorfirmchangedetails[0]['setKey'] == 'AUDITOR_CHANGE_REQUEST_TO_RESUBMIT'">
+                                Record Requesting to Resubmit
+                             </p>
+  
+                             <p *ngIf="name['key'] === 'AUDITOR_APPROVED' &&  !( auditorfirmchangedetails[0]['setKey'] == 'AUDITOR_CHANGE_REQUEST_TO_RESUBMIT' || auditorfirmchangedetails[0]['setKey'] == 'AUDITOR_CHANGE_PROCESSING' || auditorfirmchangedetails[0]['setKey'] == '' )">
+                               Request Processing....
+                             </p>
+  
+                          </td>
+                          <td>
+  
+                             <button style="margin-right: 5px;" *ngIf="name['key'] === 'AUDITOR_APPROVED' && ( auditorfirmchangedetails[0]['setKey'] == '' )" (click)="audChange()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Add
+                            </button>
+                            <button style="margin-right: 5px;" *ngIf="name['key'] === 'AUDITOR_APPROVED' && (auditorfirmchangedetails[0]['setKey'] == 'AUDITOR_CHANGE_PROCESSING' )" (click)="audChange()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Go to Record
+                            </button>
+              
+                            <button style="margin-right: 5px;" *ngIf="name['key'] === 'AUDITOR_APPROVED' &&  auditorfirmchangedetails[0]['setKey'] == 'AUDITOR_CHANGE_REQUEST_TO_RESUBMIT'" (click)="continueRegistrationForaudChange()"
+                              class="btn btn-primary float-right resubmit-button">
+                              <i class="fas fa-exchange-alt"></i> Resubmit
+                            </button>
+              
+                           <!-- <button disabled style="margin-right: 5px;" *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_RESUBMIT' || registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_PROCESSING' || registerOfChargesRecord['setKey'] == '' )"
+                              class="button-bl btn-sm float-right other-status-button">
+                              <i class="fas fa-exchange-alt"></i> Register Of Charges ( Request Processing )
+                            </button> -->
+  
+  
+                          </td>
+                          
+                        </tr>
+                      
+                      </tbody>
+                    </table>
+                  </li>
+                </ul>
+              </div>
+        </li>
+        <!-- end auditor changes  -->
+  
+        
+  
+  
+  
+          </ul>
+        </div>
+  
+        <!-- <div class="dashboard-box" *ngIf="this.comments?.length > 0">
+          <ul class="dashboard-box-list">
+            <li *ngFor="let comment of this.comments">
+              <div class="boxed-list-item">
+                <div class="item-content">
+                  <h4>{{ comment.name }}</h4>
+                  <div class="item-details margin-top-10">
+                    <div class="star-rating" data-rating="5.0"></div>
+                    <div class="detail-item"><i class="icon-material-outline-date-range"></i> {{ comment.updated_at
+                      |
+                      date: 'y-MM-dd' }} {{ comment.updated_at |
+                      date:'mediumTime' }} </div>
+                  </div>
+                  <div class="item-description">
+                    <p>{{ comment.comments }}</p>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div> -->
+      </div>
+    </div>
+  </section>

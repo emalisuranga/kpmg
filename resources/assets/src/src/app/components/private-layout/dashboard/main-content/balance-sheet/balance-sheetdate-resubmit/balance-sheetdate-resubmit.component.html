@@ -1,0 +1,773 @@
+<div class="clearfix">
+</div>
+
+<section>
+  <div class="container top-margin" style="padding-bottom: 50px;">
+    <div class="row">
+      <div class="col-md-11 nopadding">
+        <form role="form" method="post" class="f1">
+          <h3 style="text-align: center">Balance Sheet Date <span *ngIf="(!notfirstTime) && (!needapproval)">Adoption</span><span *ngIf="notfirstTime || needapproval">Change</span> Procedure</h3>
+          <p style="text-align: center">Fill in all steps for completing balance sheet date <span *ngIf="(!notfirstTime) && (!needapproval)">adoption</span><span *ngIf="notfirstTime || needapproval">change</span> process.</p>
+          <div class="f1-steps">
+            <div class="f1-progress">
+              <div class="f1-progress-line" data-now-value="12.5" data-number-of-steps="4"
+                [ngStyle]="{'width': progress.progressPercentage}"></div>
+            </div>
+            <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}}">
+              <div class="f1-step-icon">
+                <i class="{{item.icon}}"></i>
+              </div>
+              <p>{{item.label}}</p>
+            </div>
+          </div>
+          <fieldset [hidden]="stepOn != 0">
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+                </div>
+            <div class="Members-secton stakeholder-section">
+
+              <!-- membs list --------------------------------------- and things -->
+
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <!-- list-->
+
+
+
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner"
+                  style="padding: 25px 10px 10px;">
+
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Company Number :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyRegno}}
+                      </label>
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Name of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyName}} {{postfix}}
+                      </label>
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Type :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><span *ngIf="(!notfirstTime) && (!needapproval)">Adoption</span><span *ngIf="notfirstTime || needapproval">Change</span>
+                      </label>
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Balance sheet date of the
+                        Company :</b><span
+                        class="req">*</span>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+                      
+                      <input onkeydown="return false" [disabled]="disable" id='date12' (input)="validate()" type="date" [(ngModel)]="PreBalDate" [ngModelOptions]="{standalone: true}"
+                        
+                        class="form-control form-control-sm modal-input-director-phone">
+                    </div>
+
+                  </div>
+                  <div class="form-row" *ngIf="notfirstTime  || needapproval">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Proposed balance sheet date of the
+                        Company :</b> <span
+                          class="req">*</span>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <input onkeydown="return false" type="date" id='date' [disabled]="disable" [(ngModel)]="ProBalDate" [ngModelOptions]="{standalone: true}"
+                        (input)="validate()" min="{{minDate | date:'yyyy-MM-dd'}}"
+                        class="form-control form-control-sm modal-input-director-phone">
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Effective Year :</b> <span
+                          class="req">*</span>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <select [disabled]="disable" [(ngModel)]="effectiveYear" (change)="validate()" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-phone">
+                          <option value="{{year}}" selected>{{year}}</option>
+                          <option value="{{onemoreyear}}">{{onemoreyear}}</option>
+                        </select>
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+                  <div class="form-group col-md-6">
+
+                    <label class="col-form-label col-form-label-sm"><b>Signed By</b> <span class="req">*</span></label>
+                    <ng-select [dropdownPosition]="'top'" [items]="members" groupBy="designation" bindValue="_id" bindLabel="name" (change)="validate()" [(ngModel)]="signbyid" [ngModelOptions]="{standalone: true}"
+                            style="z-index: 100;">
+                            <!-- <ng-option *ngFor="let member of members; let i = index" value="{{member.id}}-{{member.type}}">{{member.designation}} :- {{member.first_name}} {{member.last_name}} </ng-option> -->
+                            <!-- <option value="other">Other</option> -->
+                          </ng-select>
+                    <!-- <label class="col-form-label col-form-label-sm"
+                      *ngFor="let member of members; let i = index">{{member.designation}}&nbsp;:-&nbsp;{{member.first_name}}&nbsp;{{member.last_name}}&nbsp;<input
+                        type="radio" [(ngModel)]="signbyid" (change)="validate()" name="rad"
+                        value="{{member.id}}-{{member.type}}"></label> -->
+
+                  </div>
+                </div>
+
+                  <br>
+                  
+
+                </div>
+                <!-- end record inner -->
+
+
+
+                <!-- end list -->
+
+              </div>
+
+
+            </div>
+
+
+
+            <div class="f1-buttons">
+
+              <button [disabled]="!validData" type="button" class="btn btn-primary" id="btn1-next"
+                (click)="areYouSureYes()">Next
+                <i class="fas fa-forward"></i></button>
+              <!-- [disabled]="!enableStep1Submission" -->
+            </div>
+            <br>
+            <br>
+
+          </fieldset>
+          <!-- end of fist step -->
+
+
+
+
+
+
+
+
+
+
+          <!-- <fieldset [hidden]="stepOn != 1">
+
+
+            
+            
+
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="areYouSureYes()" type="button" [disabled]="!(addits.length == 5 && treasurers.length && secretaries.length && presidents.length)"
+                class="btn btn-primary">Next <i class="fas fa-forward"></i></button>
+            </div>
+            [disabled]="!(addits.length == 5 && treasurers.length && secretaries.length && presidents.length)"
+          </fieldset> -->
+
+
+
+
+
+
+
+
+
+
+
+          <!--end of second step -->
+
+
+
+          <fieldset [hidden]="stepOn != 1">
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+                </div>
+            <div class="Members-secton stakeholder-section">
+
+              <!-- membs list --------------------------------------- and things -->
+
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <!-- list-->
+
+
+
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner"
+                  style="padding: 25px 10px 10px;">
+
+
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Company Number :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyRegno}}
+                      </label>
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Name of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyName}} {{postfix}}
+                      </label>
+                    </div>
+
+                  </div>
+
+                  <div class="container download-container">
+
+                    <div class="container download-container">
+                        <h3>Document List</h3>
+
+                      <div class="doc-block-wrapper">
+                        <div class="doc-block">
+                          <div class="download-application-row">
+                              <div class="stakeholder-name">Form 17</div>
+                            <div class="doc-download">
+
+                              <button type="button" (click)="form17Download()" class="btn btn-next">Download
+                                <i class="fas fa-forward"></i></button>
+                              <!-- (click)="societyGeneratePDF()" -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                  Previous</button>
+              <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-primary">Next <i
+                  class="fas fa-forward"></i></button>
+            </div>
+
+          </fieldset>
+          <!--end of third step-->
+
+
+
+          <fieldset [hidden]="stepOn != 2">
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+                </div>
+            <div class="Members-secton stakeholder-section">
+
+              <!-- membs list --------------------------------------- and things -->
+
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <!-- list-->
+
+
+
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner"
+                  style="padding: 25px 10px 10px;">
+
+
+
+                  <div class="alert alert-warning" role="alert">
+
+                    <p>
+                      <small>Please upload all required<span class="req">*</span> files in pdf format,upload only A4 Size, portrait orientation and file
+                        size
+                        should be less
+                        than 4 MB.</small>
+                    </p>
+
+                  </div>
+
+                  <hr>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Company Number :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyRegno}}
+                      </label>
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Name of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyName}} {{postfix}}
+                      </label>
+                    </div>
+
+                  </div>
+
+                  <div class="container uploaded-container">
+
+                    <div class="container" style="background-color: white">
+                      <div class="row upload-row" style="padding: 10px">
+                        <div class="col-9 doc">
+                          <b>
+                            <h4>Form 17 <span class="req">*</span></h4>
+                          </b>
+                        </div>
+                        <br>
+                        <div class="col-3 float-right" *ngIf="application?.length <= 0">
+                          <label for="afupload" style="height: 37px;" class="upload-wrapper btn btn-primary btn-sm download">
+                            <i class="fas fa-cloud-upload-alt"></i> Upload
+                          </label>
+                          <input style="display:block;position: fixed;top:-100000px" id="afupload" type="file" (change)="fileUpload($event,'','applicationUpload')"
+                            placeholder="Upload file" accept=".pdf">
+                        </div>
+                        <div class="col-12" *ngFor="let item of application; let i = index">
+                          <div class="col-3 float-right" style="margin-top: -10px" *ngIf="(!item?.pdfname && (application?.length > 0))">
+                            <label for="af" style="height: 37px;" class="upload-wrapper btn btn-primary btn-sm download">
+                              <i class="fas fa-cloud-upload-alt"></i> Upload
+                            </label>
+                            <input style="display:block;position: fixed;top:-100000px" id="af" type="file" (change)="fileUploadUpdate($event,item.id,'none','applicationUpload')"
+                              placeholder="Upload file" accept=".pdf">
+                          </div>
+
+                          <div class="col-12 uploaded-doc" *ngIf="item?.pdfname">
+                            <span style="margin-right: 10px"><i class="fas fa-file-pdf"></i></span>{{item.pdfname}}
+                            <span class="approved_doc" *ngIf="item?.setKey == 'DOCUMENT_APPROVED'">Document Approved</span>
+                            <button class="button red button-sm" *ngIf="!(item?.setKey == 'DOCUMENT_APPROVED')" [disabled]="item?.setKey == 'DOCUMENT_APPROVED'"
+                              (click)="fileDeleteUpdate(item.id,'applicationUpload',i)">
+                              <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                            <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                              <i class="far fa-file-pdf"></i> View
+                            </button>
+                          </div>
+                          <div class="col-6" *ngIf="item?.setKey == 'DOCUMENT_REQUEST_TO_RESUBMIT'">
+                            <span style="color: red"><i class="fa fa-exclamation-triangle"></i>{{item.comments}}
+                              {{item.value}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr *ngIf="letter.length">
+                  <div class="container uploaded-container" *ngIf="letter.length">
+
+                    <div class="container" style="background-color: white">
+                      <div class="row upload-row" style="padding: 10px">
+                        <div class="col-9 doc">
+                          <b>
+                            <h4>Prior Approval Letter <span class="req">*</span></h4>
+                          </b>
+                        </div>
+                        <div class="col">
+                          <div class="float-right" *ngIf="letter?.length <= 0">
+                            <label for="af" class="upload-wrapper btn btn-primary btn-sm download">
+                              <i class="fas fa-cloud-upload-alt"></i> Upload
+                            </label>
+                            <input style="display:block;position: fixed;top:-100000px" id="af" type="file"
+                              (change)="fileUpload($event,'','applicationUpload')" placeholder="Upload file"
+                              accept=".pdf">
+                          </div>
+                        </div>
+                        <div class="col-12 uploaded-doc" *ngFor="let item of letter; let i = index">
+                          <span style="margin-right: 10px"><i class="fas fa-file-pdf"></i></span>{{item.pdfname}}
+                          <!-- <button class="button red button-sm" (click)="fileDelete(item.id,'applicationUpload',i)">
+                            <i class="fas fa-trash-alt"></i> Delete
+                          </button> -->
+                          <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                            <i class="far fa-file-pdf"></i> View
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <hr>
+                  <div class="container uploaded-container">
+                    <div class="container" style="background-color: white">
+                      <div class="row upload-row" style="padding: 10px">
+                        <div class="col-3 doc">
+                          <b>
+                            <h4>Other Documents</h4>
+                          </b>
+                        </div>
+                        <br>
+                        <div class="col-5">
+                          <input style="float: left;" class="form-control form-control-sm" name="description" maxlength="50"
+                            [(ngModel)]="description" placeholder="Mention The Relevant Document Name">
+                        </div>
+                        <div class="col-md-4">
+                          <div class="float-right" style="margin-top: -10px">
+                            <label style="height: 37px;" for="um"
+                              class="upload-wrapper-more btn btn-primary btn-sm download">
+                              <i class="fas fa-cloud-upload-alt"></i> Upload More
+                            </label>
+                            <input style="display:block;position: fixed;top:-100000px" id="um" type="file"
+                              (change)="fileUpload($event,description,'extraUpload')" placeholder="Upload file"
+                              accept=".pdf">
+                          </div>
+                        </div>
+                        <div class="col-12" *ngFor="let item of extra; let i = index">
+                          <div class="col-3 float-right" style="margin-top: -10px" *ngIf="!item.pdfname">
+                            <label for="ed{{item.id}}" style="height: 37px;"
+                              class="upload-wrapper btn btn-primary btn-sm download">
+                              <i class="fas fa-cloud-upload-alt"></i> Upload
+                            </label>
+                            <input style="display:block;position: fixed;top:-100000px" id="ed{{item.id}}" type="file"
+                              (change)="fileUploadUpdate($event,item.id,'none','extraUpload')" placeholder="Upload file"
+                              accept=".pdf">
+                          </div>
+
+                          <div class="col-12 uploaded-doc" *ngIf="item?.pdfname">
+                            <span *ngIf="!item.file_description"><i class="fas fa-file-pdf"></i>&nbsp; {{item.pdfname}}</span>
+                            <span *ngIf="item.file_description"><i class="fas fa-file-pdf"></i>&nbsp; {{item.file_description}}</span>
+                            <span class="approved_doc" *ngIf="item?.setKey == 'DOCUMENT_APPROVED'">Document Approved</span>
+                            <button class="button red button-sm" *ngIf="!(item?.setKey == 'DOCUMENT_APPROVED')" [disabled]="item?.setKey == 'DOCUMENT_APPROVED'"
+                              (click)="fileDeleteUpdate(item.id,'extraUpload',i)">
+                              <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                            <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                              <i class="far fa-file-pdf"></i> View
+                            </button>
+                          </div>
+                          <div class="col-6" *ngIf="item.setKey == 'DOCUMENT_REQUEST_TO_RESUBMIT'">
+                            <span style="color: red"><i class="fa fa-exclamation-triangle"></i>{{item.comments}}
+                              {{item.value}}</span>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="container uploaded-container" *ngIf="additional.length">
+
+                    <div class="container" style="background-color: white">
+                      <div class="row upload-row" style="padding: 10px">
+                        <div class="col-9 doc">
+                          <b>
+                            <h4>Additional Documents</h4>
+                          </b>
+                        </div>
+                        <br>
+                        <div class="col-12" *ngFor="let item of additional; let i = index">
+                          <div class="col-3 float-right" style="margin-top: -10px" *ngIf="!item?.pdfname">
+                            <label for="ad{{item.id}}" style="height: 37px;" class="upload-wrapper btn btn-primary btn-sm download">
+                              <i class="fas fa-cloud-upload-alt"></i> Upload
+                            </label>
+                            <input style="display:block;position: fixed;top:-100000px" id="ad{{item.id}}" type="file" (change)="fileUploadUpdate($event,item.id,'none','additionalUpload')"
+                              placeholder="Upload file" accept=".pdf">
+                          </div>
+
+                          <div class="col-12 uploaded-doc" *ngIf="item?.pdfname">
+                            <span style="margin-right: 10px"><i class="fas fa-file-pdf"></i></span>{{item.pdfname}}
+                            <span class="approved_doc" *ngIf="item?.setKey == 'DOCUMENT_APPROVED'">Document Approved</span>
+                            <button class="button red button-sm" *ngIf="!(item?.setKey == 'DOCUMENT_APPROVED')" [disabled]="item?.setKey == 'DOCUMENT_APPROVED'"
+                              (click)="fileDeleteUpdate(item.id,'additionalUpload',i)">
+                              <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                            <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                              <i class="far fa-file-pdf"></i> View
+                            </button>
+                          </div>
+                          <div class="col-6" *ngIf="item?.setKey == 'DOCUMENT_REQUESTED' || item?.setKey == 'DOCUMENT_REQUEST_TO_RESUBMIT'">
+                            <span style="color: red"><i class="fa fa-exclamation-triangle"></i>{{item.comments}}
+                              {{item.value}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="clear:both"></div>
+
+
+
+
+                  <div class="sec_type_item form-group col-md-12 document_confirm">
+
+                    <p style="font-size:14px;"  ><strong>SECTION 511.</strong> “Where in any return, report, certificate, balance
+                      sheet or other document, required by or for the purposes of
+                      this Act, any person wilfully makes a statement which is false
+                      in any material particular knowing it to be false, shall be
+                      guilty of an offence and be liable on conviction <u><b>to a fine not
+                        exceeding one million rupees or to imprisonment for a term
+                        not exceeding five years or to both such fine and
+                        imprisonment </b></u>”
+                    </p>
+                      <br/>
+                      <input  [(ngModel)]="document_confirm" type="checkbox" id="document_confirm" class="custom-control-input" [ngModelOptions]="{standalone: true}">
+                      <label style="font-size: 17px;
+                      color: darkred;
+                      font-weight: bold;" class="custom-control-label custom-control-sub-label radio-lbl" for="document_confirm">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I read over and understood
+                      </label>
+                       
+                  </div>
+                <div style="clear:both"></div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous"><i
+                  class="fas fa-backward"></i>
+                Previous</button>
+              <button [disabled]="!(enableGoToPay && document_confirm)" (click)="bsdReSubmit()" type="button"
+                class="btn btn-primary">Complete
+                <i class="fas fa-forward"></i></button>
+              <!-- [disabled]="!enableGoToPay" -->
+
+            </div>
+
+
+          </fieldset>
+          <!--end of fourth step-->
+
+
+          <fieldset class="{{stepOn}}" [hidden]="stepOn != 3">
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+                </div>
+            <div class="Members-secton stakeholder-section">
+
+              <!-- membs list --------------------------------------- and things -->
+
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <!-- list-->
+
+
+
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner"
+                  style="padding: 25px 10px 10px;">
+
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Company Number :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyRegno}}
+                      </label>
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Name of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyName}} {{postfix}}
+                      </label>
+                    </div>
+
+                  </div>
+
+                  <div class="content">
+                    <div class="container top-margin">
+                      <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
+                          <div class="box">
+                            <h3 class="box-title">User payment agreement</h3>
+                            <div class="plan-selection">
+                              <div class="plan-data">
+                                <small class="plan-text">If you are having any problems, please email eroc@info.com or
+                                  contact
+                                  on 011-2123456.</small><br>
+                                <small class="plan-text">User
+                                  payment agreement</small><br>
+                              </div>
+                            </div>
+                            <div class="plan-selection">
+                              <div class="row justify-content-md-center mt-3">
+                                <label for="card" class="method">
+                                  <div class="card-logos">
+                                    <img src="assets/images/header/visa_logo.png" />
+                                    <img src="assets/images/header/mastercard_logo.png" />
+                                  </div>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+
+                          <!-- <div class="widget">
+                            <h4 class="widget-title">Order Summary</h4>
+                            <div class="summary-block">
+                              <div class="summary-content">
+                                <div class="summary-head">
+                                  <h5 class="summary-title">Balance Sheet Date Change Price</h5>
+                                </div>
+                                <div class="summary-price">
+                                  <p class="summary-text">
+                                    {{ calculation.getValue('PAYMENT_COMPANY_BALANCE_SHEET_DATE_CHANGE') | currency:'Rs.' }}</p>
+                                </div>
+                                <div class="summary-head">
+                                  <h5 class="summary-title">Tax</h5>
+                                </div>
+                                <div class="summary-price">
+                                  <p class="summary-text">{{ calculation.getTaxAmount | currency:'Rs.' }}</p>
+                                </div>
+                                <div class="summary-head">
+                                  <h5 class="summary-title">Convenience Fee</h5>
+                                </div>
+                                <div class="summary-price">
+                                  <p class="summary-text">{{ calculation.getConvenienceFee | currency:'Rs.' }}</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="summary-content">
+                              <div class="summary-head">
+                                <h5 class="summary-title"><strong>Total Amount</strong></h5>
+                              </div>
+                              <div class="summary-price">
+                                <p class="summary-text">
+                                  <strong>{{ calculation.getTotalAmount | currency:'Rs.' }}</strong></p>
+                              </div>
+                            </div>
+
+                          </div> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-previous"><i
+                  class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="getCipherToken()" type="button" class="btn btn-primary">PAY</button>
+            </div> -->
+          </fieldset>
+          <!--end of fifth step-->
+
+
+
+        </form>
+
+      </div>
+      <div style="clear:both"></div>
+      <br />
+      <br />
+      <!--end right col main-->
+    </div>
+  </div>
+</section>
+
+
+
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockBackToForm">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Are you sure want to proceed further?</h2>
+    </div>
+    <div class="body">
+    </div>
+    <div class="footer">
+      <button style="margin-right: 10px" class="btn btn-success" (click)="dataReSubmit()">Yes</button>
+      <button style="margin-left: 10px" class="btn btn-danger" (click)="areYouSureNo()">No</button>
+    </div>
+  </div>
+</div>
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockPayment">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Are you sure want to proceed further?</h2>
+    </div>
+    <div class="body">
+      <p>If yes, you will not be able to revert back.</p>
+    </div>
+    <div class="footer">
+      <form ngNoForm action="{{ paymentGateway }}" method="post">
+        <input type="hidden" [(ngModel)]="cipher_message" name="clientPaymentRequest">
+        <button style="margin-right: 10px" type="submit" class="btn btn-success">Yes</button>
+        <button style="margin-left: 10px" class="btn btn-danger" (click)="areYouSurePayNo()">No</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!--
+<div id="content" #content>
+
+
+
+</div> -->

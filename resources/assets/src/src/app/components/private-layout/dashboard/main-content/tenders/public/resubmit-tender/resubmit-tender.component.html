@@ -1,0 +1,2239 @@
+<div class="clearfix">
+</div>
+<section>
+  <div class="container" style="padding-bottom: 50px;">
+    <div class="row">
+
+
+      <div class="col-md-12 nopadding">
+
+
+        <form role="form" action="" method="post" class="f1">
+
+          <h3 style="text-align: center">Tender Application Resubmission</h3>
+          <p style="text-align: center">Go through all steps for completing the process.</p>
+          <div class="f1-steps">
+            <div class="f1-progress">
+                <div class="f1-progress-line" data-now-value="12.5" data-number-of-steps="4" [ngStyle]="{'width': progress.progressPercentage}"></div>
+            </div>
+
+
+
+            <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}}">
+              <div class="f1-step-icon">
+                <i class="{{item.icon}}"></i>
+              </div>
+              <p>{{item.label}}</p>
+            </div>
+
+          </div>
+
+          <fieldset [hidden]="stepOn != 0">
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+
+            <div class="form-row" style="margin:20px 0">
+
+
+
+              <div class="form-group col-md-12">
+
+                <h5 >Tender Number :  <span class="label-val">{{tender.tenderNo}}</span>
+                 
+                </h5>
+               
+
+              </div>
+
+              <div class="form-group col-md-12">
+
+                <h5 >Description :
+                 
+                </h5>
+                  <span class="label-val">{{tender.description}}</span>
+              </div>
+
+
+            </div>
+
+          
+
+
+          <!--<div class="sec_type_item form-group col-md-12">
+              <h4>Selected Applicant Type</h4>
+           </div>
+
+          <div class="applcant-type-wrapper form-group col-md-12">
+
+              
+
+              <div class="applicant-type form-group col-md-6" *ngFor="let applicant of tenderApplicants; let i = index">
+
+                 
+                  <input (change)="showExpiredTendersOnApplicantType()" [(ngModel)]="applyTender.applicant_type" type="radio" id="applicant-type-{{applicant['key']}}" class="custom-control-input"  name="applicant_type" value="{{applicant['key']}}" >
+                  <label style="font-size:14px;" class="custom-control-label" for="applicant-type-{{applicant['key']}}">&nbsp;&nbsp;&nbsp;&nbsp;{{applicant['value']}}</label>
+
+                </div>
+
+            </div> 
+            <input type="hidden" name="applicant_type" [(ngModel)]="applyTender.applicant_type" />-->
+
+            <div class="sec_type_item form-group col-md-12">
+              <h4>Applicant type</h4>
+           </div>
+
+          <div class="applcant-type-wrapper form-group col-md-12" style="position: relative">
+            <div class="hide-wrapper" style="position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(239, 236, 236, 0.6);
+            z-index: 999;"></div>
+              
+
+              <div class="applicant-type form-group col-md-6" *ngFor="let applicant of tenderApplicants; let i = index">
+
+                  <input (change)="showExpiredTendersOnApplicantType()" [(ngModel)]="applyTender.applicant_type" type="radio" id="applicant-type-{{applicant['key']}}" class="custom-control-input"  name="applicant_type" value="{{applicant['key']}}" >
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="applicant-type-{{applicant['key']}}">&nbsp;&nbsp;&nbsp;&nbsp;{{applicant['value']}}</label>
+
+                </div>
+
+            </div>
+
+            <hr/>
+
+           
+            <div class="tender-item-list" *ngIf="applyTender.applicant_type">
+
+                <h4 class="items-title">Items</h4>
+                <div class="alert alert-warning">
+                    <h4>NOTE:</h4>
+                    <ul style="margin-left:-23px">
+                      <li style="font-size: 16px">Please select or deselect the items you wish to apply.</li> <li style="color:red;font-weight: bold;font-size: 16px">You must select at least one item from the below list.</li>
+                    </ul>
+                </div>
+
+                <div class="alert alert-info">
+                  <p>You have selected {{itemsChecked.length}} item(s).</p>
+                </div>
+
+                <div *ngFor="let item of tenderItems.items; let i = index" class=" item-record">
+  
+                  <div class="item-record-inner">
+  
+                    <div class="form-row">
+                      <!--<div class="form-group col-md-1">
+
+                         <input (change)="updateCheckedOptions(item.itemId, $event)" type="checkbox" id="applied_tender_selected_items_{{item.itemId}}" class="custom-control-input" name="applied_tender_selected_items[]" value="{{item.itemId}}"
+                          [checked]="itemsShowMap[item.itemId]"
+                          >
+                        <label style="font-size:14px;" class="custom-control-label" for="applied_tender_selected_items_{{item.itemId}}"></label>
+
+                      </div>-->
+                      <div class="form-group col-md-3">
+                        <h5>Item Name :</h5>
+                      </div>
+                      <div class="form-group col-md-8">{{item.name}}</div>
+  
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                          <h5>Item Number :</h5>
+                        </div>
+                        <div style="word-break: break-all" class="form-group col-md-9">{{item.itemNo}}</div>
+    
+                      </div>
+  
+                    <div class="form-row">
+                      <div class="form-group col-md-3">
+                        <h5>Description :</h5>
+                      </div>
+                      <div style="word-break: break-all" class="form-group col-md-9">{{item.description}}</div>
+  
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-3">
+                        <h5>Quantity :</h5>
+                      </div>
+                      <div class="form-group col-md-9">{{item.qty}}</div>
+  
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                          <h5>Date From :</h5>
+                        </div>
+                        <div class="form-group col-md-9">{{item.dateFrom | date :"medium"}}</div>
+    
+                      </div>
+
+                      <div class="form-row">
+                          <div class="form-group col-md-3">
+                            <h5>Date To :</h5>
+                          </div>
+                          <div class="form-group col-md-9">{{item.dateTo | date :"medium"}}</div>
+      
+                        </div>
+  
+  
+                  </div>
+  
+                </div>
+  
+              </div>
+            
+            <div class="sec_type_item form-group col-md-12" 
+              *ngIf="applyTender.applicant_type && applyTender.applicant_type != 'TENDER_TENDERER' && itemsChecked.length">
+                  <h4>Applicant's sub type</h4>
+            </div>
+
+            <div class="applcant-type-wrapper form-group col-md-12" style="position:relative" *ngIf="applyTender.applicant_type && applyTender.applicant_type != 'TENDER_TENDERER' && itemsChecked.length">
+
+              <div class="hide-wrapper" style="position: absolute;
+              width: 100%;
+              height: 100%;
+              top: 0;
+              left: 0;
+              background: rgba(239, 236, 236, 0.6);
+              z-index: 999;"></div>
+                 
+              
+              <div class="applicant-type form-group col-md-6" *ngFor="let applicant of tenderSubApplicants; let i = index">
+
+                      <input (change)="changeApplicantSubType()" [(ngModel)]="applyTender.applicant_sub_type" type="radio" id="applicant-sub-type-{{applicant['key']}}" class="custom-control-input"  name="applicant_sub_type" value="{{applicant['key']}}" >
+                      <label style="font-size:14px;" class="custom-control-label radio-lbl" for="applicant-sub-type-{{applicant['key']}}">&nbsp;&nbsp;&nbsp;&nbsp;{{applicant['value']}}</label>
+  
+              </div>
+                    <hr/>
+          </div>
+
+            <!-- applicant nic/pass -->
+            <div class="sub-type-block" *ngIf="applyTender.applicant_sub_type && itemsChecked.length">
+
+              <div class="sec_type_item form-group col-md-12" *ngIf="applyTender.applicant_sub_type">
+                 <h4>Is applicant  a Sri Lankan</h4>
+               </div>
+   
+               <div class="sec_type_wrapper form-row" style="position:relative" *ngIf="applyTender.applicant_sub_type && itemsChecked.length">
+                <div class="hide-wrapper" style="position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                background: rgba(239, 236, 236, 0.6);
+                z-index: 999;"></div>
+                 <div class="sec_type_item form-group col-md-6">
+   
+                   <input (change)="changeApplicantNationalType()" type="radio" id="applicant-is-srilankan" class="custom-control-input" [(ngModel)]="applyTender.is_srilankan" name="applicant-is-srilankan" value="Srilankan"
+                     >
+                   <label style="font-size:14px;" class="custom-control-label radio-lbl" for="applicant-is-srilankan">&nbsp;&nbsp;&nbsp;&nbsp;Yes</label>
+   
+   
+                 </div>
+   
+                 <div class="sec_type_item form-group col-md-6">
+   
+                   <input (change)="changeApplicantNationalType()" type="radio" id="applicant-is-nonsrilankan" class="custom-control-input" [(ngModel)]="applyTender.is_srilankan" name="applicant-is-srilankan" value="Non Srilankan"
+                     >
+                   <label style="font-size:14px;" class="custom-control-label radio-lbl" for="applicant-is-nonsrilankan">&nbsp;&nbsp;&nbsp;&nbsp;No</label>
+   
+                 </div>
+   
+               </div>
+   
+              <div *ngIf="applyTender.applicant_sub_type && applyTender.applicant_sub_type == 'TENDER_INDIVIDUAL' && applyTender.is_srilankan =='Srilankan' && itemsChecked.length" class="form-group col-md-12">
+   
+                 <label class="col-form-label col-form-label-sm">Applicant NIC
+                   <span class="req">*</span>
+                 </label>
+                 <input readonly (change)="checkAlreadyApplied('nic')" name="apply_tender_applicant_nic"  pattern="[0-9]{9}[x|X|v|V]|[0-9]{12}" maxlength="12"  (input)="validateStep1Func()" [(ngModel)]="applyTender.nic" class="form-control form-control-sm modal-input-member-name" placeholder="">
+                 <span class="req-message">Valid NIC number required</span>
+                 <p *ngIf="alreadyAppliedMessage" class="alreadyAppliedMessage">{{alreadyAppliedMessage}}</p>
+              </div>
+   
+               <div *ngIf="applyTender.applicant_sub_type && applyTender.applicant_sub_type == 'TENDER_INDIVIDUAL' && applyTender.is_srilankan =='Non Srilankan' && itemsChecked.length" class="form-group col-md-12">
+     
+                   <label class="col-form-label col-form-label-sm">Applicant Passport Number
+                     <span class="req">*</span>
+                   </label>
+                   <input readonly (change)="checkAlreadyApplied('passport')" name="apply_tender_applicant_passport" maxlength="15"  (input)="validateStep1Func()" [(ngModel)]="applyTender.passport" class="form-control form-control-sm modal-input-member-name" placeholder="">
+                 
+                   <p *ngIf="alreadyAppliedMessage" class="alreadyAppliedMessage">{{alreadyAppliedMessage}}</p>
+               </div>
+   
+   
+               <div class="form-row tender-form-block"  style="margin:20px 0; width:100%"
+                     *ngIf="applyTender.applicant_sub_type && applyTender.applicant_sub_type != 'TENDER_INDIVIDUAL' && itemsChecked.length">
+                 
+                         <div class="form-group col-md-12">
+           
+                            <label class="col-form-label col-form-label-sm" *ngIf="applyTender.applicant_sub_type =='TENDER_PARTNERSHIP' || applyTender.applicant_sub_type =='TENDER_PROPRIETORSHIP'">Business Registration Number ( Applicant )
+                                <span  class="req">*</span>
+                              </label>
+                              <label class="col-form-label col-form-label-sm" *ngIf="applyTender.applicant_sub_type =='TENDER_JOIN_VENTURE'">Business Registration Number ( Applicant )
+                                  <span  class="no-req"></span>
+                              </label>
+    
+                              <label class="col-form-label col-form-label-sm" *ngIf="!(applyTender.applicant_sub_type =='TENDER_PARTNERSHIP' || applyTender.applicant_sub_type =='TENDER_PROPRIETORSHIP' || applyTender.applicant_sub_type =='TENDER_JOIN_VENTURE')">Registration Number ( Applicant )
+                                  <span  class="req">*</span>
+                                </label>
+                           <input onkeypress="return !(event.which == 32 || event.which == 9 )" readonly (change)="checkAlreadyApplied()" (input)="validateStep1Func()"  [(ngModel)]="applyTender.tender_company_reg_no"  name="tender-company-reg-no"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+                           <p *ngIf="alreadyAppliedMessage" class="alreadyAppliedMessage">{{alreadyAppliedMessage}}</p>
+                         </div>
+   
+   
+               </div>
+   
+               <div class="sec_type_item form-group col-md-12"  *ngIf="applyTender.applicant_sub_type && applyTender.is_srilankan =='Non Srilankan' && itemsChecked.length">
+                 <h4>Applicant is Applying From</h4>
+               </div>
+   
+               <div class="sec_type_wrapper form-row" style="position:relative"  *ngIf="applyTender.applicant_sub_type && applyTender.is_srilankan =='Non Srilankan' && itemsChecked.length">
+   
+                <div class="hide-wrapper" style="position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                background: rgba(239, 236, 236, 0.6);
+                z-index: 999;"></div>
+                
+                <div class="sec_type_item form-group col-md-6">
+   
+                           <input (change)="validateStep1Func()" type="radio" id="applicant-applying-from-srilanka" class="custom-control-input" [(ngModel)]="applyTender.apply_from" name="applicant-applying-from" value="Srilanka"
+                             >
+                           <label style="font-size:14px;" class="custom-control-label radio-lbl" for="applicant-applying-from-srilanka">&nbsp;&nbsp;&nbsp;&nbsp;Sri Lanka</label>
+   
+                   </div>
+   
+                   <div class="sec_type_item form-group col-md-6">
+   
+                           <input (change)="validateStep1Func()" type="radio" id="applicant-applying-from-abroad" class="custom-control-input" [(ngModel)]="applyTender.apply_from" name="applicant-applying-from" value="Abroad"
+                             >
+                           <label style="font-size:14px;" class="custom-control-label radio-lbl" for="applicant-applying-from-abroad">&nbsp;&nbsp;&nbsp;&nbsp;Abroad</label>
+   
+   
+                   </div>
+   
+               </div>
+   
+               
+ 
+             </div>
+             <div class="sep" *ngIf="applyTender.applicant_sub_type && itemsChecked.length"></div>
+             <!-- end applicant nic/pass-->
+
+
+
+          <div class="sec_type_item form-group col-md-12" *ngIf="applyTender.applicant_type && itemsChecked.length" >
+            <h4>Tenderer's sub type</h4>
+          </div>
+
+          <div class="applcant-type-wrapper form-group col-md-12" style="position:relative" *ngIf="applyTender.applicant_type && itemsChecked.length">
+            <div class="hide-wrapper" style="position: absolute;
+              width: 100%;
+              height: 100%;
+              top: 0;
+              left: 0;
+              background: rgba(239, 236, 236, 0.6);
+              z-index: 999;"></div>
+            <div class="applicant-type form-group col-md-6" *ngFor="let applicant of tenderSubApplicants; let i = index">
+                <input (change)="changeApplicantSubType()" [(ngModel)]="applyTender.tenderer_sub_type" type="radio" id="tenderer-sub-type-{{applicant['key']}}" class="custom-control-input"  name="tenderer_sub_type" value="{{applicant['key']}}" >
+                <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tenderer-sub-type-{{applicant['key']}}">&nbsp;&nbsp;&nbsp;&nbsp;{{applicant['value']}}</label>
+            </div>
+            <hr/>
+          </div>
+
+           <!-- tender nic/pass-->
+           <div class="sub-type-block" *ngIf="applyTender.tenderer_sub_type && itemsChecked.length">
+
+            <div class="sec_type_item form-group col-md-12" *ngIf="applyTender.tenderer_sub_type">
+              <h4>Is tenderer a Sri Lankan</h4>
+            </div>
+
+            <div class="sec_type_wrapper form-row" style="position:relative" *ngIf="applyTender.tenderer_sub_type && itemsChecked.length" >
+              <div class="hide-wrapper" style="position: absolute;
+              width: 100%;
+              height: 100%;
+              top: 0;
+              left: 0;
+              background: rgba(239, 236, 236, 0.6);
+              z-index: 999;"></div>
+              
+              
+              <div class="sec_type_item form-group col-md-6">
+
+                <input (change)="changeTendererNationalType()" type="radio" id="tenderer-is-srilankan" class="custom-control-input" [(ngModel)]="applyTender.is_tenderer_srilankan" name="tenderer-is-srilankan" value="Srilankan"
+                  >
+                <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tenderer-is-srilankan">&nbsp;&nbsp;&nbsp;&nbsp;Yes</label>
+
+
+              </div>
+
+              <div class="sec_type_item form-group col-md-6">
+
+                <input (change)="changeTendererNationalType()" type="radio" id="tenderer-is-nonsrilankan" class="custom-control-input" [(ngModel)]="applyTender.is_tenderer_srilankan" name="tenderer-is-srilankan" value="Non Srilankan"
+                  >
+                <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tenderer-is-nonsrilankan">&nbsp;&nbsp;&nbsp;&nbsp;No</label>
+
+              </div>
+
+            </div>
+
+           <div *ngIf="applyTender.tenderer_sub_type && applyTender.tenderer_sub_type == 'TENDER_INDIVIDUAL' && applyTender.is_tenderer_srilankan =='Srilankan' && itemsChecked.length" class="form-group col-md-12">
+
+              <label class="col-form-label col-form-label-sm">Tenderer NIC
+                <span class="req">*</span>
+              </label>
+              <input readonly (change)="checkAlreadyApplied('nic')" name="apply_tender_tenderer_nic"  pattern="[0-9]{9}[x|X|v|V]|[0-9]{12}" maxlength="12"  (input)="validateStep1Func()" [(ngModel)]="applyTender.tenderer_nic" class="form-control form-control-sm modal-input-member-name" placeholder="">
+              <span class="req-message">Valid NIC number required</span>
+              <p *ngIf="alreadyAppliedMessage" class="alreadyAppliedMessage">{{alreadyAppliedMessage}}</p>
+           </div>
+
+            <div *ngIf="applyTender.tenderer_sub_type && applyTender.tenderer_sub_type == 'TENDER_INDIVIDUAL' && applyTender.is_tenderer_srilankan =='Non Srilankan' && itemsChecked.length" class="form-group col-md-12">
+  
+                <label class="col-form-label col-form-label-sm">Tenderer Passport Number
+                  <span class="req">*</span>
+                </label>
+                <input readonly (change)="checkAlreadyApplied('passport')" name="apply_tender_tenderer_passport" maxlength="15"  (input)="validateStep1Func()" [(ngModel)]="applyTender.tenderer_passport" class="form-control form-control-sm modal-input-member-name" placeholder="">
+              
+                <p *ngIf="alreadyAppliedMessage" class="alreadyAppliedMessage">{{alreadyAppliedMessage}}</p>
+            </div>
+
+
+            <div class="form-row tender-form-block"  style="margin:20px 0; width:100%"
+                  *ngIf="applyTender.tenderer_sub_type && applyTender.tenderer_sub_type != 'TENDER_INDIVIDUAL' && itemsChecked.length">
+              
+                      <div class="form-group col-md-12">
+        
+                          <label class="col-form-label col-form-label-sm" *ngIf="applyTender.tenderer_sub_type =='TENDER_PARTNERSHIP' || applyTender.tenderer_sub_type =='TENDER_PROPRIETORSHIP'">Business Registration Number ( Tenderer )
+                              <span  class="req">*</span>
+                            </label>
+                            <label class="col-form-label col-form-label-sm" *ngIf="applyTender.tenderer_sub_type =='TENDER_JOIN_VENTURE'">Business Registration Number ( Tenderer )
+                                <span  class="no-req"></span>
+                            </label>
+  
+                            <label class="col-form-label col-form-label-sm" *ngIf="!(applyTender.tenderer_sub_type =='TENDER_PARTNERSHIP' || applyTender.tenderer_sub_type =='TENDER_PROPRIETORSHIP' || applyTender.tenderer_sub_type =='TENDER_JOIN_VENTURE')">Registration Number ( Tenderer )
+                                <span  class="req">*</span>
+                            </label>
+                        <input onkeypress="return !(event.which == 32 || event.which == 9 )" readonly (change)="checkAlreadyApplied()" (input)="validateStep1Func()" [(ngModel)]="applyTender.tender_tenderer_company_reg_no"  name="tender-tenderer-company-reg-no"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+                        <p *ngIf="alreadyAppliedMessage" class="alreadyAppliedMessage">{{alreadyAppliedMessage}}</p>
+                      </div>
+
+
+            </div>
+
+            <div class="sec_type_item form-group col-md-12"  *ngIf="applyTender.tenderer_sub_type && applyTender.is_tenderer_srilankan =='Non Srilankan' && itemsChecked.length">
+              <h4>Tender is Applying From</h4>
+            </div>
+
+            <div class="sec_type_wrapper form-row" style="position:relative"  *ngIf="applyTender.tenderer_sub_type && applyTender.is_tenderer_srilankan =='Non Srilankan' && itemsChecked.length">
+              <div class="hide-wrapper" style="position: absolute;
+              width: 100%;
+              height: 100%;
+              top: 0;
+              left: 0;
+              background: rgba(239, 236, 236, 0.6);
+              z-index: 999;"></div>
+                <div class="sec_type_item form-group col-md-6">
+
+                        <input (change)="validateStep1Func()" type="radio" id="tenderer-applying-from-srilanka" class="custom-control-input" [(ngModel)]="applyTender.tenderer_apply_from" name="tenderer-applying-from" value="Srilanka"
+                          >
+                        <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tenderer-applying-from-srilanka">&nbsp;&nbsp;&nbsp;&nbsp;Sri Lanka</label>
+
+                </div>
+
+                <div class="sec_type_item form-group col-md-6">
+
+                        <input (change)="validateStep1Func()" type="radio" id="tenderer-applying-from-abroad" class="custom-control-input" [(ngModel)]="applyTender.tenderer_apply_from" name="tenderer-applying-from" value="Abroad"
+                          >
+                        <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tenderer-applying-from-abroad">&nbsp;&nbsp;&nbsp;&nbsp;Abroad</label>
+
+
+                </div>
+
+            </div>
+
+         
+          </div>
+           <!-- end tender nic/pass -->
+
+
+            
+            <div class="f1-buttons">
+              <button [disabled] ="!validateStep1"  (click)="changeProgressStatuses(1)" type="button" class="btn btn-next">Next
+                <i class="fas fa-forward"></i>
+              </button>
+            </div>
+
+
+          </fieldset>
+          <!-- end of fist step -->
+
+          <fieldset [hidden]="stepOn != 1">
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+
+            <div class="alert alert-warning">
+                <p>Please fill all required fields.</p>
+            </div>
+            <br/>
+
+
+           
+
+
+                <div class="applcant-type-wrapper form-group col-md-12" >
+                  
+                
+                <div class="form-row tender-form-block"  style="margin:20px 0; width:100%"
+                *ngIf="applyTender.applicant_type != 'TENDER_TENDERER'" >
+            
+                    <div class="form-group col-md-12">
+      
+                      <label class="co l-form-label col-form-label-sm">Full Name of Applicant
+                        <span class="req">*</span>
+                      </label>
+                      <input (input)="validateStep2Func()" [(ngModel)]="applyTender.applicant_name"  name="applicant-name"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+      
+                    </div>
+
+                    <div class="form-group col-md-12">
+      
+                        <label class="co l-form-label col-form-label-sm">Address of Applicant
+                          <span class="req">*</span>
+                        </label>
+                        <input (input)="validateStep2Func()" [(ngModel)]="applyTender.applicant_address"  name="applicant-address"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+        
+                      </div>
+
+                      <div class="form-group col-md-12" *ngIf="applyTender.is_srilankan !='Srilankan'">
+      
+                          <label class="co l-form-label col-form-label-sm">Nationality of Applicant
+                            <span class="req" *ngIf="applyTender.applicant_sub_type != 'TENDER_JOIN_VENTURE'">*</span>
+                          </label>
+                          <select (change)="validateStep2Func()" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="applyTender.applicant_natianality"
+                          name="applicant-natianality">
+                            <option value="">Choose...</option>
+                            <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+                          </select>
+          
+                      </div>
+                      <div class="form-group col-md-12" *ngIf="applyTender.is_srilankan =='Srilankan'">
+      
+                        <label class="co l-form-label col-form-label-sm">Nationality of Applicant
+                          <span class="req" *ngIf="applyTender.applicant_sub_type != 'TENDER_JOIN_VENTURE'">*</span>
+                        </label>
+                        
+                        <input type="hidden" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="applyTender.applicant_natianality"
+                        name="applicant-natianality" />
+                        <input readonly class="form-control form-control-sm modal-input-sec-country" value="Sri Lankan" />
+        
+                      </div>
+
+                </div>
+
+                <div class="form-row tender-form-block"  style="margin:20px 0; width:100%">
+            
+                    <div class="form-group col-md-12">
+      
+                      <label class="co l-form-label col-form-label-sm">Full Name of tenderer
+                        <span class="req">*</span>
+                      </label>
+                      <input (input)="validateStep2Func()" [(ngModel)]="applyTender.tenderer_name"  name="tender-name"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+      
+                    </div>
+
+                    <div class="form-group col-md-12">
+      
+                        <label class="co l-form-label col-form-label-sm">Address of Tenderer
+                          <span class="req">*</span>
+                        </label>
+                        <input (input)="validateStep2Func()" [(ngModel)]="applyTender.tenderer_address"  name="tender-address"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+        
+                      </div>
+
+                      <div class="form-group col-md-12" *ngIf="applyTender.is_tenderer_srilankan != 'Srilankan'">
+      
+                          <label class="co l-form-label col-form-label-sm">Nationality of Tenderer
+                            <span class="req" *ngIf="applyTender.applicant_sub_type != 'TENDER_JOIN_VENTURE'">*</span>
+                          </label>
+                          <select (change)="validateStep2Func()" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="applyTender.tenderer_natianality"
+                          name="tender-natianality">
+                            <option value="">Choose...</option>
+                            <option *ngFor="let country of countries" value="{{country.name}}">{{country.name == 'Sri Lanka' ? 'Sri Lankan' : country.name}}</option>
+                          </select>
+          
+                      </div>
+
+                      <div class="form-group col-md-12" *ngIf="applyTender.is_tenderer_srilankan == 'Srilankan'">
+      
+                        <label class="co l-form-label col-form-label-sm">Nationality of Tenderer
+                          <span class="req" *ngIf="applyTender.applicant_sub_type != 'TENDER_JOIN_VENTURE'">*</span>
+                        </label>
+                        <input type="hidden" readonly class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="applyTender.tenderer_natianality"  name="tender-natianality" />
+                        <input *ngIf="applyTender.tenderer_natianality == 'Sri Lanka'" readonly class="form-control form-control-sm modal-input-sec-country" value="Sri Lankan" />
+                        <input *ngIf="applyTender.tenderer_natianality != 'Sri Lanka'" readonly class="form-control form-control-sm modal-input-sec-country" value="{{applyTender.tenderer_natianality}}" />
+        
+                     </div>
+
+                </div>
+
+                <div class="form-row tender-form-block"  style="margin:20px 0; width:100%">
+            
+                    <div class="form-group col-md-12">
+      
+                      <label class="co l-form-label col-form-label-sm">Applicant Email
+                        <span class="req">*</span>
+                      </label>
+                      <input pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}" (input)="validateStep2Func()" [(ngModel)]="applyTender.appliant_email"  name="tender-email"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+                      <span class="req-message">Invalid Email </span>
+                    </div>
+
+                    <div class="form-group col-md-12">
+
+                      <label class="col-form-label col-form-label-sm">Applicant Mobile Number
+                      <!--  <span class="req">*</span> -->
+                      </label>
+      
+                      <!--<input name="tender-applicant_mobile"   (input)="validateStep2Func()" maxlength="10" pattern="\d{10}" type="tel" [(ngModel)]="applyTender.appliant_mobile"
+                        class="form-control form-control-sm modal-input-sec-mobile" placeholder="">
+                      <span  class="req-message">10 Digits mobile number requried</span> -->
+                      <input name="tender-applicant_mobile"   (input)="validateStep2Func()" maxlength="15"  type="tel" [(ngModel)]="applyTender.appliant_mobile"
+                        class="form-control form-control-sm modal-input-sec-mobile" placeholder="">
+      
+                     
+                    </div>
+
+                    <div class="form-group col-md-12">
+      
+                        <label class="co l-form-label col-form-label-sm">Signing Party Name
+                          <span class="req">*</span>
+                        </label>
+                        <input  (input)="validateStep2Func()" [(ngModel)]="applyTender.signing_party_name"  name="tender-signing-party-name"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+                        
+                      </div>
+
+                   
+                    
+                      <p style="position: relative;
+                      top: 30px;">Signing Party Designation <span class="req">*</span></p>
+                      
+                      <div class="sec_type_wrapper form-row col-md-12">
+
+                          <div class="sec_type_item form-group col-md-6">
+  
+                              <input (change)="validateStep2Func()" [(ngModel)]="applyTender.signing_party_designation" type="radio" id="applicant-signing-party-designation-director" class="custom-control-input" name="applicant_signing_party_designation" value="Director"
+                                >
+                              <label style="font-size:14px;" class="custom-control-label radio-lbl" for="applicant-signing-party-designation-director">&nbsp;&nbsp;&nbsp;&nbsp;Director</label>
+              
+                            </div>
+          
+                            <div class="sec_type_item form-group col-md-6">
+  
+                                <input (change)="validateStep2Func()" [(ngModel)]="applyTender.signing_party_designation" type="radio" id="applicant-signing-party-designation-other" class="custom-control-input" name="applicant_signing_party_designation" value="Other"
+                                  >
+                                <label style="font-size:14px;" class="custom-control-label radio-lbl" for="applicant-signing-party-designation-other">&nbsp;&nbsp;&nbsp;&nbsp;Other</label>
+                
+                           </div>
+
+
+
+                        
+                          
+                        </div>
+
+                        <div class="form-group col-md-12" *ngIf="applyTender.signing_party_designation == 'Other'">
+
+                            <label class="co l-form-label col-form-label-sm">Please specify the designation
+                                <span class="req">*</span>
+                              </label>
+                              <input  (input)="validateStep2Func()" [(ngModel)]="applyTender.signing_party_designation_other"  name="tender-signing-party-designation-other"  class="form-control form-control-sm modal-input-tender-no" placeholder="">
+                        <p class="doc-re-message"><strong>NOTE:</strong>&nbsp;You need to upload required letter under the doc upload section.</p>
+                        </div>
+
+
+                </div>
+
+                
+
+                <div class="tender-form-block"  style="margin:20px 0; width:100%"
+                *ngIf="(applyTender.tenderer_sub_type == 'TENDER_COMPANY_PRIVATE' || applyTender.tenderer_sub_type == 'TENDER_COMPANY_PUBLIC')" >
+
+
+                    <div class="add-new-wrapper close-member-add-new-wrapper" style="width: 70%;">
+                      <p>Please add all director's Infomation of Tenderer</p>
+                      <h2>
+                        <span class="add-new-wrapper-label">Add Director</span>
+                        <div class="line"></div>
+      
+                        <button type="button" mdbBtn class="relative waves-light add-new-stakholder" (click)="tenderDirectorModal.show()" mdbWavesEffect>
+                          <i class="fa fa-plus"></i> Add New</button>
+      
+                      </h2>
+      
+                    </div>
+      
+                    <div class="tender-member-list" style="display: block;padding:10px 0">
+      
+                      <div *ngFor="let member of applyTender.tender_directors.directors; let i = index" class="director-record stakeholder-record" style="margin: 10px 0;
+                      border-radius: 20px;
+                      background: #fff;
+                      border: 1px solid rgb(243, 91, 63);
+                      width: 100%;">
+      
+                        <div class="stakeholder-record-summeru" style="color: red;
+                          font-weight: lighter;
+                          font-size: 22px;
+                          border: none;
+                          cursor: pointer;
+                          width: 100%;
+                          height: 40px;
+                          background-color: transparent !important;
+                          border-radius: 0;
+                          box-shadow: none;">
+      
+                          <span style="color:#fd7e14;font-size: 15px">{{member.name}}</span>
+      
+                          <span (click)="removeMember('director',i,memberId?.id)" title="remove record" style="float:right;" class="record-handler record-handler-remove">
+                            <i class="fa fa-trash"></i>
+                          </span>
+                          <!--<span title="show record" style="float:right;color: #1f365c" class="record-handler record-handler-view">
+                            <i class="fa fa-eye"></i>&nbsp;&nbsp;
+                          </span>-->
+      
+      
+                        </div>
+      
+                        <div class="stakeholder-record-inner" style="padding: 25px 10px 10px;border-top: 1px solid #ddd">
+
+                          <input type="hidden" name="tender_director_is_srilankan_no-{{i}}"  [(ngModel)]="member.is_srilankan" >
+                          
+                        
+
+
+                          <div class="form-row" *ngIf="member.is_srilankan =='yes'">
+                              <div class="form-group col-md-4">
+                                <strong>NIC</strong>
+                              </div>
+                              <div class="form-group col-md-8"> 
+
+                                  <input readonly name="tender_director_nic-{{i}}"  pattern="[0-9]{9}[x|X|v|V]|[0-9]{12}" maxlength="12"  (input)="validateMemberEdit('director',i)" [(ngModel)]="member.nic" class="form-control form-control-sm modal-input-member-name" placeholder="" (change) = "memberNicPassportExist('director','nic',member.nic)">
+
+                              </div>
+        
+                        </div>
+
+                        <div class="form-row" *ngIf="member.is_srilankan =='no'">
+                            <div class="form-group col-md-4">
+                              <strong>Passport</strong>
+                            </div>
+                            <div class="form-group col-md-8"> 
+
+                                <input readonly name="tender_director_passport-{{i}}" maxlength="15"  (input)="validateMemberEdit('director',i)" [(ngModel)]="member.passport" class="form-control form-control-sm modal-input-member-name" placeholder="" (change) = "memberNicPassportExist('director','passport',member.passport)">
+                               
+                              
+                             </div>
+      
+                       </div>
+
+                       <div class="form-row" *ngIf="member.is_srilankan =='no'">
+                          <div class="form-group col-md-4">
+                            <strong>Passport Issued Country<span class="req">*</span></strong>
+                          </div>
+                          <div class="form-group col-md-8"> 
+
+                           <!-- <input name="tender_director_passport_issue_country-{{i}}" maxlength="100"  (input)="validateMemberEdit('director',i)" [(ngModel)]="member.passport_issued_country" class="form-control form-control-sm modal-input-member-name" placeholder="">-->
+                            
+                            <select (change)="validateMemberEdit('director',i)" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="member.passport_issued_country"
+                            name="tender_director_passport_issue_country-{{i}}">
+                            <option value="">Choose...</option>
+                            <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+                          </select>
+
+
+                          </div>
+    
+                     </div>
+                       
+                       
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Name<span class="req">*</span></strong>
+                          </div>
+                          <div class="form-group col-md-8">
+                              <input  name="tender_director_name-{{i}}" (input)="validateMemberEdit('director',i)" [(ngModel)]="member.name" class="form-control form-control-sm modal-input-member-name" placeholder="">
+                          </div>
+    
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Address<span class="req">*</span></strong>
+                          </div>
+                          <div class="form-group col-md-8">
+                              <input name="tender_director_address-{{i}}" (input)="validateMemberEdit('director',i)"   [(ngModel)]="member.address" class="form-control form-control-sm modal-input-member-name" placeholder="">
+                           
+                          </div>
+    
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Nationality<span class="req">*</span></strong>
+                          </div>
+                          <div class="form-group col-md-8"> 
+                             <!-- <input name="tender_director_nationality-{{i}}" (input)="validateMemberEdit('director',i)"   [(ngModel)]="member.natianality" class="form-control form-control-sm modal-input-member-name" placeholder="">-->
+                              <select *ngIf="member.is_srilankan == 'no'" (change)="validateMemberEdit('director',i)" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="member.natianality"
+                              name="tender_director_nationality-{{i}}">
+                              <option value="">Choose...</option>
+                              <option *ngFor="let country of countries" value="{{country.name}}">{{country.name =='Sri Lanka' ? 'Sri Lankan' :country.name}}</option>
+                            </select>
+                            <span *ngIf="member.is_srilankan == 'yes'">Sri Lankan<input type="hidden" name="tender_director_nationality-{{i}}"  (change)="validateMemberEdit('director',i)" value="Sri Lanka"   [(ngModel)]="member.natianality" /></span>
+
+
+                          </div>
+    
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Nationality of Origin<span class="req">*</span></strong>
+                          </div>
+                          <div class="form-group col-md-8"> 
+                             <!-- <input name="tender_director_nationality_of_origin-{{i}}" (input)="validateMemberEdit('director',i)"  [(ngModel)]="member.natianality_origin" class="form-control form-control-sm modal-input-member-name" placeholder="">-->
+                              <select (change)="validateMemberEdit('director',i)" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="member.natianality_origin"
+                              name="tender_director_nationality_of_origin-{{i}}">
+                              <option value="">Choose...</option>
+                              <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+                            </select>
+                          </div>
+    
+                        </div>
+                        <hr/>
+                        <div style="margin: 0 0 18px;" class="for-row" *ngIf="member.shareholderExistForDirector  && applyTender.applicant_sub_type != 'TENDER_COMPANY_PUBLIC'" >
+                            <button (click)="removeShareholderPosition(i)" class="btn btn-danger"><i class="fas fa-unlink"></i>Remove Shareholder Position</button>
+                           
+                        </div>
+
+                        <div class="sec_type_item form-group col-md-6"  *ngIf="!member.shareholderExistForDirector  && applyTender.applicant_sub_type != 'TENDER_COMPANY_PUBLIC'">
+
+                            <input (change)="validateMemberEdit('director',i)"  type="checkbox" id="tender_director_is_shareholder-{{i}}"  class="custom-control-input" [(ngModel)]="member.is_shareholder"
+                              name="tender_director_is_shareholder-{{i}}">
+                            <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tender_director_is_shareholder-{{i}}">&nbsp;&nbsp;&nbsp;&nbsp;Make this director as a shareholder</label>
+            
+            
+                        </div>
+                        <div class="form-row" *ngIf="!member.shareholderExistForDirector && member.is_shareholder  && applyTender.applicant_sub_type != 'TENDER_COMPANY_PUBLIC'">
+                            <div class="form-group col-md-4">
+                              <strong>Percentage of Shares Held<span class="req">*</span></strong>
+                            </div>
+                            <div class="form-group col-md-8">
+                                <input  name="tender_director_is_shareholder_shares-{{i}}" onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"  (input)="validateMemberEdit('director',i)"  [(ngModel)]="member.shares" class="form-control form-control-sm modal-input-member-name" placeholder="">
+                              
+                            </div>
+
+                        </div>
+
+                        
+                       
+                        <button (click)="createShareholder(i)" type="button" class="btn btn-previous" style="background-color: #fd7e14" *ngIf="!member.shareholderExistForDirector && member.is_shareholder && member.shares">
+                            Create Shareholder for this Director
+                         </button>
+
+                       <!-- <div class="form-row">
+                            <div class="form-group col-md-4">
+                              <strong>Percentage of Shares Held</strong>
+                            </div>
+                            <div class="form-group col-md-8">: {{member.shares}}</div>
+      
+                          </div>-->
+
+    
+                      </div>
+    
+      
+      
+      
+                      </div>
+      
+                    </div>
+
+
+  
+                </div> 
+
+                <div class="tender-form-block"  style="margin:20px 0; width:100%"
+                *ngIf="(applyTender.tenderer_sub_type == 'TENDER_COMPANY_PRIVATE' )" >
+
+
+                    <div class="add-new-wrapper close-member-add-new-wrapper" style="width: 70%;">
+                      <p>Please add all shareholder's Infomation of Tenderer</p>
+                      <h2>
+                        <span class="add-new-wrapper-label">Add Shareholder</span>
+                        <div class="line"></div>
+      
+                        <button type="button" mdbBtn class="relative waves-light add-new-stakholder" (click)="tenderShareholderModal.show()" mdbWavesEffect>
+                          <i class="fa fa-plus"></i> Add New</button>
+      
+                      </h2>
+      
+                    </div>
+      
+                    <div class="tender-member-list" style="display: block;padding:10px 0">
+      
+                      <div *ngFor="let member of applyTender.tender_shareholders.shareholder; let i = index" class="director-record stakeholder-record" style="margin: 10px 0;
+                      border-radius: 20px;
+                      background: #fff;
+                      border: 1px solid rgb(243, 91, 63);
+                      width: 100%;">
+      
+                        <div class="stakeholder-record-summeru" style="color: red;
+                          font-weight: lighter;
+                          font-size: 22px;
+                          border: none;
+                          cursor: pointer;
+                          width: 100%;
+                          height: 40px;
+                          background-color: transparent !important;
+                          border-radius: 0;
+                          box-shadow: none;">
+      
+                          <span style="color:#fd7e14;font-size: 15px">{{member.name}}</span>
+      
+      
+      
+                          <span (click)="removeMember('shareholder', i,memberId?.id)" title="remove record" style="float:right;" class="record-handler record-handler-remove">
+                            <i class="fa fa-trash"></i>
+                          </span>
+                          <!--<span title="show record" style="float:right;color: #1f365c" class="record-handler record-handler-view">
+                            <i class="fa fa-eye"></i>&nbsp;&nbsp;
+                          </span>-->
+      
+      
+                        </div>
+      
+                        <div class="stakeholder-record-inner" style="padding: 25px 10px 10px;border-top: 1px solid #ddd">
+                         
+                          <div class="form-row" *ngIf="!member.is_firm && member.is_srilankan =='yes'">
+                              <div class="form-group col-md-4">
+                                <strong>NIC</strong>
+                              </div>
+                              <div class="form-group col-md-8">
+                                  <input readonly name="tender_shareholder_nic-{{i}}"  pattern="[0-9]{9}[x|X|v|V]|[0-9]{12}" maxlength="12"  (input)="validateMemberEdit('shareholder',i)" [(ngModel)]="member.nic" class="form-control form-control-sm modal-input-member-name" placeholder="" (change) = "memberNicPassportExist('shareholder','nic',member.nic)">
+                                
+                                </div>
+        
+                        </div>
+
+                        <div class="form-row" *ngIf="!member.is_firm && member.is_srilankan =='no'">
+                            <div class="form-group col-md-4">
+                              <strong>Passport</strong>
+                            </div>
+                            <div class="form-group col-md-8">
+                                <input readonly name="tender_shareholder_passport-{{i}}" maxlength="15"  (input)="validateMemberEdit('shareholder',i)" [(ngModel)]="member.passport" class="form-control form-control-sm modal-input-member-name" placeholder="" (change) = "memberNicPassportExist('shareholder','passport',member.passport)">
+                                
+                             </div>
+      
+                       </div>
+
+                       <div class="form-row" *ngIf="!member.is_firm && member.is_srilankan =='no'">
+                          <div class="form-group col-md-4">
+                            <strong>Passport Issued Country<span clalss="req">*</span></strong>
+                          </div>
+                          <div class="form-group col-md-8">
+                            
+                              <!--<input name="tender_shareholder_passport_issue_country-{{i}}" maxlength="100"  (input)="validateMemberEdit('shareholder',i)" [(ngModel)]="member.passport_issued_country" class="form-control form-control-sm modal-input-member-name" placeholder="">-->
+                              <select (change)="validateMemberEdit('shareholder',i)" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="member.passport_issued_country"
+                              name="tender_shareholder_passport_issue_country-{{i}}">
+                              <option value="">Choose...</option>
+                              <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+                            </select>
+                          
+                            </div>
+    
+                     </div>
+
+                     <div class="form-group col-md-12" *ngIf="member.is_firm && member.is_srilankan">
+
+                      <label class="col-form-label col-form-label-sm">Company registration number
+                        <span class="req">*</span>
+                      </label>
+                      <input onkeypress="return !(event.which == 32 || event.which == 9 )" name="tender_shareholder_firm_reg_no-{{i}}"  (input)="validateMemberEdit('shareholder', i)" [(ngModel)]="member.firm_reg_no" class="form-control form-control-sm modal-input-member-name" placeholder="">
+          
+                    </div>
+                       
+                       
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Name<span class="req">*</span></strong>
+                          </div>
+                          <div class="form-group col-md-8">
+                              <input  name="tender_shareholder_name-{{i}}" (input)="validateMemberEdit('shareholder',i)" [(ngModel)]="member.name" class="form-control form-control-sm modal-input-member-name" placeholder="">
+                          </div>
+    
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <strong>Address<span class="req">*</span></strong>
+                          </div>
+                          <div class="form-group col-md-8">
+                              <input  name="tender_shareholder_address-{{i}}" (input)="validateMemberEdit('shareholder',i)" [(ngModel)]="member.address" class="form-control form-control-sm modal-input-member-name" placeholder="">
+                          </div>
+    
+                        </div>
+                        <div class="form-row" [hidden]="member.is_firm">
+                          <div class="form-group col-md-4">
+                            <strong>Nationality<span *ngIf="!member.is_firm" class="req">*</span></strong>
+                          </div>
+                          <div class="form-group col-md-8">
+                             <!-- <input  name="tender_shareholder_nationality-{{i}}" (input)="validateMemberEdit('shareholder',i)" [(ngModel)]="member.natianality" class="form-control form-control-sm modal-input-member-name" placeholder="">-->
+                          
+                           <select *ngIf="member.is_srilankan == 'no'" (change)="validateMemberEdit('shareholder',i)" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="member.natianality"
+                              name="tender_shareholder_nationality-{{i}}"> 
+                              <option value="">Choose...</option>
+                              <option *ngFor="let country of countries" value="{{country.name}}">{{country.name =='Sri Lanka' ? 'Sri Lankan' : country.name}}</option>
+                            </select>
+                            <span *ngIf="member.is_srilankan == 'yes'">Sri Lankan<input type="hidden" name="tender_shareholder_nationality-{{i}}"  (change)="validateMemberEdit('shareholder',i)" value="Sri Lanka"   [(ngModel)]="member.natianality" /></span>
+                            </div>
+    
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-4" *ngIf="!member.is_firm">
+                            <strong>Nationality of Origin<span class="req">*</span></strong>
+                          </div>
+                          <div class="form-group col-md-4" *ngIf="member.is_firm">
+                            <strong>Country of incorporation<span class="req">*</span></strong>
+                          </div>
+                          <div class="form-group col-md-8">
+                              <!--<input  name="tender_shareholder_nationality_origin-{{i}}" (input)="validateMemberEdit('shareholder',i)" [(ngModel)]="member.natianality_origin" class="form-control form-control-sm modal-input-member-name" placeholder="">-->
+                              <select (change)="validateMemberEdit('shareholder',i)" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="member.natianality_origin"
+                              name="tender_shareholder_nationality_origin-{{i}}"> 
+                              <option value="">Choose...</option>
+                              <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+                            </select>
+                            </div>
+    
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                              <strong>Percentage of Shares Held<span class="req">*</span></strong>
+                            </div>
+                            <div class="form-group col-md-8">
+                                <input onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"  name="tender_shareholder_shares-{{i}}" (input)="validateMemberEdit('shareholder',i)" [(ngModel)]="member.shares" class="form-control form-control-sm modal-input-member-name" placeholder="">
+                            </div>
+      
+                          </div>
+    
+                      </div>
+    
+      
+      
+      
+                      </div>
+      
+                    </div>
+
+
+  
+                </div> 
+
+                <!-- jv company -->
+                <div class="tender-form-block"  style="margin:20px 0; width:100%" *ngIf="applyTender.tenderer_sub_type == 'TENDER_JOIN_VENTURE'" >
+
+                  <div class="add-new-wrapper close-member-add-new-wrapper" style="width: 70%;">
+                    <p>All companies of join ventures</p>
+                    <h2>
+                      <span  class="add-new-wrapper-label">Company of Join Venture</span>
+                      <div class="line"></div>
+  
+                    </h2>
+    
+                  </div>
+    
+                  <div class="tender-member-list" style="display: block;padding:10px 0">
+    
+                    <div *ngFor="let company of jv_companies.companies; let i = index" class="director-record stakeholder-record" style="margin: 10px 0;
+                    border-radius: 20px;
+                    background: #fff;
+                    border: 1px solid rgb(243, 91, 63);
+                    width: 100%;">
+    
+                      <div class="stakeholder-record-summeru" style="color: red;
+                        font-weight: lighter;
+                        font-size: 22px;
+                        border: none;
+                        cursor: pointer;
+                        width: 100%;
+                        height: 40px;
+                        background-color: transparent !important;
+                        border-radius: 0;
+                        box-shadow: none;">
+
+
+                      </div>
+    
+                      <div class="stakeholder-record-inner" style="padding: 25px 10px 10px;border-top: 1px solid #ddd">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                              <strong>Name</strong>
+                            </div>
+                            <div class="form-group col-md-8">
+                                <input readonly name="jv_company_name-{{i}}" [(ngModel)]="company.name" class="form-control form-control-sm modal-input-member-name" placeholder="">
+                            </div>
+                       </div>
+                      </div>
+                    </div>
+    
+                  </div>
+
+              </div> 
+
+              <!-- jv company -->
+
+                <div class="tender-form-block"  style="margin:20px 0; width:100%"
+
+                *ngIf="
+                 (applyTender.tenderer_sub_type == 'TENDER_PARTNERSHIP' || applyTender.tenderer_sub_type == 'TENDER_PROPRIETORSHIP' || applyTender.tenderer_sub_type == 'TENDER_JOIN_VENTURE' )" >
+
+
+                    <div class="add-new-wrapper close-member-add-new-wrapper" style="width: 70%;">
+                      <p>
+                          {{applyTender.applicant_sub_type == 'TENDER_JOIN_VENTURE' ? 'Please add all parties of Tenderer' : 'Please add all firms/consortium of persons of Tenderer' }}
+                      </p>
+                      <h2 *ngIf="!(applyTender.tenderer_sub_type == 'TENDER_PROPRIETORSHIP' && applyTender.tender_members.member.length >= 1)" >
+                        <span  class="add-new-wrapper-label">{{applyTender.applicant_sub_type == 'TENDER_JOIN_VENTURE' ? 'Add Party' : 'Add Person' }}</span>
+                        <div class="line"></div>
+      
+                        <button type="button" mdbBtn class="relative waves-light add-new-stakholder" (click)="tenderMemberModal.show()" mdbWavesEffect>
+                          <i class="fa fa-plus"></i> Add New</button>
+      
+                      </h2>
+      
+                    </div>
+      
+                    <div class="tender-member-list" style="display: block;padding:10px 0">
+      
+                      <div *ngFor="let member of applyTender.tender_members.member; let i = index" class="director-record stakeholder-record" style="margin: 10px 0;
+                      border-radius: 20px;
+                      background: #fff;
+                      border: 1px solid rgb(243, 91, 63);
+                      width: 100%;">
+      
+                        <div class="stakeholder-record-summeru" style="color: red;
+                          font-weight: lighter;
+                          font-size: 22px;
+                          border: none;
+                          cursor: pointer;
+                          width: 100%;
+                          height: 40px;
+                          background-color: transparent !important;
+                          border-radius: 0;
+                          box-shadow: none;">
+      
+                          <span style="color:#fd7e14;font-size: 15px">{{member.name}}</span>
+      
+      
+      
+                          <span (click)="removeMember('member', i,memberId?.id)" title="remove record" style="float:right;" class="record-handler record-handler-remove">
+                            <i class="fa fa-trash"></i>
+                          </span>
+                          <!--<span title="show record" style="float:right;color: #1f365c" class="record-handler record-handler-view">
+                            <i class="fa fa-eye"></i>&nbsp;&nbsp;
+                          </span>-->
+      
+      
+                        </div>
+      
+                        <div class="stakeholder-record-inner" style="padding: 25px 10px 10px;border-top: 1px solid #ddd">
+                          
+                          <div class="form-row" *ngIf="member.is_srilankan =='yes'">
+                                <div class="form-group col-md-4">
+                                  <strong>NIC</strong>
+                                </div>
+                                <div class="form-group col-md-8">
+
+                                    <input readonly name="tender_member_nic-{{i}}"  pattern="[0-9]{9}[x|X|v|V]|[0-9]{12}" maxlength="12"  (input)="validateMemberEdit('member',i)" [(ngModel)]="member.nic" class="form-control form-control-sm modal-input-member-name" placeholder="" (change) = "memberNicPassportExist('member','nic',member.nic)">
+                                </div>
+          
+                          </div>
+
+                          <div class="form-row" *ngIf="member.is_srilankan =='no'">
+                              <div class="form-group col-md-4">
+                                <strong>Passport</strong>
+                              </div>
+                              <div class="form-group col-md-8">
+                                  <input readonly name="tender_member_passport-{{i}}" maxlength="15"  (input)="validateMemberEdit('member',i)" [(ngModel)]="member.passport" class="form-control form-control-sm modal-input-member-name" placeholder="" (change) = "memberNicPassportExist('member','passport',member.passport)">
+                              </div>
+        
+                         </div>
+
+                         <div class="form-row" *ngIf="member.is_srilankan =='no'">
+                            <div class="form-group col-md-4">
+                              <strong>Passport Issued Country<span class="req">*</span></strong>
+                            </div>
+                            <div class="form-group col-md-8">
+
+                                <!--<input name="tender_member_passport_issue_country-{{i}}" maxlength="100"  (input)="validateMemberEdit('member',i)" [(ngModel)]="member.passport_issued_country" class="form-control form-control-sm modal-input-member-name" placeholder="">-->
+                                <select  (change)="validateMemberEdit('member',i)" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="member.passport_issued_country"
+                                name="tender_member_passport_issue_country-{{i}}"> 
+                                <option value="">Choose...</option>
+                                <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+                              </select>
+                              
+                              </div>
+      
+                       </div>
+                          
+                          <div class="form-row">
+                            <div class="form-group col-md-4">
+                              <strong>Name<span class="req">*</span></strong>
+                            </div>
+                            <div class="form-group col-md-8">
+                                <input  name="tender_member_name-{{i}}" (input)="validateMemberEdit('member',i)" [(ngModel)]="member.name" class="form-control form-control-sm modal-input-member-name" placeholder="">
+                            </div>
+      
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-md-4">
+                              <strong>Address<span class="req">*</span></strong>
+                            </div>
+                            <div class="form-group col-md-8">
+                                <input  name="tender_member_address-{{i}}" (input)="validateMemberEdit('member',i)" [(ngModel)]="member.address" class="form-control form-control-sm modal-input-member-name" placeholder="">
+                            </div>
+      
+                          </div>
+                          <div [hidden] ="applyTender.applicant_sub_type == 'TENDER_JOIN_VENTURE'" class="form-row">
+                            <div class="form-group col-md-4">
+                              <strong>Nationality<span class="req">*</span></strong>
+                            </div>
+                            <div class="form-group col-md-8">
+                               <!-- <input  name="tender_member_nationality-{{i}}" (input)="validateMemberEdit('member',i)" [(ngModel)]="member.natianality" class="form-control form-control-sm modal-input-member-name" placeholder="">-->
+                                <select *ngIf="member.is_srilankan =='no'" (change)="validateMemberEdit('member',i)" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="member.natianality"
+                                name="tender_member_nationality-{{i}}"> 
+                                <option value="">Choose...</option>
+                                <option *ngFor="let country of countries" value="{{country.name}}">{{country.name =='Sri Lanka' ? 'Sri Lankan' :country.name}}</option>
+                              </select>
+                              <span *ngIf="member.is_srilankan == 'yes'">Sri Lankan<input type="hidden" name="tender_member_nationality-{{i}}"  (change)="validateMemberEdit('member',i)" value="Sri Lanka"   [(ngModel)]="member.natianality" /></span>
+                            
+                              </div>
+      
+                          </div>
+                          <div [hidden] ="applyTender.applicant_sub_type == 'TENDER_JOIN_VENTURE'" class="form-row">
+                            <div class="form-group col-md-4">
+                              <strong>Nationality of Origin<span class="req">*</span></strong>
+                            </div>
+                            <div class="form-group col-md-8">
+                               <!-- <input  name="tender_member_nationality_origin-{{i}}" (input)="validateMemberEdit('member',i)" [(ngModel)]="member.natianality_origin" class="form-control form-control-sm modal-input-member-name" placeholder="">-->
+                           
+                                <select (change)="validateMemberEdit('member',i)" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="member.natianality_origin"
+                                name="tender_member_nationality_origin-{{i}}"> 
+                                <option value="">Choose...</option>
+                                <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+                              </select>
+                              </div>
+      
+                          </div>
+
+                          <div  class="form-row">
+                              <div class="form-group col-md-4">
+                                <strong>Percentage of Shares Held
+                                  <span class="req" *ngIf ="applyTender.applicant_sub_type != 'TENDER_JOIN_VENTURE'">*</span>
+                                </strong>
+                              </div>
+                              <div class="form-group col-md-8">
+                                  <input onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"  name="tender_member_shares-{{i}}" (input)="validateMemberEdit('member',i)" [(ngModel)]="member.shares" class="form-control form-control-sm modal-input-member-name" placeholder="">
+                              </div>
+        
+                            </div>
+      
+                        </div>
+      
+      
+      
+                      </div>
+      
+                    </div>
+
+
+  
+                </div> 
+
+
+          </div>
+
+          
+
+          <div class="f1-buttons">
+            <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous">
+              <i class="fas fa-backward"></i> Previous</button>
+            <button [disabled] ="!validateStep2 || !validateMemberEditRows()" (click)="submitTender()" type="button" class="btn btn-next"> Next
+              <i class="fas fa-edit"></i>
+            </button>
+          </div>
+
+
+
+
+        </fieldset>
+
+          <fieldset [hidden]="stepOn != 2">
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+
+
+              <div class="container download-container">
+
+
+                  <h3>Document List</h3>
+    
+                  <div class="doc-block-wrapper">
+    
+                    <div class="doc-block" *ngFor="let doc of docList['docs']">
+    
+                      <div class="stakeholder-doc-row">
+    
+                        <div class="stakeholder-name">{{doc.name}}</div>
+                        <div class="doc-download">
+    
+    
+                          <a [href]="sanitize(doc.download_link)" target="_blank" download="{{doc.file_name_key}}"
+                            class="btn btn-primary btn-sm download doc-download-link">
+                            <i class="fas fa-cloud-download-alt"></i> Download
+                          </a>
+                        </div>
+                      </div>
+    
+                    </div>
+    
+                  </div>
+    
+    
+    
+                </div>
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous">
+                <i class="fas fa-backward"></i> Previous</button>
+              <button (click)="changeProgressStatuses(3)" type="button" class="btn btn-next"> Next
+                <i class="fas fa-edit"></i>
+              </button>
+            </div>
+
+
+
+
+          </fieldset>
+
+          <fieldset [hidden]="stepOn != 3">
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+
+             <!-- <div class="alert alert-info" *ngIf="applyTender.applicant_type != 'TENDER_TENDERER'">
+                  <p style="margin: 0">Please upload the letter issued by the publisher stating that this contract has not been awarded yet</p>
+              </div> -->
+
+              <div class="container uploaded-container">
+
+                  <div *ngFor="let doc of uploadList['docs']; let i = index">
+    
+                    <div class="row uploaded-row">
+    
+                      <div class="col-9 doc">
+                        <h3>{{doc.file_name}} <span *ngIf="doc.is_required" class="req">*</span></h3>
+                        <div *ngIf="doc.file_description" class="doc-description"><strong>Description:</strong>{{doc.file_description}}</div>
+                      </div>
+                      <div class="col-3 no-padding" *ngIf="doc.doc_status !='DOCUMENT_APPROVED'">
+    
+    
+                        <label *ngIf="doc.doc_status != 'DOCUMENT_APPROVED'" style="float:right" for="other-{{i}}" class="upload-wrapper btn btn-primary btn-sm download">
+                          <i class="fas fa-cloud-upload-alt"></i> Upload
+                        </label>
+                        <label *ngIf="doc.doc_status == 'DOCUMENT_APPROVED'" style="float:right" for="other-{{i}}" class="upload-wrapper btn btn-primary btn-sm resubmit-approved">
+                          <i class="fas fa-check-circle"></i> Approved
+                        </label>
+                        <input *ngIf="doc.doc_status != 'DOCUMENT_APPROVED'" style="display:block;position: fixed;top:-100000px" id="other-{{i}}" type="file" (change)="fileChange($event,doc.file_name,applyTender.id,doc.dbid, doc.applicant_item_id,doc.member_id, doc.company_id )"
+                          placeholder="Upload file" accept=".pdf">
+    
+                      </div>
+    
+                      <div class="col-12 uploaded-doc" *ngIf="doc.uploaded_path">
+
+                          {{doc.uploaded_path}}
+                          <span class="approved_doc" *ngIf="doc.doc_status =='DOCUMENT_APPROVED'">Document Approved</span>
+
+                          <button [hidden]="doc.doc_status == 'DOCUMENT_APPROVED'" (click)="removeDoc(doc.dbid, doc.applicant_item_id,doc.member_id )"  class="button red button-sm remove-file">
+                              <i class="fas fa-trash-alt"></i> Delete
+                              </button>
+                        
+                          <button *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="view-file button blue button-sm">
+                              <i class="far fa-file-pdf"></i> View
+                          </button>
+
+
+                       
+                      </div>
+                      <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                        <strong>Comments:</strong> {{doc.doc_comment}}
+                      </div>
+    
+                    </div>
+    
+                  </div>
+    
+    
+                </div>
+
+              <div style="margin-bottom:6px" class="container uploaded-container">
+
+                  <div class="row uploaded-row">
+    
+                    <div class="col-4 doc">
+                      <h3>Other Documents
+                        <p style="font-size: 12px;color: darkorange;text-transform: none;" class="other_doc_des">You can upload any number of documents here</p>
+                      </h3>
+                    </div>
+                    <div class="col-5">
+                      <span style="float: left;width: 100%;margin-top: 2px">
+                            <input style="width: 96%;padding:5px;padding: 0 5px;text-align: center;font-size: 14px;" [(ngModel)]="other_doc_name" name="other_doc_name" placeholder="Enter document name here" />
+                          <!--  <span style="display: block;width: 4%; float: right;color: red;font-size: 24px;margin-top: -10px;">*</span> -->
+                      </span>
+                    </div>
+  
+                    <div class="col-3 no-padding">
+  
+  
+                      <label style="float:right" for="other-docs" class="upload-wrapper btn btn-primary btn-sm download {{!other_doc_name ? 'disable' : '' }}">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                      </label>
+  
+                      
+                      <input [disabled]="!other_doc_name"  style="display:block;position: fixed;top:-100000px" id="other-docs" type="file" (change)="uploadOtherDoc($event,'Other',uploadOtherList['doc_id'])"
+                        placeholder="Upload file" accept=".pdf">
+  
+                    </div>
+  
+                    </div>
+  
+                  <div  class="form-group" *ngFor="let doc of uploadOtherList['docs']; let j = index">
+    
+                    <div class=" uploaded-row">
+    
+                      <div style="font-size:12px;" class="uploaded-doc" *ngIf="doc.file_name">
+  
+                          {{doc.file_name}}
+                          <span class="approved_doc" *ngIf="doc.doc_status =='DOCUMENT_APPROVED'">Document Approved</span>
+  
+                          <button *ngIf="doc.doc_status !='DOCUMENT_APPROVED' && doc.uploaded_token" style="float: right; font-size: 12px;padding: 5px !important;" (click)="removeOtherDoc(doc.uploaded_token )"  class="button red button-sm">
+                              <i class="fas fa-trash-alt"></i> Delete
+                           </button>
+                        
+                          <button style="float: right; font-size: 12px;padding: 5px !important;margin-right:4px;" *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="button blue button-sm">
+                              <i class="far fa-file-pdf"></i> View
+                          </button>
+                          <label  *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'" style="float: right;
+                          width: 117px;
+                          height: 29px;
+                          margin-top: -2px;
+                          line-height: normal;
+                          margin-right: 0px;
+                          font-size: 12px;" for="other-resubmit-docs-{{doc.multiple_id}}" class="upload-wrapper btn btn-primary btn-sm download">
+                            <i class="fas fa-cloud-upload-alt"></i> Upload
+                          </label>
+                          <input *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'"  style="display:block;position: fixed;top:-100000px" id="other-resubmit-docs-{{doc.multiple_id}}" type="file" (change)="uploadOtherResumittedDoc($event,doc.multiple_id)"
+                        placeholder="Upload file" accept=".pdf">
+  
+  
+                       
+                      </div>
+                      
+                      <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                        <strong>Comments:</strong> {{doc.doc_comment}}
+                      </div>
+    
+                    </div>
+    
+                  </div>
+                  <div style="clear:both"></div>
+  
+  
+  
+  
+                 <!-- <div class="sec_type_item form-group col-md-12 document_confirm">
+  
+                    <p style="font-size:14px;"  ><strong>SECTION 511.</strong> “Where in any return, report, certificate, balance
+                      sheet or other document, required by or for the purposes of
+                      this Act, any person wilfully makes a statement which is false
+                      in any material particular knowing it to be false, shall be
+                      guilty of an offence and be liable on conviction to a fine not
+                      exceeding one million rupees or to imprisonment for a term
+                      not exceeding five years or to both such fine and
+                      imprisonment”
+                    </p>
+                      <br/>
+                      <input  [(ngModel)]="document_confirm" type="checkbox" id="document_confirm" class="custom-control-input" [ngModelOptions]="{standalone: true}">
+                      <label style="font-size: 17px;
+                      color: darkred;
+                      font-weight: bold;" class="custom-control-label custom-control-sub-label radio-lbl" for="document_confirm">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I read over and understood
+                      </label>
+                       
+                  </div>
+                  <div style="clear:both"></div> -->
+  
+  
+                </div>
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-previous">
+                <i class="fas fa-backward"></i> Previous</button>
+              <button [disabled]="!(allFilesUploaded)" (click)="resubmit()" type="button" class="btn btn-next"> Next
+                <i class="fas fa-edit"></i>
+              </button>
+            </div>
+
+          </fieldset>
+
+         
+
+
+
+
+        </form>
+
+      </div>
+      <div style="clear:both"></div>
+      <br />
+      <br />
+      <!--end right col main-->
+    </div>
+  </div>
+</section>
+
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="changeApplicantTypeFlag">
+
+    <div class="payment-success-body"  style="height: 250px">
+  
+      <div class="header">
+  
+        <h2 class="alert alert-danger "><i class="fas fa-exclamation-triangle"></i>&nbsp;Data Lost Alert</h2>
+      </div>
+  
+      <div class="body">
+        <p style="color: darkorange;
+        font-weight: bold;">Are you sure you want to navigate away from this page?
+            Be aware, if you press "Yes" now, ALL your changes will be lost!
+            Press OK to continue, or Cancel to keep your enterd data.</p>
+      </div>
+  
+      <div class="footer">
+        <button class="btn btn-danger" (click)="changeApplicantTypeOK()">Yes Please</button>&nbsp;
+        <button class="btn btn-success" (click)="changeApplicantTypeCancel()">Cancel</button>
+
+      </div>
+  </div>
+  
+  
+  
+  </div>
+
+  <div class="payment-success-wrapper pay-block-wrapper" *ngIf="changeApplicantSubTypeFlag">
+
+    <div class="payment-success-body"  style="height: 250px">
+  
+      <div class="header">
+  
+        <h2 class="alert alert-danger "><i class="fas fa-exclamation-triangle"></i>&nbsp;Data Lost Alert</h2>
+      </div>
+  
+      <div class="body">
+        <p style="color: darkorange;
+        font-weight: bold;">Are you sure you want to navigate away from this page?
+            Be aware, if you press "Yes" now, ALL your changes will be lost!
+            Press OK to continue, or Cancel to keep your enterd data.</p>
+      </div>
+  
+      <div class="footer">
+        <button class="btn btn-danger" (click)="changeApplicantSubTypeOK()">Yes Please</button>&nbsp;
+        <button class="btn btn-success" (click)="changeApplicantSubTypeCancel()">Cancel</button>
+
+      </div>
+  </div>
+  
+  
+  
+  </div>
+
+
+  <div mdbModal #tenderDirectorModal="mdbModal" id="tender-close-director" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right close-modal-item" aria-label="Close" (click)="tenderDirectorModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">Add New Director
+
+
+        </h4>
+      </div>
+      <div class="modal-body">
+
+
+
+        <div class="form-row" >
+
+            <div class="sec_type_wrapper form-row" style="width:100%">
+
+
+                <div class="sec_type_item form-group col-md-6">
+  
+                  <input type="radio" id="tender_director_is_srilankan_yes" (change)="resetMember()" class="custom-control-input" [(ngModel)]="tenderDirector.is_srilankan"  value="yes"
+                    name="tender_director_is_srilankan_yes">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tender_director_is_srilankan_yes">&nbsp;&nbsp;&nbsp;&nbsp;Local Director</label>
+  
+  
+                </div>
+  
+                <div class="sec_type_item form-group col-md-6">
+  
+                  <input type="radio" id="tender_director_is_srilankan_no"  (change)="resetMember()"  class="custom-control-input" [(ngModel)]="tenderDirector.is_srilankan"  value="no"
+                    name="tender_director_is_srilankan_no">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tender_director_is_srilankan_no">&nbsp;&nbsp;&nbsp;&nbsp;Foreign Director</label>
+  
+                </div>
+  
+          </div>
+
+         
+
+          
+
+          <div class="form-group col-md-12" *ngIf="tenderDirector.is_srilankan =='yes'">
+
+                <label class="col-form-label col-form-label-sm">NIC
+                  <span class="req">*</span>
+                </label>
+                <input name="tender_director_nic"  pattern="[0-9]{9}[x|X|v|V]|[0-9]{12}" maxlength="12"  (input)="validateMember('director')" [(ngModel)]="tenderDirector.nic" class="form-control form-control-sm modal-input-member-name" placeholder="" (change) = "memberNicPassportExist('director','nic',tenderDirector.nic)">
+                <span class="req-message">Invalid NIC </span>
+                <span *ngIf="memberExist" class="req">{{memberExistMessage}}</span>
+          </div>
+
+          <div class="form-group col-md-12" *ngIf="tenderDirector.is_srilankan =='no'">
+
+              <label class="col-form-label col-form-label-sm">Passport Number
+                <span class="req">*</span>
+              </label>
+              <input name="tender_director_passport" maxlength="15"  (input)="validateMember('director')" [(ngModel)]="tenderDirector.passport" class="form-control form-control-sm modal-input-member-name" placeholder="" (change) = "memberNicPassportExist('director','passport',tenderDirector.passport)">
+              <span *ngIf="memberExist" class="req">{{memberExistMessage}}</span>
+              
+          </div>
+
+          <div class="form-group col-md-12" *ngIf="tenderDirector.is_srilankan =='no'">
+
+              <label class="col-form-label col-form-label-sm">Passport Issued Country
+                <span class="req">*</span>
+              </label>
+              <!--<input name="tender_director_passport_issue_country" maxlength="100"  (input)="validateMember('director')" [(ngModel)]="tenderDirector.passport_issued_country" class="form-control form-control-sm modal-input-member-name" placeholder="">-->
+              <select (change)="validateMember('director')" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="tenderDirector.passport_issued_country"
+                                  name="tender_director_passport_issue_country"> 
+                  <option value="">Choose...</option>
+                  <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+              </select>
+          </div>
+
+
+          <div class="form-group col-md-12" *ngIf="tenderDirector.is_srilankan">
+
+            <label class="col-form-label col-form-label-sm">Name
+              <span class="req">*</span>
+            </label>
+            <input (input)="validateMember('director')" [(ngModel)]="tenderDirector.name" class="form-control form-control-sm modal-input-member-name" placeholder="">
+
+          </div>
+
+          <div class="form-group col-md-12" *ngIf="tenderDirector.is_srilankan">
+
+              <label class="col-form-label col-form-label-sm">Address
+                <span class="req">*</span>
+              </label>
+              <input (input)="validateMember('director')"   [(ngModel)]="tenderDirector.address" class="form-control form-control-sm modal-input-member-name" placeholder="">
+  
+            </div>
+
+            <div class="form-group col-md-12" *ngIf="tenderDirector.is_srilankan">
+
+                <label class="col-form-label col-form-label-sm">Nationality
+                  <span class="req">*</span>
+                </label>
+              <!--  <input (input)="validateMember('director')"   [(ngModel)]="tenderDirector.natianality" class="form-control form-control-sm modal-input-member-name" placeholder="">-->
+                <select *ngIf="tenderDirector.is_srilankan == 'no'" (change)="validateMember('director')" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="tenderDirector.natianality"
+                                  name="tender_director_nationality"> 
+                  <option value="">Choose...</option>
+                  <option *ngFor="let country of countries" value="{{country.name}}">{{ country.name == 'Sri Lanka' ? 'Sri Lankan' : country.name }}</option>
+              </select>
+            
+              <span *ngIf="tenderDirector.is_srilankan == 'yes'">Sri Lankan<input type="hidden" name="tender_director_nationality"  (change)="validateMember('director')" value="Sri Lanka"   [(ngModel)]="tenderDirector.natianality" /></span>
+              </div>
+
+              <div class="form-group col-md-12" *ngIf="tenderDirector.is_srilankan">
+
+                  <label class="col-form-label col-form-label-sm">Nationality of Origin
+                    <span class="req">*</span>
+                  </label>
+                  <!--<input (input)="validateMember('director')"  [(ngModel)]="tenderDirector.natianality_origin" class="form-control form-control-sm modal-input-member-name" placeholder="">-->
+                  <select (change)="validateMember('director')" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="tenderDirector.natianality_origin"
+                                  name="tender_director_nationality_origin"> 
+                    <option value="">Choose...</option>
+                    <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+                  </select>
+      
+              </div>
+
+           
+
+              <div class="sec_type_wrapper form-row" style="width:100%" *ngIf="tenderDirector.is_srilankan && !shareholderExistForDirector  && applyTender.applicant_sub_type != 'TENDER_COMPANY_PUBLIC'">
+
+
+                <div class="sec_type_item form-group col-md-6">
+  
+                  <input type="checkbox" id="tender_director_is_shareholder"  class="custom-control-input" [(ngModel)]="tenderDirector.is_shareholder"
+                    name="tender_director_is_shareholder">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tender_director_is_shareholder">&nbsp;&nbsp;&nbsp;&nbsp;Make this director as a shareholder</label>
+  
+  
+                </div>
+
+                </div>
+
+                <div class="form-group col-md-12" *ngIf="tenderDirector.is_srilankan && tenderDirector.is_shareholder  && applyTender.applicant_sub_type != 'TENDER_COMPANY_PUBLIC'">
+
+                  <label class="col-form-label col-form-label-sm">Percentage of Shares Held
+                    <span class="req">*</span>
+                  </label>
+                  <input onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"  (input)="validateMember('director')"  [(ngModel)]="tenderDirector.shares" class="form-control form-control-sm modal-input-member-name" placeholder="">
+      
+               </div>
+
+
+
+
+        </div>
+
+
+      </div>
+      <div class="modal-footer" style="justify-content: flex-end">
+
+
+        <button [disabled] ="!isValideDirector  || memberExist" (click)="saveMember('director')" type="button" mdbBtn color="secondary" class="btn btn-sm relative waves-light add-director add-new-stakeholder"
+          mdbWavesEffect>ADD</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<div mdbModal #tenderShareholderModal="mdbModal" id="tender-close-shareholder" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right close-modal-item" aria-label="Close" (click)="tenderShareholderModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">Add New Shareholder
+
+
+        </h4>
+      </div>
+      <div class="modal-body">
+
+
+
+        <div class="form-row">
+
+            <div class="sec_type_wrapper form-row" style="width:100%">
+
+
+                <div class="sec_type_item form-group col-md-6">
+  
+                  <input type="radio" id="tender_sh_is_srilankan_yes" (change)="resetMember()" class="custom-control-input" [(ngModel)]="tenderShareholder.is_srilankan"  value="yes"
+                    name="tender_sh_is_srilankan_yes">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tender_sh_is_srilankan_yes">&nbsp;&nbsp;&nbsp;&nbsp;Local Shareholder</label>
+  
+  
+                </div>
+  
+                <div class="sec_type_item form-group col-md-6">
+  
+                  <input type="radio" id="tender_sh_is_srilankan_no"  (change)="resetMember()"  class="custom-control-input" [(ngModel)]="tenderShareholder.is_srilankan"  value="no"
+                    name="tender_sh_is_srilankan_no">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tender_sh_is_srilankan_no">&nbsp;&nbsp;&nbsp;&nbsp;Foreign Shareholder</label>
+  
+                </div>
+  
+          </div>
+
+         
+
+          
+
+          <div class="form-group col-md-12" *ngIf="tenderShareholder.is_srilankan =='yes'">
+
+                <label class="col-form-label col-form-label-sm">NIC
+                  <span class="req">*</span>
+                </label>
+                <input name="tender_sh_nic"  pattern="[0-9]{9}[x|X|v|V]|[0-9]{12}" maxlength="12"  (input)="validateMember('shareholder')" [(ngModel)]="tenderShareholder.nic" class="form-control form-control-sm modal-input-member-name" placeholder=""   (change) = "memberNicPassportExist('shareholder','nic',tenderShareholder.nic)">
+                <span class="req-message">Invalid NIC </span>
+                <span *ngIf="memberExist" class="req">{{memberExistMessage}}</span>
+          </div>
+
+          <div class="form-group col-md-12" *ngIf="tenderShareholder.is_srilankan =='no'">
+
+              <label class="col-form-label col-form-label-sm">Passport Number
+                <span class="req">*</span>
+              </label>
+              <input name="tender_sh_passport" maxlength="15"  (input)="validateMember('shareholder')" [(ngModel)]="tenderShareholder.passport" class="form-control form-control-sm modal-input-member-name" placeholder="" (change) = "memberNicPassportExist('shareholder','passport',tenderShareholder.passport)">
+              <span *ngIf="memberExist" class="req">{{memberExistMessage}}</span>
+              
+          </div>
+
+          <div class="form-group col-md-12" *ngIf="tenderShareholder.is_srilankan =='no'">
+
+              <label class="col-form-label col-form-label-sm">Passport Issued Country
+                <span class="req">*</span>
+              </label>
+              
+              <select (change)="validateMember('shareholder')" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="tenderShareholder.passport_issued_country"
+                                name="tender_sh_passport_issue_country"> 
+                <option value="">Choose...</option>
+                <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+                </select>
+          </div>
+
+
+
+          <div class="form-group col-md-12" *ngIf="tenderShareholder.is_srilankan">
+
+            <label class="col-form-label col-form-label-sm">Name
+              <span class="req">*</span>
+            </label>
+            <input (input)="validateMember('shareholder')" [(ngModel)]="tenderShareholder.name" class="form-control form-control-sm modal-input-member-name" placeholder="">
+
+          </div>
+
+          <div class="form-group col-md-12" *ngIf="tenderShareholder.is_srilankan">
+
+              <label class="col-form-label col-form-label-sm">Address
+                <span class="req">*</span>
+              </label>
+              <input (input)="validateMember('shareholder')"   [(ngModel)]="tenderShareholder.address" class="form-control form-control-sm modal-input-member-name" placeholder="">
+  
+            </div>
+
+            <div class="form-group col-md-12" *ngIf="tenderShareholder.is_srilankan">
+
+                <label class="col-form-label col-form-label-sm">Nationality
+                  <span class="req">*</span>
+                </label>
+               
+                
+                <select *ngIf="tenderShareholder.is_srilankan == 'no'" (change)="validateMember('shareholder')" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="tenderShareholder.natianality"
+                                name="tender_shareholder_nationality"> 
+                <option value="">Choose...</option>
+                <option *ngFor="let country of countries" value="{{country.name}}">{{ country.name == 'Sri Lanka' ? 'Sri Lankan' : country.name}}</option>
+                </select>
+
+                <span  *ngIf="tenderShareholder.is_srilankan == 'yes'">Sri Lankan<input name="tender_shareholder_nationality" type="hidden"  (change)="validateMember('shareholder')" value="Sri Lanka"   [(ngModel)]="tenderShareholder.natianality" /></span>
+
+
+              </div>
+
+              <div class="form-group col-md-12" *ngIf="tenderShareholder.is_srilankan">
+
+                  <label class="col-form-label col-form-label-sm">Nationality of Origin
+                    <span class="req">*</span>
+                  </label>
+                 
+                  <select (change)="validateMember('shareholder')" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="tenderShareholder.natianality_origin"
+                                name="tender_shareholder_nationality_origin"> 
+                  <option value="">Choose...</option>
+                  <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+                  </select>
+              </div>
+
+              <div class="form-group col-md-12" *ngIf="tenderShareholder.is_srilankan">
+
+                  <label class="col-form-label col-form-label-sm">Percentage of Shares Held
+                    <span class="req">*</span>
+                  </label>
+                  <input onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"  (input)="validateMember('shareholder')"  [(ngModel)]="tenderShareholder.shares" class="form-control form-control-sm modal-input-member-name" placeholder="">
+      
+              </div>
+
+        </div>
+
+      </div>
+      <div class="modal-footer" style="justify-content: flex-end">
+
+
+        <button [disabled] ="!isValideShareholder  || memberExist" (click)="saveMember('shareholder')" type="button" mdbBtn color="secondary" class="btn btn-sm relative waves-light add-shareholder add-new-stakeholder"
+          mdbWavesEffect>ADD</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div mdbModal #tenderShareholderModal="mdbModal" id="tender-close-shareholder" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right close-modal-item" aria-label="Close" (click)="tenderShareholderModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">Add New Shareholder
+
+
+        </h4>
+      </div>
+      <div class="modal-body">
+
+
+
+        <div class="form-row">
+
+            <div class="sec_type_wrapper form-row" style="width:100%">
+
+                <div class="sec_type_item form-group col-md-12" style="border-bottom: 1px solid #ddd;">
+    
+                  <input type="checkbox" id="tender_sh_is_firm" (change)="resetMember()" class="custom-control-input" [(ngModel)]="tenderShareholder.is_firm" 
+                    name="tender_sh_is_srilankan_yes">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl checkbox-lbl" for="tender_sh_is_firm">&nbsp;&nbsp;&nbsp;&nbsp;Is Shareholder firm</label>
+                </div>
+
+
+                <div class="sec_type_item form-group col-md-6">
+  
+                  <input type="radio" id="tender_sh_is_srilankan_yes" (change)="resetMember()" class="custom-control-input" [(ngModel)]="tenderShareholder.is_srilankan"  value="yes"
+                    name="tender_sh_is_srilankan_yes">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tender_sh_is_srilankan_yes">&nbsp;&nbsp;&nbsp;&nbsp;Local Shareholder</label>
+  
+  
+                </div>
+  
+                <div class="sec_type_item form-group col-md-6">
+  
+                  <input type="radio" id="tender_sh_is_srilankan_no"  (change)="resetMember()"  class="custom-control-input" [(ngModel)]="tenderShareholder.is_srilankan"  value="no"
+                    name="tender_sh_is_srilankan_no">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tender_sh_is_srilankan_no">&nbsp;&nbsp;&nbsp;&nbsp;Foreign Shareholder</label>
+  
+                </div>
+  
+          </div>
+
+         
+
+          
+
+          <div class="form-group col-md-12" *ngIf="!tenderShareholder.is_firm && tenderShareholder.is_srilankan =='yes'">
+
+                <label class="col-form-label col-form-label-sm">NIC
+                  <span class="req">*</span>
+                </label>
+                <input name="tender_sh_nic"  pattern="[0-9]{9}[x|X|v|V]|[0-9]{12}" maxlength="12"  (input)="validateMember('shareholder')" [(ngModel)]="tenderShareholder.nic" class="form-control form-control-sm modal-input-member-name" placeholder=""   (change) = "memberNicPassportExist('shareholder','nic',tenderShareholder.nic)">
+                <span class="req-message">Invalid NIC </span>
+                <span *ngIf="memberExist" class="req">{{memberExistMessage}}</span>
+          </div>
+
+          <div class="form-group col-md-12" *ngIf="!tenderShareholder.is_firm && tenderShareholder.is_srilankan =='no'">
+
+              <label class="col-form-label col-form-label-sm">Passport Number
+                <span class="req">*</span>
+              </label>
+              <input name="tender_sh_passport" maxlength="15"  (input)="validateMember('shareholder')" [(ngModel)]="tenderShareholder.passport" class="form-control form-control-sm modal-input-member-name" placeholder="" (change) = "memberNicPassportExist('shareholder','passport',tenderShareholder.passport)">
+              <span *ngIf="memberExist" class="req">{{memberExistMessage}}</span>
+              
+          </div>
+
+          <div class="form-group col-md-12" *ngIf="!tenderShareholder.is_firm && tenderShareholder.is_srilankan =='no'">
+
+              <label class="col-form-label col-form-label-sm">Passport Issued Country
+                <span class="req">*</span>
+              </label>
+              <!--<input name="tender_sh_passport_issue_country" maxlength="100"  (input)="validateMember('shareholder')" [(ngModel)]="tenderShareholder.passport_issued_country" class="form-control form-control-sm modal-input-member-name" placeholder="">-->
+              <select (change)="validateMember('shareholder')" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="tenderShareholder.passport_issued_country"
+                                name="tender_sh_passport_issue_country"> 
+                <option value="">Choose...</option>
+                <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+                </select>
+          </div>
+
+          <div class="form-group col-md-12" *ngIf="tenderShareholder.is_firm && tenderShareholder.is_srilankan">
+
+            <label class="col-form-label col-form-label-sm">Company registration number
+              <span class="req">*</span>
+            </label>
+            <input onkeypress="return !(event.which == 32 || event.which == 9 )" (input)="validateMember('shareholder')" [(ngModel)]="tenderShareholder.firm_reg_no" class="form-control form-control-sm modal-input-member-name" placeholder="">
+
+          </div>
+
+
+
+          <div class="form-group col-md-12" *ngIf="tenderShareholder.is_srilankan">
+
+            <label class="col-form-label col-form-label-sm">Name
+              <span class="req">*</span>
+            </label>
+            <input (input)="validateMember('shareholder')" [(ngModel)]="tenderShareholder.name" class="form-control form-control-sm modal-input-member-name" placeholder="">
+
+          </div>
+
+          <div class="form-group col-md-12" *ngIf="tenderShareholder.is_srilankan">
+
+              <label class="col-form-label col-form-label-sm">Address
+                <span class="req">*</span>
+              </label>
+              <input (input)="validateMember('shareholder')"   [(ngModel)]="tenderShareholder.address" class="form-control form-control-sm modal-input-member-name" placeholder="">
+  
+            </div>
+
+            <div [hidden] ="applyTender.applicant_sub_type == 'TENDER_JOIN_VENTURE' || tenderShareholder.is_firm" class="form-group col-md-12" *ngIf="tenderShareholder.is_srilankan">
+
+                <label [hidden]="tenderShareholder.is_srilankan == 'yes' && tenderShareholder.is_firm" class="col-form-label col-form-label-sm">Nationality
+
+                  <span class="req" *ngIf="!tenderShareholder.is_firm">*</span>
+                </label>
+               <!-- <input (input)="validateMember('shareholder')"   [(ngModel)]="tenderShareholder.natianality" class="form-control form-control-sm modal-input-member-name" placeholder="">-->
+                
+                <select *ngIf="tenderShareholder.is_srilankan == 'no'" (change)="validateMember('shareholder')" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="tenderShareholder.natianality"
+                                name="tender_shareholder_nationality"> 
+                <option value="">Choose...</option>
+                <option *ngFor="let country of countries" value="{{country.name}}">{{country.name =='Sri Lanka' ? 'Sri Lankan' : country.name}}</option>
+                </select>
+
+                <span  *ngIf="tenderShareholder.is_srilankan == 'yes' && !tenderShareholder.is_firm">Sri Lankan<input name="tender_shareholder_nationality" type="hidden"  (change)="validateMember('shareholder')" value="Sri Lanka"   [(ngModel)]="tenderShareholder.natianality" /></span>
+
+
+              </div>
+
+              <div [hidden] ="applyTender.applicant_sub_type == 'TENDER_JOIN_VENTURE'" class="form-group col-md-12" *ngIf="tenderShareholder.is_srilankan">
+
+                  <label *ngIf="!tenderShareholder.is_firm" class="col-form-label col-form-label-sm">Nationality of Origin
+                    <span class="req">*</span>
+                  </label>
+                  <label *ngIf="tenderShareholder.is_firm" class="col-form-label col-form-label-sm">Country of incorporation
+                    <span class="req">*</span>
+                  </label>
+                  <!--<input (input)="validateMember('shareholder')"  [(ngModel)]="tenderShareholder.natianality_origin" class="form-control form-control-sm modal-input-member-name" placeholder="">-->
+                  <select (change)="validateMember('shareholder')" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="tenderShareholder.natianality_origin"
+                                name="tender_shareholder_nationality_origin"> 
+                  <option value="">Choose...</option>
+                  <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+                  </select>
+              </div>
+
+              <div [hidden] ="applyTender.applicant_sub_type == 'TENDER_JOIN_VENTURE'" class="form-group col-md-12" *ngIf="tenderShareholder.is_srilankan">
+
+                  <label class="col-form-label col-form-label-sm">Percentage of Shares Held
+                    <span *ngIf ="applyTender.applicant_sub_type != 'TENDER_JOIN_VENTURE'" class="req">*</span>
+                  </label>
+                  <input onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"   (input)="validateMember('shareholder')"  [(ngModel)]="tenderShareholder.shares" class="form-control form-control-sm modal-input-member-name" placeholder="">
+      
+              </div>
+
+        </div>
+
+      </div>
+      <div class="modal-footer" style="justify-content: flex-end">
+
+
+        <button [disabled] ="!isValideShareholder  || memberExist" (click)="saveMember('shareholder')" type="button" mdbBtn color="secondary" class="btn btn-sm relative waves-light add-shareholder add-new-stakeholder"
+          mdbWavesEffect>ADD</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mdbModal #tenderMemberModal="mdbModal" id="tender-close-member" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right close-modal-item" aria-label="Close" (click)="tenderMemberModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">
+          {{applyTender.applicant_sub_type == 'TENDER_JOIN_VENTURE' ? 'Add New Party' : 'Add New Firm/Consortium of Person' }}
+
+        </h4>
+      </div>
+      <div class="modal-body">
+
+
+
+        <div class="form-row">
+
+
+            <div class="sec_type_wrapper form-row" style="width:100%" *ngIf="applyTender.applicant_sub_type != 'TENDER_JOIN_VENTURE'">
+
+
+                <div class="sec_type_item form-group col-md-6">
+  
+                  <input type="radio" id="tender_member_is_srilankan_yes" (change)="resetMember()" class="custom-control-input" [(ngModel)]="tenderMember.is_srilankan"  value="yes"
+                    name="tender_member_is_srilankan_yes">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tender_member_is_srilankan_yes">&nbsp;&nbsp;&nbsp;&nbsp;Local Member</label>
+  
+  
+                </div>
+  
+                <div class="sec_type_item form-group col-md-6">
+  
+                  <input type="radio" id="tender_member_is_srilankan_no"  (change)="resetMember()"  class="custom-control-input" [(ngModel)]="tenderMember.is_srilankan"  value="no"
+                    name="tender_member_is_srilankan_no">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tender_member_is_srilankan_no">&nbsp;&nbsp;&nbsp;&nbsp;Foreign Member</label>
+  
+                </div>
+  
+          </div>
+
+         
+
+          
+
+          <div class="form-group col-md-12" *ngIf="tenderMember.is_srilankan =='yes' && applyTender.applicant_sub_type != 'TENDER_JOIN_VENTURE'">
+
+                <label class="col-form-label col-form-label-sm">NIC
+                  <span class="req">*</span>
+                </label>
+                <input name="tender_member_nic"  pattern="[0-9]{9}[x|X|v|V]|[0-9]{12}" maxlength="12"  (input)="validateMember('member')" [(ngModel)]="tenderMember.nic" class="form-control form-control-sm modal-input-member-name" placeholder=""
+                 (change) = "memberNicPassportExist('member','nic',tenderMember.nic)" >
+                <span class="req-message">Invalid NIC </span>
+                <span *ngIf="memberExist" class="req">{{memberExistMessage}}</span>
+          </div>
+
+          <div class="form-group col-md-12" *ngIf="tenderMember.is_srilankan =='no' && applyTender.applicant_sub_type != 'TENDER_JOIN_VENTURE'">
+
+              <label class="col-form-label col-form-label-sm">Passport Number
+                <span class="req">*</span>
+              </label>
+              <input name="tender_member_passport" maxlength="15"  (input)="validateMember('member')" [(ngModel)]="tenderMember.passport" class="form-control form-control-sm modal-input-member-name" placeholder=""  (change) = "memberNicPassportExist('member','passport',tenderMember.passport)">
+              <span *ngIf="memberExist" class="req">{{memberExistMessage}}</span>
+              
+          </div>
+
+          <div class="form-group col-md-12" *ngIf="tenderMember.is_srilankan =='no' && applyTender.applicant_sub_type != 'TENDER_JOIN_VENTURE'">
+
+              <label class="col-form-label col-form-label-sm">Passport Issued Country
+                <span class="req">*</span>
+              </label>
+              <input name="tender_member_passport_issue_country" maxlength="100"  (input)="validateMember('member')" [(ngModel)]="tenderMember.passport_issued_country" class="form-control form-control-sm modal-input-member-name" placeholder="">
+              
+          </div>
+
+           
+
+
+          <div class="form-group col-md-12" *ngIf="tenderMember.is_srilankan || applyTender.applicant_sub_type == 'TENDER_JOIN_VENTURE'">
+
+            <label class="col-form-label col-form-label-sm">Name
+              <span class="req">*</span>
+            </label>
+            <input (input)="validateMember('member')" [(ngModel)]="tenderMember.name" class="form-control form-control-sm modal-input-member-name" placeholder="">
+
+          </div>
+
+          <div class="form-group col-md-12" *ngIf="tenderMember.is_srilankan  || applyTender.applicant_sub_type == 'TENDER_JOIN_VENTURE'">
+
+              <label class="col-form-label col-form-label-sm">Address
+                <span class="req">*</span>
+              </label>
+              <input (input)="validateMember('member')"  [(ngModel)]="tenderMember.address" class="form-control form-control-sm modal-input-member-name" placeholder="">
+  
+            </div>
+
+            <div [hidden]="applyTender.applicant_sub_type == 'TENDER_JOIN_VENTURE'" class="form-group col-md-12" *ngIf="tenderMember.is_srilankan || applyTender.applicant_sub_type == 'TENDER_JOIN_VENTURE'">
+
+                <label class="col-form-label col-form-label-sm">Nationality
+                  <span class="req">*</span>
+                </label>
+              <!-- <input (input)="validateMember('member')"   [(ngModel)]="tenderMember.natianality" class="form-control form-control-sm modal-input-member-name" placeholder="">-->
+                <select *ngIf="tenderMember.is_srilankan == 'no'" (change)="validateMember('member')" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="tenderMember.natianality"
+                                name="tender_member_nationality"> 
+                <option value="">Choose...</option>
+                <option *ngFor="let country of countries" value="{{country.name}}">{{ country.name == 'Sri Lanka' ? 'Sri Lankan' : country.name}}</option>
+                </select>
+
+                <span  *ngIf="tenderMember.is_srilankan == 'yes'">Sri Lankan<input name="tender_member_nationality" type="hidden"  (change)="validateMember('member')" value="Sri Lanka"   [(ngModel)]="tenderMember.natianality" /></span>
+              </div>
+
+              <div [hidden]="applyTender.applicant_sub_type == 'TENDER_JOIN_VENTURE'" class="form-group col-md-12" *ngIf="tenderMember.is_srilankan || applyTender.applicant_sub_type == 'TENDER_JOIN_VENTURE'">
+
+                  <label class="col-form-label col-form-label-sm">Nationality of Origin
+                    <span class="req">*</span>
+                  </label>
+                  <!--<input (input)="validateMember('member')"  [(ngModel)]="tenderMember.natianality_origin" class="form-control form-control-sm modal-input-member-name" placeholder="">-->
+                  <select  (change)="validateMember('member')" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="tenderMember.natianality_origin"
+                                name="tender_member_nationality_of_origin"> 
+                  <option value="">Choose...</option>
+                  <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+                  </select>
+              </div>
+
+              <div class="form-group col-md-12" *ngIf="tenderMember.is_srilankan || applyTender.applicant_sub_type == 'TENDER_JOIN_VENTURE'">
+
+                  <label class="col-form-label col-form-label-sm">
+                      {{ (applyTender.applicant_sub_type == 'TENDER_JOIN_VENTURE' || applyTender.applicant_sub_type == 'TENDER_PARTNERSHIP' || applyTender.applicant_sub_type == 'TENDER_PROPRIETORSHIP') ? 'Percentage of Financial
+                      interest in the
+                      firm/Consortium' : ' Percentage of Shares Held' }}
+                   
+                    <span class="req" *ngIf="applyTender.applicant_sub_type != 'TENDER_JOIN_VENTURE'">*</span>
+                  </label>
+                  <input onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"  (input)="validateMember('member')"  [(ngModel)]="tenderMember.shares" class="form-control form-control-sm modal-input-member-name" placeholder="">
+      
+              </div>
+
+
+
+
+        </div>
+
+
+      </div>
+      <div class="modal-footer" style="justify-content: flex-end">
+
+
+        <button [disabled] ="!isValideMember || memberExist" (click)="saveMember('member')" type="button" mdbBtn color="secondary" class="btn btn-sm relative waves-light add-member add-new-stakeholder"
+          mdbWavesEffect>ADD</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="paySuccessStatus">
+
+    <div class="payment-success-body">
+  
+      <div class="header">
+  
+        <h2>Resubmit Status</h2>
+      </div>
+  
+      <div class="body">
+        <p>Successfully Resubmitted your Tender Application</p>
+      </div>
+  
+      <div class="footer">
+        <button class="btn btn-success" (click)="PaySucess()">Yes</button>
+
+  
+      </div>
+    </div>
+  
+  </div>

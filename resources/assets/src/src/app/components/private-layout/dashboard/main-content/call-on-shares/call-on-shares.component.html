@@ -1,0 +1,1160 @@
+<div class="clearfix">
+  </div>
+  <section class="top-margin">
+    <div class="container" style="padding-bottom: 50px;">
+      <div class="row">
+  
+  
+        <!--end left col-->
+  
+  
+        <div class="col-md-11 nopadding">
+  
+  
+          <div class="f1">
+  
+            <h3 style="text-align: center">CALLS ON SHARES/PARTICULARS OF OBLIGATIONS ATTACHED TO A SHARE PERFORMED BY SHAREHOLDERS</h3>
+            <p style="text-align: center">Fill in all steps for completing the process.</p>
+            <div class="f1-steps">
+              <div class="f1-progress">
+                <div class="f1-progress-line" data-now-value="4.17" data-number-of-steps="12" [ngStyle]="{'width': progress.progressPercentage}"></div>
+              </div>
+  
+  
+  
+              <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}} status-{{i}}">
+                <div class="f1-step-icon">
+                  <i class="{{item.icon}}"></i>
+                </div>
+                <p>{{item.label}}</p>
+              </div>
+  
+            </div>
+  
+            <fieldset [hidden]="stepOn != 0">
+
+                <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                    <p style="text-align:center">{{externalGlobComment}}</p>
+               </div>
+  
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm">Company Type</label>
+                <div class="col-sm-9">{{compayType.value}}
+                </div>
+  
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm">Name of the Company</label>
+                <div class="col-sm-9">{{companyInfo.name}}{{ companyInfo.name ? ' '+ postFixEn : '' }}
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label col-form-label-sm">Registration Number</label>
+                <div class="col-sm-9">{{companyRegNumber}}
+                </div>
+              </div>
+            
+              
+
+            
+              <div class="f1-buttons">
+  
+                <button  type="button" class="btn btn-next" id="btn1-next" (click)="changeProgressStatuses(1)">Next
+                  <i class="fas fa-forward"></i></button>
+              </div>
+            </fieldset>
+
+  
+            <fieldset [hidden]="stepOn != 1">
+
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                    <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+             
+                <div class="annual-records-secton stakeholder-section">
+  
+                    <div class="add-new-wrapper annual-records-add-new-wrapper">
+      
+                      <h2>
+                        <span class="add-new-wrapper-label">Call Record</span>
+                        <div class="line"></div>
+      
+                       <span  (click)="resetCallRecord()" *ngIf="moduleStatus != 'CALLS_ON_SHARES_RESUBMIT'"> 
+                         <button  data-backdrop="static" data-keyboard="false" 
+                              type="button" mdbBtn class="relative waves-light add-new-stakholder"
+                             (click)="shareRecordModal.show()" mdbWavesEffect>
+                             <i class="fa fa-plus"></i> Add New</button>
+                       </span>
+      
+                      </h2>
+      
+                    </div>
+      
+      
+                    <div class="share-record-list stakeholder-list-wrapper">
+      
+                      <!-- list-->
+      
+                      <div *ngFor="let rec of callShareList.share; let i = index" class="director-record stakeholder-record"
+                        style=" margin: 30px 0;border-radius: 20px;background: #fff;border: 1px solid rgb(243, 91, 63);">
+      
+                        <div (click)="showToggleCallRecord( rec.id)" class="stakeholder-record-summeru" style="background-color: #f35b3f;
+                            color: #fff;
+                            padding: 5px 10px;
+                            font-weight: lighter;
+                            font-size: 14px;
+                            border-top-left-radius: 18px;
+                            box-shadow: 1px 1px 2px #b3aea9;
+                            border-top-right-radius: 18px;
+                            cursor: pointer;
+                            width: 100%;
+                            border-radius: 20px;">
+      
+                          Record #{{i+1}}
+      
+                          <span *ngIf="moduleStatus != 'CALLS_ON_SHARES_RESUBMIT'"  (click)="removeShareRecord(i,rec.id)"
+                            title="remove record" style="float:right;" class="record-handler record-handler-remove">
+                            <i class="fa fa-trash"></i>
+                          </span>
+                          <span title="show details" style="float:right; margin:0 15px" class="record-handler">
+                            <i class="fa fa-pencil-alt"></i>
+                          </span>
+      
+      
+                        </div>
+      
+                        <div [hidden]="rec.showEditPane != rec.id" [class]="'stakeholder-record-inner'"
+                          class="stakeholder-record-inner" style="padding: 25px 10px 10px;">
+
+                          <div class="form-row" >
+
+                              <div class="sec_type_item form-group col-md-12">
+
+                                  <p style="position: relative;
+                                  top: 30px;">Shareholder Type <span class="req">*</span></p>
+
+                              </div>
+
+                              <div class="sec_type_item form-group col-md-6">
+    
+                                <input (change)="validateCallRecordEdit(i)" [(ngModel)]="callShareList.share[i].shareholder_type" type="radio" id="shareholder_type-natural-{{i}}" class="custom-control-input" name="shareholder_type_{{i}}" value="natural">
+                                <label style="font-size:14px;" class="custom-control-label radio-lbl" for="shareholder_type-natural-{{i}}">&nbsp;&nbsp;&nbsp;&nbsp;Natural Person</label>
+                
+                              </div>
+            
+                              <div class="sec_type_item form-group col-md-6">
+    
+                                  <input (change)="validateCallRecordEdit(i)" [(ngModel)]="callShareList.share[i].shareholder_type" type="radio" id="shareholder_type-firm-{{i}}" class="custom-control-input" name="shareholder_type_{{i}}" value="firm">
+                                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="shareholder_type-firm-{{i}}">&nbsp;&nbsp;&nbsp;&nbsp;Legal Person</label>
+                  
+                             </div>
+
+                          </div>
+
+                          <div class="form-row">
+
+                              <label class="col-form-label col-form-label-sm">Shareholder name
+                                  <span class="req">*</span>
+                              </label>
+                            
+                              <select *ngIf="callShareList.share[i].shareholder_type == 'natural'" (change)="validateCallRecordEdit(i)" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="callShareList.share[i].shareholder_id"
+                              name="shareholder_id-{{i}}">
+                              <option value="">Choose...</option>
+                              <option *ngFor="let sh of shareholdersList.sh" value="{{sh.id}}">{{sh.name}}</option>
+                              <option value="999999">Other</option>
+                            </select>
+
+                            <select *ngIf="callShareList.share[i].shareholder_type == 'firm'" (change)="validateCallRecordEdit(i)" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="callShareList.share[i].shareholder_id"
+                              name="shareholder_id-{{i}}">
+                              <option value="">Choose...</option>
+                              <option *ngFor="let sh of shareholderFirmList.sh" value="{{sh.id}}">{{sh.name}}</option>
+                              <option value="999999">Other</option>
+                            </select>
+                            
+                          </div>
+
+                          <div class="form-row" *ngIf="callShareList.share[i].shareholder_id =='999999'">
+
+                              <label class="col-form-label col-form-label-sm">Please type the shareholder name
+                                  <span class="req">*</span>
+                              </label>
+                              <input class="form-control"
+                              [(ngModel)]="callShareList.share[i].shareholder_other_name"
+                              (input) = "validateCallRecordEdit(i)"
+                              [ngModelOptions]="{standalone: true}"
+                             >
+                            
+                          </div>
+
+                          <div class="form-row">
+                              <div class="form-group col-md-12">
+      
+                                  <label class="col-form-label col-form-label-sm">Description
+                                      of the obligation attached to a share prior to this call
+                                      <span class="req">*</span>
+                                  </label>
+                                  <textarea (input)="validateCallRecordEdit(i)"  [(ngModel)]="callShareList.share[i].share_prior_to_this_call"
+                                    [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                                    placeholder="" ></textarea>
+                                
+                                </div>
+                          </div>
+
+                          <div class="form-group row">
+                            <span style="font-size:14px" for="staticEmail" class="col-sm-4 mt-2">Date of performance of the call/obligation <sup class="req">*</sup></span>
+                            <div class="col-sm-8">
+                              <input class="form-control"
+                                     placeholder="Date of performance of the call/obligation"
+                                     [(ngModel)]="callShareList.share[i].date_of_performance"
+                                     (input) = "validateCallRecordEdit(i)"
+                                     [ngModelOptions]="{standalone: true}"
+                                     type="date"
+                                     min="{{companyInfo.incorporation_at}}"
+                                     max="{{formattedTodayValue}}"
+                                     onkeydown="return false"
+                                     [readonly] = "moduleStatus == 'CALLS_ON_SHARES_RESUBMIT'"
+                                    >
+                            </div>
+                        </div>
+
+                          <div class="form-row">
+                              <div class="form-group col-md-12">
+          
+                                  <label class="col-form-label col-form-label-sm">Amount of this call/or its value as determined by the board in respect of a share
+                                      <span class="req">*</span>
+                                  </label>
+                                  <input  onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"  (input)="validateCallRecordEdit(i)"  [(ngModel)]="callShareList.share[i].value_respect_of_share"
+                                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                                placeholder="" >
+                                
+                                </div>
+                          </div>
+
+                          <div class="form-row">
+                              <div class="form-group col-md-12">
+          
+                                  <label class="col-form-label col-form-label-sm">Number of shares held by the shareholder
+                                      <span class="req">*</span>
+                                  </label>
+                                  <input onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"  (input)="validateCallRecordEdit(i)"  [(ngModel)]="callShareList.share[i].name_of_shares"
+                                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                                placeholder="" >
+                                
+                                </div>
+                          </div>
+
+                          <div class="form-row">
+                              <div class="form-group col-md-12">
+          
+                                  <label class="col-form-label col-form-label-sm">Amount of this call/or its value as determined by the board in respect of the total No. of shares held by the shareholder
+                                      <span class="req">*</span>
+                                  </label>
+                                  <input  onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"  (input)="validateCallRecordEdit(i)"  [(ngModel)]="callShareList.share[i].value_respect_of_total_share"
+                                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                                placeholder="" >
+                                
+                                </div>
+                          </div>
+
+  
+                          <hr/>
+      
+                          <div style="clear:both"></div>
+    
+                          <button  style="float: right" (click)="submitShareRecord('remove')" [disabled]="!enableStep2SubmissionEdit"
+                            type="button" class="btn btn-next">
+                            <i class="fa fa-edit"></i>
+                            Save</button>
+      
+                        </div>
+                        <!-- end rerord inner -->
+      
+                      </div>
+      
+                      <!-- end list -->
+      
+                      <p [hidden]="callShareList.share.length" class="no-stakeholder no-director">No Record Added</p>
+      
+                    </div>
+      
+                </div>
+
+                <div class="share-summery-records" *ngIf="callShareList.share.length">
+
+                    <div class="form-row" style="display:none">
+                        
+                        <div class="form-group col-md-12">
+  
+                            <label class="col-form-label col-form-label-sm">Stated capital prior to this call
+  
+                                <span class="req">*</span>
+                            </label>
+                            <input onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57"    [(ngModel)]="stated_capital"
+                              [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                              placeholder="" >
+                         </div>
+  
+                        
+                      </div>
+
+                      <div class="form-row" >
+
+                        <div class="sec_type_item form-group col-md-12">
+  
+                            <p style="position: relative;
+                            top: 30px;">Signing Party Information <span class="req">*</span></p>
+  
+                        </div>
+  
+                        <div class="sec_type_item form-group col-md-6">
+  
+                          <input  [(ngModel)]="signing_party_designation" type="radio" id="signing_party_designation_directortype" class="custom-control-input"  name="signing_party_designation" value="Director">
+                          <label style="font-size:14px;" class="custom-control-label radio-lbl" for="signing_party_designation_directortype">&nbsp;&nbsp;&nbsp;&nbsp;Director</label>
+          
+                        </div>
+      
+                        <div class="sec_type_item form-group col-md-6" *ngIf="this.signedSecs.length">
+  
+                            <input [(ngModel)]="signing_party_designation" type="radio" id="signing_party_designation_secretorytype" class="custom-control-input"  name="signing_party_designation"  value="Secretary">
+                            <label style="font-size:14px;" class="custom-control-label radio-lbl" for="signing_party_designation_secretorytype">&nbsp;&nbsp;&nbsp;&nbsp;Secretary</label>
+            
+                        </div>
+  
+                        <div class="sec_type_item form-group col-md-6" *ngIf="this.signedSecFirms.length">
+  
+                          <input  [(ngModel)]="signing_party_designation" type="radio" id="signing_party_designation_secretory_firmtype" class="custom-control-input" name="signing_party_designation"  value="Secretary Firm">
+                          <label style="font-size:14px;" class="custom-control-label radio-lbl" for="signing_party_designation_secretory_firmtype">&nbsp;&nbsp;&nbsp;&nbsp;Secretary Legal Person</label>
+          
+                      </div>
+            
+  
+                    </div>
+                    
+                    <div class="form-row" *ngIf="signing_party_designation == 'Director'" >
+  
+                      <div class="sec_type_item form-group col-md-12">
+  
+                          <p style="position: relative;
+                          top: 30px;">Please select a director from the below list <span class="req">*</span></p>
+  
+                      </div>
+  
+  
+                      <div class="sec_type_item form-group col-md-12" >
+
+                          <select [(ngModel)]="singning_party_name" class="form-control form-control-sm" name="singning_party_name">
+    
+                            <option value="">Choose..</option>
+                            <option *ngFor="let s of signedDirectors; let i = index"  value="{{s['id']}}">{{s.name}}</option>
+                          </select>
+
+                        </div>
+                    </div>
+                  
+                    <div class="form-row" *ngIf="signing_party_designation == 'Secretary'" >
+  
+                      <div class="sec_type_item form-group col-md-12">
+  
+                          <p style="position: relative;
+                          top: 30px;">Please select a secretory from below list <span class="req">*</span></p>
+  
+                      </div>
+  
+
+                      <div class="sec_type_item form-group col-md-12" >
+
+                          <select  [(ngModel)]="singning_party_name" class="form-control form-control-sm" name="singning_party_name">
+                              <option value="">Choose..</option>
+                              <option *ngFor="let s of signedSecs; let i = index"  value="{{s['id']}}">{{s.name}}</option>
+                          </select>
+  
+                      </div>
+                    </div>
+  
+                    <div class="form-row" *ngIf="signing_party_designation == 'Secretary Firm'" >
+  
+                      <div class="sec_type_item form-group col-md-12">
+  
+                          <p style="position: relative;
+                          top: 30px;">Please select a secretory from below list <span class="req">*</span></p>
+  
+                      </div>
+  
+
+                      <div class="sec_type_item form-group col-md-12">
+
+                          <select [(ngModel)]="singning_party_name" class="form-control form-control-sm" name="singning_party_name">
+                              <option value="">Choose..</option>
+                              <option *ngFor="let s of signedSecFirms; let i = index"  value="{{s['id']}}">{{s.name}}</option>
+                          </select>
+  
+                      </div>
+                    </div>
+  
+  
+                </div>
+    
+              
+              <div class="f1-buttons">
+                <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                  Previous</button>
+                  <button   [disabled]="!(enableStep2Submission && signing_party_designation && singning_party_name)" (click)="submitShareRecord()" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+                <!--<button *ngIf="!share_records_already_exists"  [disabled]="!(enableStep2Submission)" (click)="submitShareRecord()" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+                <button *ngIf="share_records_already_exists"  (click)="changeProgressStatuses(4)" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>-->
+              </div>
+  
+          </fieldset>
+       
+  
+          <fieldset [hidden]="stepOn != 2">
+
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+  
+              <div class="container download-container">
+  
+  
+                  <h3>Document List</h3>
+    
+                  <div class="doc-block-wrapper">
+    
+                    <div class="doc-block" *ngFor="let doc of docList['docs']">
+    
+                      <div class="stakeholder-doc-row">
+    
+                        <div class="stakeholder-name">{{doc.name}}</div>
+                        <div class="doc-download">
+    
+    
+                          <a [href]="sanitize(doc.download_link)" target="_blank" download="{{doc.file_name_key}}.pdf"
+                            class="btn btn-primary btn-sm download doc-download-link">
+                            <i class="fas fa-cloud-download-alt"></i> Download
+                          </a>
+                        </div>
+                      </div>
+    
+                    </div>
+    
+                  </div>
+    
+    
+    
+                </div>
+             
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="changeProgressStatuses(3)" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+            </div>
+  
+          </fieldset>
+          <!-- end of 10th step -->
+  
+          <fieldset [hidden]="stepOn != 3">
+
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+  
+              <div class="container uploaded-container">
+                  <div class="alert alert-info"  *ngIf="moduleStatus != 'CALLS_ON_SHARES_RESUBMIT'">
+                  <p style="margin:0"><i class="fas fa-info-circle"></i>&nbsp; Form 07 should be given to the Registrar-General of Companies, where a call is made
+                    on a share or any other obligation attached to a share performed by a shareholder within ten
+                    working days</p>
+                </div>
+  
+                  <div *ngFor="let doc of uploadList['docs']; let i = index">
+    
+                    <div class="row uploaded-row">
+    
+                      <div class="col-9 doc">
+                        <h3>{{doc.file_name}}
+                          
+                           <span *ngIf="doc.is_admin_requested" class="request_roc">(requested by ROC)</span> <span *ngIf="doc.is_required" class="req">*</span></h3>
+                      </div>
+                      <div class="col-3 no-padding" *ngIf="doc.doc_status !='DOCUMENT_APPROVED'">
+    
+    
+                        <label style="float:right" for="other-{{i}}" class="upload-wrapper btn btn-primary btn-sm download">
+                          <i class="fas fa-cloud-upload-alt"></i> Upload
+                        </label>
+                        <input style="display:block;position: fixed;top:-100000px" id="other-{{i}}" type="file" (change)="fileChange($event,doc.file_name,doc.dbid)"
+                          placeholder="Upload file" accept=".pdf">
+    
+                      </div>
+    
+                      <div class="col-12 uploaded-doc" *ngIf="doc.uploaded_path">
+  
+                          {{doc.uploaded_path}}
+                          <span class="approved_doc" *ngIf="doc.doc_status =='DOCUMENT_APPROVED'">Document Approved</span>
+  
+                          <button  *ngIf="!(doc.is_admin_requested || doc.doc_status =='DOCUMENT_APPROVED')" (click)="removeDoc(doc.dbid )"  class="button red button-sm remove-file">
+                              <i class="fas fa-trash-alt"></i> Delete
+                              </button>
+                        
+                          <button *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="view-file button blue button-sm">
+                              <i class="far fa-file-pdf"></i> View
+                          </button>
+  
+  
+                       
+                      </div>
+                      <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                        <strong>Comments:</strong> {{doc.doc_comment}}
+                      </div>
+    
+                    </div>
+    
+                  </div>
+    
+    
+                </div>
+
+                <div style="margin-bottom:6px" class="container uploaded-container">
+
+                  <div class="row uploaded-row">
+    
+                    <div class="col-4 doc">
+                      <h3>Other Documents
+                        <p style="font-size: 12px;color: darkorange;text-transform: none;" class="other_doc_des">You can upload any number of documents here</p>
+                      </h3>
+                    </div>
+                    <div class="col-5">
+                      <span style="float: left;width: 100%;margin-top: 2px">
+                            <input style="width: 96%;padding:5px;padding: 0 5px;text-align: center;font-size: 14px;" [(ngModel)]="other_doc_name" name="other_doc_name" placeholder="Enter document name here" />
+                            <span style="display: block;width: 4%; float: right;color: red;font-size: 24px;margin-top: -10px;">*</span>
+                      </span>
+                    </div>
+  
+                    <div class="col-3 no-padding">
+  
+  
+                      <label style="float:right" for="other-docs" class="upload-wrapper btn btn-primary btn-sm download {{!other_doc_name ? 'disable' : '' }}">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                      </label>
+  
+                      
+                      <input [disabled]="!other_doc_name"  style="display:block;position: fixed;top:-100000px" id="other-docs" type="file" (change)="uploadOtherDoc($event,'Other',uploadOtherList['doc_id'])"
+                        placeholder="Upload file" accept=".pdf">
+  
+                    </div>
+  
+                    </div>
+  
+                  <div  class="form-group" *ngFor="let doc of uploadOtherList['docs']; let j = index">
+    
+                    <div class=" uploaded-row">
+    
+                    
+    
+                      <div style="font-size:12px;" class="uploaded-doc" *ngIf="doc.file_name">
+  
+                          {{doc.file_name}}
+                          <span class="approved_doc" *ngIf="doc.doc_status =='DOCUMENT_APPROVED'">Document Approved</span>
+  
+                          <button *ngIf="doc.doc_status !='DOCUMENT_APPROVED' && doc.uploaded_token" style="float: right; font-size: 12px;padding: 5px !important;" (click)="removeOtherDoc(doc.uploaded_token )"  class="button red button-sm">
+                              <i class="fas fa-trash-alt"></i> Delete
+                           </button>
+                        
+                          <button style="float: right; font-size: 12px;padding: 5px !important;margin-right:4px;" *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="button blue button-sm">
+                              <i class="far fa-file-pdf"></i> View
+                          </button>
+                          <label  *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'" style="float: right;
+                          width: 110px;
+                          height: 30px;
+                          margin-top: -2px;
+                          line-height: 30px;
+                          margin-right: 0px;" for="other-resubmit-docs-{{doc.multiple_id}}" class="upload-wrapper btn btn-primary btn-sm download">
+                            <i class="fas fa-cloud-upload-alt"></i> Upload
+                          </label>
+                          <input *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'"  style="display:block;position: fixed;top:-100000px" id="other-resubmit-docs-{{doc.multiple_id}}" type="file" (change)="uploadOtherResumittedDoc($event,doc.multiple_id)"
+                        placeholder="Upload file" accept=".pdf">
+  
+  
+                       
+                      </div>
+                      
+                      <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                        <strong>Comments:</strong> {{doc.doc_comment}}
+                      </div>
+    
+                    </div>
+    
+                  </div>
+                  <div style="clear:both"></div>
+  
+  
+  
+  
+                  <div class="sec_type_item form-group col-md-12 document_confirm">
+
+                    <p style="font-size:14px;"  ><strong>SECTION 511.</strong> “Where in any return, report, certificate, balance
+                      sheet or other document, required by or for the purposes of
+                      this Act, any person wilfully makes a statement which is false
+                      in any material particular knowing it to be false, shall be
+                      guilty of an offence and be liable on conviction to a fine not
+                      exceeding one million rupees or to imprisonment for a term
+                      not exceeding five years or to both such fine and
+                      imprisonment”
+                    </p>
+                      <br/>
+                      <input  [(ngModel)]="document_confirm" type="checkbox" id="document_confirm" class="custom-control-input" [ngModelOptions]="{standalone: true}">
+                      <label style="font-size: 17px;
+                      color: darkred;
+                      font-weight: bold;" class="custom-control-label custom-control-sub-label radio-lbl" for="document_confirm">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I read over and understood
+                      </label>
+                       
+                  </div>
+                  <div style="clear:both"></div>
+
+
+                  <div style="padding: 30px 0 50px;margin: 10px 0;" clas="form-row" *ngIf="penalty">
+                    <h3>Court Order Details</h3>
+                    <div class="sec_type_item form-group col-md-12">
+        
+                      <p style="position: relative;">Have you been prosecuted by the court for not filing relevant form during the provided statutory period? <span class="req">*</span>
+                        <span style="text-transform:capitalize;" *ngIf="moduleStatus == 'CALLS_ON_SHARES_RESUBMIT'">&nbsp;&nbsp;{{court_status}}</span>
+                      </p>
+                      
+                  </div>
+        
+                  <div class="sec_type_item form-group col-md-6" style="float:left;padding-left: 44px;" [hidden] = "moduleStatus == 'CALLS_ON_SHARES_RESUBMIT'">
+        
+                    <input (change)="validateCourtOrder()"  [(ngModel)]="court_status" type="radio" id="court_status_yes" class="custom-control-input" name="court_status" value="yes">
+                    <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_status_yes">&nbsp;&nbsp;&nbsp;&nbsp;Yes</label>
+        
+                  </div>
+        
+                  <div class="sec_type_item form-group col-md-6" style="float:left" [hidden] = "moduleStatus == 'CALLS_ON_SHARES_RESUBMIT'">
+        
+                    <input  (change)="validateCourtOrder()"  [(ngModel)]="court_status" type="radio" id="court_status_no" class="custom-control-input" name="court_status" value="no">
+                    <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_status_no">&nbsp;&nbsp;&nbsp;&nbsp;No</label>
+        
+                  </div>
+        
+                  <div class="form-group col-md-12" style="clear:both;" *ngIf="court_status == 'yes'">
+                    <label class="col-form-label col-form-label-sm"> Name of the court<span class="req">*</span></label>
+                    <input  (input)="validateCourtOrder()"  [(ngModel)]="court_name"
+                            [ngModelOptions]="{standalone: true}"
+                            class="form-control form-control-sm modal-input-director-oppointment"
+                            placeholder="">
+                  </div>
+        
+                  <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left">
+                    <label class="col-form-label col-form-label-sm"> Case number<span class="req">*</span></label>
+                    <input  (input)="validateCourtOrder()"  [(ngModel)]="court_case_no"
+                            [ngModelOptions]="{standalone: true}"
+                            class="form-control form-control-sm modal-input-director-oppointment"
+                            placeholder="">
+                  </div>
+        
+        
+                  <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left">
+                      <label class="col-form-label col-form-label-sm"> Date of the court decision<span class="req">*</span></label>
+                      <input  (input)="validateCourtOrder()"  [(ngModel)]="court_date"
+                              [ngModelOptions]="{standalone: true}"
+                              type="date"
+                              min="{{companyInfo.incorporation_at}}"
+                              max="{{formattedTodayValue}}"
+                              onkeydown="return false"
+                              class="form-control form-control-sm modal-input-director-oppointment"
+                              placeholder="">
+                  </div>
+        
+                  <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left">
+                    <label class="col-form-label col-form-label-sm"> Amount of Penalty/any other charge</label>
+                    <input  (input)="validateCourtOrder()"  [(ngModel)]="court_penalty"
+                            [ngModelOptions]="{standalone: true}"
+                            class="form-control form-control-sm modal-input-director-oppointment"
+                            onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"
+                            placeholder="">
+                  </div>
+        
+                  <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left">
+                    <label class="col-form-label col-form-label-sm"> Period of imprisonment</label>
+                    <input  (input)="validateCourtOrder()"  [(ngModel)]="court_period"
+                            [ngModelOptions]="{standalone: true}"
+                            class="form-control form-control-sm modal-input-director-oppointment"
+                            placeholder="">
+                  </div>
+        
+        
+                  <div class="sec_type_item form-group col-md-12" *ngIf="court_status == 'yes'" style="clear:both">
+        
+                    <p style="position: relative"> You have been discharged?</p>
+        
+                </div>
+        
+                <div class="sec_type_item form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left;padding-left: 44px;">
+        
+                  <input  [(ngModel)]="court_discharged" type="radio" id="court_discharged_yes" class="custom-control-input" name="court_discharged" value="yes">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_discharged_yes">&nbsp;&nbsp;&nbsp;&nbsp;Yes</label>
+        
+                </div>
+        
+                <div class="sec_type_item form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left" >
+        
+                  <input  [(ngModel)]="court_discharged" type="radio" id="court_discharged_no" class="custom-control-input" name="court_discharged" value="no">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_discharged_no">&nbsp;&nbsp;&nbsp;&nbsp;No</label>
+        
+                </div>
+        
+        
+        
+              </div>
+              <div style="clear:both"></div>
+
+                </div>
+
+
+             
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button [disabled]="!(allFilesUploaded  && document_confirm && court_order_valid)" (click)="updateCourtDetails()" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+            </div>
+  
+          </fieldset>
+          <!-- end of 11th step -->
+  
+          <fieldset [hidden]="stepOn != 4">
+
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+
+              <div class="payment-table" *ngIf="moduleStatus == 'CALLS_ON_SHARES_PROCESSING'">
+  
+
+                  <div class="payment-row header">
+                      <div class="payment-row-inner">
+                    <div class="payment-cell">
+                      Payment Description
+                    </div>
+                   
+                    <div class="payment-cell">
+                     Unit Price (LKR)
+                    </div>
+                    <div class="payment-cell" style="text-align:right">
+                        Sub Total (LKR)
+                    </div>
+                    </div>
+    
+                  </div>
+                  
+                  <div class="payment-row">
+                
+                  <div class="payment-row-inner">
+                    <div class="payment-cell">
+                     Form 07
+                    </div>
+                  
+                    <div class="payment-cell" >
+                         {{ ( form7_payment | currency ).replace('$','') }}
+                    </div>
+                    <div class="payment-cell" style="text-align:right">
+    
+                        {{ ( form7_payment | currency ).replace('$','') }}
+    
+                   
+                      </div>
+    
+                  </div>
+                  </div>
+    
+              
+                  <br/>
+
+                  <div class="payment-row" *ngIf="penalty && court_status != 'yes' ">
+            
+                    <div class="payment-row-inner">
+                      <div class="payment-cell">
+                          Compounding charges
+                      </div>
+                    
+                      <div class="payment-cell" >
+                          {{ ( penalty | currency ).replace('$','') }}
+                      </div>
+                      <div class="payment-cell" style="text-align:right">
+  
+                          {{ ( penalty | currency ).replace('$','') }}
+  
+                    
+                      </div>
+  
+                    </div>
+                </div>
+                <br/>
+    
+    
+                  <div class="payment-row" style="font-weight: bold;
+                  color: #111;" >
+    
+                      <div class="payment-row-inner">
+    
+                      <div class="payment-cell">
+                          TOTAL FEE in LKR( Without VAT and Taxes) :
+                        </div>
+                       
+                        <div class="payment-cell">
+      
+                        </div>
+                        <div class="payment-cell"  style="text-align:right">
+        
+                            {{ ( total_wihtout_vat_tax | currency).replace('$','')}}
+         
+                        
+                          </div>
+    
+                          </div>
+    
+                  </div>
+    
+                  <div class="payment-row" style="font-weight: bold;
+                  color: #111;" >
+                  <div class="payment-row-inner">
+    
+                      <div class="payment-cell">
+                         Other Taxes in LKR&nbsp;( {{ other_tax}}%) :
+                        </div>
+                        
+                        <div class="payment-cell">
+      
+                        </div>
+                        <div class="payment-cell"  style="text-align:right">
+        
+                            {{  ( other_taxVal | currency ).replace('$','') }}
+         
+                        
+                          </div>
+    
+                          </div>
+    
+                  </div>
+    
+                  <div class="payment-row" style="font-weight: bold;
+                  color: #111;" >
+                  <div class="payment-row-inner">
+    
+                      <div class="payment-cell">
+                         VAT in LKR&nbsp;( {{ vat}}%) :
+                        </div>
+                        
+                        <div class="payment-cell">
+      
+                        </div>
+                        <div class="payment-cell"  style="text-align:right">
+        
+                           
+                            {{  ( vatVal | currency ).replace('$','') }}
+                        
+                          </div>
+    
+                          </div>
+    
+                  </div>
+    
+    
+                  <div class="payment-row" style="font-weight: bold;
+                  color: #111;" >
+                  <div class="payment-row-inner">
+    
+                      <div class="payment-cell">
+                        Convenience fee&nbsp;({{convinienceFee}}%) :
+                        </div>
+                        
+                        <div class="payment-cell">
+      
+                        </div>
+                        <div class="payment-cell"  style="text-align:right">
+                            {{  ( convinienceFeeVal | currency ).replace('$','') }}
+                           
+                          
+                        
+                          </div>
+    
+                          </div>
+    
+                  </div>
+    
+                
+    
+    
+    
+                  <div class="payment-row header" style=" background: #02001b;">
+    
+                      <div class="payment-row-inner">
+    
+    
+                    <div class="payment-cell">
+                      TOTAL FEE in LKR :
+                    </div>
+                    
+                    <div class="payment-cell no-of-copies">
+    
+                      </div>
+                    <div class="payment-cell" style="    font-size: 16px;
+                    color: #fff; text-align:right;">
+                    {{ ( total_with_vat_tax | currency ).replace('$','') }}
+                    </div>
+    
+                    </div>
+                    
+    
+                  </div>
+    
+                </div>
+              <div class="resubmit-message-block alert alert-primary" *ngIf="moduleStatus == 'CALLS_ON_SHARES_RESUBMIT'">
+                 <p style="text-align:center">Please complete the process by clicking below resubmit button</p>
+              </div>
+  
+            
+             
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(3)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button *ngIf="moduleStatus == 'CALLS_ON_SHARES_PROCESSING'"   (click)="pay()" type="button" class="btn btn-next"> Complete/Pay
+                    <i class="fas fa-edit"></i>
+              </button>
+              <button *ngIf="moduleStatus == 'CALLS_ON_SHARES_RESUBMIT'"  (click)="resubmit()" type="button" class="btn btn-next"> Resubmit
+                  <i class="fas fa-check-double"></i>
+              </button>
+              
+            </div>
+  
+          </fieldset>
+        
+          </div>
+  
+        </div>
+        <div style="clear:both"></div>
+        <br />
+        <br />
+        <!--end right col main-->
+      </div>
+    </div>
+  </section>
+
+ 
+  <div [config]="{backdrop: false, ignoreBackdropClick: true}" mdbModal #shareRecordModal="mdbModal"  id="share-record-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close pull-right close-modal-item" aria-label="Close" (click)="shareRecordModal.hide()">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">Add New Record
+            <br />
+            <span *ngIf="shareRecordValitionMessage" class="stakeholder-validation">{{ shareRecordValitionMessage }}</span>
+          </h4>
+        </div>
+        <div class="modal-body">
+  
+          <div class="nic-check-block">
+  
+              <div class="form-row" >
+
+                  <div class="sec_type_item form-group col-md-12">
+
+                      <p style="position: relative;
+                      top: 30px;">Shareholder Type <span class="req">*</span></p>
+
+                  </div>
+
+                  <div class="sec_type_item form-group col-md-6">
+
+                    <input (change)="validateCallRecord()" [(ngModel)]="call.shareholder_type" type="radio" id="shareholder_type-natural" class="custom-control-input" name="shareholder_type" value="natural">
+                    <label style="font-size:14px;" class="custom-control-label radio-lbl" for="shareholder_type-natural">&nbsp;&nbsp;&nbsp;&nbsp;Natural Person</label>
+    
+                  </div>
+
+                  <div class="sec_type_item form-group col-md-6">
+
+                      <input (change)="validateCallRecord()" [(ngModel)]="call.shareholder_type" type="radio" id="shareholder_type-firm" class="custom-control-input" name="shareholder_type" value="firm">
+                      <label style="font-size:14px;" class="custom-control-label radio-lbl" for="shareholder_type-firm">&nbsp;&nbsp;&nbsp;&nbsp;Legal Person</label>
+      
+                 </div>
+
+              </div>
+
+              <div class="form-row">
+
+                  <label class="col-form-label col-form-label-sm">Shareholder name
+                      <span class="req">*</span>
+                  </label>
+                
+                  <select *ngIf="call.shareholder_type == 'natural'" (change)="validateCallRecord()" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="call.shareholder_id"
+                  name="shareholder_id">
+                  <option value="">Choose...</option>
+                  <option *ngFor="let sh of shareholdersList.sh" value="{{sh.id}}">{{sh.name}}</option>
+                  <option value="999999">Other</option>
+                </select>
+
+                <select *ngIf="call.shareholder_type == 'firm'" (change)="validateCallRecord()" class="form-control form-control-sm modal-input-sec-country" [(ngModel)]="call.shareholder_id"
+                  name="shareholder_id">
+                  <option value="">Choose...</option>
+                  <option *ngFor="let sh of shareholderFirmList.sh" value="{{sh.id}}">{{sh.name}}</option>
+                  <option value="999999">Other</option>
+                </select>
+              </div>
+
+              <div class="form-row" *ngIf="call.shareholder_id =='999999'">
+
+                  <label class="col-form-label col-form-label-sm">Please type the shareholder name
+                      <span class="req">*</span>
+                  </label>
+                  <input class="form-control"
+                  [(ngModel)]="call.shareholder_other_name"
+                  (input) = "validateCallRecord()"
+                  [ngModelOptions]="{standalone: true}"
+                 >
+                
+              </div>
+
+              <div class="form-row">
+                  <div class="form-group col-md-12">
+
+                      <label class="col-form-label col-form-label-sm">Description
+                          of the obligation attached to a share prior to this call
+                          <span class="req">*</span>
+                      </label>
+                      <textarea (input)="validateCallRecord()"  [(ngModel)]="call.share_prior_to_this_call"
+                        [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                        placeholder="" ></textarea>
+                    
+                    </div>
+              </div>
+
+              <div class="form-group row">
+                <span style="font-size:14px" for="staticEmail" class="col-sm-4 mt-2">Date of performance of the call/obligation <sup class="req">*</sup></span>
+                <div class="col-sm-8">
+                  <input class="form-control"
+                         placeholder="Date of performance of the call/obligation"
+                         [(ngModel)]="call.date_of_performance"
+                         (input) = "validateCallRecord()"
+                         [ngModelOptions]="{standalone: true}"
+                         type="date" 
+                         onkeydown="return false"
+                         min="{{companyInfo.incorporation_at}}"
+                         max="{{formattedTodayValue}}"
+                        >
+                </div>
+            </div>
+
+              <div class="form-row">
+                  <div class="form-group col-md-12">
+
+                      <label class="col-form-label col-form-label-sm">Amount of this call/or its value as determined by the board in respect of a share
+                          <span class="req">*</span>
+                      </label>
+                      <input  onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"  (input)="validateCallRecord()"  [(ngModel)]="call.value_respect_of_share"
+                    [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                    placeholder="" >
+                    
+                    </div>
+              </div>
+
+              <div class="form-row">
+                  <div class="form-group col-md-12">
+
+                      <label class="col-form-label col-form-label-sm">Number of shares held by the shareholder
+                          <span class="req">*</span>
+                      </label>
+                      <input onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"  (input)="validateCallRecord()"  [(ngModel)]="call.name_of_shares"
+                    [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                    placeholder="" >
+                    
+                    </div>
+              </div>
+
+              <div class="form-row">
+                  <div class="form-group col-md-12">
+
+                      <label class="col-form-label col-form-label-sm">Amount of this call/or its value as determined by the board in respect of the total No. of shares held by the shareholder
+                          <span class="req">*</span>
+                      </label>
+                      <input  onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"  (input)="validateCallRecord()"  [(ngModel)]="call.value_respect_of_total_share"
+                    [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                    placeholder="" >
+                    
+                    </div>
+              </div>
+  
+  
+            
+            <br />
+        
+          </div> 
+        </div>
+        <div class="modal-footer" style="justify-content: flex-end">
+        
+          <button [disabled]="!validShareRecordItem" (click)="saveShareRecord()" type="button" mdbBtn color="secondary" class="btn btn-sm relative waves-light add-new-stakeholder add-share-record-row"
+            mdbWavesEffect>ADD</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="payment-success-wrapper" *ngIf="payConfirm" >
+  
+      <div class="payment-success-body">
+    
+        <div class="header">
+    
+          <h2>Payment Confirmation</h2>
+        </div>
+    
+        <div class="body">
+           <p>Please confirm your payment by clicking the below button.</p>
+        </div>
+    
+        <div class="footer">
+          <div style="text-align: center">
+            <form  ngNoForm action="{{ paymentGateway }}" method="post">
+              <input type="hidden" [(ngModel)]="cipher_message" name="clientPaymentRequest">
+              <button type="submit" class="btn btn-success col-md-8">&nbsp;<i class="far fa-credit-card"></i>&nbsp;Confirm and Continue Payment</button>
+            </form>
+          </div>
+    
+        </div>
+    
+        
+      </div>
+    
+    
+    
+    </div>
+  
+    <div class="payment-success-wrapper" *ngIf="resubmitSuccess">
+
+      <div class="payment-success-body">
+    
+        <div class="header">
+    
+          <h2>Success</h2>
+        </div>
+    
+        <div class="body">
+          <p>You have successfully resubmitted the  record for verification</p>
+        </div>
+    
+        <div class="footer">
+           
+          <button class="btn btn-success" (click)="resubmitMessageClick()">ok</button>
+        </div>
+      </div>
+    
+    
+    
+    </div>
+  
+  
+  
+  
+  
+  

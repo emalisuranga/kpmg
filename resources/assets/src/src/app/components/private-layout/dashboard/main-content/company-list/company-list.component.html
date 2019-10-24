@@ -1,0 +1,412 @@
+<div class="row">
+  <div class="col-xl-8 col-lg-12">
+    <section>
+      <app-horizontal-menu #f (getName)="ngBind($event)"></app-horizontal-menu>
+    </section>
+    <section>
+        <div class="row mb-5" *ngIf="is_admin == 'yes'">
+            <div class="col-xl-12">
+                <div class="dashboard-box" style="text-align:center;">
+
+                  <button style="width: 60%;
+                  background-color: #180679 !important;
+                  border: none;
+                  color: #fff !important;" (click)="goToAddCompaniesAsAdmin()" class="btn btn-primary">Join as an Admin with Other Companies</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-5" *ngIf="is_other_user == 'yes'">
+          <div class="col-xl-12">
+              <div class="dashboard-box" style="text-align:center;">
+
+                <button style="width: 60%;
+                background-color: #180679 !important;
+                border: none;
+                color: #fff !important;" (click)="goToAddCompaniesAsOtherUser()" class="btn btn-primary">Attach with other companies</button>
+              </div>
+          </div>
+      </div>
+
+      <div class="row mb-5">
+        <div class="col-xl-12">
+          <div class="dashboard-box">
+            <ul class="dashboard-box-list">
+              <li *ngFor="let name of comdata ">
+                <small class="dashboard-status-button" appHighlight="{{ name['companies'].key }}">{{
+                  name['companies'].status }}</small>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="job-listing">
+                      <div class="job-listing-details">
+                        <!-- <a class="job-listing-company-logo">
+                          <img src="assets/images/icon/company-logo-05.png" alt>
+                        </a> -->
+                        <div class="job-listing-description">
+                          <div class="row">
+                            <div class="col-md-10">
+                              <h3 class="job-listing-title" *ngIf="( name['companies'].key == 'COMPANY_STATUS_APPROVED' || name['companies'].key == 'COMPANY_FOREIGN_STATUS_APPROVED') && ( name['this_user_company'] || is_admin =='yes' || is_other_user == 'yes')" >
+                                <a [routerLink]="['company/card', name['companies'].id ]">
+                                  <strong>
+                                  {{ name['companies'].name | uppercase }} {{ name['companies'].postfix | uppercase
+                                    }}
+                                  </strong>
+                                </a>
+                              </h3>
+                              <h3 class="job-listing-title" *ngIf="(name['companies'].key == 'COMPANY_STATUS_APPROVED' || name['companies'].key == 'COMPANY_FOREIGN_STATUS_APPROVED' ) && !( name['this_user_company'] || is_admin =='yes' || is_other_user == 'yes')" >
+                                  <strong>
+                                 {{ name['companies'].name | uppercase }} {{ name['companies'].postfix | uppercase
+                                    }}
+                                  </strong>
+                              </h3>
+
+                              <h3 class="job-listing-title" *ngIf="!( name['companies'].key == 'COMPANY_STATUS_APPROVED' || name['companies'].key == 'COMPANY_FOREIGN_STATUS_APPROVED')" >
+                                  <a [routerLink]="['company/card', name['companies'].id ]">
+                                <strong>
+                                  {{ name['companies'].name | uppercase }} {{ name['companies'].postfix | uppercase
+                                  }}
+                                </strong>
+                                </a>
+                            </h3>
+                            </div>
+
+                            <div class="col-md-2">
+                              <h3 class="job-listing-title"  *ngIf="name['companies'].key == 'COMPANY_STATUS_APPROVED' && (name['this_user_company'] || is_admin =='yes' || is_other_user == 'yes')" >
+                                <a [routerLink]="['company/card', name['companies'].id ]">
+                                  <strong class="float-right mr-2">
+                                    {{ name['companies'].registration_no | uppercase }}
+                                  </strong>
+                                </a>
+                              </h3>
+                              <h3 class="job-listing-title"  *ngIf="name['companies'].key == 'COMPANY_STATUS_APPROVED' && !(name['this_user_company'] || is_admin =='yes' || is_other_user == 'yes')" >
+                                  <strong class="float-right mr-2">
+                                    {{ name['companies'].registration_no | uppercase }}
+                                  </strong>
+                              </h3>
+                              <h3 class="job-listing-title"  *ngIf="name['companies'].key != 'COMPANY_STATUS_APPROVED'">
+                                <a [routerLink]="['company/card', name['companies'].id ]">
+                                  <strong class="float-right mr-2">
+                                    {{ name['companies'].registration_no | uppercase }}
+                                  </strong>
+                                </a>
+                              </h3>
+                            </div>
+                          </div>
+
+                          <span mdbTooltip="Please incorporate '{{ name['companies'].name | uppercase }} {{ name['companies'].postfix | uppercase }}' before for expiration"
+                            class="company-not-rated" *ngIf="name['companies'].key === 'COMPANY_NAME_APPROVED'">
+                            Name Expire Date : {{ convertAndAdd(name['companies'].name_renew_at) | date:'yyyy-MM-dd' }}
+                          </span>
+                          <div class="job-listing-footer">
+                            <ul>
+                              <li>
+                                <small>
+                                  <i class="icon-material-outline-business"></i>
+                                  {{ name['companies'].id }}
+                                  <div *ngIf="name['companies'].key === 'COMPANY_NAME_APPROVED' || name['companies'].key === 'COMPANY_STATUS_APPROVED'"
+                                    [ngClass]="{'verified-badge': name['companies'].key === 'COMPANY_NAME_APPROVED' || name['companies'].key === 'COMPANY_STATUS_APPROVED' }"
+                                    class="verified-badge" data-tippy-placement="top" data-tippy="" data-original-title="Verified Employer"></div>
+                                </small>
+                              </li>
+                              <li>
+                                <small *ngIf="name['companies'].key === 'COMPANY_NAME_APPROVED'">
+                                  <i class="icon-material-outline-access-time"></i>
+                                  Date : {{ name['companies'].name_resavation_at | date:'yyyy-MM-dd' }}
+                                </small>
+                                <small *ngIf="name['companies'].key === 'COMPANY_STATUS_APPROVED'">
+                                  <i class="icon-material-outline-access-time"></i>
+                                  Date : {{ name['companies'].incorporation_at | date:'yyyy-MM-dd' }}
+                                </small>
+                                <small *ngIf="name['companies'].key !== 'COMPANY_STATUS_APPROVED' && name['companies'].key !== 'COMPANY_NAME_APPROVED' && name['companies'].key !== 'COMPANY_NAME_EXPIRED'">
+                                  <i class="icon-material-outline-access-time"></i>
+                                  Date : {{ name['companies'].updated_at | date:'yyyy-MM-dd' }}
+                                </small>
+                                <small *ngIf="name['companies'].key !== 'COMPANY_STATUS_APPROVED' && name['companies'].key !== 'COMPANY_NAME_APPROVED' && name['companies'].key === 'COMPANY_NAME_EXPIRED'">
+                                  <i class="icon-material-outline-access-time"></i>
+                                  Company Name Date : {{ name['companies'].updated_at | date:'yyyy-MM-dd' }}
+                                </small>
+                              </li>
+                            </ul>
+                          </div>
+                          <small *ngIf="gard.isName.indexOf(name['companies'].key) === -1">
+                            <strong>Address :</strong>
+                            {{ name['companies'].address1 }}, {{ name['companies'].address2 }}, {{
+                            name['companies'].city }}
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <!-- <div class="col-md-7 timeline">
+                <ul>
+                  <li>
+                    <div class="col-md-4">
+                      <div class="icon-box with-line">
+                        <div class="icon-box-check">
+                          <i class="icon-material-outline-check"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="col-md-4">
+                      <div class="icon-box with-line">
+                        <div class="icon-box-check">
+                          <i class="icon-material-outline-check"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="col-md-4">
+                      <div class="icon-box with-line">
+                        <div class="icon-box-check">
+                          <i class="icon-material-outline-check"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div> -->
+
+                  <div class="col-md-12">
+
+                    <div class="buttons-to-right always-visible">
+                      <a [routerLink]="['/dashboard/incorporation', name['companies'].id ]" class="button button-sliding-icon ripple-effect"
+                        *ngIf="gard.canIncorporate.indexOf(name['companies'].key) !== -1 && name['companies'].is_name_change === 0"
+                        class="button gray ripple-effect ico float-right">
+                        <i class="far fa-building"></i>
+                        <span *ngIf="name['companies'].key === 'COMPANY_NAME_APPROVED' && gard.canOverseesOffshore.indexOf(name['companies'].type_id) === -1 ">
+                          Incorporate
+                        </span>
+                        <span *ngIf="name['companies'].key === 'COMPANY_NAME_APPROVED' && gard.canOverseesOffshore.indexOf(name['companies'].type_id) !== -1 ">
+                          Register
+                        </span>
+                        <span *ngIf="name['companies'].key === 'COMPANY_STATUS_REQUEST_TO_RESUBMIT' && gard.canOverseesOffshore.indexOf(name['companies'].type_id) === -1 ">
+                          Incorporation Resubmission
+                        </span>
+                        <span *ngIf="gard.canForignCompany.indexOf(name['companies'].key) !== -1 && gard.canOverseesOffshore.indexOf(name['companies'].type_id) !== -1 ">
+                          Register Resubmission
+                        </span>
+                        <span *ngIf="name['companies'].key === 'COMPANY_FOREIGN_STATUS_PAYMENT_PENDING'">
+                          Proceed with Payment
+                        </span>
+                      </a>
+                      <a *ngIf="name['companies'].key === 'COMPANY_NAME_REQUEST_TO_RESUBMIT'" [routerLink]="['/dashboard/name/re-submition', name['companies'].id ]"
+                        class="button gray ripple-effect ico float-right">
+                        <i class="icon-feather-edit"></i> Re-Submit
+                      </a>
+                      <a (click)="model.showModel(name['companies'].id)" class="button gray ripple-effect ico float-right"
+                        *ngIf="gard.canCancel.indexOf(name['companies'].key) !== -1">
+                        <i class="icon-feather-trash-2"></i> Cancel
+                      </a>
+                      <a (click)="ngRenewal(name['companies'].id)" *ngIf="name['companies'].key === 'COMPANY_NAME_APPROVED' && checkDifferentialDays(name['companies'].name_renew_at)"
+                        class="button gray ripple-effect ico float-right">
+                        <i class="fas fa-redo-alt"></i> Renewal
+                      </a>
+                      <!-- <button (click)="getChangeAddress(name['companies'].id)" *ngIf="name['companies'].key === 'COMPANY_STATUS_APPROVED' && name['companies'].key !== 'COMPANY_ADDRESS_CHANGE_PROCESSING'"
+                        class="button gray ripple-effect ico float-right">
+                        <i class="fas fa-exchange-alt"></i> Address Change
+                      </button> -->
+                      <button style="color: #fff; background-color: #f39b2f;" (click)="redirectOtherChanges(name['companies'].id)" *ngIf="showIncompleteActions == true && ( name['companies'].key === 'COMPANY_STATUS_APPROVED' ||  name['companies'].key === 'COMPANY_FOREIGN_STATUS_APPROVED')  && (name['this_user_company'] || is_admin =='yes' || is_other_user == 'yes')"
+                        class="button gray ripple-effect ico float-right">
+                        <i class="fas fa-edit"></i> Other Changes
+                      </button>
+                      <button style="color: #fff;background-color: #5d4219;" (click)="getChangeName(name['companies'].id, name['companies'].type_id)" *ngIf="showIncompleteActions == true && ( name['companies'].key === 'COMPANY_STATUS_APPROVED' ||  name['companies'].key === 'COMPANY_FOREIGN_STATUS_APPROVED') && name['has'] === false  && name['this_user_company'] && !(is_admin =='yes' || is_other_user == 'yes') "
+                        class="button gray ripple-effect ico float-right">
+                        <i class="fas fa-exchange-alt"></i> Name Change
+                      </button>
+                      <button style="color: #fff; background-color: #1f365c;" (click)="strikeOff(name['companies'].id)"
+                        *ngIf="showIncompleteActions == true && phase3 == true && ( name['companies'].key === 'COMPANY_STATUS_APPROVED' ||  name['companies'].key === 'COMPANY_FOREIGN_STATUS_APPROVED')  && ( name['companies'].company_type === 'COMPANY_TYPE_OFFSHORE')  && (name['this_user_company'] || is_admin =='yes' || is_other_user == 'yes') && (name['offshoreStrikeOff'][0].setKey == 'OFFSHORE_STRIKE_OFF_PROCESSING' || name['offshoreStrikeOff'][0].setKey == '' )"
+                        class="button gray ripple-effect ico float-right">
+                        <i class="fas fa-strikethrough"></i> Offshore Strike Off
+                      </button>
+                      <button style="color: #fff; background-color: #83f579;" (click)="strikeOff(name['companies'].id)"
+                        *ngIf="showIncompleteActions == true && phase3 == true && ( name['companies'].key === 'COMPANY_STATUS_APPROVED' ||  name['companies'].key === 'COMPANY_FOREIGN_STATUS_APPROVED')  && ( name['companies'].company_type === 'COMPANY_TYPE_OFFSHORE')  && (name['this_user_company'] || is_admin =='yes' || is_other_user == 'yes') &&  (name['offshoreStrikeOff'][0].setKey == 'OFFSHORE_STRIKE_OFF_PENDING' || name['offshoreStrikeOff'][0].setKey == 'OFFSHORE_STRIKE_OFF_RESUBMITTED')"
+                        class="button gray ripple-effect ico float-right" disabled>
+                        <i class="fas fa-strikethrough"></i> Processing Strike Off
+                      </button>
+                      <button style="color: #fff; background-color: #d9534f;" (click)="strikeOff(name['companies'].id)"
+                        *ngIf="showIncompleteActions == true && phase3 == true && ( name['companies'].key === 'COMPANY_STATUS_APPROVED' ||  name['companies'].key === 'COMPANY_FOREIGN_STATUS_APPROVED') && ( name['companies'].company_type === 'COMPANY_TYPE_OFFSHORE')  && (name['this_user_company'] || is_admin =='yes' || is_other_user == 'yes') && (name['offshoreStrikeOff'][0].setKey == 'OFFSHORE_STRIKE_OFF_RESUBMIT' )"
+                        class="button gray ripple-effect ico float-right">
+                        <i class="fas fa-strikethrough"></i> Resubmit Strike Off
+                      </button>
+                      <button style="color: #fff; background-color: #1f365c;" (click)="overseasStrikeOff(name['companies'].id)"
+                        *ngIf="showIncompleteActions == true && phase3 == true  && ( name['companies'].key === 'COMPANY_STATUS_APPROVED' ||  name['companies'].key === 'COMPANY_FOREIGN_STATUS_APPROVED') && ( name['companies'].company_type === 'COMPANY_TYPE_OVERSEAS')  && (name['this_user_company'] || is_admin =='yes' || is_other_user == 'yes') && (name['overseasStrikeOff'][0].setKey == 'OVERSEAS_STRIKE_OFF_PROCESSING' || name['overseasStrikeOff'][0].setKey == '' )"
+                        class="button gray ripple-effect ico float-right">
+                      <i class="fas fa-strikethrough"></i> Overseas Strike Off
+                      </button>
+                        <button style="color: #fff; background-color: #d9534f;" (click)="overseasStrikeOff(name['companies'].id)"
+                          *ngIf="showIncompleteActions == true && phase3 == true  && ( name['companies'].key === 'COMPANY_STATUS_APPROVED' ||  name['companies'].key === 'COMPANY_FOREIGN_STATUS_APPROVED') && ( name['companies'].company_type === 'COMPANY_TYPE_OVERSEAS')  && (name['this_user_company'] || is_admin =='yes' || is_other_user == 'yes') && (name['overseasStrikeOff'][0].setKey == 'OVERSEAS_STRIKE_OFF_RESUBMIT')"
+                          class="button gray ripple-effect ico float-right">
+                          <i class="fas fa-strikethrough"></i> Resubmit Strike Off
+                        </button>
+                        <button style="color: #fff; background-color: #83f579;" (click)="strikeOff(name['companies'].id)"
+                          *ngIf="showIncompleteActions == true && phase3 == true && ( name['companies'].key === 'COMPANY_STATUS_APPROVED' ||  name['companies'].key === 'COMPANY_FOREIGN_STATUS_APPROVED')  && ( name['companies'].company_type === 'COMPANY_TYPE_OVERSEAS')  && (name['this_user_company'] || is_admin =='yes' || is_other_user == 'yes') &&  (name['overseasStrikeOff'][0].setKey == 'OVERSEAS_STRIKE_OFF_PENDING' || name['overseasStrikeOff'][0].setKey == 'OVERSEAS_STRIKE_OFF_RESUBMITTED')"
+                          class="button gray ripple-effect ico float-right" disabled>
+                          <i class="fas fa-strikethrough"></i> Processing Strike Off
+                        </button>
+                      
+                     <!-- <buuton (click)="getCapitalSated(name['companies'].id)" *ngIf="showIncompleteActions" class="button gray ripple-effect ico float-right">
+                        Reduction Capital
+                      </buuton> -->
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="boxed-list margin-bottom-60">
+                      <ul class="boxed-list-ul" *ngIf="showIncompleteActions == true">
+                        <li *ngFor="let changedata of name['namechangedata']" class="name-change-record-{{changedata.key}}">
+                          <div class="boxed-list-headline">
+                            <div class="row">
+                              <div class="col-md-6">
+                                  <span class="propsed-name-lbl" *ngIf="changedata.status == 'In-Progress'">Proposed Name</span>
+                                <h3>
+                                   
+                                  <i *ngIf="gard.changeIcon.indexOf(changedata.key) === -1" class="fas fa-spinner bg-default-color"></i>
+                                  <i *ngIf="changedata.key === 'COMPANY_NAME_CANCELED'" class="far fa-times-circle"></i>
+                                  <div *ngIf="changedata.key === 'COMPANY_NAME_APPROVED' || changedata.key === 'COMPANY_NAME_CHANGE_APPROVED'"
+                                    [ngClass]="{'verified-badge': changedata.key === 'COMPANY_NAME_APPROVED' || changedata.key === 'COMPANY_NAME_CHANGE_APPROVED' }"
+                                    class="verified-badge" data-tippy-placement="top" data-tippy="" data-original-title="Verified Employer"></div>
+                                   
+                                    <a [routerLink]="['company/card', changedata.id ]">
+                                    
+                                    <strong>
+                                      {{ changedata.name | uppercase }} {{ changedata.postfix | uppercase }}
+                                    </strong>
+                                  </a>
+                                </h3>
+
+                              </div>
+                              <div class="col-md-6">
+                                <div class="float-right" *ngIf="!( is_admin =='yes' || is_other_user == 'yes')">
+                                   
+                                  <small *ngIf="changedata.key !== 'COMPANY_NAME_APPROVED'">
+                                   
+                                    <b>  {{ changedata.status }}</b>
+                                  </small>
+                                  <button style="display:none" (click)="fmodel.show(changedata.id, name['companies'].id, 'NAME',changedata.name_resavation_at,convertAndAdd(changedata.name_renew_at)  )" *ngIf="changedata.key === 'COMPANY_NAME_APPROVED'">
+                                    <i class="fas fa-download"></i> <small> Select Signatory</small>
+                                  </button>
+                                </div>
+                              </div>
+                              <div class="col-md-12" *ngIf="gard.canNameResubmit.indexOf(changedata.key) !== -1  && enableChanegNameButton(changedata.created_at,changedata.resolution_dates) && !checkDifferentialDays(changedata.name_renew_at) && !( is_admin =='yes' || is_other_user == 'yes' )">
+                                  <div class="prior-approval-alert alert alert-warning" *ngIf="name['companies'].key != 'COMPANY_FOREIGN_STATUS_APPROVED'">
+                                    <p><i class="fas fa-exclamation-triangle"></i> Please check your email for the prior approval letter</p>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="boxed-list-item">
+                            <!-- Content -->
+                            <div class="col-md-7">
+                              <div class="detail-item">
+                                  <span mdbTooltip="Please incorporate '{{ changedata.name | uppercase }} {{ changedata.postfix | uppercase }}' before for expiration"
+                                  class="company-not-rated" *ngIf="gard.canNameResubmit.indexOf(changedata.key) !== -1  && enableChanegNameButton(changedata.created_at,changedata.resolution_dates) && !checkDifferentialDays(changedata.name_renew_at)">
+                                  Name Expire Date : {{ convertAndAdd(changedata.name_renew_at) | date:'yyyy-MM-dd' }}
+                                </span><br/>
+                                <small class="mr-2">
+                                  <i class="icon-material-outline-business"></i>
+                                  {{ changedata.id }}
+                                </small>
+                            
+                                
+                                <small>
+                                   
+                                  <i class="icon-material-outline-access-time"></i>
+                                  Date : <span *ngIf="changedata.name_resavation_at !== null">{{
+                                    changedata.name_resavation_at | date:'yyyy-MM-dd' }}</span>
+                                  <span *ngIf="changedata.name_resavation_at === null">{{ changedata.created_at |
+                                    date:'yyyy-MM-dd' }}</span>
+                                </small>
+                              </div>
+                            </div>
+                            <div class="col-md-5" style="padding-right: 0px;">
+                              <div class="buttons-to-right always-visible">
+                                <button *ngIf="changedata.key === 'COMPANY_NAME_REQUEST_TO_RESUBMIT'" [routerLink]="['/dashboard/name/re-submition', changedata.id ]"
+                                  class="button gray ripple-effect ico float-right">
+                                  <i class="icon-feather-edit"></i> Re-Submit
+                                </button>
+                               
+                                <button (click)="model.showModel(changedata.id)" class="button gray ripple-effect ico float-right"
+                                  *ngIf="gard.canCancel.indexOf(changedata.key) !== -1 && !(is_admin =='yes' || is_other_user == 'yes' )">
+                                  <i class="icon-feather-trash-2"></i> Cancel
+                                </button>
+                                <button (click)="ngRenewal(changedata.id)" *ngIf="changedata.key === 'COMPANY_NAME_APPROVED' && !( is_admin =='yes' || is_other_user == 'yes' ) && checkDifferentialDays(changedata.name_renew_at)"
+                                  class="button gray ripple-effect ico float-right">
+                                  <i class="fas fa-redo-alt"></i> Renewal
+                                </button>
+                                <button (click)="ngProceed(changedata.changeid, changedata.id, changedata.name +' '+ changedata.postfix, name['companies'].name +' '+ name['companies'].postfix, changedata.key === 'COMPANY_NAME_CHANGE_REQUEST_TO_RESUBMIT', changedata.resolution_date)"
+                                  *ngIf="name['companies'].key != 'COMPANY_FOREIGN_STATUS_APPROVED' && gard.canNameResubmit.indexOf(changedata.key) !== -1  && enableChanegNameButton(changedata.created_at,changedata.resolution_dates) && !checkDifferentialDays(changedata.name_renew_at) && is_admin !='yes'"
+                                  class="button gray ripple-effect ico float-right">
+                                  <i class="fas fa-exchange-alt"></i> {{ changedata.key ===
+                                  'COMPANY_NAME_CHANGE_REQUEST_TO_RESUBMIT' ? 'Change Re-Submit' : 'Name Change' }}
+                                </button>
+
+                                <button (click)="ngProceedForForeign(changedata.changeid, name['companies'].id)"
+                                  *ngIf="name['companies'].key == 'COMPANY_FOREIGN_STATUS_APPROVED' && gard.canNameResubmit.indexOf(changedata.key) !== -1  && enableChanegNameButton(changedata.created_at,changedata.resolution_dates) && !checkDifferentialDays(changedata.name_renew_at) && is_admin !='yes'"
+                                  class="button gray ripple-effect ico float-right">
+                                  <i class="fas fa-exchange-alt"></i> {{ changedata.key ===
+                                  'COMPANY_NAME_CHANGE_REQUEST_TO_RESUBMIT' ? 'Change Re-Submit' : 'Name Change' }}
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="boxed-list-item">
+                            <div class="col-md-12" *ngIf="!enableChanegNameButton(changedata.created_at,changedata.resolution_dates) && !(is_admin =='yes' || is_other_user == 'yes')">
+                              <small class="text text-danger">
+                                Name Change Registration will be possible from {{ enableDate | date:'yyyy-MM-dd' }}
+                                onwards<br>
+                                (REGISTRATION HAS TO BE PERFORMED WITHIN {{ dates }} DAYS FROM {{ enableDate |
+                                date:'yyyy-MM-dd' }})
+                              </small>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <span class="tg-themetag-green tg-featuretag-green" *ngIf="gard.isName.indexOf(name['companies'].key) === -1">Company</span>
+                  <span class="tg-themetag-blue tg-featuretag-blue" *ngIf="gard.isName.indexOf(name['companies'].key) !== -1">Name</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-md-center mb-5 mt-5">
+        <div class="row justify-content-md-center mt-3">
+          <nav aria-label="pagination " *ngIf="pager.pages && pager.pages.length">
+            <ul class="pagination pagination-circle pg-blue mb-0">
+              <li class="page-item " [ngClass]="{disabled:pager.currentPage === 1}">
+                <a class="page-link" aria-label="Previous" (click)="selectPage(1)">First</a>
+              </li>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                <a class="page-link" (click)="selectPage(pager.currentPage - 1)">Previous</a>
+              </li>
+              <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                <a class="page-link" (click)="selectPage(page)">{{page}} </a>
+              </li>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a class="page-link" (click)="selectPage(pager.currentPage + 1)"> Next</a>
+              </li>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a class="page-link" (click)="selectPage(pager.totalPages)">Last</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="col-xl-4 col-lg-12">
+    <app-horizontal-status-bar></app-horizontal-status-bar>
+  </div>
+</div>
+<app-name-cancel-box #model (getRefreshList)="ngBind($event)"></app-name-cancel-box>
+<app-director-model #fmodel></app-director-model>

@@ -1,0 +1,54 @@
+@import "theme-veriable";
+
+h5 {
+  color: $primary;
+}
+
+small {
+  font-family: 18px;
+}
+
+.fileUpload {
+  position: relative;
+  overflow: hidden;
+}
+
+.fileUpload input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+.upload-btn-wrapper {
+  display: none;
+}
+.red{
+  color: $white $im;
+}
+
+.button-sm{
+  padding: 4px 20px $im;
+}
+.upload-btn {
+  background-color: white;
+  padding: 2px 20px;
+  font-weight: bold;
+  border: 1px solid;
+}
+
+mat-file-upload-queue {
+  position: relative;
+  top: -20px;
+}
+label.upload-wrapper.btn.btn-primary.btn-sm.download {
+  background-color: #5f9025!important;
+}
+label.upload-wrapper.btn.btn-primary.btn-sm.download.disable {
+  background-color: #ccc !important;
+}

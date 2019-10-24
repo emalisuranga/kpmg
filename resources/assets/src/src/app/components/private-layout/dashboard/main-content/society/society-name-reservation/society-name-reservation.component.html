@@ -1,0 +1,144 @@
+<div class="container mt-4">
+  <div class="row wow fadeIn">
+    <div class="col-md-12 mb-4">
+
+      <div class="mian-featured-area">
+        <div class="directory-searcher">
+          <form [formGroup]="formGroup">
+            <div class="row">
+
+              <div class="col-10 field" *ngIf="Auth.AuthGuard()">
+                <input type="text" name="search" style="text-transform:uppercase" formControlName="search" (keydown)="ckPageZero()"
+                  (keydown.enter)="ckSearch()" placeholder="Search Society Name " aria-label="Search">
+              </div>
+
+              <div class="col-1 field">
+                <button type="button" class="clear-button" mdbTooltip="Clear" (click)="this.Clean();" mdbWavesEffect>
+                  <span>
+                    <i class="fas fa-times-circle"></i>
+                  </span>
+                </button>
+              </div>
+              <div class="col-1 field">
+                <button type="button" class="sh-button" mdbTooltip="Click" (click)="ckSearch();" mdbWavesEffect>
+                  <span>
+                    <i class="fas fa-search"></i>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div *ngIf="this.notHasData?.data?.length > 0 || this.availableData?.data?.length > 0 ">
+          <small class="red-text float-right mt-2">About {{ this.availableData.meta.total }} results ({{ startFrom }}
+            seconds)</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom: 100px !important;" *ngIf="availableData">
+    <!-- <div class="section padding-bottom-75"> -->
+    <!-- <div class="container"> -->
+    <div class="row">
+      <div class="col-xl-12">
+        <section *ngIf="notHasData.available">
+          <div class="task-listing mt-5">
+            <div class="task-listing-details">
+              <div class="task-listing-description">
+                <h3 class="task-listing-title">
+                  <b>{{ searchName | uppercase }} {{ postfixName }}</b>
+                </h3>
+                <ul class="task-icons">
+                  <li>
+                    <i class="fab fa-cc-visa fa-money" aria-hidden="true"></i>
+                  </li>
+                  <li>
+                    <i class="fab fa-cc-mastercard fa-money" aria-hidden="true"></i>
+                  </li>
+                </ul>
+                <div class="task-tags margin-top-15">
+                  <div class="row" *ngIf="notHasData.data?.length > 0">
+                    <div class="col-2">
+                      <i class="fas fa-exclamation-triangle" aria-hidden="true"></i> 
+                    </div>
+                    <div class="col-10">
+                      <div class="text text-danger" *ngFor='let avbData of notHasData.data'>
+                        <small *ngIf="avbData.message != 'SOCIETY and LIMITED both words are not used so need approval letter from minister.'">* {{ avbData.message }}</small>
+                        <small *ngIf="avbData.message == 'SOCIETY and LIMITED both words are not used so need approval letter from minister.'">* Word "Society" and / or "Limited" is not included to the name of the society.</small>
+                        <br>
+                        <small style="line-height: 10px" class="text text-primary" *ngIf="avbData.message == 'SOCIETY and LIMITED both words are not used so need approval letter from minister.'">Note: "SOCIETY and LIMITED both words are not used" Therefor ROC should refer the matter to the minister in charge.
+                            Only after receiving the approval this society will be registered.
+                        </small>
+                      </div>
+                      <small class="text text-primary">The name contradicts with the above rules but you can proceed.
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="task-listing-bid">
+              <div class="task-listing-bid-inner">
+                <div class="task-offers" style="margin-bottom: 43px !important;">
+                  <strong class="money">{{ Calculation.getValue('PAYMENT_SOCIETY_REGISTRATION') | currency:'Rs.' }}</strong>
+                </div>
+                <button (click)="!this.Auth.AuthGuard() ? modal.onShow() : onResavation()" class="button button-sliding-icon ripple-effect"
+                  style="background-color: #00027c;">
+                  Proceed Now
+                  <i class="fas fa-long-arrow-alt-right"></i>
+                </button>
+              </div>
+            </div>
+            <span class="tg-themetag tg-featuretag">Available</span>
+          </div>
+        </section>
+
+        <section *ngIf="!availableData.available">
+          <div class="listings-container compact-list-layout margin-top-35">
+            <div class="job-listing with-apply-button" *ngFor='let result of availableData.data'>
+              <div class="job-listing-details">
+                <div class="job-listing-description">
+                  <h3 class="job-listing-title">
+                    <b>{{ result.name }} {{ result.postfix }}</b>
+                  </h3>
+                </div>
+                <div class="mr-auto" style="text-align: right;font-weight: bold;">
+                  <small class="dashboard-status-button yellow" *ngIf="result.registration_no == null">Under
+                    Processing</small>
+                  <b *ngIf="result.registration_no != null">{{ result.registration_no }}</b>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <!-- </div> -->
+    <!-- </div> -->
+
+    <div class="row justify-content-md-center mt-3">
+      <nav aria-label="pagination " *ngIf="pager.pages && pager.pages.length">
+        <ul class="pagination pagination-circle pg-blue mb-0">
+          <li class="page-item " [ngClass]="{disabled:pager.currentPage === 1}">
+            <a class="page-link" aria-label="Previous" (click)="selectPage(1)">First</a>
+          </li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+            <a class="page-link" (click)="selectPage(pager.currentPage - 1)">Previous</a>
+          </li>
+          <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+            <a class="page-link" (click)="selectPage(page)">{{page}} </a>
+          </li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a class="page-link" (click)="selectPage(pager.currentPage + 1)"> Next</a>
+          </li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a class="page-link" (click)="selectPage(pager.totalPages)">Last</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <app-confirm-model #modal></app-confirm-model>
+
+</div>

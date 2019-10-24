@@ -1,0 +1,418 @@
+<div class="clearfix">
+  </div>
+  <section>
+    <div class="container" style="padding-bottom: 50px;">
+      <div class="row">
+  
+  
+        <div class="col-md-12 nopadding renewal-reg-block">
+  
+  
+          <form role="form" action="" method="post" class="f1">
+  
+            <h3 style="text-align: center">{{moduleTitle}}</h3>
+            <p style="text-align: center">Go through all steps for completing the process.</p>
+            <div class="f1-steps">
+              <div class="f1-progress">
+                  <div class="f1-progress-line" data-now-value="12.5" data-number-of-steps="4" [ngStyle]="{'width': progress.progressPercentage}"></div>
+              </div>
+  
+  
+  
+              <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}}">
+                <div class="f1-step-icon">
+                  <i class="{{item.icon}}"></i>
+                </div>
+                <p>{{item.label}}</p>
+              </div>
+  
+            </div>
+  
+            <fieldset [hidden]="stepOn != 0">
+  
+              <div style="margin:20px 0">
+  
+  
+  
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <h5>Tender Number :</h5>
+                    </div>
+                    <div class="form-group col-md-9">{{tender.tenderNo}}</div>
+                </div>
+  
+                <div class="form-row">
+                      <div class="form-group col-md-3">
+                          <h5>Tender Name :</h5>
+                      </div>
+                      <div class="form-group col-md-9">{{tender.tenderName}}</div>
+                </div>
+  
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <h5>Description :</h5>
+                    </div>
+                    <div class="form-group col-md-9">{{tender.description}}</div>
+                </div>
+  
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <h5>Applicant Type :</h5>
+                    </div>
+                    <div class="form-group col-md-9">{{applyTender.applicant_type_value}}</div>
+                </div>
+  
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <h5>Sub Applicant Type :</h5>
+                    </div>
+                    <div class="form-group col-md-9">{{applyTender.applicant_type_sub_value}}</div>
+                </div>
+  
+  
+              </div>
+  
+  
+              
+              <div class="tender-item-list">
+  
+                  <h4 class="items-title">Item Details</h4>
+  
+                  <div  class=" item-record">
+    
+                    <div class="item-record-inner">
+    
+                      <div class="form-row">
+                        <div class="form-group col-md-3">
+                          <h5>Item Name :</h5>
+                        </div>
+                        <div class="form-group col-md-8">{{tenderItem.name}}</div>
+                      </div>
+    
+                      <div class="form-row">
+                        <div class="form-group col-md-3">
+                          <h5>Description :</h5>
+                        </div>
+                        <div style="word-break: break-all" class="form-group col-md-9">{{tenderItem.description}}</div>
+                      </div>
+              
+                      <div class="form-row">
+                          <div class="form-group col-md-3">
+                            <h5>Date From :</h5>
+                          </div>
+                          <div class="form-group col-md-9">{{tenderItem.dateFrom}}</div>
+                      </div>
+  
+                      <div class="form-row">
+                          <div class="form-group col-md-3">
+                              <h5>Date To :</h5>
+                          </div>
+                          <div class="form-group col-md-9">{{tenderItem.dateTo}}</div>
+                      </div>
+  
+                      <div class="form-row">
+                          <div class="form-group col-md-3">
+                              <h5>Certificate Number :</h5>
+                          </div>
+                          <div class="form-group col-md-9">{{tenderItem.certificateNo}}</div>
+                      </div>
+                      <div class="form-row">
+                          <div class="form-group col-md-3">
+                              <h5>Certificate Issued On :</h5>
+                          </div>
+                          <div class="form-group col-md-9">{{tenderItem.certificate_issued_at}}</div>
+                      </div>
+                      <div class="form-row">
+                          <div class="form-group col-md-3">
+                              <h5>Certificate Expired On :</h5>
+                          </div>
+                          <div class="form-group col-md-9">{{tenderItem.certificate_expires_at}}</div>
+                      </div>
+    
+    
+                    </div>
+    
+                  </div>
+    
+                </div>
+
+                <div class="pca_7_details">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label col-form-label-sm"> Total contract cost (agreed consideration)
+                    
+                    </label>
+                    <div class="col-sm-9">
+                      <input (input)="step1Validation()" class="form-control form-control-sm" [(ngModel)]="applyTender.total_contract_cost"
+                      name="company_address1" placeholder="">
+  
+  
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label col-form-label-sm"> Value of work completed
+                     
+                    </label>
+                    <div class="col-sm-9">
+                      <input (input)="step1Validation()" class="form-control form-control-sm" [(ngModel)]="applyTender.value_of_work_completed"
+                      name="value_of_work_completed" placeholder="">
+  
+  
+                    </div>
+                  </div>
+  
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label col-form-label-sm"> Total payment received for work completed
+                    
+                    </label>
+                    <div class="col-sm-9">
+                      <input (input)="step1Validation()" class="form-control form-control-sm" [(ngModel)]="applyTender.total_payment_received_for_work_completed"
+                      name="total_payment_received_for_work_completed" placeholder="">
+  
+  
+                    </div>
+                  </div>
+  
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label col-form-label-sm"> Nature of sub contract
+                     
+                    </label>
+                    <div class="col-sm-9">
+                      <input (input)="step1Validation()" class="form-control form-control-sm" [(ngModel)]="applyTender.nature_of_sub_contract"
+                      name="nature_of_sub_contract" placeholder="">
+  
+                    </div>
+                  </div>
+  
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label col-form-label-sm"> Name of sub contractor
+                     
+                    </label>
+                    <div class="col-sm-9">
+                      <input (input)="step1Validation()" class="form-control form-control-sm" [(ngModel)]="applyTender.name_of_sub_contract"
+                      name="name_of_sub_contract" placeholder="">
+  
+  
+                    </div>
+                  </div>
+  
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label col-form-label-sm"> Address of sub contractor
+                     
+                    </label>
+                    <div class="col-sm-9">
+                      <input (input)="step1Validation()" class="form-control form-control-sm" [(ngModel)]="applyTender.address_of_sub_contract"
+                      name="address_of_sub_contract" placeholder="">
+  
+  
+                    </div>
+                  </div>
+  
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label col-form-label-sm"> Nationality of sub contractor
+                    
+                    </label>
+                    <div class="col-sm-9">
+                      <input (input)="step1Validation()" class="form-control form-control-sm" [(ngModel)]="applyTender.nationality_of_sub_contract"
+                      name="nationality_of_sub_contract" placeholder="">
+  
+  
+                    </div>
+                  </div>
+  
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label col-form-label-sm"> Total cost of sub contract
+                     
+                    </label>
+                    <div class="col-sm-9">
+                      <input (input)="step1Validation()" class="form-control form-control-sm" [(ngModel)]="applyTender.total_cost_of_sub_contract"
+                      name="total_cost_of_sub_contract" placeholder="">
+  
+  
+                    </div>
+                  </div>
+  
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-form-label col-form-label-sm"> Duration of sub contract
+                     
+                    </label>
+                    <div class="col-sm-9">
+                      <input (input)="step1Validation()" class="form-control form-control-sm" [(ngModel)]="applyTender.duration_of_sub_contract"
+                      name="duration_of_sub_contract" placeholder="">
+  
+  
+                    </div>
+                  </div>
+  
+  
+                </div>
+  
+         
+              
+              <div class="f1-buttons">
+                <button   (click)="submitPCA7details()" type="button" class="btn btn-next">Next
+                  <i class="fas fa-forward"></i>
+                </button>
+              </div>
+  
+  
+            </fieldset>
+            <!-- end of fist step -->
+  
+            <fieldset [hidden]="stepOn != 1">
+  
+  
+                <div class="container download-container">
+  
+  
+                    <h3>Document List</h3>
+      
+                    <div class="doc-block-wrapper">
+      
+                      <div class="doc-block" *ngFor="let doc of docList['docs']">
+      
+                        <div class="stakeholder-doc-row">
+      
+                          <div class="stakeholder-name">{{doc.name}}</div>
+                          <div class="doc-download">
+      
+      
+                            <a [href]="sanitize(doc.download_link)" target="_blank" download="{{doc.file_name_key}}.pdf"
+                              class="btn btn-primary btn-sm download doc-download-link">
+                              <i class="fas fa-cloud-download-alt"></i> Download
+                            </a>
+                          </div>
+                        </div>
+      
+                      </div>
+      
+                    </div>
+      
+      
+      
+                  </div>
+  
+              <div class="f1-buttons">
+                <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous">
+                  <i class="fas fa-backward"></i> Previous</button>
+                <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-next"> Next
+                  <i class="fas fa-edit"></i>
+                </button>
+              </div>
+  
+  
+  
+  
+            </fieldset>
+  
+            <fieldset [hidden]="stepOn != 2">
+  
+               <div class="container uploaded-container">
+  
+                    <div *ngFor="let doc of uploadList['docs']; let i = index">
+      
+                      <div class="row uploaded-row">
+      
+                        <div class="col-9 doc">
+                          <h3>{{doc.file_name}}</h3>
+                          <div *ngIf="doc.file_description" class="doc-description"><strong>Description:</strong>{{doc.file_description}}</div>
+                        </div>
+                        <div class="col-3 no-padding">
+      
+      
+                          <label *ngIf="doc.doc_status != 'DOCUMENT_APPROVED'" style="float:right" for="other-{{i}}" class="upload-wrapper btn btn-primary btn-sm download">
+                            <i class="fas fa-cloud-upload-alt"></i> Upload
+                          </label>
+                          <label *ngIf="doc.doc_status == 'DOCUMENT_APPROVED'" style="float:right" for="other-{{i}}" class="upload-wrapper btn btn-primary btn-sm resubmit-approved">
+                            <i class="fas fa-check-circle"></i> Approved
+                          </label>
+                          <input *ngIf="doc.doc_status != 'DOCUMENT_APPROVED'" style="display:block;position: fixed;top:-100000px" id="other-{{i}}" type="file" (change)="fileChange($event,doc.file_name,applyTender.id,doc.dbid, doc.applicant_item_id)"
+                            placeholder="Upload file" accept=".pdf">
+      
+                        </div>
+      
+                        <div class="col-12 uploaded-doc" *ngIf="doc.uploaded_path">
+  
+                            {{doc.uploaded_path}}
+  
+                            <button [hidden]="doc.doc_status == 'DOCUMENT_APPROVED'" (click)="removeDoc(doc.dbid, doc.applicant_item_id )"  class="button red button-sm remove-file">
+                                <i class="fas fa-trash-alt"></i> Delete
+                                </button>
+                          
+                            <button *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="view-file button blue button-sm">
+                                <i class="far fa-file-pdf"></i> View
+                            </button>
+  
+  
+                         
+                        </div>
+                        <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                          <strong>Comments:</strong> {{doc.doc_comment}}
+                        </div>
+      
+                      </div>
+      
+                    </div>
+      
+      
+                  </div>
+  
+              <div class="f1-buttons">
+                <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous">
+                  <i class="fas fa-backward"></i> Previous</button>
+                <button [disabled]="!allFilesUploaded" (click)="changeProgressStatuses(3)" type="button" class="btn btn-next"> Next
+                  <i class="fas fa-edit"></i>
+                </button>
+              </div>
+  
+            </fieldset>
+  
+           
+            <fieldset [hidden]="stepOn != 3">
+
+                <button  (click)="resubmit()" type="button" class="btn btn-next pay-renewal-reregister">
+                    <i class="fas fa-check"></i>&nbsp;Complete the Resubmission
+                </button>
+  
+                <div class="f1-buttons">
+                    <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-previous">
+                      <i class="fas fa-backward"></i> Previous</button>
+                   
+                 </div>
+  
+              </fieldset>
+  
+  
+  
+          </form>
+  
+        </div>
+        <div style="clear:both"></div>
+        <br />
+        <br />
+        <!--end right col main-->
+      </div>
+    </div>
+  </section>
+  
+  
+  <div class="payment-success-wrapper pay-block-wrapper" *ngIf="paySuccessStatus">
+  
+      <div class="payment-success-body">
+    
+        <div class="header">
+    
+          <h2>Resubmit Status</h2>
+        </div>
+    
+        <div class="body">
+          <p>Successfully Resubmitted your Tender Application</p>
+        </div>
+    
+        <div class="footer">
+          <button class="btn btn-success" (click)="PaySucess()">Yes</button>
+  
+    
+        </div>
+      </div>
+    
+    </div>

@@ -1,0 +1,10 @@
+@import "theme-veriable";
+footer.page-footer {
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
+  bottom: 0;
+  background: $primary;
+  color: $secondary $im;
+  font-size: 12px;
+}

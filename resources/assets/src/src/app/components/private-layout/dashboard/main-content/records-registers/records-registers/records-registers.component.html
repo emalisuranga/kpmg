@@ -1,0 +1,3197 @@
+<div class="clearfix">
+</div>
+
+<section>
+  <div class="container top-margin" style="padding-bottom: 50px;">
+    <div class="row">
+      <div class="col-md-11 nopadding">
+        <form role="form" method="post" class="f1">
+          <h3 style="text-align: center">CHANGE OF LOCATION OF THE RECORDS AND REGISTERS PROCEDURE</h3>
+          <p style="text-align: center">Fill in all steps for completing the process.</p>
+          <div class="f1-steps">
+            <div class="f1-progress">
+              <div class="f1-progress-line" data-now-value="12.5" data-number-of-steps="4"
+                [ngStyle]="{'width': progress.progressPercentage}"></div>
+            </div>
+            <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}}">
+              <div class="f1-step-icon">
+                <i class="{{item.icon}}"></i>
+              </div>
+              <p>{{item.label}}</p>
+            </div>
+          </div>
+          <fieldset [hidden]="stepOn != 0">
+
+            <!-- Records addresses --------------------------------------- and things -->
+
+            <div class="Members-secton stakeholder-section">
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <!-- list-->
+
+
+
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner"
+                  style="padding: 25px 10px 10px;">
+                  <div class="alert alert-warning" role="alert">
+
+                    <p>
+                        You are not required to file (FORM 14) if you are having the records at the registered office address.
+                    </p>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Number of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyRegno}}
+                      </label>
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Name of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyName}} {{postfix}}
+                      </label>
+                    </div>
+
+                  </div>
+
+                  <br>
+                  <div class="new address-block local-address">
+                    <h5>Existing Records Addresses</h5>
+                    <br>
+                    
+                          <div class="old-address-block" [hidden]="oldaddresses.length" *ngFor="let regAddress of regAddress; let i = index">
+                              <h5>Office Address</h5>
+                              <div class="form-row" style="margin-bottom: -20px">
+      
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">Address 1 :
+                                    </label>
+            
+            
+                                  </div>
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">{{regAddress.localAddress1}}
+                                    </label>
+            
+            
+                                  </div>
+                                </div>
+                                <div class="form-row" style="margin-bottom: -20px">
+            
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">Address 2 :
+                                    </label>
+            
+            
+                                  </div>
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">{{regAddress.localAddress2}}
+                                    </label>
+            
+            
+                                  </div>
+                                </div>
+                                <div class="form-row" style="margin-bottom: -20px">
+            
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">City :
+                                    </label>
+            
+            
+                                  </div>
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">{{regAddress.city}}
+                                    </label>
+            
+            
+                                  </div>
+                                </div>
+                                <div class="form-row" style="margin-bottom: -20px">
+            
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">District :
+                                    </label>
+            
+            
+                                  </div>
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">{{regAddress.district}}
+                                    </label>
+            
+            
+                                  </div>
+                                </div>
+                                <div class="form-row" style="margin-bottom: -20px">
+            
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">Province :
+                                    </label>
+            
+            
+                                  </div>
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">{{regAddress.province}}
+                                    </label>
+            
+            
+                                  </div>
+                                </div>
+                                <div class="form-row" style="margin-bottom: -20px">
+            
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">Gn Division :
+                                    </label>
+            
+            
+                                  </div>
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">{{regAddress.gnDivision}}
+                                    </label>
+            
+            
+                                  </div>
+                                </div>
+                                <div class="form-row" style="margin-bottom: -20px">
+            
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">Post Code :
+                                    </label>
+            
+            
+                                  </div>
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">{{regAddress.postcode}}
+                                    </label>
+            
+            
+                                  </div>
+                                </div>
+      
+                          </div>
+                          <br>
+                      <div *ngFor="let address of oldaddresses; let i = index" class="director-record stakeholder-record"
+                        style=" margin: 30px 0;border-radius: 20px;background: #fff;border: 1px solid rgb(243, 91, 63);">
+
+                        <div (click)="showToggle('opresident', i)" class="stakeholder-record-summeru" style="background-color: #f35b3f;
+                                color: #fff;
+                                padding: 5px 10px;
+                                font-weight: lighter;
+                                font-size: 14px;
+                                border-top-left-radius: 18px;
+                                box-shadow: 1px 1px 2px #b3aea9;
+                                border-top-right-radius: 18px;
+                                cursor: pointer;
+                                width: 100%;
+                                border-radius: 20px;">
+
+                          {{address.localAddress1}},{{address.localAddress2}} - Address <span *ngIf="address.newid">Moved</span><span *ngIf="address.isdeleted">Removed</span>
+
+                          <!-- <span *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                            (click)=" drecordnew('m',i)" title="remove record" style="float:right;"
+                            class="record-handler record-handler-remove">
+                            <i class="fa fa-trash"></i>
+                          </span> -->
+                          <span *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" title="show details"
+                            style="float:right; margin:0 15px" class="record-handler">
+                            <i class="fa fa-pencil-alt"></i>
+                          </span>
+                          <span *ngIf="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" title="show details"
+                            style="float:right; margin:0 15px" class="record-handler">
+                            <i class="fa fa-eye"></i>
+                          </span>
+
+                        </div>
+
+                        <div *ngIf="address.showEditPaneForPresident" [class]="'stakeholder-record-inner'"
+                          class="stakeholder-record-inner" style="padding: 25px 10px 10px;">
+
+
+                          <div class="form-row">
+                            <div class="form-group col-md-12">
+                            <h6>Type<span class="req">*</span></h6>
+                            </div>
+                            <div class="form-group col-md-4" *ngIf="(!address.isdeleted)">
+
+                              
+                                <label class="col-form-label col-form-label-sm"> <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="radio"
+                                  [(ngModel)]="oldaddresses[i].type" [ngModelOptions]="{standalone: true}" name="{{address.id}}-type"
+                                   value="move"
+                                  (change)="validatePresidentOldEdit(i)">&nbsp;Move</label>
+                             
+
+                            </div>
+                            <div class="form-group col-md-4" *ngIf="(!address.isdeleted)">
+
+                              
+                              <label class="col-form-label col-form-label-sm"> <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="radio"
+                                [(ngModel)]="oldaddresses[i].type" [ngModelOptions]="{standalone: true}" name="{{address.id}}-type"
+                                 value="pmove"
+                                (change)="validatePresidentOldEdit(i)">&nbsp;Partial Move</label>
+                              
+
+
+                            </div>
+                            <div class="form-group col-md-4" *ngIf="(!address.newid)">
+
+                                
+                                  <label class="col-form-label col-form-label-sm"> <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="radio"
+                                    [(ngModel)]="oldaddresses[i].type" [ngModelOptions]="{standalone: true}" name="{{address.id}}-type"
+                                     value="remove"
+                                    (change)="validatePresidentOldEdit(i)">&nbsp;Remove</label>
+                               
+  
+                              </div>
+
+
+
+                          </div>
+                          <div class="form-row">
+
+                            <div class="form-group col-md-6" *ngIf="address.type != 'remove'">
+
+                              <label class="col-form-label col-form-label-sm">Date of Change<span class="req">*</span></label>
+                              
+
+                              <input min="{{incoDate}}" max="{{formattedTodayValue}}" onkeydown="return false" [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="date"
+                                [(ngModel)]="oldaddresses[i].date" [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-nic" value="{{address.date}}"
+                                (input)="validatePresidentOldEdit(i)">
+
+                            </div>
+                            <div class="form-group col-md-6" *ngIf="address.type == 'remove'">
+
+                              <label class="col-form-label col-form-label-sm">Date of Removal<span class="req">*</span></label>
+                              
+
+                              <input min="{{incoDate}}" max="{{formattedTodayValue}}" onkeydown="return false" [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="date"
+                                [(ngModel)]="oldaddresses[i].remdate" [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-nic" value="{{address.remdate}}"
+                                (input)="validatePresidentOldEdit(i)">
+
+                            </div>
+                            <div class="form-group col-md-6" *ngIf="address.type != 'remove'">
+
+                              <label class="col-form-label col-form-label-sm">Description<span class="req">*</span></label>
+                              
+
+                              <!-- <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                [(ngModel)]="oldaddresses[i].discription" [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-nic" value="{{address.discription}}"
+                                (input)="validatePresidentOldEdit(i)"> -->
+                                <select [(ngModel)]="oldaddresses[i].discription" (change)="validatePresidentOldEdit(i);" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-phone">
+                                  <optgroup disabled>
+                                  <option value="a. Certificate of incorporation" title="a. Certificate of incorporation">a. Certificate of incorporation</option>
+                                  <option value="b. Article of association" title="b. Article of association">b. Article of association</option>
+                                  <option value="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years" title="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years">c. Minutes of all meetings and resolutions of shareholders passed within the last ten years</option>
+                                  <option value="d. Interests register" title="d. Interests register">d. Interests register</option>
+                                  <option value="e. Minutes of all meetings held" title="e. Minutes of all meetings held">e. Minutes of all meetings held</option>
+                                  <option value="f. Resolutions of directors passed" title="f. Resolutions of directors passed">f. Resolutions of directors passed</option>
+                                  <option value="g. Resolutions of directors’ committees held within the last 10 years" title="g. Resolutions of directors’ committees held within the last 10 years">g. Resolutions of directors’ committees held within the last 10 years</option>
+                                  <option value="h. Certificates required to be given by the directors under this Act within the last ten years" title="h. Certificates required to be given by the directors under this Act within the last ten years">h. Certificates required to be given by the directors under this Act within the last ten years</option>
+                                  <option value="i. The register of directors and secretaries required to be kept under section 223" title="i. The register of directors and secretaries required to be kept under section 223">i. The register of directors and secretaries required to be kept under section 223</option>
+                                  <option value="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years" title="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years">j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years</option>
+                                  <option value="k. Annual reports prepared under section 166" title="k. Annual reports prepared under section 166">k. Annual reports prepared under section 166</option>
+                                  <option value="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company" title="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company">l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company</option>
+                                  <option value="m. Copies of instruments creating or evidencing charges" title="m. Copies of instruments creating or evidencing charges">m. Copies of instruments creating or evidencing charges</option>
+                                  <option value="n. Register of charges required to be kept under sections 109 and 110" title="n. Register of charges required to be kept under sections 109 and 110">n. Register of charges required to be kept under sections 109 and 110</option>
+                                  <option value="o. The share register required to be kept under section 123" title="o. The share register required to be kept under section 123">o. The share register required to be kept under section 123</option>
+                                  <option value="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company" title="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company">p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company</option>
+                                  <!-- <option value="other">Other</option> -->
+                                </optgroup>
+                                </select>
+                                
+
+                            </div>
+
+
+
+                          </div>
+
+                          <div class="address-block local-address" *ngIf="address.type != 'remove'">
+
+
+                            <div class="form-row">
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">Province
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validatePresidentOldEdit(i)"
+                                  (ngModelChange)="this.oldaddresses[i].district = undefined;this.oldaddresses[i].city = undefined;this.oldaddresses[i].gnDivision = undefined;"
+                                  class="custom" placeholder="Province" [searchable]="true"
+                                  [(ngModel)]="oldaddresses[i].province" [ngModelOptions]="{standalone: true}">
+                                  <ng-option *ngFor="let province of data.provinces" [value]="province">{{
+                                        province.description_en }}</ng-option>
+                                </ng-select>
+
+                              </div>
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">District
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validatePresidentOldEdit(i)"
+                                  (ngModelChange)="this.oldaddresses[i].city = undefined;this.oldaddresses[i].gnDivision = undefined;"
+                                  class="custom" placeholder="District" [searchable]="true"
+                                  [(ngModel)]="oldaddresses[i].district" [ngModelOptions]="{standalone: true}">
+                                  <ng-option
+                                    *ngFor="let district of this.data.districts | district:oldaddresses[i].province"
+                                    [value]="district">{{
+                                        district.description_en }}</ng-option>
+                                </ng-select>
+                              </div>
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">City
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validatePresidentOldEdit(i)"
+                                  (ngModelChange)="this.oldaddresses[i].gnDivision = undefined;" class="custom"
+                                  placeholder="City" [searchable]="true" [(ngModel)]="oldaddresses[i].city"
+                                  [ngModelOptions]="{standalone: true}">
+                                  <ng-option *ngFor="let city of data.citys | city:oldaddresses[i].district"
+                                    [value]="city">{{city.description_en}}</ng-option>
+                                </ng-select>
+                              </div>
+
+                              <div class="form-group col-md-6">
+
+                                <label class="col-form-label col-form-label-sm">Address 1
+                                  <span class="req">*</span>
+                                </label>
+
+                                <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                  maxlength="200" (input)="validatePresidentOldEdit(i)"
+                                  [(ngModel)]="oldaddresses[i].localAddress1" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-localaddress1" placeholder=""
+                                  value="{{ address.localAddress1}}">
+                              </div>
+
+
+                              <div class="form-group col-md-6">
+
+                                <label class="col-form-label col-form-label-sm">Address 2
+                                  <span class="req">*</span>
+                                </label>
+
+                                <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                  maxlength="200" (input)="validatePresidentOldEdit(i)"
+                                  [(ngModel)]="oldaddresses[i].localAddress2" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-address3" placeholder=""
+                                  value="{{ address.localAddress2}}">
+                              </div>
+
+                              <div class="form-group col-md-4">
+                                <label class="col-form-label col-form-label-sm"> Gn Division
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validatePresidentOldEdit(i)" class="custom" placeholder="Gn Division"
+                                  [searchable]="true" [(ngModel)]="oldaddresses[i].gnDivision"
+                                  [ngModelOptions]="{standalone: true}">
+                                  <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:oldaddresses[i].city"
+                                    [value]="gndivision">{{gndivision.description_en}}</ng-option>
+                                </ng-select>
+
+                              </div>
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">Postal Code <span
+                                    class="req">*</span></label>
+
+                                <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" maxlength="10"
+                                  (input)="validatePresidentOldEdit(i)" [(ngModel)]="oldaddresses[i].postcode"
+                                  [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-postcode" placeholder=""
+                                  value="{{ address.postcode}}">
+                              </div>
+
+
+                            </div>
+
+                          </div>
+                          <button style="float: right;margin-left: 10px" *ngIf="(address.type == 'remove') && (!address.isdeleted) && (!address.newid)"
+                          (click)="changeStakeholers(address.id,'record','remove')" [disabled]="!(address.remdate)" type="button"
+                            class="btn btn-next"><i class="fa fa-trash"></i>
+                            Remove</button>
+                          <button style="float: right;margin-left: 10px" *ngIf="(address.type == 'move' || address.type == 'pmove') && (!address.isdeleted)"
+                          (click)="changeStakeholers(address.id,'record','move')" [disabled]="!address.validEdit" type="button"
+                            class="btn btn-next"><i class="fa fa-edit"></i>
+                            Move</button>
+                          <button style="float: right" *ngIf="(address.newid || address.isdeleted)"
+                          (click)="revertRecord('p',address.id)" type="button"
+                            class="btn btn-next"><i class="fa fa-edit"></i>
+                            Revert</button>
+                          <div style="clear:both"></div>
+
+                        </div>
+                        <!-- end rerord inner -->
+
+                      </div>      
+                    
+                    <br>
+                    <div class="add-new-wrapper president-add-new-wrapper">
+
+                      <h2>
+                        <span class="add-new-wrapper-label">New Location Of The Record</span>
+                        <div class="line"></div>
+
+                        <button type="button" mdbBtn class="relative waves-light add-new-stakholder"
+                          (click)="basicModal.show()" mdbWavesEffect>
+                          <i class="fa fa-plus"></i> Add</button>
+
+                      </h2>
+
+                    </div>
+
+                    <div class="president-list stakeholder-list-wrapper">
+
+                      <!-- list-->
+
+                      <div *ngFor="let address of addresses; let i = index" class="director-record stakeholder-record"
+                        style=" margin: 30px 0;border-radius: 20px;background: #fff;border: 1px solid rgb(243, 91, 63);">
+
+                        <div (click)="showToggle('president', i)" class="stakeholder-record-summeru" style="background-color: #f35b3f;
+                                color: #fff;
+                                padding: 5px 10px;
+                                font-weight: lighter;
+                                font-size: 14px;
+                                border-top-left-radius: 18px;
+                                box-shadow: 1px 1px 2px #b3aea9;
+                                border-top-right-radius: 18px;
+                                cursor: pointer;
+                                width: 100%;
+                                border-radius: 20px;">
+
+                          {{address.localAddress1}},{{address.localAddress2}} - Address New
+                          
+                          <span *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                          (click)="deleteRecordnew('p',address.id)" title="remove record" style="float:right;"
+                            class="">
+                            <i class="fa fa-trash"></i>
+                          </span>
+                          <span *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" title="show details"
+                            style="float:right; margin:0 15px" class="record-handler">
+                            <i class="fa fa-pencil-alt"></i>
+                          </span>
+                          <span *ngIf="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" title="show details"
+                            style="float:right; margin:0 15px" class="record-handler">
+                            <i class="fa fa-eye"></i>
+                          </span>
+                          
+
+                        </div>
+
+                        <div *ngIf="address.showEditPaneForPresident" [class]="'stakeholder-record-inner'"
+                          class="stakeholder-record-inner" style="padding: 25px 10px 10px;">
+
+
+
+                          <div class="form-row">
+
+                            <div class="form-group col-md-6">
+
+                              <label class="col-form-label col-form-label-sm">Date of Change<span class="req">*</span></label>
+                              
+
+                              <input min="{{incoDate}}" max="{{formattedTodayValue}}" onkeydown="return false" [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="date"
+                                [(ngModel)]="addresses[i].date" [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-nic" value="{{address.date}}"
+                                (input)="validatePresidentEdit(i)">
+
+                            </div>
+
+                            <div class="form-group col-md-6">
+
+                              <label class="col-form-label col-form-label-sm">Description<span class="req">*</span></label>
+
+
+                              <!-- <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                [(ngModel)]="addresses[i].discription" [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-nic" value="{{address.discription}}"
+                                (input)="validatePresidentEdit(i)"> -->
+                                <select [(ngModel)]="addresses[i].discription" (change)="validatePresidentEdit(i);" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-phone">
+                                  <option value="a. Certificate of incorporation" title="a. Certificate of incorporation">a. Certificate of incorporation</option>
+                                  <option value="b. Article of association" title="b. Article of association">b. Article of association</option>
+                                  <option value="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years" title="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years">c. Minutes of all meetings and resolutions of shareholders passed within the last ten years</option>
+                                  <option value="d. Interests register" title="d. Interests register">d. Interests register</option>
+                                  <option value="e. Minutes of all meetings held" title="e. Minutes of all meetings held">e. Minutes of all meetings held</option>
+                                  <option value="f. Resolutions of directors passed" title="f. Resolutions of directors passed">f. Resolutions of directors passed</option>
+                                  <option value="g. Resolutions of directors’ committees held within the last 10 years" title="g. Resolutions of directors’ committees held within the last 10 years">g. Resolutions of directors’ committees held within the last 10 years</option>
+                                  <option value="h. Certificates required to be given by the directors under this Act within the last ten years" title="h. Certificates required to be given by the directors under this Act within the last ten years">h. Certificates required to be given by the directors under this Act within the last ten years</option>
+                                  <option value="i. The register of directors and secretaries required to be kept under section 223" title="i. The register of directors and secretaries required to be kept under section 223">i. The register of directors and secretaries required to be kept under section 223</option>
+                                  <option value="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years" title="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years">j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years</option>
+                                  <option value="k. Annual reports prepared under section 166" title="k. Annual reports prepared under section 166">k. Annual reports prepared under section 166</option>
+                                  <option value="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company" title="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company">l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company</option>
+                                  <option value="m. Copies of instruments creating or evidencing charges" title="m. Copies of instruments creating or evidencing charges">m. Copies of instruments creating or evidencing charges</option>
+                                  <option value="n. Register of charges required to be kept under sections 109 and 110" title="n. Register of charges required to be kept under sections 109 and 110">n. Register of charges required to be kept under sections 109 and 110</option>
+                                  <option value="o. The share register required to be kept under section 123" title="o. The share register required to be kept under section 123">o. The share register required to be kept under section 123</option>
+                                  <option value="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company" title="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company">p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company</option>
+                                  <!-- <option value="other">Other</option> -->
+                                </select>
+
+                            </div>
+
+
+
+                          </div>
+
+                          <div class="address-block local-address">
+
+
+                            <div class="form-row">
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">Province
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validatePresidentEdit(i)"
+                                  (ngModelChange)="this.addresses[i].district = undefined;this.addresses[i].city = undefined;this.addresses[i].gnDivision = undefined;"
+                                  class="custom" placeholder="Province" [searchable]="true"
+                                  [(ngModel)]="addresses[i].province" [ngModelOptions]="{standalone: true}">
+                                  <ng-option *ngFor="let province of data.provinces" [value]="province">{{
+                                        province.description_en }}</ng-option>
+                                </ng-select>
+
+                              </div>
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">District
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validatePresidentEdit(i)"
+                                  (ngModelChange)="this.addresses[i].city = undefined;this.addresses[i].gnDivision = undefined;"
+                                  class="custom" placeholder="District" [searchable]="true"
+                                  [(ngModel)]="addresses[i].district" [ngModelOptions]="{standalone: true}">
+                                  <ng-option
+                                    *ngFor="let district of this.data.districts | district:addresses[i].province"
+                                    [value]="district">{{
+                                        district.description_en }}</ng-option>
+                                </ng-select>
+                              </div>
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">City
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validatePresidentEdit(i)"
+                                  (ngModelChange)="this.addresses[i].gnDivision = undefined;" class="custom"
+                                  placeholder="City" [searchable]="true" [(ngModel)]="addresses[i].city"
+                                  [ngModelOptions]="{standalone: true}">
+                                  <ng-option *ngFor="let city of data.citys | city:addresses[i].district"
+                                    [value]="city">{{city.description_en}}</ng-option>
+                                </ng-select>
+                              </div>
+
+                              <div class="form-group col-md-6">
+
+                                <label class="col-form-label col-form-label-sm">Address 1
+                                  <span class="req">*</span>
+                                </label>
+
+                                <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                  maxlength="200" (input)="validatePresidentEdit(i)"
+                                  [(ngModel)]="addresses[i].localAddress1" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-localaddress1" placeholder=""
+                                  value="{{ address.localAddress1}}">
+                              </div>
+
+
+                              <div class="form-group col-md-6">
+
+                                <label class="col-form-label col-form-label-sm">Address 2
+                                  <span class="req">*</span>
+                                </label>
+
+                                <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                  maxlength="200" (input)="validatePresidentEdit(i)"
+                                  [(ngModel)]="addresses[i].localAddress2" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-address3" placeholder=""
+                                  value="{{ address.localAddress2}}">
+                              </div>
+
+                              <div class="form-group col-md-4">
+                                <label class="col-form-label col-form-label-sm"> Gn Division
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validatePresidentEdit(i)" class="custom" placeholder="Gn Division"
+                                  [searchable]="true" [(ngModel)]="addresses[i].gnDivision"
+                                  [ngModelOptions]="{standalone: true}">
+                                  <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:addresses[i].city"
+                                    [value]="gndivision">{{gndivision.description_en}}</ng-option>
+                                </ng-select>
+
+                              </div>
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">Postal Code <span
+                                    class="req">*</span></label>
+
+                                <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" maxlength="10"
+                                  (input)="validatePresidentEdit(i)" [(ngModel)]="addresses[i].postcode"
+                                  [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-postcode" placeholder=""
+                                  value="{{ address.postcode}}">
+                              </div>
+
+
+                            </div>
+
+                          </div>
+
+                          <button style="float: right" *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                            (click)="editPresidentDataArray(i)" [disabled]="!address.validEdit" type="button"
+                            class="btn btn-next"><i class="fa fa-edit"></i>
+                            Save</button>
+                          <div style="clear:both"></div>
+
+                        </div>
+                        <!-- end rerord inner -->
+
+                      </div>
+
+                      <!-- end list -->
+
+
+                    </div>
+
+                  </div>
+
+                </div>
+                <!-- end record inner -->
+
+
+
+                <!-- end list -->
+
+              </div>
+
+
+            </div>
+
+            <!-- share register addresses --------------------------------------- and things -->
+
+            <div class="Members-secton stakeholder-section" *ngIf="!memberRegister">
+
+              
+
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner"
+                  style="padding: 25px 10px 10px;">
+
+                  <div class="new address-block local-address">
+                    <h5>Existing Share Register Addresses</h5>
+                    <br>
+                    
+                          <div class="old-address-block" [hidden]="Soldaddresses.length" *ngFor="let regAddress of regAddress; let i = index">
+                              <h5>Office Address</h5>
+                              <div class="form-row" style="margin-bottom: -20px">
+      
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">Address 1 :
+                                    </label>
+            
+            
+                                  </div>
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">{{regAddress.localAddress1}}
+                                    </label>
+            
+            
+                                  </div>
+                                </div>
+                                <div class="form-row" style="margin-bottom: -20px">
+            
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">Address 2 :
+                                    </label>
+            
+            
+                                  </div>
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">{{regAddress.localAddress2}}
+                                    </label>
+            
+            
+                                  </div>
+                                </div>
+                                <div class="form-row" style="margin-bottom: -20px">
+            
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">City :
+                                    </label>
+            
+            
+                                  </div>
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">{{regAddress.city}}
+                                    </label>
+            
+            
+                                  </div>
+                                </div>
+                                <div class="form-row" style="margin-bottom: -20px">
+            
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">District :
+                                    </label>
+            
+            
+                                  </div>
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">{{regAddress.district}}
+                                    </label>
+            
+            
+                                  </div>
+                                </div>
+                                <div class="form-row" style="margin-bottom: -20px">
+            
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">Province :
+                                    </label>
+            
+            
+                                  </div>
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">{{regAddress.province}}
+                                    </label>
+            
+            
+                                  </div>
+                                </div>
+                                <div class="form-row" style="margin-bottom: -20px">
+            
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">Gn Division :
+                                    </label>
+            
+            
+                                  </div>
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">{{regAddress.gnDivision}}
+                                    </label>
+            
+            
+                                  </div>
+                                </div>
+                                <div class="form-row" style="margin-bottom: -20px">
+            
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">Post Code :
+                                    </label>
+            
+            
+                                  </div>
+                                  <div class="form-group col-md-4">
+            
+                                    <label class="col-form-label col-form-label-sm">{{regAddress.postcode}}
+                                    </label>
+            
+            
+                                  </div>
+                                </div>
+      
+                          </div>  
+                          <br>    
+                          <div *ngFor="let address of Soldaddresses; let i = index" class="director-record stakeholder-record"
+                          style=" margin: 30px 0;border-radius: 20px;background: #fff;border: 1px solid rgb(243, 91, 63);">
+  
+                          <div (click)="showToggle('oshare', i)" class="stakeholder-record-summeru" style="background-color: #f35b3f;
+                                  color: #fff;
+                                  padding: 5px 10px;
+                                  font-weight: lighter;
+                                  font-size: 14px;
+                                  border-top-left-radius: 18px;
+                                  box-shadow: 1px 1px 2px #b3aea9;
+                                  border-top-right-radius: 18px;
+                                  cursor: pointer;
+                                  width: 100%;
+                                  border-radius: 20px;">
+  
+                            {{address.localAddress1}},{{address.localAddress2}} - Address <span *ngIf="address.newid">Moved</span><span *ngIf="address.isdeleted">Removed</span>
+  
+                            <!-- <span *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                              (click)=" deleteRecordnew('s',i)" title="remove record" style="float:right;"
+                              class="record-handler record-handler-remove">
+                              <i class="fa fa-trash"></i>
+                            </span> -->
+                            <span *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" title="show details"
+                              style="float:right; margin:0 15px" class="record-handler">
+                              <i class="fa fa-pencil-alt"></i>
+                            </span>
+                            <span *ngIf="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" title="show details"
+                              style="float:right; margin:0 15px" class="record-handler">
+                              <i class="fa fa-eye"></i>
+                            </span>
+  
+                          </div>
+  
+                          <div *ngIf="address.showEditPaneForPresident" [class]="'stakeholder-record-inner'"
+                            class="stakeholder-record-inner" style="padding: 25px 10px 10px;">
+                            <div class="form-row">
+                              <div class="form-group col-md-12">
+                              <h6>Type<span class="req">*</span></h6>
+                              </div>
+                              <div class="form-group col-md-4" *ngIf="(!address.isdeleted)">
+  
+                                
+                                  <label class="col-form-label col-form-label-sm"> <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="radio"
+                                    [(ngModel)]="Soldaddresses[i].type" [ngModelOptions]="{standalone: true}" name="{{address.id}}-type"
+                                     value="move"
+                                    (change)="validateShareOldEdit(i)">&nbsp;Move</label>
+                               
+  
+                              </div>
+                              <div class="form-group col-md-4" *ngIf="(!address.isdeleted)">
+  
+                                
+                                <label class="col-form-label col-form-label-sm"> <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="radio"
+                                  [(ngModel)]="Soldaddresses[i].type" [ngModelOptions]="{standalone: true}" name="{{address.id}}-type"
+                                   value="pmove"
+                                  (change)="validateShareOldEdit(i)">&nbsp;Partial Move</label>
+                                
+  
+  
+                              </div>
+                              <div class="form-group col-md-4" *ngIf="(!address.newid)">
+  
+                                  
+                                    <label class="col-form-label col-form-label-sm"> <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="radio"
+                                      [(ngModel)]="Soldaddresses[i].type" [ngModelOptions]="{standalone: true}" name="{{address.id}}-type"
+                                       value="remove"
+                                      (change)="validateShareOldEdit(i)">&nbsp;Remove</label>
+                                 
+    
+                                </div>
+  
+  
+  
+                            </div>
+                            <div class="form-row">
+  
+                              <div class="form-group col-md-6" *ngIf="address.type != 'remove'">
+
+                                <label class="col-form-label col-form-label-sm">Date of Change<span class="req">*</span></label>
+                                
+  
+                                <input min="{{incoDate}}" max="{{formattedTodayValue}}" onkeydown="return false" [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="date"
+                                  [(ngModel)]="Soldaddresses[i].date" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-nic" value="{{address.date}}"
+                                  (input)="validateShareOldEdit(i)">
+  
+                              </div>
+                              <div class="form-group col-md-6" *ngIf="address.type == 'remove'">
+  
+                                <label class="col-form-label col-form-label-sm">Date of Removal<span class="req">*</span></label>
+                                
+  
+                                <input min="{{incoDate}}" max="{{formattedTodayValue}}" onkeydown="return false" [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="date"
+                                  [(ngModel)]="Soldaddresses[i].remdate" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-nic" value="{{address.remdate}}"
+                                  (input)="validateShareOldEdit(i)">
+  
+                              </div>
+                              <div class="form-group col-md-6" *ngIf="address.type != 'remove'">
+  
+                                <label class="col-form-label col-form-label-sm">Description<span class="req">*</span></label>
+                                
+  
+                                <!-- <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                  [(ngModel)]="Soldaddresses[i].discription" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-nic" value="{{address.discription}}"
+                                  (input)="validateShareOldEdit(i)"> -->
+                                  <select [(ngModel)]="Soldaddresses[i].discription" (change)="validateShareOldEdit(i);" [ngModelOptions]="{standalone: true}"
+                                    class="form-control form-control-sm modal-input-director-phone">
+                                    <optgroup disabled>
+                                    <option value="a. Certificate of incorporation" title="a. Certificate of incorporation">a. Certificate of incorporation</option>
+                                    <option value="b. Article of association" title="b. Article of association">b. Article of association</option>
+                                    <option value="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years" title="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years">c. Minutes of all meetings and resolutions of shareholders passed within the last ten years</option>
+                                    <option value="d. Interests register" title="d. Interests register">d. Interests register</option>
+                                    <option value="e. Minutes of all meetings held" title="e. Minutes of all meetings held">e. Minutes of all meetings held</option>
+                                    <option value="f. Resolutions of directors passed" title="f. Resolutions of directors passed">f. Resolutions of directors passed</option>
+                                    <option value="g. Resolutions of directors’ committees held within the last 10 years" title="g. Resolutions of directors’ committees held within the last 10 years">g. Resolutions of directors’ committees held within the last 10 years</option>
+                                    <option value="h. Certificates required to be given by the directors under this Act within the last ten years" title="h. Certificates required to be given by the directors under this Act within the last ten years">h. Certificates required to be given by the directors under this Act within the last ten years</option>
+                                    <option value="i. The register of directors and secretaries required to be kept under section 223" title="i. The register of directors and secretaries required to be kept under section 223">i. The register of directors and secretaries required to be kept under section 223</option>
+                                    <option value="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years" title="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years">j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years</option>
+                                    <option value="k. Annual reports prepared under section 166" title="k. Annual reports prepared under section 166">k. Annual reports prepared under section 166</option>
+                                    <option value="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company" title="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company">l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company</option>
+                                    <option value="m. Copies of instruments creating or evidencing charges" title="m. Copies of instruments creating or evidencing charges">m. Copies of instruments creating or evidencing charges</option>
+                                    <option value="n. Register of charges required to be kept under sections 109 and 110" title="n. Register of charges required to be kept under sections 109 and 110">n. Register of charges required to be kept under sections 109 and 110</option>
+                                    <option value="o. The share register required to be kept under section 123" title="o. The share register required to be kept under section 123">o. The share register required to be kept under section 123</option>
+                                    <option value="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company" title="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company">p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company</option>
+                                    <!-- <option value="other">Other</option> -->
+                                  </optgroup>
+                                  </select>
+  
+                              </div>
+  
+  
+  
+                            </div>
+  
+                            <div class="address-block local-address" *ngIf="address.type != 'remove'">
+  
+  
+                              <div class="form-row">
+  
+                                <div class="form-group col-md-4">
+  
+                                  <label class="col-form-label col-form-label-sm">Province
+                                    <span class="req">*</span>
+                                  </label>
+                                  <ng-select (change)="validateShareOldEdit(i)"
+                                    (ngModelChange)="this.Soldaddresses[i].district = undefined;this.Soldaddresses[i].city = undefined;this.Soldaddresses[i].gnDivision = undefined;"
+                                    class="custom" placeholder="Province" [searchable]="true"
+                                    [(ngModel)]="Soldaddresses[i].province" [ngModelOptions]="{standalone: true}">
+                                    <ng-option *ngFor="let province of data.provinces" [value]="province">{{
+                                          province.description_en }}</ng-option>
+                                  </ng-select>
+  
+                                </div>
+  
+                                <div class="form-group col-md-4">
+  
+                                  <label class="col-form-label col-form-label-sm">District
+                                    <span class="req">*</span>
+                                  </label>
+                                  <ng-select (change)="validateShareOldEdit(i)"
+                                    (ngModelChange)="this.Soldaddresses[i].city = undefined;this.Soldaddresses[i].gnDivision = undefined;"
+                                    class="custom" placeholder="District" [searchable]="true"
+                                    [(ngModel)]="Soldaddresses[i].district" [ngModelOptions]="{standalone: true}">
+                                    <ng-option
+                                      *ngFor="let district of this.data.districts | district:Soldaddresses[i].province"
+                                      [value]="district">{{
+                                          district.description_en }}</ng-option>
+                                  </ng-select>
+                                </div>
+  
+                                <div class="form-group col-md-4">
+  
+                                  <label class="col-form-label col-form-label-sm">City
+                                    <span class="req">*</span>
+                                  </label>
+                                  <ng-select (change)="validateShareOldEdit(i)"
+                                    (ngModelChange)="this.Soldaddresses[i].gnDivision = undefined;" class="custom"
+                                    placeholder="City" [searchable]="true" [(ngModel)]="Soldaddresses[i].city"
+                                    [ngModelOptions]="{standalone: true}">
+                                    <ng-option *ngFor="let city of data.citys | city:Soldaddresses[i].district"
+                                      [value]="city">{{city.description_en}}</ng-option>
+                                  </ng-select>
+                                </div>
+  
+                                <div class="form-group col-md-6">
+  
+                                  <label class="col-form-label col-form-label-sm">Address 1
+                                    <span class="req">*</span>
+                                  </label>
+  
+                                  <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                    maxlength="200" (input)="validateShareOldEdit(i)"
+                                    [(ngModel)]="Soldaddresses[i].localAddress1" [ngModelOptions]="{standalone: true}"
+                                    class="form-control form-control-sm modal-input-director-localaddress1" placeholder=""
+                                    value="{{ address.localAddress1}}">
+                                </div>
+  
+  
+                                <div class="form-group col-md-6">
+  
+                                  <label class="col-form-label col-form-label-sm">Address 2
+                                    <span class="req">*</span>
+                                  </label>
+  
+                                  <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                    maxlength="200" (input)="validateShareOldEdit(i)"
+                                    [(ngModel)]="Soldaddresses[i].localAddress2" [ngModelOptions]="{standalone: true}"
+                                    class="form-control form-control-sm modal-input-director-address3" placeholder=""
+                                    value="{{ address.localAddress2}}">
+                                </div>
+  
+                                <div class="form-group col-md-4">
+                                  <label class="col-form-label col-form-label-sm"> Gn Division
+                                    <span class="req">*</span>
+                                  </label>
+                                  <ng-select (change)="validateShareOldEdit(i)" class="custom" placeholder="Gn Division"
+                                    [searchable]="true" [(ngModel)]="Soldaddresses[i].gnDivision"
+                                    [ngModelOptions]="{standalone: true}">
+                                    <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:Soldaddresses[i].city"
+                                      [value]="gndivision">{{gndivision.description_en}}</ng-option>
+                                  </ng-select>
+  
+                                </div>
+  
+                                <div class="form-group col-md-4">
+  
+                                  <label class="col-form-label col-form-label-sm">Postal Code <span
+                                      class="req">*</span></label>
+  
+                                  <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" maxlength="10"
+                                    (input)="validateShareOldEdit(i)" [(ngModel)]="Soldaddresses[i].postcode"
+                                    [ngModelOptions]="{standalone: true}"
+                                    class="form-control form-control-sm modal-input-director-postcode" placeholder=""
+                                    value="{{ address.postcode}}">
+                                </div>
+  
+  
+                              </div>
+  
+                            </div>
+                            <button style="float: right;margin-left: 10px" *ngIf="(address.type == 'remove') && (!address.isdeleted) && (!address.newid)"
+                            (click)="changeStakeholers(address.id,'share','remove')" [disabled]="!(address.remdate)" type="button"
+                              class="btn btn-next"><i class="fa fa-trash"></i>
+                              Remove</button>
+                            <button style="float: right;margin-left: 10px" *ngIf="(address.type == 'move' || address.type == 'pmove') && (!address.isdeleted)"
+                            (click)="changeStakeholers(address.id,'share','move')" [disabled]="!address.validEdit" type="button"
+                              class="btn btn-next"><i class="fa fa-edit"></i>
+                              Move</button>
+                            <button style="float: right" *ngIf="(address.newid || address.isdeleted)"
+                            (click)="revertRecord('s',address.id)" type="button"
+                              class="btn btn-next"><i class="fa fa-edit"></i>
+                              Revert</button>
+                            <div style="clear:both"></div>
+  
+                          </div>
+                          <!-- end rerord inner -->
+  
+                        </div>
+
+                    <br>
+                    <div class="add-new-wrapper president-add-new-wrapper">
+
+                      <h2>
+                        <span class="add-new-wrapper-label">New Location Of Share Register</span>
+                        <div class="line"></div>
+
+                        <button type="button" mdbBtn class="relative waves-light add-new-stakholder"
+                          (click)="secModal.show()" mdbWavesEffect>
+                          <i class="fa fa-plus"></i> Add</button>
+
+                      </h2>
+
+                    </div>
+
+                    <div class="president-list stakeholder-list-wrapper">
+
+                      <!-- list-->
+
+                      <div *ngFor="let address of Saddresses; let i = index" class="director-record stakeholder-record"
+                        style=" margin: 30px 0;border-radius: 20px;background: #fff;border: 1px solid rgb(243, 91, 63);">
+
+                        <div (click)="showToggle('share', i)" class="stakeholder-record-summeru" style="background-color: #f35b3f;
+                                color: #fff;
+                                padding: 5px 10px;
+                                font-weight: lighter;
+                                font-size: 14px;
+                                border-top-left-radius: 18px;
+                                box-shadow: 1px 1px 2px #b3aea9;
+                                border-top-right-radius: 18px;
+                                cursor: pointer;
+                                width: 100%;
+                                border-radius: 20px;">
+
+                          {{address.localAddress1}},{{address.localAddress2}} - Address New
+
+                          <span *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                            (click)="deleteRecordnew('s',address.id)" title="remove record" style="float:right;"
+                            class="">
+                            <i class="fa fa-trash"></i>
+                          </span>
+                          <span *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" title="show details"
+                            style="float:right; margin:0 15px" class="record-handler">
+                            <i class="fa fa-pencil-alt"></i>
+                          </span>
+                          <span *ngIf="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" title="show details"
+                            style="float:right; margin:0 15px" class="record-handler">
+                            <i class="fa fa-eye"></i>
+                          </span>
+
+                        </div>
+
+                        <div *ngIf="address.showEditPaneForPresident" [class]="'stakeholder-record-inner'"
+                          class="stakeholder-record-inner" style="padding: 25px 10px 10px;">
+
+
+
+                          <div class="form-row">
+
+                            <div class="form-group col-md-6">
+
+                              <label class="col-form-label col-form-label-sm">Date of Change<span class="req">*</span></label>
+                              
+
+                              <input min="{{incoDate}}" max="{{formattedTodayValue}}" onkeydown="return false" [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="date"
+                                [(ngModel)]="Saddresses[i].date" [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-nic" value="{{address.date}}"
+                                (input)="validateShareEdit(i)">
+
+                            </div>
+                            <div class="form-group col-md-6">
+
+                              <label class="col-form-label col-form-label-sm">Description<span class="req">*</span></label>
+                              
+
+                              <!-- <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                [(ngModel)]="Saddresses[i].discription" [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-nic" value="{{address.discription}}"
+                                (input)="validateShareEdit(i)"> -->
+                                <select [(ngModel)]="Saddresses[i].discription" (change)="validateShareEdit(i);" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-phone">
+                                  <option value="a. Certificate of incorporation" title="a. Certificate of incorporation">a. Certificate of incorporation</option>
+                                  <option value="b. Article of association" title="b. Article of association">b. Article of association</option>
+                                  <option value="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years" title="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years">c. Minutes of all meetings and resolutions of shareholders passed within the last ten years</option>
+                                  <option value="d. Interests register" title="d. Interests register">d. Interests register</option>
+                                  <option value="e. Minutes of all meetings held" title="e. Minutes of all meetings held">e. Minutes of all meetings held</option>
+                                  <option value="f. Resolutions of directors passed" title="f. Resolutions of directors passed">f. Resolutions of directors passed</option>
+                                  <option value="g. Resolutions of directors’ committees held within the last 10 years" title="g. Resolutions of directors’ committees held within the last 10 years">g. Resolutions of directors’ committees held within the last 10 years</option>
+                                  <option value="h. Certificates required to be given by the directors under this Act within the last ten years" title="h. Certificates required to be given by the directors under this Act within the last ten years">h. Certificates required to be given by the directors under this Act within the last ten years</option>
+                                  <option value="i. The register of directors and secretaries required to be kept under section 223" title="i. The register of directors and secretaries required to be kept under section 223">i. The register of directors and secretaries required to be kept under section 223</option>
+                                  <option value="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years" title="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years">j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years</option>
+                                  <option value="k. Annual reports prepared under section 166" title="k. Annual reports prepared under section 166">k. Annual reports prepared under section 166</option>
+                                  <option value="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company" title="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company">l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company</option>
+                                  <option value="m. Copies of instruments creating or evidencing charges" title="m. Copies of instruments creating or evidencing charges">m. Copies of instruments creating or evidencing charges</option>
+                                  <option value="n. Register of charges required to be kept under sections 109 and 110" title="n. Register of charges required to be kept under sections 109 and 110">n. Register of charges required to be kept under sections 109 and 110</option>
+                                  <option value="o. The share register required to be kept under section 123" title="o. The share register required to be kept under section 123">o. The share register required to be kept under section 123</option>
+                                  <option value="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company" title="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company">p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company</option>
+                                  <!-- <option value="other">Other</option> -->
+                                </select>
+
+                            </div>
+
+
+
+                          </div>
+
+                          <div class="address-block local-address">
+
+
+                            <div class="form-row">
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">Province
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validateShareEdit(i)"
+                                  (ngModelChange)="this.Saddresses[i].district = undefined;this.Saddresses[i].city = undefined;this.Saddresses[i].gnDivision = undefined;"
+                                  class="custom" placeholder="Province" [searchable]="true"
+                                  [(ngModel)]="Saddresses[i].province" [ngModelOptions]="{standalone: true}">
+                                  <ng-option *ngFor="let province of data.provinces" [value]="province">{{
+                                        province.description_en }}</ng-option>
+                                </ng-select>
+
+                              </div>
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">District
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validateShareEdit(i)"
+                                  (ngModelChange)="this.Saddresses[i].city = undefined;this.Saddresses[i].gnDivision = undefined;"
+                                  class="custom" placeholder="District" [searchable]="true"
+                                  [(ngModel)]="Saddresses[i].district" [ngModelOptions]="{standalone: true}">
+                                  <ng-option
+                                    *ngFor="let district of this.data.districts | district:Saddresses[i].province"
+                                    [value]="district">{{
+                                        district.description_en }}</ng-option>
+                                </ng-select>
+                              </div>
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">City
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validateShareEdit(i)"
+                                  (ngModelChange)="this.Saddresses[i].gnDivision = undefined;" class="custom"
+                                  placeholder="City" [searchable]="true" [(ngModel)]="Saddresses[i].city"
+                                  [ngModelOptions]="{standalone: true}">
+                                  <ng-option *ngFor="let city of data.citys | city:Saddresses[i].district"
+                                    [value]="city">{{city.description_en}}</ng-option>
+                                </ng-select>
+                              </div>
+
+                              <div class="form-group col-md-6">
+
+                                <label class="col-form-label col-form-label-sm">Address 1
+                                  <span class="req">*</span>
+                                </label>
+
+                                <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                  maxlength="200" (input)="validateShareEdit(i)"
+                                  [(ngModel)]="Saddresses[i].localAddress1" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-localaddress1" placeholder=""
+                                  value="{{ address.localAddress1}}">
+                              </div>
+
+
+                              <div class="form-group col-md-6">
+
+                                <label class="col-form-label col-form-label-sm">Address 2
+                                  <span class="req">*</span>
+                                </label>
+
+                                <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                  maxlength="200" (input)="validateShareEdit(i)"
+                                  [(ngModel)]="Saddresses[i].localAddress2" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-address3" placeholder=""
+                                  value="{{ address.localAddress2}}">
+                              </div>
+
+                              <div class="form-group col-md-4">
+                                <label class="col-form-label col-form-label-sm"> Gn Division
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validateShareEdit(i)" class="custom" placeholder="Gn Division"
+                                  [searchable]="true" [(ngModel)]="Saddresses[i].gnDivision"
+                                  [ngModelOptions]="{standalone: true}">
+                                  <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:Saddresses[i].city"
+                                    [value]="gndivision">{{gndivision.description_en}}</ng-option>
+                                </ng-select>
+
+                              </div>
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">Postal Code <span
+                                    class="req">*</span></label>
+
+                                <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" maxlength="10"
+                                  (input)="validateShareEdit(i)" [(ngModel)]="Saddresses[i].postcode"
+                                  [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-postcode" placeholder=""
+                                  value="{{ address.postcode}}">
+                              </div>
+
+
+                            </div>
+
+                          </div>
+
+                          <button style="float: right" *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                            (click)="editShareDataArray(i)" [disabled]="!address.validEdit" type="button"
+                            class="btn btn-next"><i class="fa fa-edit"></i>
+                            Save</button>
+                          <div style="clear:both"></div>
+
+                        </div>
+                        <!-- end rerord inner -->
+
+                      </div>
+
+                      <!-- end list -->
+
+
+                    </div>
+
+                  </div>
+
+                </div>
+                <!-- end record inner -->
+
+
+
+                <!-- end list -->
+
+              </div>
+
+
+            </div>
+
+            <!-- member register addresses --------------------------------------- and things -->
+            
+            <div class="Members-secton stakeholder-section" *ngIf="memberRegister">
+
+
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner"
+                  style="padding: 25px 10px 10px;">
+
+                  <div class="new address-block local-address">
+                    <h5>Existing Member Register Addresses</h5>
+                    <br>
+                    
+                    <div class="old-address-block" [hidden]="Moldaddresses.length" *ngFor="let regAddress of regAddress; let i = index">
+                        <h5>Office Address</h5>
+                      <div class="form-row" style="margin-bottom: -20px">
+                            <div class="form-group col-md-4">
+      
+                              <label class="col-form-label col-form-label-sm">Address 1 :
+                              </label>
+      
+      
+                            </div>
+                            <div class="form-group col-md-4">
+      
+                              <label class="col-form-label col-form-label-sm">{{regAddress.localAddress1}}
+                              </label>
+      
+      
+                            </div>
+                          </div>
+                          <div class="form-row" style="margin-bottom: -20px">
+      
+                            <div class="form-group col-md-4">
+      
+                              <label class="col-form-label col-form-label-sm">Address 2 :
+                              </label>
+      
+      
+                            </div>
+                            <div class="form-group col-md-4">
+      
+                              <label class="col-form-label col-form-label-sm">{{regAddress.localAddress2}}
+                              </label>
+      
+      
+                            </div>
+                          </div>
+                          <div class="form-row" style="margin-bottom: -20px">
+      
+                            <div class="form-group col-md-4">
+      
+                              <label class="col-form-label col-form-label-sm">City :
+                              </label>
+      
+      
+                            </div>
+                            <div class="form-group col-md-4">
+      
+                              <label class="col-form-label col-form-label-sm">{{regAddress.city}}
+                              </label>
+      
+      
+                            </div>
+                          </div>
+                          <div class="form-row" style="margin-bottom: -20px">
+      
+                            <div class="form-group col-md-4">
+      
+                              <label class="col-form-label col-form-label-sm">District :
+                              </label>
+      
+      
+                            </div>
+                            <div class="form-group col-md-4">
+      
+                              <label class="col-form-label col-form-label-sm">{{regAddress.district}}
+                              </label>
+      
+      
+                            </div>
+                          </div>
+                          <div class="form-row" style="margin-bottom: -20px">
+      
+                            <div class="form-group col-md-4">
+      
+                              <label class="col-form-label col-form-label-sm">Province :
+                              </label>
+      
+      
+                            </div>
+                            <div class="form-group col-md-4">
+      
+                              <label class="col-form-label col-form-label-sm">{{regAddress.province}}
+                              </label>
+      
+      
+                            </div>
+                          </div>
+                          <div class="form-row" style="margin-bottom: -20px">
+      
+                            <div class="form-group col-md-4">
+      
+                              <label class="col-form-label col-form-label-sm">Gn Division :
+                              </label>
+      
+      
+                            </div>
+                            <div class="form-group col-md-4">
+      
+                              <label class="col-form-label col-form-label-sm">{{regAddress.gnDivision}}
+                              </label>
+      
+      
+                            </div>
+                          </div>
+                          <div class="form-row" style="margin-bottom: -20px">
+      
+                            <div class="form-group col-md-4">
+      
+                              <label class="col-form-label col-form-label-sm">Post Code :
+                              </label>
+      
+      
+                            </div>
+                            <div class="form-group col-md-4">
+      
+                              <label class="col-form-label col-form-label-sm">{{regAddress.postcode}}
+                              </label>
+      
+      
+                            </div>
+                          </div>
+
+                    </div>
+                    <br>
+                    <div *ngFor="let address of Moldaddresses; let i = index" class="director-record stakeholder-record"
+                        style=" margin: 30px 0;border-radius: 20px;background: #fff;border: 1px solid rgb(243, 91, 63);">
+
+                        <div (click)="showToggle('omember', i)" class="stakeholder-record-summeru" style="background-color: #f35b3f;
+                                color: #fff;
+                                padding: 5px 10px;
+                                font-weight: lighter;
+                                font-size: 14px;
+                                border-top-left-radius: 18px;
+                                box-shadow: 1px 1px 2px #b3aea9;
+                                border-top-right-radius: 18px;
+                                cursor: pointer;
+                                width: 100%;
+                                border-radius: 20px;">
+
+                          {{address.localAddress1}},{{address.localAddress2}} - Address <span *ngIf="address.newid">Moved</span><span *ngIf="address.isdeleted">Removed</span>
+
+                          <!-- <span *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                            (click)=" drecordnew('m',i)" title="remove record" style="float:right;"
+                            class="record-handler record-handler-remove">
+                            <i class="fa fa-trash"></i>
+                          </span> -->
+                          <span *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" title="show details"
+                            style="float:right; margin:0 15px" class="record-handler">
+                            <i class="fa fa-pencil-alt"></i>
+                          </span>
+                          <span *ngIf="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" title="show details"
+                            style="float:right; margin:0 15px" class="record-handler">
+                            <i class="fa fa-eye"></i>
+                          </span>
+
+                        </div>
+
+                        <div *ngIf="address.showEditPaneForPresident" [class]="'stakeholder-record-inner'"
+                          class="stakeholder-record-inner" style="padding: 25px 10px 10px;">
+                          <div class="form-row">
+                            <div class="form-group col-md-12">
+                            <h6>Type<span class="req">*</span></h6>
+                            </div>
+                            <div class="form-group col-md-4" *ngIf="(!address.isdeleted)">
+
+                              
+                                <label class="col-form-label col-form-label-sm"> <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="radio"
+                                  [(ngModel)]="Moldaddresses[i].type" [ngModelOptions]="{standalone: true}" name="{{address.id}}-type"
+                                   value="move"
+                                  (change)="validateMemberOldEdit(i)">&nbsp;Move</label>
+                             
+
+                            </div>
+                            <div class="form-group col-md-4" *ngIf="(!address.isdeleted)">
+
+                              
+                              <label class="col-form-label col-form-label-sm"> <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="radio"
+                                [(ngModel)]="Moldaddresses[i].type" [ngModelOptions]="{standalone: true}" name="{{address.id}}-type"
+                                 value="pmove"
+                                (change)="validateMemberOldEdit(i)">&nbsp;Partial Move</label>
+                              
+
+
+                            </div>
+                            <div class="form-group col-md-4" *ngIf="(!address.newid)">
+
+                                
+                                  <label class="col-form-label col-form-label-sm"> <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="radio"
+                                    [(ngModel)]="Moldaddresses[i].type" [ngModelOptions]="{standalone: true}" name="{{address.id}}-type"
+                                     value="remove"
+                                    (change)="validateMemberOldEdit(i)">&nbsp;Remove</label>
+                               
+  
+                              </div>
+
+
+
+                          </div>
+                           <div class="form-row">
+
+                            <div class="form-group col-md-6" *ngIf="address.type != 'remove'">
+
+                              <label class="col-form-label col-form-label-sm">Date of Change<span class="req">*</span></label>
+                              
+
+                              <input min="{{incoDate}}" max="{{formattedTodayValue}}" onkeydown="return false" [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="date"
+                                [(ngModel)]="Moldaddresses[i].date" [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-nic" value="{{address.date}}"
+                                (input)="validateMemberOldEdit(i)">
+
+                            </div>
+                            <div class="form-group col-md-6" *ngIf="address.type == 'remove'">
+
+                              <label class="col-form-label col-form-label-sm">Date of Removal<span class="req">*</span></label>
+                              
+
+                              <input min="{{incoDate}}" max="{{formattedTodayValue}}" onkeydown="return false" [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="date"
+                                [(ngModel)]="Moldaddresses[i].remdate" [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-nic" value="{{address.remdate}}"
+                                (input)="validateMemberOldEdit(i)">
+
+                            </div>
+                            <div class="form-group col-md-6" *ngIf="address.type != 'remove'">
+
+                              <label class="col-form-label col-form-label-sm">Description<span class="req">*</span></label>
+                              
+
+                              <!-- <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                [(ngModel)]="Moldaddresses[i].discription" [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-nic" value="{{address.discription}}"
+                                (input)="validateMemberOldEdit(i)"> -->
+                                <select [(ngModel)]="Moldaddresses[i].discription" (change)="validateMemberOldEdit(i);" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-phone">
+                                  <optgroup disabled>
+                                  <option value="a. Certificate of incorporation" title="a. Certificate of incorporation">a. Certificate of incorporation</option>
+                                  <option value="b. Article of association" title="b. Article of association">b. Article of association</option>
+                                  <option value="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years" title="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years">c. Minutes of all meetings and resolutions of shareholders passed within the last ten years</option>
+                                  <option value="d. Interests register" title="d. Interests register">d. Interests register</option>
+                                  <option value="e. Minutes of all meetings held" title="e. Minutes of all meetings held">e. Minutes of all meetings held</option>
+                                  <option value="f. Resolutions of directors passed" title="f. Resolutions of directors passed">f. Resolutions of directors passed</option>
+                                  <option value="g. Resolutions of directors’ committees held within the last 10 years" title="g. Resolutions of directors’ committees held within the last 10 years">g. Resolutions of directors’ committees held within the last 10 years</option>
+                                  <option value="h. Certificates required to be given by the directors under this Act within the last ten years" title="h. Certificates required to be given by the directors under this Act within the last ten years">h. Certificates required to be given by the directors under this Act within the last ten years</option>
+                                  <option value="i. The register of directors and secretaries required to be kept under section 223" title="i. The register of directors and secretaries required to be kept under section 223">i. The register of directors and secretaries required to be kept under section 223</option>
+                                  <option value="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years" title="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years">j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years</option>
+                                  <option value="k. Annual reports prepared under section 166" title="k. Annual reports prepared under section 166">k. Annual reports prepared under section 166</option>
+                                  <option value="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company" title="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company">l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company</option>
+                                  <option value="m. Copies of instruments creating or evidencing charges" title="m. Copies of instruments creating or evidencing charges">m. Copies of instruments creating or evidencing charges</option>
+                                  <option value="n. Register of charges required to be kept under sections 109 and 110" title="n. Register of charges required to be kept under sections 109 and 110">n. Register of charges required to be kept under sections 109 and 110</option>
+                                  <option value="o. The share register required to be kept under section 123" title="o. The share register required to be kept under section 123">o. The share register required to be kept under section 123</option>
+                                  <option value="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company" title="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company">p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company</option>
+                                  <!-- <option value="other">Other</option> -->
+                                </optgroup>
+                                </select>
+                                
+
+                            </div>
+
+
+
+                          </div>
+
+                          <div class="address-block local-address" *ngIf="address.type != 'remove'">
+
+
+                            <div class="form-row">
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">Province
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validateMemberOldEdit(i)"
+                                  (ngModelChange)="this.Moldaddresses[i].district = undefined;this.Moldaddresses[i].city = undefined;this.Moldaddresses[i].gnDivision = undefined;"
+                                  class="custom" placeholder="Province" [searchable]="true"
+                                  [(ngModel)]="Moldaddresses[i].province" [ngModelOptions]="{standalone: true}">
+                                  <ng-option *ngFor="let province of data.provinces" [value]="province">{{
+                                        province.description_en }}</ng-option>
+                                </ng-select>
+
+                              </div>
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">District
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validateMemberOldEdit(i)"
+                                  (ngModelChange)="this.Moldaddresses[i].city = undefined;this.Moldaddresses[i].gnDivision = undefined;"
+                                  class="custom" placeholder="District" [searchable]="true"
+                                  [(ngModel)]="Moldaddresses[i].district" [ngModelOptions]="{standalone: true}">
+                                  <ng-option
+                                    *ngFor="let district of this.data.districts | district:Moldaddresses[i].province"
+                                    [value]="district">{{
+                                        district.description_en }}</ng-option>
+                                </ng-select>
+                              </div>
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">City
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validateMemberOldEdit(i)"
+                                  (ngModelChange)="this.Moldaddresses[i].gnDivision = undefined;" class="custom"
+                                  placeholder="City" [searchable]="true" [(ngModel)]="Moldaddresses[i].city"
+                                  [ngModelOptions]="{standalone: true}">
+                                  <ng-option *ngFor="let city of data.citys | city:Moldaddresses[i].district"
+                                    [value]="city">{{city.description_en}}</ng-option>
+                                </ng-select>
+                              </div>
+
+                              <div class="form-group col-md-6">
+
+                                <label class="col-form-label col-form-label-sm">Address 1
+                                  <span class="req">*</span>
+                                </label>
+
+                                <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                  maxlength="200" (input)="validateMemberOldEdit(i)"
+                                  [(ngModel)]="Moldaddresses[i].localAddress1" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-localaddress1" placeholder=""
+                                  value="{{ address.localAddress1}}">
+                              </div>
+
+
+                              <div class="form-group col-md-6">
+
+                                <label class="col-form-label col-form-label-sm">Address 2
+                                  <span class="req">*</span>
+                                </label>
+
+                                <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                  maxlength="200" (input)="validateMemberOldEdit(i)"
+                                  [(ngModel)]="Moldaddresses[i].localAddress2" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-address3" placeholder=""
+                                  value="{{ address.localAddress2}}">
+                              </div>
+
+                              <div class="form-group col-md-4">
+                                <label class="col-form-label col-form-label-sm"> Gn Division
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validateMemberOldEdit(i)" class="custom" placeholder="Gn Division"
+                                  [searchable]="true" [(ngModel)]="Moldaddresses[i].gnDivision"
+                                  [ngModelOptions]="{standalone: true}">
+                                  <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:Moldaddresses[i].city"
+                                    [value]="gndivision">{{gndivision.description_en}}</ng-option>
+                                </ng-select>
+
+                              </div>
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">Postal Code <span
+                                    class="req">*</span></label>
+
+                                <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" maxlength="10"
+                                  (input)="validateMemberOldEdit(i)" [(ngModel)]="Moldaddresses[i].postcode"
+                                  [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-postcode" placeholder=""
+                                  value="{{ address.postcode}}">
+                              </div>
+
+
+                            </div>
+
+                          </div>
+                          <button style="float: right;margin-left: 10px" *ngIf="(address.type == 'remove') && (!address.isdeleted) && (!address.newid)"
+                          (click)="changeStakeholers(address.id,'member','remove')" [disabled]="!(address.remdate)" type="button"
+                            class="btn btn-next"><i class="fa fa-trash"></i>
+                            Remove</button>
+                          <button style="float: right;margin-left: 10px" *ngIf="(address.type == 'move' || address.type == 'pmove') && (!address.isdeleted)"
+                          (click)="changeStakeholers(address.id,'member','move')" [disabled]="!address.validEdit" type="button"
+                            class="btn btn-next"><i class="fa fa-edit"></i>
+                            Move</button>
+                          <button style="float: right" *ngIf="(address.newid || address.isdeleted)"
+                          (click)="revertRecord('m',address.id)" type="button"
+                            class="btn btn-next"><i class="fa fa-edit"></i>
+                            Revert</button>
+                          <div style="clear:both"></div>
+
+                        </div>
+                        <!-- end rerord inner -->
+
+                      </div>      
+                    
+                    <br>
+                    <div class="add-new-wrapper president-add-new-wrapper">
+
+                      <h2>
+                        <span class="add-new-wrapper-label">New Location Of Member Register</span>
+                        <div class="line"></div>
+
+                        <button type="button" mdbBtn class="relative waves-light add-new-stakholder"
+                          (click)="treModal.show()" mdbWavesEffect>
+                          <i class="fa fa-plus"></i> Add</button>
+
+                      </h2>
+
+                    </div>
+
+                    <div class="president-list stakeholder-list-wrapper">
+
+                      <!-- list-->
+
+                      <div *ngFor="let address of Maddresses; let i = index" class="director-record stakeholder-record"
+                        style=" margin: 30px 0;border-radius: 20px;background: #fff;border: 1px solid rgb(243, 91, 63);">
+
+                        <div (click)="showToggle('member', i)" class="stakeholder-record-summeru" style="background-color: #f35b3f;
+                                color: #fff;
+                                padding: 5px 10px;
+                                font-weight: lighter;
+                                font-size: 14px;
+                                border-top-left-radius: 18px;
+                                box-shadow: 1px 1px 2px #b3aea9;
+                                border-top-right-radius: 18px;
+                                cursor: pointer;
+                                width: 100%;
+                                border-radius: 20px;">
+
+                          {{address.localAddress1}},{{address.localAddress2}} - Address New
+
+                          <span *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                            (click)="deleteRecordnew('m',address.id)" title="remove record" style="float:right;"
+                            class="">
+                            <i class="fa fa-trash"></i>
+                          </span>
+                          <span *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" title="show details"
+                            style="float:right; margin:0 15px" class="record-handler">
+                            <i class="fa fa-pencil-alt"></i>
+                          </span>
+                          <span *ngIf="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" title="show details"
+                            style="float:right; margin:0 15px" class="record-handler">
+                            <i class="fa fa-eye"></i>
+                          </span>
+
+                        </div>
+
+                        <div *ngIf="address.showEditPaneForPresident" [class]="'stakeholder-record-inner'"
+                          class="stakeholder-record-inner" style="padding: 25px 10px 10px;">
+
+
+
+                          <div class="form-row">
+
+                            <div class="form-group col-md-6">
+
+                              <label class="col-form-label col-form-label-sm">Date of Change<span class="req">*</span></label>
+                              
+
+                              <input min="{{incoDate}}" max="{{formattedTodayValue}}" onkeydown="return false" [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" type="date"
+                                [(ngModel)]="Maddresses[i].date" [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-nic" value="{{address.date}}"
+                                (input)="validateMemberEdit(i)">
+
+                            </div>
+                            <div class="form-group col-md-6">
+
+                              <label class="col-form-label col-form-label-sm">Description<span class="req">*</span></label>
+                              
+
+                              <!-- <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                [(ngModel)]="Maddresses[i].discription" [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-nic" value="{{address.discription}}"
+                                (input)="validateMemberEdit(i)"> -->
+                                <select [(ngModel)]="Maddresses[i].discription" (change)="validateMemberEdit(i);" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-phone">
+                                  <option value="a. Certificate of incorporation" title="a. Certificate of incorporation">a. Certificate of incorporation</option>
+                                  <option value="b. Article of association" title="b. Article of association">b. Article of association</option>
+                                  <option value="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years" title="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years">c. Minutes of all meetings and resolutions of shareholders passed within the last ten years</option>
+                                  <option value="d. Interests register" title="d. Interests register">d. Interests register</option>
+                                  <option value="e. Minutes of all meetings held" title="e. Minutes of all meetings held">e. Minutes of all meetings held</option>
+                                  <option value="f. Resolutions of directors passed" title="f. Resolutions of directors passed">f. Resolutions of directors passed</option>
+                                  <option value="g. Resolutions of directors’ committees held within the last 10 years" title="g. Resolutions of directors’ committees held within the last 10 years">g. Resolutions of directors’ committees held within the last 10 years</option>
+                                  <option value="h. Certificates required to be given by the directors under this Act within the last ten years" title="h. Certificates required to be given by the directors under this Act within the last ten years">h. Certificates required to be given by the directors under this Act within the last ten years</option>
+                                  <option value="i. The register of directors and secretaries required to be kept under section 223" title="i. The register of directors and secretaries required to be kept under section 223">i. The register of directors and secretaries required to be kept under section 223</option>
+                                  <option value="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years" title="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years">j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years</option>
+                                  <option value="k. Annual reports prepared under section 166" title="k. Annual reports prepared under section 166">k. Annual reports prepared under section 166</option>
+                                  <option value="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company" title="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company">l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company</option>
+                                  <option value="m. Copies of instruments creating or evidencing charges" title="m. Copies of instruments creating or evidencing charges">m. Copies of instruments creating or evidencing charges</option>
+                                  <option value="n. Register of charges required to be kept under sections 109 and 110" title="n. Register of charges required to be kept under sections 109 and 110">n. Register of charges required to be kept under sections 109 and 110</option>
+                                  <option value="o. The share register required to be kept under section 123" title="o. The share register required to be kept under section 123">o. The share register required to be kept under section 123</option>
+                                  <option value="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company" title="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company">p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company</option>
+                                  <!-- <option value="other">Other</option> -->
+                                </select>
+                                
+
+                            </div>
+
+
+
+                          </div>
+
+                          <div class="address-block local-address">
+
+
+                            <div class="form-row">
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">Province
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validateMemberEdit(i)"
+                                  (ngModelChange)="this.Maddresses[i].district = undefined;this.Maddresses[i].city = undefined;this.Maddresses[i].gnDivision = undefined;"
+                                  class="custom" placeholder="Province" [searchable]="true"
+                                  [(ngModel)]="Maddresses[i].province" [ngModelOptions]="{standalone: true}">
+                                  <ng-option *ngFor="let province of data.provinces" [value]="province">{{
+                                        province.description_en }}</ng-option>
+                                </ng-select>
+
+                              </div>
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">District
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validateMemberEdit(i)"
+                                  (ngModelChange)="this.Maddresses[i].city = undefined;this.Maddresses[i].gnDivision = undefined;"
+                                  class="custom" placeholder="District" [searchable]="true"
+                                  [(ngModel)]="Maddresses[i].district" [ngModelOptions]="{standalone: true}">
+                                  <ng-option
+                                    *ngFor="let district of this.data.districts | district:Maddresses[i].province"
+                                    [value]="district">{{
+                                        district.description_en }}</ng-option>
+                                </ng-select>
+                              </div>
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">City
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validateMemberEdit(i)"
+                                  (ngModelChange)="this.Maddresses[i].gnDivision = undefined;" class="custom"
+                                  placeholder="City" [searchable]="true" [(ngModel)]="Maddresses[i].city"
+                                  [ngModelOptions]="{standalone: true}">
+                                  <ng-option *ngFor="let city of data.citys | city:Maddresses[i].district"
+                                    [value]="city">{{city.description_en}}</ng-option>
+                                </ng-select>
+                              </div>
+
+                              <div class="form-group col-md-6">
+
+                                <label class="col-form-label col-form-label-sm">Address 1
+                                  <span class="req">*</span>
+                                </label>
+
+                                <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                  maxlength="200" (input)="validateMemberEdit(i)"
+                                  [(ngModel)]="Maddresses[i].localAddress1" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-localaddress1" placeholder=""
+                                  value="{{ address.localAddress1}}">
+                              </div>
+
+
+                              <div class="form-group col-md-6">
+
+                                <label class="col-form-label col-form-label-sm">Address 2
+                                  <span class="req">*</span>
+                                </label>
+
+                                <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                  maxlength="200" (input)="validateMemberEdit(i)"
+                                  [(ngModel)]="Maddresses[i].localAddress2" [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-address3" placeholder=""
+                                  value="{{ address.localAddress2}}">
+                              </div>
+
+                              <div class="form-group col-md-4">
+                                <label class="col-form-label col-form-label-sm"> Gn Division
+                                  <span class="req">*</span>
+                                </label>
+                                <ng-select (change)="validateMemberEdit(i)" class="custom" placeholder="Gn Division"
+                                  [searchable]="true" [(ngModel)]="Maddresses[i].gnDivision"
+                                  [ngModelOptions]="{standalone: true}">
+                                  <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:Maddresses[i].city"
+                                    [value]="gndivision">{{gndivision.description_en}}</ng-option>
+                                </ng-select>
+
+                              </div>
+
+                              <div class="form-group col-md-4">
+
+                                <label class="col-form-label col-form-label-sm">Postal Code <span
+                                    class="req">*</span></label>
+
+                                <input [disabled]="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" maxlength="10"
+                                  (input)="validateMemberEdit(i)" [(ngModel)]="Maddresses[i].postcode"
+                                  [ngModelOptions]="{standalone: true}"
+                                  class="form-control form-control-sm modal-input-director-postcode" placeholder=""
+                                  value="{{ address.postcode}}">
+                              </div>
+
+
+                            </div>
+
+                          </div>
+
+                          <button style="float: right" *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                            (click)="editMemberDataArray(i)" [disabled]="!address.validEdit" type="button"
+                            class="btn btn-next"><i class="fa fa-edit"></i>
+                            Save</button>
+                          <div style="clear:both"></div>
+
+                        </div>
+                        <!-- end rerord inner -->
+
+                      </div>
+
+                      <!-- end list -->
+
+
+                    </div>
+
+                  </div>
+
+                </div>
+                <!-- end record inner -->
+
+
+
+                <!-- end list -->
+
+              </div>
+
+
+            </div>
+            <div class="form-group col-md-6">
+
+              <label class="col-form-label col-form-label-sm">Signed By <span class="req">*</span></label>
+              <ng-select [dropdownPosition]="'top'" [items]="members" groupBy="designation" bindValue="_id" bindLabel="name" [(ngModel)]="signbyid" [ngModelOptions]="{standalone: true}"
+                            style="z-index: 100;">
+                            <!-- <ng-option *ngFor="let member of members; let i = index" value="{{member.id}}-{{member.type}}">{{member.designation}} :- {{member.first_name}} {{member.last_name}} </ng-option> -->
+                            <!-- <option value="other">Other</option> -->
+                          </ng-select>
+              <!-- <label class="col-form-label col-form-label-sm"
+                *ngFor="let member of members; let i = index">{{member.designation}}&nbsp;:-&nbsp;{{member.first_name}}&nbsp;{{member.last_name}}&nbsp;<input
+                  type="radio" [(ngModel)]="signbyid" name="rad" value="{{member.id}}-{{member.type}}"></label> -->
+
+            </div>
+
+
+
+            <div class="f1-buttons">
+
+              <button [disabled]="!(enableGoToDownload && signbyid)" type="button"
+                class="btn btn-primary" id="btn1-next" (click)="areYouSureYes()">Next
+                <i class="fas fa-forward"></i></button>
+              <!-- [disabled]="!enableStep1Submission" -->
+            </div>
+            <br>
+            <br>
+
+          </fieldset>
+          <!-- end of fist step -->
+
+
+
+
+
+
+
+
+
+
+          <!-- <fieldset [hidden]="stepOn != 1">
+
+
+            
+            
+
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="areYouSureYes()" type="button" [disabled]="!(addits.length == 5 && treasurers.length && secretaries.length && presidents.length)"
+                class="btn btn-primary">Next <i class="fas fa-forward"></i></button>
+            </div>
+            [disabled]="!(addits.length == 5 && treasurers.length && secretaries.length && presidents.length)"
+          </fieldset> -->
+
+
+
+
+
+
+
+
+
+
+
+          <!--end of second step -->
+
+
+
+          <fieldset [hidden]="stepOn != 1">
+            <div class="Members-secton stakeholder-section">
+
+              <!-- membs list --------------------------------------- and things -->
+
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <!-- list-->
+
+
+
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner"
+                  style="padding: 25px 10px 10px;">
+
+
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Number of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyRegno}}
+                      </label>
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Name of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyName}} {{postfix}}
+                      </label>
+                    </div>
+
+                  </div>
+
+                  <div class="container download-container">
+                    <h3>Document List</h3>
+                    <div class="doc-block-wrapper">
+                      <div class="doc-block">
+                        <div class="download-application-row">
+                          <div class="stakeholder-name">Form 14</div>
+                          <div class="doc-download">
+                            <button (click)="form14Download()" type="button"
+                              class="btn btn-next">Download <i class="fas fa-forward"></i></button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i
+                  class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-primary">Next <i
+                  class="fas fa-forward"></i></button>
+            </div>
+
+          </fieldset>
+          <!--end of third step-->
+
+
+
+          <fieldset [hidden]="stepOn != 2">
+            <div class="Members-secton stakeholder-section">
+
+              <!-- membs list --------------------------------------- and things -->
+
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <!-- list-->
+
+
+
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner"
+                  style="padding: 25px 10px 10px;">
+
+
+
+                  <div class="alert alert-warning" role="alert">
+
+                    <p>
+                      <small>Please upload all required<span class="req">*</span> files in pdf format,upload only A4
+                        Size, portrait orientation and file
+                        size
+                        should be less
+                        than 4 MB.</small>
+                    </p>
+
+                  </div>
+
+                  <hr>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Number of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyRegno}}
+                      </label>
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Name of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyName}} {{postfix}}
+                      </label>
+                    </div>
+
+                  </div>
+                  <div>
+  
+                    <p style="color: red">
+                      <small>Note : Notice should be given to the Registrar of Companies, within ten working days of the place or places
+                        where the records are kept.</small>
+                    </p>
+                    <p style="color: red;font-size: 12px">*Indicate whether part share register or share register and if part share register the description of the relevant part. If any
+                      records are not kept at the registered office or the place at which they are kept is changed notice should be filed with the
+                      Registrar if Companies within ten Working days of their first being kept elsewhere or moved.</p>
+
+                  </div>
+                  <div class="container uploaded-container">
+
+                    <div class="container" style="background-color: white">
+                      <div class="row upload-row" style="padding: 10px">
+                        <div class="col-9 doc">
+                          <b>
+                            <h4>Form 14 <span class="req">*</span></h4>
+                          </b>
+                        </div>
+                        <div class="col">
+                          <div class="float-right" *ngIf="application?.length <= 0">
+                            <label for="rr" class="upload-wrapper btn btn-primary btn-sm download">
+                              <i class="fas fa-cloud-upload-alt"></i> Upload
+                            </label>
+                            <input style="display:block;position: fixed;top:-100000px" id="rr" type="file"
+                              (change)="fileUpload($event,'','applicationUpload')" placeholder="Upload file"
+                              accept=".pdf">
+                          </div>
+                        </div>
+                        <div class="col-12 uploaded-doc" *ngFor="let item of application; let i = index">
+                          <span style="margin-right: 10px"><i class="fas fa-file-pdf"></i></span>{{item.pdfname}}
+                          <button class="button red button-sm" (click)="fileDelete(item.id,'applicationUpload',i)">
+                            <i class="fas fa-trash-alt"></i> Delete
+                          </button>
+                          <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                            <i class="far fa-file-pdf"></i> View
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <hr>
+                  <div class="container uploaded-container">
+                    <div class="container" style="background-color: white">
+                    <div class="row upload-row" style="padding: 10px">
+                      <div class="col-3 doc">
+                        <b>
+                          <h4>Other Documents</h4>
+                        </b>
+                      </div>
+                      <div class="col-5">
+                          <input style="float: left;" class="form-control form-control-sm" name="description" maxlength="50"
+                            [(ngModel)]="description" placeholder="Mention The Relevant Document Name">
+                        </div>
+                      <div class="col-4">
+                        <div class="float-right">
+                          <label for="ed" class="upload-wrapper btn btn-primary btn-sm download">
+                            <i class="fas fa-cloud-upload-alt"></i> Upload
+                          </label>
+                          <input style="display:block;position: fixed;top:-100000px" id="ed" type="file" (change)="fileUpload($event,description,'extraUpload')"
+                            placeholder="Upload file" accept=".pdf">
+                        </div>
+                      </div>
+                      <div class="col-12 uploaded-doc" *ngFor="let item of extra; let i = index">
+                        <span *ngIf="!item.file_description"><i class="fas fa-file-pdf"></i>&nbsp; {{item.pdfname}}</span>
+                        <span *ngIf="item.file_description"><i class="fas fa-file-pdf"></i>&nbsp; {{item.file_description}}</span>
+                        <button class="button red button-sm" (click)="fileDelete(item.id,'extraUpload',i)">
+                          <i class="fas fa-trash-alt"></i> Delete
+                        </button>
+                        <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                          <i class="far fa-file-pdf"></i> View
+                        </button>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                  <div style="clear:both"></div>
+
+
+
+
+                  <div class="sec_type_item form-group col-md-12 document_confirm">
+
+                    <p style="font-size:14px;"  ><strong>SECTION 511.</strong> “Where in any return, report, certificate, balance
+                      sheet or other document, required by or for the purposes of
+                      this Act, any person wilfully makes a statement which is false
+                      in any material particular knowing it to be false, shall be
+                      guilty of an offence and be liable on conviction <u><b>to a fine not
+                        exceeding one million rupees or to imprisonment for a term
+                        not exceeding five years or to both such fine and
+                        imprisonment </b></u>”
+                    </p>
+                      <br/>
+                      <input  [(ngModel)]="document_confirm" type="checkbox" id="document_confirm" class="custom-control-input" [ngModelOptions]="{standalone: true}">
+                      <label style="font-size: 17px;
+                      color: darkred;
+                      font-weight: bold;" class="custom-control-label custom-control-sub-label radio-lbl" for="document_confirm">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I read over and understood
+                      </label>
+                       
+                  </div>
+                <div style="clear:both"></div>
+                  
+                  <div class="alert alert-warning"  *ngIf="court_status == 'yes'">
+                    <p>
+                     Please upload your court case document(s) under the other document section
+                   </p>
+                 </div>
+           
+                 <div clas="form-row" *ngIf="penalty_charge">
+                       <div class="sec_type_item form-group col-md-12">
+           
+                         <p style="position: relative;">Have you been prosecuted by the court for not filing relevant form during the provided statutory period? <span class="req">*</span></p>
+           
+                     </div>
+           
+                     <div class="sec_type_item form-group col-md-6" style="float:left;padding-left: 44px;">
+           
+                       <input (change)="validateCourtSection()"  [(ngModel)]="court_status" type="radio" id="court_status_yes" class="custom-control-input" name="court_status" value="yes">
+                       <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_status_yes">&nbsp;&nbsp;&nbsp;&nbsp;Yes</label>
+           
+                     </div>
+           
+                     <div class="sec_type_item form-group col-md-6" style="float:left">
+           
+                       <input  (change)="validateCourtSection()"  [(ngModel)]="court_status" type="radio" id="court_status_no" class="custom-control-input" name="court_status" value="no">
+                       <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_status_no">&nbsp;&nbsp;&nbsp;&nbsp;No</label>
+           
+                     </div>
+           
+                     <div class="form-group col-md-12" style="clear:both;" *ngIf="court_status == 'yes'">
+                       <label class="col-form-label col-form-label-sm"> Name of the court<span class="req">*</span></label>
+                       <input  (input)="validateCourtSection()"  [(ngModel)]="court_name"
+                               [ngModelOptions]="{standalone: true}"
+                               class="form-control form-control-sm modal-input-director-oppointment"
+                               placeholder="">
+                     </div>
+           
+                     <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left">
+                       <label class="col-form-label col-form-label-sm"> Case number<span class="req">*</span></label>
+                       <input  (input)="validateCourtSection()"  [(ngModel)]="court_case_no"
+                               [ngModelOptions]="{standalone: true}"
+                               class="form-control form-control-sm modal-input-director-oppointment"
+                               placeholder="">
+                     </div>
+           
+           
+                     <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left">
+                         <label class="col-form-label col-form-label-sm"> Date of the court decision<span class="req">*</span></label>
+                         <input  (input)="validateCourtSection()"  [(ngModel)]="court_date"
+                                 [ngModelOptions]="{standalone: true}"
+                                 type="date"
+                                 min="{{incoDate}}" max="{{formattedTodayValue}}"
+                                 class="form-control form-control-sm modal-input-director-oppointment"
+                                 placeholder="">
+                     </div>
+           
+                     <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left">
+                       <label class="col-form-label col-form-label-sm"> Amount of Penalty/any other charge</label>
+                       <input  (input)="validateCourtSection()"  [(ngModel)]="court_penalty"
+                               [ngModelOptions]="{standalone: true}"
+                               class="form-control form-control-sm modal-input-director-oppointment"
+                               onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"
+                               placeholder="">
+                     </div>
+           
+                     <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left">
+                       <label class="col-form-label col-form-label-sm"> Period of imprisonment</label>
+                       <input  (input)="validateCourtSection()"  [(ngModel)]="court_period"
+                               [ngModelOptions]="{standalone: true}"
+                               class="form-control form-control-sm modal-input-director-oppointment"
+                               placeholder="">
+                     </div>
+           
+           
+                     <div class="sec_type_item form-group col-md-12" *ngIf="court_status == 'yes'" style="clear:both" >
+           
+                       <p style="position: relative"> You have been discharged?</p>
+           
+                   </div>
+           
+                   <div class="sec_type_item form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left;padding-left: 44px;">
+           
+                     <input  [(ngModel)]="court_discharged" type="radio" id="court_discharged_yes" class="custom-control-input" name="court_discharged" value="yes">
+                     <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_discharged_yes">&nbsp;&nbsp;&nbsp;&nbsp;Yes</label>
+           
+                   </div>
+           
+                   <div class="sec_type_item form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left">
+           
+                     <input  [(ngModel)]="court_discharged" type="radio" id="court_discharged_no" class="custom-control-input" name="court_discharged" value="no">
+                     <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_discharged_no">&nbsp;&nbsp;&nbsp;&nbsp;No</label>
+           
+                   </div>
+           
+           
+           
+                 </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous"><i
+                  class="fas fa-backward"></i>
+                Previous</button>
+              <button [disabled]="!(application?.length && validateCourtSectionFlag && document_confirm)" (click)="courtdataSubmit()" type="button"
+                class="btn btn-primary">Next
+                <i class="fas fa-forward"></i></button>
+              <!-- [disabled]="!enableGoToPay" -->
+
+            </div>
+
+
+          </fieldset>
+          <!--end of fourth step-->
+
+
+          <fieldset class="{{stepOn}}" [hidden]="stepOn != 3">
+            <div class="Members-secton stakeholder-section">
+
+              <!-- membs list --------------------------------------- and things -->
+
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <!-- list-->
+
+
+
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner"
+                  style="padding: 25px 10px 10px;">
+
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Number of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyRegno}}
+                      </label>
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Name of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyName}} {{postfix}}
+                      </label>
+                    </div>
+
+                  </div>
+
+                  <div class="content">
+                    <div class="container top-margin">
+                      <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
+                          <div class="box">
+                            <h3 class="box-title">User payment agreement</h3>
+                            <div class="plan-selection">
+                              <div class="plan-data">
+                                <small class="plan-text">If you are having any problems, please email eroc@info.com or
+                                  contact
+                                  on 011-2123456.</small><br>
+                                <small class="plan-text">User
+                                  payment agreement</small><br>
+                              </div>
+                            </div>
+                            <div class="plan-selection">
+                              <div class="row justify-content-md-center mt-3">
+                                <label for="card" class="method">
+                                  <div class="card-logos">
+                                    <img src="assets/images/header/visa_logo.png" />
+                                    <img src="assets/images/header/mastercard_logo.png" />
+                                  </div>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+
+                          <div class="widget">
+                            <h4 class="widget-title">Order Summary</h4>
+                            <div class="summary-block">
+                              <div class="summary-content">
+                                <div class="summary-head">
+                                  <h5 class="summary-title">Records/Registers Address Changes Price</h5>
+                                </div>
+                                <div class="summary-price">
+                                  <p class="summary-text">
+                                    {{ calculation.getValue('PAYMENT_COMPANY_RECORDS_REGISTER_ADDRESS_CHANGE', itemcount, penaltyvalue) | currency:'Rs.' }}
+                                  </p>
+                                </div>
+                                <div class="summary-head">
+                                  <h5 class="summary-title">Penalty</h5>
+                                </div>
+                                <div class="summary-price">
+                                  <p class="summary-text">{{ penaltyvalue | currency:'Rs.' }}</p>
+                                </div>
+                                <div class="summary-head">
+                                  <h5 class="summary-title">Tax</h5>
+                                </div>
+                                <div class="summary-price">
+                                  <p class="summary-text">{{ calculation.getTaxAmount | currency:'Rs.' }}</p>
+                                </div>
+                                <div class="summary-head">
+                                  <h5 class="summary-title">Convenience Fee</h5>
+                                </div>
+                                <div class="summary-price">
+                                  <p class="summary-text">{{ calculation.getConvenienceFee | currency:'Rs.' }}</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="summary-content">
+                              <div class="summary-head">
+                                <h5 class="summary-title"><strong>Total Amount</strong></h5>
+                              </div>
+                              <div class="summary-price">
+                                <p class="summary-text">
+                                  <strong>{{ calculation.getTotalAmount | currency:'Rs.' }}</strong></p>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-previous"><i
+                  class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="getCipherToken()" type="button" class="btn btn-primary">PAY</button>
+            </div>
+          </fieldset>
+          <!--end of fifth step-->
+
+
+
+        </form>
+
+      </div>
+      <div style="clear:both"></div>
+      <br />
+      <br />
+      <!--end right col main-->
+    </div>
+  </div>
+</section>
+
+
+<!--add president modal-->
+<div mdbModal #basicModal="mdbModal" id="director-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myBasicModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right close-modal-item" aria-label="Close" (click)="basicModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">Add New Address
+          <br />
+          <span *ngIf="addressValidationMessage" class="stakeholder-validation">{{ addressValidationMessage }}</span>
+
+        </h4>
+      </div>
+      <div class="modal-body">
+
+
+        <div class="nic-check-block">
+          <!--START NIC/PASSPORT CHECK CODE-->
+
+          <div class="form-row">
+
+            <div class="form-group col-md-4">
+
+              <label class="col-form-label col-form-label-sm">Date of Change
+                <span class="req">*</span>
+              </label>
+              <input min="{{incoDate}}" max="{{formattedTodayValue}}" onkeydown="return false" type="date" [(ngModel)]="address.date" [ngModelOptions]="{standalone: true}"
+                (input)="validatePresident()" class="form-control form-control-sm modal-input-director-phone">
+
+
+            </div>
+
+            <div class="form-group col-md-8">
+
+              <label class="col-form-label col-form-label-sm">Description
+                <span class="req">*</span>&nbsp; (Press Ctrl to select multiple selections)
+              </label>
+              <!-- <input (input)="validatePresident()" maxlength="200" [(ngModel)]="address.discription"
+                  class="form-control form-control-sm modal-input-director-address3" placeholder=""> -->
+                <select multiple [(ngModel)]="address.discription" (change)="validatePresident();" [ngModelOptions]="{standalone: true}"
+                        class="form-control form-control-sm modal-input-director-phone">
+                        <option value="a. Certificate of incorporation" title="a. Certificate of incorporation">a. Certificate of incorporation</option>
+                                  <option value="b. Article of association" title="b. Article of association">b. Article of association</option>
+                                  <option value="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years" title="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years">c. Minutes of all meetings and resolutions of shareholders passed within the last ten years</option>
+                                  <option value="d. Interests register" title="d. Interests register">d. Interests register</option>
+                                  <option value="e. Minutes of all meetings held" title="e. Minutes of all meetings held">e. Minutes of all meetings held</option>
+                                  <option value="f. Resolutions of directors passed" title="f. Resolutions of directors passed">f. Resolutions of directors passed</option>
+                                  <option value="g. Resolutions of directors’ committees held within the last 10 years" title="g. Resolutions of directors’ committees held within the last 10 years">g. Resolutions of directors’ committees held within the last 10 years</option>
+                                  <option value="h. Certificates required to be given by the directors under this Act within the last ten years" title="h. Certificates required to be given by the directors under this Act within the last ten years">h. Certificates required to be given by the directors under this Act within the last ten years</option>
+                                  <option value="i. The register of directors and secretaries required to be kept under section 223" title="i. The register of directors and secretaries required to be kept under section 223">i. The register of directors and secretaries required to be kept under section 223</option>
+                                  <option value="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years" title="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years">j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years</option>
+                                  <option value="k. Annual reports prepared under section 166" title="k. Annual reports prepared under section 166">k. Annual reports prepared under section 166</option>
+                                  <option value="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company" title="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company">l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company</option>
+                                  <option value="m. Copies of instruments creating or evidencing charges" title="m. Copies of instruments creating or evidencing charges">m. Copies of instruments creating or evidencing charges</option>
+                                  <option value="n. Register of charges required to be kept under sections 109 and 110" title="n. Register of charges required to be kept under sections 109 and 110">n. Register of charges required to be kept under sections 109 and 110</option>
+                                  <option value="o. The share register required to be kept under section 123" title="o. The share register required to be kept under section 123">o. The share register required to be kept under section 123</option>
+                                  <option value="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company" title="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company">p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company</option>
+                                  <!-- <option value="other">Other</option> -->
+                      </select>
+
+
+            </div>
+
+          </div>
+
+
+          <div class="address-block local-address">
+
+            <p style="font-size: 15px;font-weight: bold;">Address</p>
+
+            <div class="form-row">
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">Province
+                  <span class="req">*</span>
+                </label>
+                <ng-select (change)="validatePresident()"
+                  (ngModelChange)="this.address.district = undefined;this.address.city = undefined;this.address.gnDivision = undefined;"
+                  class="custom" placeholder="Province" [searchable]="true" [(ngModel)]="address.province"
+                  [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let province of data.provinces" [value]="province">{{
+                province.description_en }}</ng-option>
+                </ng-select>
+
+              </div>
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">District
+                  <span class="req">*</span>
+                </label>
+                <ng-select (change)="validatePresident()"
+                  (ngModelChange)="this.address.city = undefined;this.address.gnDivision = undefined;" class="custom"
+                  placeholder="District" [searchable]="true" [(ngModel)]="address.district"
+                  [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let district of this.data.districts | district:address.province"
+                    [value]="district">{{
+                district.description_en }}</ng-option>
+                </ng-select>
+
+              </div>
+
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">city
+                  <span class="req">*</span>
+                </label>
+                <ng-select (change)="validatePresident()" (ngModelChange)="this.address.gnDivision = undefined;"
+                  class="custom" placeholder="City" [searchable]="true" [(ngModel)]="address.city"
+                  [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let city of data.citys | city:address.district" [value]="city">
+                    {{city.description_en}}</ng-option>
+                </ng-select>
+              </div>
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">Address 1
+                  <span class="req">*</span>
+                </label>
+
+                <input (input)="validatePresident()" maxlength="200" [(ngModel)]="address.localAddress1"
+                  class="form-control form-control-sm modal-input-director-address3" placeholder="">
+              </div>
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">Address 2
+                  <span class="req">*</span>
+                </label>
+
+                <input (input)="validatePresident()" maxlength="200" [(ngModel)]="address.localAddress2"
+                  class="form-control form-control-sm modal-input-director-address3" placeholder="">
+              </div>
+
+              <div class="form-group col-md-2">
+                <label class="col-form-label col-form-label-sm"> Gn Division
+                  <span class="req">*</span>
+                </label>
+                <ng-select (change)="validatePresident()" class="custom" placeholder="Gn Division" [searchable]="true"
+                  [(ngModel)]="address.gnDivision" [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:address.city" [value]="gndivision">
+                    {{gndivision.description_en}}</ng-option>
+                </ng-select>
+
+              </div>
+
+              <div class="form-group col-md-2">
+
+                <label class="col-form-label col-form-label-sm">Postal code
+                  <span class="req">*</span>
+                </label>
+
+                <input (input)="validatePresident()" maxlength="10" [(ngModel)]="address.postcode"
+                  class="form-control form-control-sm modal-input-director-postcode" placeholder="">
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+
+          <br />
+          <hr class="form-sep" />
+
+
+
+
+
+
+        </div> <!-- END NIC/PASSPORT CHECK CODE-->
+
+
+
+
+      </div>
+      <div class="modal-footer" style="justify-content: flex-end">
+        <!--<button type="button" mdbBtn color="secondary" class="btn btn-sm waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>Close</button>-->
+
+
+
+        <button style="background-color: #bbb!important;" (click)="resetPresidentRecord()" type="button" mdbBtn
+          color="secondary" class="btn btn-previous" mdbWavesEffect>RESET</button>&nbsp;
+
+        <button [disabled]="!validAddress" (click)="addPresidentDataToArray()" type="button" mdbBtn color="secondary"
+          class="btn btn-sm relative waves-light add-new-stakeholder add-director" mdbWavesEffect>ADD</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--add share register modal-->
+<div mdbModal #secModal="mdbModal" id="sec-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myBasicModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right close-modal-item" aria-label="Close" (click)="secModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">Add New Address
+          <br />
+          <span *ngIf="addressValidationMessage" class="stakeholder-validation">{{ addressValidationMessage }}</span>
+
+        </h4>
+      </div>
+      <div class="modal-body">
+
+
+        <div class="nic-check-block">
+          <!--START NIC/PASSPORT CHECK CODE-->
+
+          <div class="form-row">
+
+            <div class="form-group col-md-4">
+
+              <label class="col-form-label col-form-label-sm">Date of Change
+                <span class="req">*</span>
+              </label>
+              <input min="{{incoDate}}" max="{{formattedTodayValue}}" onkeydown="return false" type="date" [(ngModel)]="saddress.date" [ngModelOptions]="{standalone: true}"
+                (input)="validateShare()" class="form-control form-control-sm modal-input-director-phone">
+
+
+            </div>
+            <div class="form-group col-md-8">
+
+              <label class="col-form-label col-form-label-sm">Description
+                <span class="req">*</span>&nbsp; (Press Ctrl to select multiple selections)
+              </label>
+              <!-- <input (input)="validateShare()" maxlength="200" [(ngModel)]="saddress.discription"
+                  class="form-control form-control-sm modal-input-director-address3" placeholder=""> -->
+                <select multiple [(ngModel)]="saddress.discription" (change)="validateShare();" [ngModelOptions]="{standalone: true}"
+                        class="form-control form-control-sm modal-input-director-phone">
+                        <option value="a. Certificate of incorporation" title="a. Certificate of incorporation">a. Certificate of incorporation</option>
+                                  <option value="b. Article of association" title="b. Article of association">b. Article of association</option>
+                                  <option value="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years" title="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years">c. Minutes of all meetings and resolutions of shareholders passed within the last ten years</option>
+                                  <option value="d. Interests register" title="d. Interests register">d. Interests register</option>
+                                  <option value="e. Minutes of all meetings held" title="e. Minutes of all meetings held">e. Minutes of all meetings held</option>
+                                  <option value="f. Resolutions of directors passed" title="f. Resolutions of directors passed">f. Resolutions of directors passed</option>
+                                  <option value="g. Resolutions of directors’ committees held within the last 10 years" title="g. Resolutions of directors’ committees held within the last 10 years">g. Resolutions of directors’ committees held within the last 10 years</option>
+                                  <option value="h. Certificates required to be given by the directors under this Act within the last ten years" title="h. Certificates required to be given by the directors under this Act within the last ten years">h. Certificates required to be given by the directors under this Act within the last ten years</option>
+                                  <option value="i. The register of directors and secretaries required to be kept under section 223" title="i. The register of directors and secretaries required to be kept under section 223">i. The register of directors and secretaries required to be kept under section 223</option>
+                                  <option value="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years" title="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years">j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years</option>
+                                  <option value="k. Annual reports prepared under section 166" title="k. Annual reports prepared under section 166">k. Annual reports prepared under section 166</option>
+                                  <option value="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company" title="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company">l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company</option>
+                                  <option value="m. Copies of instruments creating or evidencing charges" title="m. Copies of instruments creating or evidencing charges">m. Copies of instruments creating or evidencing charges</option>
+                                  <option value="n. Register of charges required to be kept under sections 109 and 110" title="n. Register of charges required to be kept under sections 109 and 110">n. Register of charges required to be kept under sections 109 and 110</option>
+                                  <option value="o. The share register required to be kept under section 123" title="o. The share register required to be kept under section 123">o. The share register required to be kept under section 123</option>
+                                  <option value="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company" title="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company">p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company</option>
+                                  <!-- <option value="other">Other</option> -->
+                      </select>
+
+
+            </div>
+
+          </div>
+
+
+          <div class="address-block local-address">
+
+            <p style="font-size: 15px;font-weight: bold;">Address</p>
+
+            <div class="form-row">
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">Province
+                  <span class="req">*</span>
+                </label>
+                <ng-select (change)="validateShare()"
+                  (ngModelChange)="this.saddress.district = undefined;this.saddress.city = undefined;this.saddress.gnDivision = undefined;"
+                  class="custom" placeholder="Province" [searchable]="true" [(ngModel)]="saddress.province"
+                  [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let province of data.provinces" [value]="province">{{
+                province.description_en }}</ng-option>
+                </ng-select>
+
+              </div>
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">District
+                  <span class="req">*</span>
+                </label>
+                <ng-select (change)="validateShare()"
+                  (ngModelChange)="this.saddress.city = undefined;this.saddress.gnDivision = undefined;" class="custom"
+                  placeholder="District" [searchable]="true" [(ngModel)]="saddress.district"
+                  [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let district of this.data.districts | district:saddress.province"
+                    [value]="district">{{
+                district.description_en }}</ng-option>
+                </ng-select>
+
+              </div>
+
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">city
+                  <span class="req">*</span>
+                </label>
+                <ng-select (change)="validateShare()" (ngModelChange)="this.saddress.gnDivision = undefined;"
+                  class="custom" placeholder="City" [searchable]="true" [(ngModel)]="saddress.city"
+                  [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let city of data.citys | city:saddress.district" [value]="city">
+                    {{city.description_en}}</ng-option>
+                </ng-select>
+              </div>
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">Address 1
+                  <span class="req">*</span>
+                </label>
+
+                <input (input)="validateShare()" maxlength="200" [(ngModel)]="saddress.localAddress1"
+                  class="form-control form-control-sm modal-input-director-address3" placeholder="">
+              </div>
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">Address 2
+                  <span class="req">*</span>
+                </label>
+
+                <input (input)="validateShare()" maxlength="200" [(ngModel)]="saddress.localAddress2"
+                  class="form-control form-control-sm modal-input-director-address3" placeholder="">
+              </div>
+
+              <div class="form-group col-md-2">
+                <label class="col-form-label col-form-label-sm"> Gn Division
+                  <span class="req">*</span>
+                </label>
+                <ng-select (change)="validateShare()" class="custom" placeholder="Gn Division" [searchable]="true"
+                  [(ngModel)]="saddress.gnDivision" [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:saddress.city" [value]="gndivision">
+                    {{gndivision.description_en}}</ng-option>
+                </ng-select>
+
+              </div>
+
+              <div class="form-group col-md-2">
+
+                <label class="col-form-label col-form-label-sm">Postal code
+                  <span class="req">*</span>
+                </label>
+
+                <input (input)="validateShare()" maxlength="10" [(ngModel)]="saddress.postcode"
+                  class="form-control form-control-sm modal-input-director-postcode" placeholder="">
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+
+          <br />
+          <hr class="form-sep" />
+
+
+
+
+
+
+        </div> <!-- END NIC/PASSPORT CHECK CODE-->
+
+
+
+
+      </div>
+      <div class="modal-footer" style="justify-content: flex-end">
+        <!--<button type="button" mdbBtn color="secondary" class="btn btn-sm waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>Close</button>-->
+
+
+
+        <button style="background-color: #bbb!important;" (click)="resetShareRegister()" type="button" mdbBtn
+          color="secondary" class="btn btn-previous" mdbWavesEffect>RESET</button>&nbsp;
+
+        <button [disabled]="!validSAddress" (click)="addShareDataToArray()" type="button" mdbBtn color="secondary"
+          class="btn btn-sm relative waves-light add-new-stakeholder add-sec" mdbWavesEffect>ADD</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--add member register modal-->
+<div mdbModal #treModal="mdbModal" id="tre-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myBasicModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right close-modal-item" aria-label="Close" (click)="treModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">Add New Address
+          <br />
+          <span *ngIf="addressValidationMessage" class="stakeholder-validation">{{ addressValidationMessage }}</span>
+
+        </h4>
+      </div>
+      <div class="modal-body">
+
+
+        <div class="nic-check-block">
+          <!--START NIC/PASSPORT CHECK CODE-->
+
+          <div class="form-row">
+
+            <div class="form-group col-md-4">
+
+              <label class="col-form-label col-form-label-sm">Date of Change
+                <span class="req">*</span>
+              </label>
+              <input min="{{incoDate}}" max="{{formattedTodayValue}}" onkeydown="return false" type="date" [(ngModel)]="maddress.date" [ngModelOptions]="{standalone: true}"
+                (input)="validateMember()" class="form-control form-control-sm modal-input-director-phone">
+
+
+            </div>
+            <div class="form-group col-md-8">
+
+              <label class="col-form-label col-form-label-sm">Description
+                <span class="req">*</span>&nbsp; (Press Ctrl to select multiple selections)
+              </label>
+              <!-- <input (input)="validateMember()" maxlength="200" [(ngModel)]="maddress.discription"
+                  class="form-control form-control-sm modal-input-director-address3" placeholder=""> -->
+                <select multiple [(ngModel)]="maddress.discription" (change)="validateMember();" [ngModelOptions]="{standalone: true}"
+                        class="form-control form-control-sm modal-input-director-phone">
+                                  <option value="a. Certificate of incorporation" title="a. Certificate of incorporation">a. Certificate of incorporation</option>
+                                  <option value="b. Article of association" title="b. Article of association">b. Article of association</option>
+                                  <option value="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years" title="c. Minutes of all meetings and resolutions of shareholders passed within the last ten years">c. Minutes of all meetings and resolutions of shareholders passed within the last ten years</option>
+                                  <option value="d. Interests register" title="d. Interests register">d. Interests register</option>
+                                  <option value="e. Minutes of all meetings held" title="e. Minutes of all meetings held">e. Minutes of all meetings held</option>
+                                  <option value="f. Resolutions of directors passed" title="f. Resolutions of directors passed">f. Resolutions of directors passed</option>
+                                  <option value="g. Resolutions of directors’ committees held within the last 10 years" title="g. Resolutions of directors’ committees held within the last 10 years">g. Resolutions of directors’ committees held within the last 10 years</option>
+                                  <option value="h. Certificates required to be given by the directors under this Act within the last ten years" title="h. Certificates required to be given by the directors under this Act within the last ten years">h. Certificates required to be given by the directors under this Act within the last ten years</option>
+                                  <option value="i. The register of directors and secretaries required to be kept under section 223" title="i. The register of directors and secretaries required to be kept under section 223">i. The register of directors and secretaries required to be kept under section 223</option>
+                                  <option value="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years" title="j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years">j. Copies of all written communications to all shareholders or all holders of the same class of shares during the last ten years</option>
+                                  <option value="k. Annual reports prepared under section 166" title="k. Annual reports prepared under section 166">k. Annual reports prepared under section 166</option>
+                                  <option value="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company" title="l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company">l. Copies of all financial statements and group financial statements required to be completed under this Act for the last ten completed accounting periods of the company</option>
+                                  <option value="m. Copies of instruments creating or evidencing charges" title="m. Copies of instruments creating or evidencing charges">m. Copies of instruments creating or evidencing charges</option>
+                                  <option value="n. Register of charges required to be kept under sections 109 and 110" title="n. Register of charges required to be kept under sections 109 and 110">n. Register of charges required to be kept under sections 109 and 110</option>
+                                  <option value="o. The share register required to be kept under section 123" title="o. The share register required to be kept under section 123">o. The share register required to be kept under section 123</option>
+                                  <option value="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company" title="p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company">p. The accounting records required to be kept under section 148 for  the current accounting period and for the last ten completed accounting periods of the company</option>
+                                  <!-- <option value="other">Other</option> -->
+                      </select>
+
+
+            </div>
+
+          </div>
+
+
+          <div class="address-block local-address">
+
+            <p style="font-size: 15px;font-weight: bold;">Address</p>
+
+            <div class="form-row">
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">Province
+                  <span class="req">*</span>
+                </label>
+                <ng-select (change)="validateMember()"
+                  (ngModelChange)="this.maddress.district = undefined;this.maddress.city = undefined;this.maddress.gnDivision = undefined;"
+                  class="custom" placeholder="Province" [searchable]="true" [(ngModel)]="maddress.province"
+                  [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let province of data.provinces" [value]="province">{{
+                province.description_en }}</ng-option>
+                </ng-select>
+
+              </div>
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">District
+                  <span class="req">*</span>
+                </label>
+                <ng-select (change)="validateMember()"
+                  (ngModelChange)="this.maddress.city = undefined;this.maddress.gnDivision = undefined;" class="custom"
+                  placeholder="District" [searchable]="true" [(ngModel)]="maddress.district"
+                  [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let district of this.data.districts | district:maddress.province"
+                    [value]="district">{{
+                district.description_en }}</ng-option>
+                </ng-select>
+
+              </div>
+
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">city
+                  <span class="req">*</span>
+                </label>
+                <ng-select (change)="validateMember()" (ngModelChange)="this.maddress.gnDivision = undefined;"
+                  class="custom" placeholder="City" [searchable]="true" [(ngModel)]="maddress.city"
+                  [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let city of data.citys | city:maddress.district" [value]="city">
+                    {{city.description_en}}</ng-option>
+                </ng-select>
+              </div>
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">Address 1
+                  <span class="req">*</span>
+                </label>
+
+                <input (input)="validateMember()" maxlength="200" [(ngModel)]="maddress.localAddress1"
+                  class="form-control form-control-sm modal-input-director-address3" placeholder="">
+              </div>
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">Address 2
+                  <span class="req">*</span>
+                </label>
+
+                <input (input)="validateMember()" maxlength="200" [(ngModel)]="maddress.localAddress2"
+                  class="form-control form-control-sm modal-input-director-address3" placeholder="">
+              </div>
+
+              <div class="form-group col-md-2">
+                <label class="col-form-label col-form-label-sm"> Gn Division
+                  <span class="req">*</span>
+                </label>
+                <ng-select (change)="validateMember()" class="custom" placeholder="Gn Division" [searchable]="true"
+                  [(ngModel)]="maddress.gnDivision" [ngModelOptions]="{standalone: true}">
+                  <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:maddress.city" [value]="gndivision">
+                    {{gndivision.description_en}}</ng-option>
+                </ng-select>
+
+              </div>
+
+              <div class="form-group col-md-2">
+
+                <label class="col-form-label col-form-label-sm">Postal code
+                  <span class="req">*</span>
+                </label>
+
+                <input (input)="validateMember()" maxlength="10" [(ngModel)]="maddress.postcode"
+                  class="form-control form-control-sm modal-input-director-postcode" placeholder="">
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+
+          <br />
+          <hr class="form-sep" />
+
+
+
+
+
+
+        </div> <!-- END NIC/PASSPORT CHECK CODE-->
+
+
+
+
+      </div>
+      <div class="modal-footer" style="justify-content: flex-end">
+        <!--<button type="button" mdbBtn color="secondary" class="btn btn-sm waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>Close</button>-->
+
+
+
+        <button style="background-color: #bbb!important;" (click)="resetMemberRegister()" type="button" mdbBtn
+          color="secondary" class="btn btn-previous" mdbWavesEffect>RESET</button>&nbsp;
+
+        <button [disabled]="!validMAddress" (click)="addMemberDataToArray()" type="button" mdbBtn color="secondary"
+          class="btn btn-sm relative waves-light add-new-stakeholder add-tre" mdbWavesEffect>ADD</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockBackToForm">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Are you sure want to proceed further?</h2>
+    </div>
+    <div class="body">
+    </div>
+    <div class="footer">
+      <button style="margin-right: 10px" class="btn btn-success" (click)="dataSubmit('next')">Yes</button>
+      <button style="margin-left: 10px" class="btn btn-danger" (click)="areYouSureNo()">No</button>
+    </div>
+  </div>
+</div>
+
+<!-- *ngIf="blockPayment" -->
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockPayment">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Are you sure want to proceed further?</h2>
+    </div>
+    <div class="body">
+      </div>
+    <div class="footer">
+      <form ngNoForm action="{{ paymentGateway }}" method="post">
+        <input type="hidden" [(ngModel)]="cipher_message" name="clientPaymentRequest">
+        <button style="margin-right: 10px" type="submit" class="btn btn-success">Yes</button>
+        <button style="margin-left: 10px" class="btn btn-danger" (click)="areYouSurePayNo()">No</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!--
+<div id="content" #content>
+
+
+
+</div> -->

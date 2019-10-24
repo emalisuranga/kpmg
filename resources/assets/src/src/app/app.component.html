@@ -1,0 +1,15 @@
+<!-- Module  -->
+<ng-snotify></ng-snotify>
+<ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "large" color = "#fd7e14" type = "ball-spin-clockwise">
+ <p style="font-size: 20px;font-weight: bold;color: white">Loading...</p>
+</ngx-spinner>
+<!-- <p><strong>{{idleState}}</strong></p>
+<p *ngIf="lastPing"><small>Last keepalive ping <strong>{{lastPing | amTimeAgo}}</strong></small></p>
+<button (click)="reset()" *ngIf="timedOut">Restart</button> -->
+<app-session-warning #sWmodel></app-session-warning>
+<app-session-time-out #toModel></app-session-time-out>
+<ngx-alerts></ngx-alerts>
+<!-- Layout -->
+<app-header></app-header>
+<router-outlet></router-outlet>
+<app-footer></app-footer>

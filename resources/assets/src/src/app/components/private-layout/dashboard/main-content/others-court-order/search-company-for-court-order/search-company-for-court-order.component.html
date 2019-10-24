@@ -1,0 +1,166 @@
+<div class="clearfix">
+</div>
+
+<section class="top-margin">
+
+  <div class="container" style="padding-bottom: 50px;">
+    <div class="row">
+
+      <div class="col-md-12 nopadding">
+
+        <div class="f1">
+          <br /><br />
+          <h3 style="text-align: center">Submit Court order/others</h3>
+          <p style="text-align: center">Please search your company either by name (without company postfix ) or company
+            registration number and proceed.</p>
+
+          <fieldset>
+
+            <div class="tender-list-wrapper">
+
+
+              <div class="search-tender-wrapper">
+
+                <div class="row">
+
+
+
+                  <div class="col-sm-12 col-lg-12 search-text-wrapper searach-1-field">
+
+                    <div class="input-group md-form form-sm form-2 pl-0">
+                      <input class="form-control my-0 py-1 amber-border" type="text" [(ngModel)]="registration_no"
+                        placeholder="Company Registration Number here" aria-label="Search">
+                      <span style="display: inline-block;margin: 0 10px;margin-top: 7px;color: #111;
+                                                  font-weight: bold;" class="or">OR/AND</span>
+                      <input class="form-control my-0 py-1 amber-border" type="text" [(ngModel)]="namePart"
+                        placeholder="Company name here" aria-label="Search">
+                      <!-- <div class="input-group-append">
+                                                      <span *ngIf="tenderNo"  class="input-group-text amber lighten-3" id="basic-text-disabled"><i class="fa fa-search text-grey" aria-hidden="true"></i></span>
+                                                      <span *ngIf="!tenderNo" (click)="getTenders()" class="input-group-text amber lighten-3" id="basic-text1"><i class="fa fa-search text-grey" aria-hidden="true"></i></span>
+                                                  </div>-->
+                    </div>
+                    <br />
+                  </div>
+
+                  <div class="col-sm-12 col-lg-12 search-text-wrapper"
+                    style="text-align:center;margin-top: -26px;margin-bottom: 13px;">
+                    <button [disabled]="!(namePart || registration_no)" (click)="getCompanies()"
+                      class="btn btn-primary"><i class="fa fa-search"></i> SEARCH</button>
+
+                  </div>
+
+
+
+                </div>
+
+                <!-- <div class="pagination" *ngIf="totalResultPages > 1">
+                  <span *ngIf="currentPage > 1" class="paginate prev" (click)="getCompanies(1)"><i
+                      class="fas fa-backward"></i>&nbsp;First</span>
+                  <span *ngIf="currentPage > 1" class="paginate prev" (click)="getCompanies( currentPage -1 )"><i
+                      class="far fa-arrow-alt-circle-left"></i>&nbsp;Previous</span>
+                  <span class="paginate page-indicator">{{currentPage}} of {{totalResultPages}}</span>
+                  <span *ngIf="totalResultPages > currentPage" class="paginate next"
+                    (click)="getCompanies( currentPage + 1 )">Next&nbsp;<i
+                      class="far fa-arrow-alt-circle-right"></i></span>
+                  <span *ngIf="totalResultPages > currentPage" class="paginate next"
+                    (click)="getCompanies( totalResultPages )">Last&nbsp;<i class="fas fa-forward"></i></span>
+                </div> -->
+
+                <!-- <div class="tender-panel" *ngFor="let company of companyList; let i = index"> -->
+
+                <div class="tender-panel" *ngIf="companyList.length">
+
+                  <!-- table-->
+
+                  <table class="corr-table">
+                    <tr>
+                      <th>Company ID</th>
+                      <th>Registration NO</th>
+                      <th>Company Name</th>
+                      <th>Action</th>
+                    </tr>
+                    <tr *ngFor="let corr of companyList; let i = index">
+                      <td>{{corr['company_id']}}</td>
+                      <td>{{corr['regNo']}}</td>
+                      <td style="width:30%">{{corr['name']}}</td>
+                      <td style="text-align:center">
+                        <button (click)="goToExist(corr['company_id'], corr['request_id'])"
+                          style="background-color: #4285f4 !important; width:80%"
+                          *ngIf="corr['compStatus'] == 'OTHERS_COURT_ORDER_PROCESSING'" type="button"
+                          class="btn btn-primary btn-sm">Continue</button>
+
+                        <button (click)="goToNew(corr['company_id'],'multiple')" style="margin:auto; width:80%" type="button"
+                          *ngIf="!( corr['compStatus'] == 'OTHERS_COURT_ORDER_PROCESSING' || corr['compStatus'] == 'PRIOR_APPROVAL_RESUBMIT')"
+                          class="btn btn-primary btn-sm">Create</button>
+
+                        <button (click)="goToExist('multiple')" style="margin:auto;width:80%"
+                          *ngIf="corr['status'] == 'PRIOR_APPROVAL_RESUBMIT'" type="button"
+                          class="btn btn-danger btn-sm">Resubmit</button>
+
+                        <!-- <span class="approved-text" *ngIf="corr['status'] == 'PRIOR_APPROVAL_APPROVED'">Approved</span>
+                          <span class="reject-text" *ngIf="corr['status'] == 'PRIOR_APPROVAL_REJECTED'">Rejected</span>
+                          <span class="reject-text-comment" *ngIf="corr['status'] == 'PRIOR_APPROVAL_REJECTED' && corr['comment']">REASON:
+                            {{corr['comment']}}</span>
+                          <span class="processing-text"
+                            *ngIf="!( corr['status'] == 'PRIOR_APPROVAL_APPROVED' || corr['status'] == 'PRIOR_APPROVAL_REJECTED' || corr['status'] == 'PRIOR_APPROVAL_RESUBMIT' || corr['status'] == 'PRIOR_APPROVAL_PROCESSING')">In-Progress</span> -->
+                      </td>
+                    </tr>
+
+                    <!-- <tr *ngIf="!companyList">
+                  
+                        <td colspan="5" style="text-align:center">
+                          <h4>No Company Record Found</h4>
+                        </td>
+                  
+                      </tr> -->
+                  </table>
+
+                  <!-- end table -->
+
+
+
+
+
+                  <!-- </div> -->
+
+
+
+
+
+
+                </div>
+
+                <div class="pagination" *ngIf="totalResultPages > 1">
+                  <span *ngIf="currentPage > 1" class="paginate prev" (click)="getCompanies(1)"><i
+                      class="fas fa-backward"></i>&nbsp;First</span>
+                  <span *ngIf="currentPage > 1" class="paginate prev" (click)="getCompanies( currentPage -1 )"><i
+                      class="far fa-arrow-alt-circle-left"></i>&nbsp;Previous</span>
+                  <span class="paginate page-indicator">{{currentPage}} of {{totalResultPages}}</span>
+                  <span *ngIf="totalResultPages > currentPage" class="paginate next"
+                    (click)="getCompanies( currentPage + 1 )">Next&nbsp;<i
+                      class="far fa-arrow-alt-circle-right"></i></span>
+                  <span *ngIf="totalResultPages > currentPage" class="paginate next"
+                    (click)="getCompanies( totalResultPages )">Last&nbsp;<i class="fas fa-forward"></i></span>
+                </div>
+
+                <div class="no-tender-items" *ngIf="!companyList.length || !namePart">
+                  <h4>No Companies Found</h4>
+                </div>
+              </div>
+
+
+
+
+
+
+
+
+            </div>
+
+          </fieldset>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

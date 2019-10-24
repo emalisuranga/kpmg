@@ -1,0 +1,37 @@
+<div mdbModal #frame="mdbModal" class="modal fade" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <form (ngSubmit)="onSubmit(); frame.hide()" [formGroup]="formGroup">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Name Cancel</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <h5>Please provide your reason for cancelling</h5>
+          <mat-radio-group #rGroup formControlName="rdcancel">
+            <div class="row mt-2" *ngFor="let reason of reasons;">
+              <div class="col-md-12 ml-5">
+                <mat-radio-button value="{{ reason.description }}" radioGroup="rGroup"><small>{{ reason.description }}</small></mat-radio-button>
+              </div>
+            </div>
+          </mat-radio-group>
+          <div class="row mt-2">
+            <div class="col-md-12">
+              <textarea *ngIf="this.rdcancel.value === 'Other'" formControlName="clienText" row="5" class="form-control"></textarea>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer flex-right">
+          <button class="button" type="submit" [disabled]="formGroup.invalid"   [ngClass]="{'gray': formGroup.invalid, 'red': formGroup.valid}" > <i class="fas fa-trash-alt mr-3"></i>
+            Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+@import "theme-veriable";
+.align-bottom-date {
+  position: absolute !important;
+  right: 0 !important;
+  bottom: 0 !important;
+}
+
+.task-listing-details {
+  padding: 20px 35px $im;
+}
+
+.icon-feather-edit {
+  color: $blue;
+}
+
+.timeline ul {
+  display: flex;
+  list-style: none;
+  .icon-box-check {
+    background-color: #ffd421;
+  }
+}
+.btn{
+  background: $white $im;
+  color: $darkBlue $im;
+  font-size: 12px;
+  border: 2px solid $secondary;
+  :hover{
+    background: $orange $im;
+    color: $white $im;
+  }
+}
+
+.button-sliding-icon{
+  background-color: $blue $im;
+  color: $white $im;
+}
+
+.upload-btn-wrapper {
+  display: none $im;
+}
+
+.button-sm {
+  padding: 3px 5px $im;
+}
+
+.red{
+  background: Red $im;
+}
+
+table{
+  thead{
+    tr{
+      th{
+        font-weight: bold;
+      }
+    }
+  }
+}

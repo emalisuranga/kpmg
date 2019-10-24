@@ -1,0 +1,1183 @@
+<div class="clearfix">
+</div>
+
+<section>
+  <div class="container top-margin" style="padding-bottom: 50px;">
+    <div class="row">
+      <div class="col-md-11 nopadding">
+        <form role="form" method="post" class="f1">
+          <h3 style="text-align: center">Accounting Address Add/Remove Procedure</h3>
+          <p style="text-align: center">Fill in all steps for completing accounting address add/remove process.</p>
+          <div class="f1-steps">
+            <div class="f1-progress">
+              <div class="f1-progress-line" data-now-value="12.5" data-number-of-steps="4" [ngStyle]="{'width': progress.progressPercentage}"></div>
+            </div>
+            <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}}">
+              <div class="f1-step-icon">
+                <i class="{{item.icon}}"></i>
+              </div>
+              <p>{{item.label}}</p>
+            </div>
+          </div>
+          <fieldset [hidden]="stepOn != 0">
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+                </div>
+            <div class="Members-secton stakeholder-section">
+
+              <!-- membs list --------------------------------------- and things -->
+
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <!-- list-->
+
+
+
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner" style="padding: 25px 10px 10px;">
+
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Number of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyRegno}}
+                      </label>
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Name of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyName}} {{postfix}}
+                      </label>
+                    </div>
+
+                  </div>
+                 <br>
+                  <div class="new address-block local-address">
+                    <h5>Existing Addresses</h5>
+                    <br>
+                    <p class="no-stakeholder no-member" [hidden]="oldaddresses.length"><span style="color:black"><b>No Previous Addresses</b></span></p>
+                    <div class="old-address-block" *ngFor="let oldaddress of oldaddresses; let i = index">
+
+                      <h5>Address {{i+1}}</h5>
+                    <div class="form-row">
+
+                      <div class="form-group col-md-4">
+
+                        <label class="col-form-label col-form-label-sm">Address 1 :
+                        </label>
+                        <label class="col-form-label col-form-label-sm">{{oldaddress.localAddress1}}
+                        </label>
+
+
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label class="col-form-label col-form-label-sm">Address 2 :
+                        </label>
+                        <label class="col-form-label col-form-label-sm">{{oldaddress.localAddress2}}
+                        </label>
+
+
+                      </div>
+                      <div class="form-group col-md-2">
+
+                        <label class="col-form-label col-form-label-sm">City :
+                        </label>
+                        <label class="col-form-label col-form-label-sm">{{oldaddress.city}}
+                        </label>
+
+
+                      </div>
+                      <div class="form-group col-md-2">
+
+                        <button disabled *ngIf="oldaddress.showEditPaneForPresident" (click)="addDeletingAddresses(oldaddress.id,i)" class="btn btn-sm relative waves-light add-new-stakeholder add-director">Remove</button>
+
+
+                      </div>
+                    </div>
+                    <div class="form-row">
+
+                      <div class="form-group col-md-4">
+
+                        <label class="col-form-label col-form-label-sm">District :
+                        </label>
+                        <label class="col-form-label col-form-label-sm">{{oldaddress.district}}
+                        </label>
+
+
+                      </div>
+                      <div class="form-group col-md-4" *ngIf="oldaddress.country == 'Sri Lanka'">
+                        <label class="col-form-label col-form-label-sm">Province :
+                        </label>
+                        <label class="col-form-label col-form-label-sm">{{oldaddress.province}}
+                        </label>
+
+
+                      </div>
+                      <div class="form-group col-md-4" *ngIf="oldaddress.country != 'Sri Lanka'">
+                        <label class="col-form-label col-form-label-sm">State/Region/Province :
+                        </label>
+                        <label class="col-form-label col-form-label-sm">{{oldaddress.province}}
+                        </label>
+
+
+                      </div>
+                      <div class="form-group col-md-2">
+
+                        <label class="col-form-label col-form-label-sm">Postal/Zip code :
+                        </label>
+                        <label class="col-form-label col-form-label-sm">{{oldaddress.postcode}}
+                        </label>
+
+
+                      </div>
+                      <div class="form-group col-md-2">
+
+                        <button disabled *ngIf="!(oldaddress.showEditPaneForPresident)" (click)="removeDeletingAddresses(oldaddress.id,i)" class="btn btn-previous">Undo</button>
+
+
+                      </div>
+                    </div>
+                    <div class="form-row">
+
+                      <div class="form-group col-md-6">
+
+                        <label class="col-form-label col-form-label-sm">Date of accounting records maintained at this address : &nbsp;{{oldaddress.date}}
+                        </label>
+
+
+                      </div>
+                      <div class="form-group col-md-6">
+  
+                        <label class="col-form-label col-form-label-sm">Country : &nbsp;{{oldaddress.country}}
+                        </label>
+
+
+                      </div>
+                      
+                      
+                    </div>
+                    <hr style="width: 300px">
+                  </div>
+                   <br>  
+                    <div class="add-new-wrapper president-add-new-wrapper">
+
+                        <h2>
+                          <span class="add-new-wrapper-label">New Addresses</span>
+                          <div class="line"></div>
+        
+                          <button disabled type="button" mdbBtn class="relative waves-light add-new-stakholder"
+                            mdbWavesEffect>
+                            <i class="fa fa-plus"></i> Add</button>
+        
+                        </h2>
+        
+                      </div>
+
+                      <div class="president-list stakeholder-list-wrapper">
+
+                          <!-- list-->
+          
+                          <div *ngFor="let address of addresses; let i = index" class="director-record stakeholder-record"
+                            style=" margin: 30px 0;border-radius: 20px;background: #fff;border: 1px solid rgb(243, 91, 63);">
+          
+                            <div (click)="showToggle('president', i)" class="stakeholder-record-summeru" style="background-color: #f35b3f;
+                                color: #fff;
+                                padding: 5px 10px;
+                                font-weight: lighter;
+                                font-size: 14px;
+                                border-top-left-radius: 18px;
+                                box-shadow: 1px 1px 2px #b3aea9;
+                                border-top-right-radius: 18px;
+                                cursor: pointer;
+                                width: 100%;
+                                border-radius: 20px;">
+          
+                                {{address.localAddress1}},{{address.localAddress2}},{{address.city}}
+          
+                              <!-- <span *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'"
+                                title="remove record" style="float:right;" class="record-handler record-handler-remove">
+                                <i class="fa fa-trash"></i>
+                              </span> -->
+                              <span *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" title="show details" style="float:right; margin:0 15px"
+                                class="record-handler">
+                                <i class="fa fa-pencil-alt"></i>
+                              </span>
+                              <span *ngIf="processStatus == 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" title="show details" style="float:right; margin:0 15px"
+                                class="record-handler">
+                                <i class="fa fa-eye"></i>
+                              </span>
+          
+                            </div>
+          
+                            <div *ngIf="address.showEditPaneForPresident" [class]="'stakeholder-record-inner'"
+                              class="stakeholder-record-inner" style="padding: 25px 10px 10px;">
+          
+          
+                              <div class="stakeholder-type-tab-wrapper">
+                                <div (click)="selectAddressType(1, i)" class="tab local-tab {{address.tab1}}">Sri Lankan Address</div>
+                                <div (click)="selectAddressType(2, i)" class="tab local-tab {{address.tab2}}">Foreign Address</div>
+                              </div>
+                              <br>
+                              <h5 *ngIf="address.type == 2" style="text-align:center;margin-bottom: 5px"><span class="alert alert-warning">Form 16 has to be filed every 6 months</span></h5>
+                              <h5 *ngIf="address.type == 1" style="text-align:center;margin-bottom: 5px"><span class="alert alert-warning">You are required to file form 14 and not form 16</span></h5>
+                              <div class="form-row">
+          
+                                <div class="form-group col-md-6">
+          
+                                  <label class="col-form-label col-form-label-sm">Date of accounting records maintained at this address</label>
+                                  <span class="req">*</span>
+          
+                                  <input min="{{incoDate}}" max="{{formattedTodayValue}}" onkeydown="return false" disabled [disabled]="address.bool" type="date"
+                                   [(ngModel)]="addresses[i].date" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-nic"
+                                   value="{{address.date}}" (input)="validatePresidentEdit(i)">
+                                  
+                                </div>
+          
+          
+          
+                              </div>
+          
+                              <div class="address-block local-address" *ngIf="address.type == 1">
+          
+          
+                                <div class="form-row">
+          
+                                  <div class="form-group col-md-4">
+          
+                                    <label class="col-form-label col-form-label-sm">Province
+                                      <span class="req">*</span>
+                                    </label>
+                                    <ng-select [disabled]="address.bool" (change)="validatePresidentEdit(i)" (ngModelChange)="this.addresses[i].district = undefined;this.addresses[i].city = undefined;this.addresses[i].gnDivision = undefined;"
+                                      class="custom" placeholder="Province" [searchable]="true" [(ngModel)]="addresses[i].province"
+                                      [ngModelOptions]="{standalone: true}">
+                                      <ng-option *ngFor="let province of data.provinces" [value]="province">{{
+                                        province.description_en }}</ng-option>
+                                    </ng-select>
+          
+                                  </div>
+          
+                                  <div class="form-group col-md-4">
+          
+                                    <label class="col-form-label col-form-label-sm">District
+                                      <span class="req">*</span>
+                                    </label>
+                                    <ng-select [disabled]="address.bool" (change)="validatePresidentEdit(i)" (ngModelChange)="this.addresses[i].city = undefined;this.addresses[i].gnDivision = undefined;"
+                                      class="custom" placeholder="District" [searchable]="true" [(ngModel)]="addresses[i].district"
+                                      [ngModelOptions]="{standalone: true}">
+                                      <ng-option *ngFor="let district of this.data.districts | district:addresses[i].province"
+                                        [value]="district">{{
+                                        district.description_en }}</ng-option>
+                                    </ng-select>
+                                  </div>
+          
+                                  <div class="form-group col-md-4">
+          
+                                    <label class="col-form-label col-form-label-sm">City
+                                      <span class="req">*</span>
+                                    </label>
+                                    <ng-select [disabled]="address.bool" (change)="validatePresidentEdit(i)" (ngModelChange)="this.addresses[i].gnDivision = undefined;"
+                                      class="custom" placeholder="City" [searchable]="true" [(ngModel)]="addresses[i].city"
+                                      [ngModelOptions]="{standalone: true}">
+                                      <ng-option *ngFor="let city of data.citys | city:addresses[i].district" [value]="city">{{city.description_en}}</ng-option>
+                                    </ng-select>
+                                  </div>
+          
+                                  <div class="form-group col-md-6">
+          
+                                    <label class="col-form-label col-form-label-sm">Address 1
+                                      <span class="req">*</span>
+                                    </label>
+          
+                                    <input [disabled]="address.bool" maxlength="200"
+                                      (input)="validatePresidentEdit(i)" [(ngModel)]="addresses[i].localAddress1"
+                                      [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-localaddress1"
+                                      placeholder="" value="{{ address.localAddress1}}">
+                                  </div>
+          
+          
+                                  <div class="form-group col-md-6">
+          
+                                    <label class="col-form-label col-form-label-sm">Address 2
+                                      <span class="req">*</span>
+                                    </label>
+          
+                                    <input [disabled]="address.bool" maxlength="200"
+                                      (input)="validatePresidentEdit(i)" [(ngModel)]="addresses[i].localAddress2"
+                                      [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                                      placeholder="" value="{{ address.localAddress2}}">
+                                  </div>
+          
+                                  <div class="form-group col-md-4">
+                                    <label class="col-form-label col-form-label-sm"> Gn Division
+                                      <span class="req">*</span>
+                                    </label>
+                                    <ng-select [disabled]="address.bool" (change)="validatePresidentEdit(i)" class="custom" placeholder="Gn Division"
+                                      [searchable]="true" [(ngModel)]="addresses[i].gnDivision" [ngModelOptions]="{standalone: true}">
+                                      <ng-option *ngFor="let gndivision of data.gndivisions | gndivision:addresses[i].city"
+                                        [value]="gndivision">{{gndivision.description_en}}</ng-option>
+                                    </ng-select>
+          
+                                  </div>
+          
+                                  <div class="form-group col-md-4">
+          
+                                    <label class="col-form-label col-form-label-sm">Postal Code <span class="req">*</span></label>
+          
+                                    <input [disabled]="address.bool" maxlength="10"
+                                      (input)="validatePresidentEdit(i)" [(ngModel)]="addresses[i].postcode"
+                                      [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-postcode"
+                                      placeholder="" value="{{ address.postcode}}">
+                                  </div>
+          
+          
+                                </div>
+          
+                              </div>
+
+                              <div class="address-block foriegn-address" *ngIf="address.type == 2">
+                                <div class="form-row">
+                                  <div class="form-group col-md-6">
+          
+                                    <label class="col-form-label col-form-label-sm">Address Line 1<span class="req">*</span></label>
+          
+                                    <input [disabled]="address.bool" maxlength="200"
+                                      (input)="validatePresidentEdit(i)" [(ngModel)]="addresses[i].localAddress1" [ngModelOptions]="{standalone: true}"
+                                      class="form-control form-control-sm modal-input-director-address1" placeholder="" value="{{address.localAddress1}}">
+                                  </div>
+                                  <div class="form-group col-md-6">
+          
+                                    <label class="col-form-label col-form-label-sm">Address Line 2<span class="req"></span></label>
+          
+                                    <input [disabled]="address.bool" maxlength="200"
+                                      (input)="validatePresidentEdit(i)" [(ngModel)]="addresses[i].localAddress2" [ngModelOptions]="{standalone: true}"
+                                      class="form-control form-control-sm modal-input-director-address2" placeholder="" value="{{address.localAddress2}}">
+                                  </div>
+          
+                                  <div class="form-group col-md-4">
+          
+                                    <label class="col-form-label col-form-label-sm">City<span class="req">*</span></label>
+          
+                                    <input [disabled]="address.bool" maxlength="100"
+                                      (input)="validatePresidentEdit(i)" [(ngModel)]="addresses[i].city" [ngModelOptions]="{standalone: true}"
+                                      class="form-control form-control-sm modal-input-director-city" placeholder="" value="{{address.city}}">
+                                  </div>
+          
+                                  <div class="form-group col-md-4">
+          
+                                    <label class="col-form-label col-form-label-sm">State/Region/Province<span class="req">*</span></label>
+          
+                                    <input [disabled]="address.bool" maxlength="100"
+                                      (input)="validatePresidentEdit(i)" [(ngModel)]="addresses[i].province" [ngModelOptions]="{standalone: true}"
+                                      class="form-control form-control-sm modal-input-director-province" placeholder="" value="{{address.province}}">
+                                  </div>
+          
+                                  <div class="form-group col-md-4">
+          
+                                    <label class="col-form-label col-form-label-sm">Postal/ZIP Code <span class="req">*</span></label>
+          
+                                    <input [disabled]="address.bool" maxlength="10"
+                                      (input)="validatePresidentEdit(i)" [(ngModel)]="addresses[i].postcode" [ngModelOptions]="{standalone: true}"
+                                      class="form-control form-control-sm modal-input-director-postcode" placeholder="" value="{{address.postcode}}">
+                                  </div>
+                                </div>
+          
+                              </div>
+          
+                              <div class="form-row" *ngIf="address.type == 2">
+          
+                                <div class="form-group col-md-4">
+          
+                                  <label class="col-form-label col-form-label-sm">Country
+                                    <span class="req">*</span>
+                                  </label>
+                                  <!-- <input [disabled]="address.bool" maxlength="100"
+                                    (input)="validatePresidentEdit(i)" [(ngModel)]="addresses[i].country" [ngModelOptions]="{standalone: true}"
+                                    class="form-control form-control-sm modal-input-director-postcode" placeholder="" value="{{address.country}}"> -->
+                                    <ng-select (change)="validatePresidentEdit(i)" [items]="countries" bindValue="name" bindLabel="name" [(ngModel)]="addresses[i].country" [ngModelOptions]="{standalone: true}"
+                                    >
+                                    <!-- <ng-option *ngFor="let member of members; style="z-index: 100;" let i = index" value="{{member.id}}-{{member.type}}">{{member.designation}} :- {{member.first_name}} {{member.last_name}} </ng-option> -->
+                                    <!-- <option value="other">Other</option> [dropdownPosition]="'top'" -->
+                                  </ng-select>
+          
+          
+                                </div>
+                              </div>
+          
+                              <button style="float: right" *ngIf="processStatus != 'COMPANY_STATUS_REQUEST_TO_RESUBMIT'" (click)="editPresidentDataArray(i)"
+                                [disabled]="!address.valid" type="button" class="btn btn-next"><i class="fa fa-edit"></i>
+                                Save</button>
+                              <div style="clear:both"></div>
+          
+                            </div>
+                            <!-- end rerord inner -->
+          
+                          </div>
+          
+                          <!-- end list -->
+        
+          
+                        </div>                     
+
+                  </div>
+                  <div class="form-group col-md-6">
+
+                    <label class="col-form-label col-form-label-sm">Signed By <span class="req">*</span></label>
+                    <ng-select [dropdownPosition]="'top'" [items]="members" groupBy="designation" bindValue="_id" bindLabel="name" [(ngModel)]="signbyid" [ngModelOptions]="{standalone: true}"
+                            style="z-index: 100;">
+                            <!-- <ng-option *ngFor="let member of members; let i = index" value="{{member.id}}-{{member.type}}">{{member.designation}} :- {{member.first_name}} {{member.last_name}} </ng-option> -->
+                            <!-- <option value="other">Other</option> -->
+                          </ng-select>
+                    <!-- <label class="col-form-label col-form-label-sm"
+                      *ngFor="let member of members; let i = index">{{member.designation}}&nbsp;:-&nbsp;{{member.first_name}}&nbsp;{{member.last_name}}&nbsp;<input
+                        type="radio" [(ngModel)]="signbyid" name="rad"
+                        value="{{member.id}}-{{member.type}}"></label> -->
+
+                  </div>
+
+                </div>
+                <!-- end record inner -->
+
+
+
+                <!-- end list -->
+
+              </div>
+
+
+            </div>
+
+
+
+            <div class="f1-buttons">
+
+              <button [disabled]="!((addresses.length || deladdresses.length) && signbyid)" type="button" class="btn btn-primary" id="btn1-next" (click)="areYouSureYes()">Next
+                <i class="fas fa-forward"></i></button>
+              <!-- [disabled]="!enableStep1Submission" -->
+            </div>
+            <br>
+            <br>
+
+          </fieldset>
+          <!-- end of fist step -->
+
+
+
+
+
+
+
+
+
+
+          <!-- <fieldset [hidden]="stepOn != 1">
+
+
+            
+            
+
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="areYouSureYes()" type="button" [disabled]="!(addits.length == 5 && treasurers.length && secretaries.length && presidents.length)"
+                class="btn btn-primary">Next <i class="fas fa-forward"></i></button>
+            </div>
+            [disabled]="!(addits.length == 5 && treasurers.length && secretaries.length && presidents.length)"
+          </fieldset> -->
+
+
+
+
+
+
+
+
+
+
+
+          <!--end of second step -->
+
+
+
+          <fieldset [hidden]="stepOn != 1">
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+                </div>
+            <div class="Members-secton stakeholder-section">
+
+              <!-- membs list --------------------------------------- and things -->
+
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <!-- list-->
+
+
+
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner" style="padding: 25px 10px 10px;">
+
+
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Number of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyRegno}}
+                      </label>
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Name of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyName}} {{postfix}}
+                      </label>
+                    </div>
+
+                  </div>
+
+                  <div class="container download-container" >
+                    <h3>Document List</h3>
+                    <div class="doc-block-wrapper" *ngIf="addchanges?.length">
+                      <div class="doc-block">
+                        <h4>Form 16 Download (New Addresses)</h4>
+                        <div class="download-application-row" *ngFor="let addchange of addchanges; let i = index">
+                          <div class="download-application-block">{{addchange.localAddress1}},{{addchange.localAddress2}},{{addchange.city}}, {{addchange.country}} </div>
+                          <div class="doc-download">
+                            <button (click)="form16Download(addchange.id,addchange.changeid)" type="button" class="btn btn-next">Download <i
+                                class="fas fa-forward"></i></button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="doc-block-wrapper" *ngIf="remchanges?.length">
+                      <div class="doc-block">
+                        <h4>Form 16 Download (Remove Addresses)</h4>
+                        <div class="download-application-row" *ngFor="let remchange of remchanges; let i = index">
+                          <div class="download-application-block">{{remchange.localAddress1}},{{remchange.localAddress2}},{{remchange.city}}, {{remchange.country}}</div>
+                          <div class="doc-download">
+                            <button (click)="form16Download(remchange.id,remchange.changeid)" type="button" class="btn btn-next">Download <i
+                                class="fas fa-forward"></i></button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="f1-buttons">
+                <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                  Previous</button>
+              <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-primary">Next <i class="fas fa-forward"></i></button>
+            </div>
+
+          </fieldset>
+          <!--end of third step-->
+
+
+
+          <fieldset [hidden]="stepOn != 2">
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+                </div>
+            <div class="Members-secton stakeholder-section">
+
+              <!-- membs list --------------------------------------- and things -->
+
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <!-- list-->
+
+
+
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner" style="padding: 25px 10px 10px;">
+
+
+
+                  <div class="alert alert-warning" role="alert">
+
+                    <p>
+                      <small>Please upload all required<span class="req">*</span> files in pdf format,upload only A4 Size, portrait orientation and file
+                        size
+                        should be less
+                        than 4 MB.</small>
+                    </p>
+
+                  </div>
+
+                  <hr>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Number of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyRegno}}
+                      </label>
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Name of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyName}} {{postfix}}
+                      </label>
+                    </div>
+
+                  </div>
+                  <div class="container uploaded-container" *ngIf="addchanges?.length">
+                      <div class="container" style="background-color: white">
+                    <div class="row upload-row">
+                      <div class="col-6 doc">
+                        <b>
+                          <h4>Form 16 Upload (New Addresses) <span class="req">*</span></h4>
+                        </b>
+                      </div>
+                    </div>
+                    <div class="col-12 upload-row" style="margin-bottom: 10px" *ngFor="let addchange of addchanges; let i = index">
+                      <div class="col-12 doc">
+                        {{addchange.localAddress1}},{{addchange.localAddress2}},{{addchange.city}}, {{addchange.country}}
+                      </div>
+                        <div class="col-3 float-right" style="margin-top: -10px" *ngIf="!addlist[addchange.changeid]">
+                          <label for="adupload{{addchange.changeid}}" class="upload-wrapper btn btn-primary btn-sm download">
+                            <i class="fas fa-cloud-upload-alt"></i> Upload
+                          </label>
+                          <input style="display:block;position: fixed;top:-100000px" id="adupload{{addchange.changeid}}" type="file"
+                            (change)="fileUpload($event,addchange.changeid,'addUpload')" placeholder="Upload file" accept=".pdf">
+                        </div>
+    
+                      <div class="col-3 float-right" style="margin-top: -10px" *ngIf="(!addlist[addchange.changeid]?.pdfname && addlist[addchange.changeid])">
+                        <label for="ad{{addchange.changeid}}" style="height: 37px;" class="upload-wrapper btn btn-primary btn-sm download">
+                          <i class="fas fa-cloud-upload-alt"></i> Upload
+                        </label>
+                        <input style="display:block;position: fixed;top:-100000px" id="ad{{addchange.changeid}}" type="file"
+                          (change)="fileUploadUpdate($event,addlist[addchange.changeid].id,addchange.changeid,'addUpload')"
+                          placeholder="Upload file" accept=".pdf">
+                      </div>
+    
+                      <div class="col-12 uploaded-doc" *ngIf="addlist[addchange.changeid]?.pdfname">
+                        <span><i class="fas fa-file-pdf"></i></span>{{addlist[addchange.changeid].pdfname}}
+                        <span class="approved_doc" *ngIf="addlist[addchange.changeid]?.setKey == 'DOCUMENT_APPROVED'">Document Approved</span>
+                        <button class="button red button-sm" *ngIf="!(addlist[addchange.changeid]?.setKey == 'DOCUMENT_APPROVED')" [disabled]="addlist[addchange.changeid]?.setKey == 'DOCUMENT_APPROVED'" (click)="fileDeleteUpdate(addlist[addchange.changeid].id,'addUpload',addchange.changeid)">
+                          <i class="fas fa-trash-alt"></i> Delete
+                        </button>
+                        <button class="button blue button-sm " (click)="ngOnDownload(addlist[addchange.changeid].token)">
+                          <i class="far fa-file-pdf"></i> View
+                        </button>
+                      </div>
+                      <div class="col-6" *ngIf="addlist[addchange.changeid]?.setKey == 'DOCUMENT_REQUEST_TO_RESUBMIT'">
+                        <span style="color: red"><i class="fa fa-exclamation-triangle"></i>{{addlist[addchange.changeid].comments}}
+                          {{addlist[addchange.changeid].value}}</span>
+                      </div>
+                    </div>
+                    <br>
+                    </div>
+                  </div>
+                  <hr *ngIf="remchanges?.length">
+                  <div class="container uploaded-container" *ngIf="remchanges?.length">
+                    <div class="container" style="background-color: white">
+                    <div class="row upload-row">
+                      <div class="col-6 doc">
+                        <b>
+                          <h4>Form 16 Upload (Remove Addresses) <span class="req">*</span></h4>
+                        </b>
+                      </div>
+                    </div>
+                    <div class="col-12 upload-row" style="margin-bottom: 10px" *ngFor="let remchange of remchanges; let i = index">
+                      <div class="col-12 doc">
+                        {{remchange.localAddress1}},{{remchange.localAddress2}},{{remchange.city}}, {{remchange.country}}
+                      </div>
+
+                      <div class="col-3 float-right" style="margin-top: -10px" *ngIf="!remlist[remchange.changeid]">
+                        <label for="remupload{{remchange.changeid}}" class="upload-wrapper btn btn-primary btn-sm download">
+                          <i class="fas fa-cloud-upload-alt"></i> Upload
+                        </label>
+                        <input style="display:block;position: fixed;top:-100000px" id="remupload{{remchange.changeid}}" type="file"
+                          (change)="fileUpload($event,remchange.changeid,'removeUpload')" placeholder="Upload file" accept=".pdf">
+                      </div>
+    
+                      <div class="col-3 float-right" style="margin-top: -10px" *ngIf="(!remlist[remchange.changeid]?.pdfname && remlist[remchange.changeid])">
+                        <label for="rm{{remchange.changeid}}" style="height: 37px;" class="upload-wrapper btn btn-primary btn-sm download">
+                          <i class="fas fa-cloud-upload-alt"></i> Upload
+                        </label>
+                        <input style="display:block;position: fixed;top:-100000px" id="rm{{remchange.changeid}}" type="file"
+                          (change)="fileUploadUpdate($event,remlist[remchange.changeid].id,remchange.changeid,'removeUpload')"
+                          placeholder="Upload file" accept=".pdf">
+                      </div>
+    
+                      <div class="col-12 uploaded-doc" *ngIf="remlist[remchange.changeid]?.pdfname">
+                        <span><i class="fas fa-file-pdf"></i></span>{{remlist[remchange.changeid].pdfname}}
+                        <span class="approved_doc" *ngIf="remlist[remchange.changeid]?.setKey == 'DOCUMENT_APPROVED'">Document Approved</span>
+                        <button class="button red button-sm" *ngIf="!(remlist[remchange.changeid]?.setKey == 'DOCUMENT_APPROVED')" [disabled]="remlist[remchange.changeid]?.setKey == 'DOCUMENT_APPROVED'" (click)="fileDeleteUpdate(remlist[remchange.changeid].id,'removeUpload',remchange.changeid)">
+                          <i class="fas fa-trash-alt"></i> Delete
+                        </button>
+                        <button class="button blue button-sm " (click)="ngOnDownload(remlist[remchange.changeid].token)">
+                          <i class="far fa-file-pdf"></i> View
+                        </button>
+                      </div>
+                      <div class="col-6" *ngIf="remlist[remchange.changeid]?.setKey == 'DOCUMENT_REQUEST_TO_RESUBMIT'">
+                        <span style="color: red"><i class="fa fa-exclamation-triangle"></i>{{remlist[remchange.changeid].comments}}
+                          {{remlist[remchange.changeid].value}}</span>
+                      </div>
+                    </div>
+                    <br>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="container uploaded-container">
+                    <div class="container" style="background-color: white">
+                      <div class="row upload-row" style="padding: 10px">
+                        <div class="col-3 doc">
+                          <b>
+                            <h4>Other Documents</h4>
+                          </b>
+                        </div>
+                        <br>
+                        <div class="col-5">
+                          <input style="float: left;" class="form-control form-control-sm" name="description" maxlength="50"
+                            [(ngModel)]="description" placeholder="Mention The Relevant Document Name">
+                        </div>
+                        <div class="col-md-4">
+                          <div class="float-right" style="margin-top: -10px">
+                            <label style="height: 37px;" for="um"
+                              class="upload-wrapper-more btn btn-primary btn-sm download">
+                              <i class="fas fa-cloud-upload-alt"></i> Upload More
+                            </label>
+                            <input style="display:block;position: fixed;top:-100000px" id="um" type="file"
+                              (change)="fileUpload($event,description,'extraUpload')" placeholder="Upload file"
+                              accept=".pdf">
+                          </div>
+                        </div>
+                        <div class="col-12" *ngFor="let item of extra; let i = index">
+                          <div class="col-3 float-right" style="margin-top: -10px" *ngIf="!item?.pdfname">
+                            <label for="ed{{item.id}}" style="height: 37px;"
+                              class="upload-wrapper btn btn-primary btn-sm download">
+                              <i class="fas fa-cloud-upload-alt"></i> Upload
+                            </label>
+                            <input style="display:block;position: fixed;top:-100000px" id="ed{{item.id}}" type="file"
+                              (change)="fileUploadUpdate($event,item.id,'none','extraUpload')" placeholder="Upload file"
+                              accept=".pdf">
+                          </div>
+
+                          <div class="col-12 uploaded-doc" *ngIf="item?.pdfname">
+                            <span *ngIf="!item.file_description"><i class="fas fa-file-pdf"></i>&nbsp; {{item.pdfname}}</span>
+                            <span *ngIf="item.file_description"><i class="fas fa-file-pdf"></i>&nbsp; {{item.file_description}}</span>
+                            <span class="approved_doc" *ngIf="item.setKey == 'DOCUMENT_APPROVED'">Document Approved</span>
+                            <button class="button red button-sm" *ngIf="!(item.setKey == 'DOCUMENT_APPROVED')" [disabled]="item.setKey == 'DOCUMENT_APPROVED'"
+                              (click)="fileDeleteUpdate(item.id,'extraUpload',i)">
+                              <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                            <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                              <i class="far fa-file-pdf"></i> View
+                            </button>
+                          </div>
+                          <div class="col-6" *ngIf="item.setKey == 'DOCUMENT_REQUEST_TO_RESUBMIT'">
+                            <span style="color: red"><i class="fa fa-exclamation-triangle"></i>{{item.comments}}
+                              {{item.value}}</span>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <hr *ngIf="additional.length">
+                  <div class="container uploaded-container" *ngIf="additional.length">
+
+                    <div class="container" style="background-color: white">
+                      <div class="row upload-row" style="padding: 10px">
+                        <div class="col-9 doc">
+                          <b>
+                            <h4>Additional Documents <span class="req">*</span></h4>
+                          </b>
+                        </div>
+                        <br>
+                        <div class="col-12" style="margin-bottom: 10px" *ngFor="let item of additional; let i = index">
+                          <div class="col-3 float-right" style="margin-top: -10px" *ngIf="!item?.pdfname">
+                            <label for="ad{{item.id}}" style="height: 37px;" class="upload-wrapper btn btn-primary btn-sm download">
+                              <i class="fas fa-cloud-upload-alt"></i> Upload
+                            </label>
+                            <input style="display:block;position: fixed;top:-100000px" id="ad{{item.id}}" type="file" (change)="fileUploadUpdate($event,item.id,'none','additionalUpload')"
+                              placeholder="Upload file" accept=".pdf">
+                          </div>
+
+                          <div class="col-12 uploaded-doc" *ngIf="item?.pdfname">
+                            <span style="margin-right: 10px"><i class="fas fa-file-pdf"></i></span>{{item.pdfname}}
+                            <span class="approved_doc" *ngIf="item.setKey == 'DOCUMENT_APPROVED'">Document Approved</span>
+                            <button class="button red button-sm" *ngIf="!(item.setKey == 'DOCUMENT_APPROVED')" [disabled]="item.setKey == 'DOCUMENT_APPROVED'"
+                              (click)="fileDeleteUpdate(item.id,'additionalUpload',i)">
+                              <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                            <button class="button blue button-sm " (click)="ngOnDownload(item.token)">
+                              <i class="far fa-file-pdf"></i> View
+                            </button>
+                          </div>
+                          <div class="col-6" *ngIf="item?.setKey == 'DOCUMENT_REQUESTED' || item?.setKey == 'DOCUMENT_REQUEST_TO_RESUBMIT'">
+                            <span style="color: red"><i class="fa fa-exclamation-triangle"></i>{{item.comments}}
+                              {{item.value}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div style="clear:both"></div>
+
+
+
+
+                  <div class="sec_type_item form-group col-md-12 document_confirm">
+
+                    <p style="font-size:14px;"  ><strong>SECTION 511.</strong> “Where in any return, report, certificate, balance
+                      sheet or other document, required by or for the purposes of
+                      this Act, any person wilfully makes a statement which is false
+                      in any material particular knowing it to be false, shall be
+                      guilty of an offence and be liable on conviction <u><b>to a fine not
+                        exceeding one million rupees or to imprisonment for a term
+                        not exceeding five years or to both such fine and
+                        imprisonment </b></u>”
+                    </p>
+                      <br/>
+                      <input  [(ngModel)]="document_confirm" type="checkbox" id="document_confirm" class="custom-control-input" [ngModelOptions]="{standalone: true}">
+                      <label style="font-size: 17px;
+                      color: darkred;
+                      font-weight: bold;" class="custom-control-label custom-control-sub-label radio-lbl" for="document_confirm">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I read over and understood
+                      </label>
+                       
+                  </div>
+                <div style="clear:both"></div>
+                
+                  <div class="alert alert-warning"  *ngIf="court_status == 'yes'">
+                    <p>
+                     Please upload your court case document(s) under the other document section
+                   </p>
+                 </div>
+           
+                 <div clas="form-row" *ngIf="penalty_charge">
+                       <div class="sec_type_item form-group col-md-12">
+           
+                         <p style="position: relative;">Have you been prosecuted by the court for not filing relevant form during the provided statutory period? <span class="req">*</span> {{court_status}}</p>
+           
+                     </div>
+
+        
+           
+                     <div [hidden]= "true" class="sec_type_item form-group col-md-6" style="float:left;padding-left: 44px;">
+           
+                       <input (change)="validateCourtSection()"   [(ngModel)]="court_status" type="radio" id="court_status_yes" class="custom-control-input" name="court_status" value="yes">
+                       <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_status_yes">&nbsp;&nbsp;&nbsp;&nbsp;Yes</label>
+           
+                     </div>
+           
+                     <div [hidden]= "true"  class="sec_type_item form-group col-md-6" style="float:left">
+           
+                       <input  (change)="validateCourtSection()"   [(ngModel)]="court_status" type="radio" id="court_status_no" class="custom-control-input" name="court_status" value="no">
+                       <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_status_no">&nbsp;&nbsp;&nbsp;&nbsp;No</label>
+           
+                     </div>
+           
+                     <div class="form-group col-md-12" style="clear:both;" *ngIf="court_status == 'yes'">
+                       <label class="col-form-label col-form-label-sm"> Name of the court<span class="req">*</span></label>
+                       <input  (input)="validateCourtSection()"  [(ngModel)]="court_name"
+                               [ngModelOptions]="{standalone: true}"
+                               class="form-control form-control-sm modal-input-director-oppointment"
+                               placeholder="">
+                     </div>
+           
+                     <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left">
+                       <label class="col-form-label col-form-label-sm"> Case number<span class="req">*</span></label>
+                       <input  (input)="validateCourtSection()"  [(ngModel)]="court_case_no"
+                               [ngModelOptions]="{standalone: true}"
+                               class="form-control form-control-sm modal-input-director-oppointment"
+                               placeholder="">
+                     </div>
+           
+           
+                     <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left">
+                         <label class="col-form-label col-form-label-sm"> Date of the court decision<span class="req">*</span></label>
+                         <input  (input)="validateCourtSection()"  [(ngModel)]="court_date"
+                                 [ngModelOptions]="{standalone: true}"
+                                 type="date"
+                                 min="{{incoDate}}" max="{{formattedTodayValue}}"
+                                 class="form-control form-control-sm modal-input-director-oppointment"
+                                 placeholder="">
+                     </div>
+           
+                     <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left">
+                       <label class="col-form-label col-form-label-sm"> Amount of Penalty/any other charge<span class="req">*</span></label>
+                       <input  (input)="validateCourtSection()"  [(ngModel)]="court_penalty"
+                               [ngModelOptions]="{standalone: true}"
+                               class="form-control form-control-sm modal-input-director-oppointment"
+                               onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"
+                               placeholder="">
+                     </div>
+           
+                     <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left">
+                       <label class="col-form-label col-form-label-sm"> Period of imprisonment</label>
+                       <input  (input)="validateCourtSection()"  [(ngModel)]="court_period"
+                               [ngModelOptions]="{standalone: true}"
+                               class="form-control form-control-sm modal-input-director-oppointment"
+                               placeholder="">
+                     </div>
+           
+           
+                     <div class="sec_type_item form-group col-md-12" *ngIf="court_status == 'yes'" style="clear:both" >
+           
+                       <p style="position: relative"> You have been discharged?</p>
+           
+                   </div>
+           
+                   <div class="sec_type_item form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left;padding-left: 44px;">
+           
+                     <input  [(ngModel)]="court_discharged" type="radio" id="court_discharged_yes" class="custom-control-input" name="court_discharged" value="yes">
+                     <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_discharged_yes">&nbsp;&nbsp;&nbsp;&nbsp;Yes</label>
+           
+                   </div>
+           
+                   <div class="sec_type_item form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left">
+           
+                     <input  [(ngModel)]="court_discharged" type="radio" id="court_discharged_no" class="custom-control-input" name="court_discharged" value="no">
+                     <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_discharged_no">&nbsp;&nbsp;&nbsp;&nbsp;No</label>
+           
+                   </div>
+           
+           
+           
+                 </div>
+                  <hr>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button [disabled]="!(enableGoToPay && validateCourtSectionFlag && document_confirm)" (click)="acaddresschangeReSubmit()" type="button" class="btn btn-primary">Complete
+                <i class="fas fa-forward"></i></button>
+              <!-- [disabled]="!enableGoToPay" -->
+
+            </div>
+
+
+          </fieldset>
+          <!--end of fourth step-->
+
+
+          <fieldset class="{{stepOn}}" [hidden]="stepOn != 3">
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+                </div>
+            <div class="Members-secton stakeholder-section">
+
+              <!-- membs list --------------------------------------- and things -->
+
+
+              <div class="members-list stakeholder-list-wrapper">
+
+                <!-- list-->
+
+
+
+
+                <div [class]="'stakeholder-record-inner'" class="stakeholder-record-inner" style="padding: 25px 10px 10px;">
+
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Number of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyRegno}}
+                      </label>
+                    </div>
+
+                  </div>
+                  <div class="form-row">
+
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm"><b>Name of the Company :</b>
+                      </label>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                      <label class="col-form-label col-form-label-sm">{{companyName}} {{postfix}}
+                      </label>
+                    </div>
+
+                  </div>
+
+                  <div class="content">
+                    <div class="container top-margin">
+                      <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
+                          <div class="box">
+                            <h3 class="box-title">User payment agreement</h3>
+                            <div class="plan-selection">
+                              <div class="plan-data">
+                                <small class="plan-text">If you are having any problems, please email eroc@info.com or contact
+                                  on 011-2123456.</small><br>
+                                <small class="plan-text">User
+                                  payment agreement</small><br>
+                              </div>
+                            </div>
+                            <div class="plan-selection">
+                              <div class="row justify-content-md-center mt-3">
+                                <label for="card" class="method">
+                                    <div class="card-logos">
+                                      <img src="assets/images/header/visa_logo.png" />
+                                      <img src="assets/images/header/mastercard_logo.png" />
+                                    </div>
+                                  </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                  
+                          <!-- <div class="widget">
+                            <h4 class="widget-title">Order Summary</h4>
+                            <div class="summary-block">
+                              <div class="summary-content">
+                                <div class="summary-head">
+                                  <h5 class="summary-title">Accounting Address Changes Price</h5>
+                                </div>
+                                <div class="summary-price">
+                                  <p class="summary-text">{{ calculation.getValue('PAYMENT_COMPANY_ACCOUNTING_ADDRESS_CHANGE', itemcount) | currency:'Rs.' }}</p>
+                                </div>
+                                <div class="summary-head">
+                                  <h5 class="summary-title">Tax</h5>
+                                </div>
+                                <div class="summary-price">
+                                  <p class="summary-text">{{ calculation.getTaxAmount | currency:'Rs.' }}</p>
+                                </div>
+                                <div class="summary-head">
+                                  <h5 class="summary-title">Convenience Fee</h5>
+                                </div>
+                                <div class="summary-price">
+                                  <p class="summary-text">{{ calculation.getConvenienceFee | currency:'Rs.' }}</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="summary-content">
+                              <div class="summary-head">
+                                <h5 class="summary-title"><strong>Total Amount</strong></h5>
+                              </div>
+                              <div class="summary-price">
+                                <p class="summary-text"><strong>{{ calculation.getTotalAmount | currency:'Rs.' }}</strong></p>
+                              </div>
+                            </div>
+                  
+                          </div> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+              <button (click)="getCipherToken()" type="button" class="btn btn-primary">PAY</button>
+            </div> -->
+          </fieldset>
+          <!--end of fifth step-->
+
+
+
+        </form>
+
+      </div>
+      <div style="clear:both"></div>
+      <br />
+      <br />
+      <!--end right col main-->
+    </div>
+  </div>
+</section>
+
+
+
+
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockBackToForm">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Are you sure want to proceed further?</h2>
+    </div>
+    <div class="body">
+    </div>
+    <div class="footer">
+      <button style="margin-right: 10px" class="btn btn-success" (click)="dataUpdate()">Yes</button>
+      <button style="margin-left: 10px" class="btn btn-danger" (click)="areYouSureNo()">No</button>
+    </div>
+  </div>
+</div>
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockPayment">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Are you sure want to proceed further?</h2>
+    </div>
+    <div class="footer">
+      <form ngNoForm action="{{ paymentGateway }}" method="post">
+        <input type="hidden" [(ngModel)]="cipher_message" name="clientPaymentRequest">
+        <button style="margin-right: 10px" type="submit" class="btn btn-success">Yes</button>
+        <button style="margin-left: 10px" class="btn btn-danger" (click)="areYouSurePayNo()">No</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!--
+<div id="content" #content>
+
+
+
+</div> -->

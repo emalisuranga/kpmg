@@ -1,0 +1,198 @@
+<section>
+        <!-- <div class="top-margin">
+          <div class="col-md-12 ">
+            <app-horizontal-status-bar ></app-horizontal-status-bar>
+          </div>
+        </div> -->
+        <!-- <div class="row bg-color mt-2">
+          <div class="col-md-12 ">
+            <app-horizontal-menu ></app-horizontal-menu>
+          </div>
+        </div> -->
+        <div class="container-fluid-10 mb-5 top-margin">
+          <div class="row">
+            <div class="col-xl-3 col-lg-12">
+              <app-vertical-menu></app-vertical-menu>
+            </div>
+            <div class="col-xl-9 col-lg-12" style="background-color:#fff;">
+                    <div class="tender-list-wrapper">
+
+                            <div class="search-close-tender-wrapper">
+                                <h3>Search close Tenders:</h3>
+                                <p>If you have reference number to view the close tender, enter it on below field</p>
+                                <div class="input-group md-form form-sm form-2 pl-0">
+                                    <input style="height:45px" class="form-control my-0 py-1 amber-border" type="text" [(ngModel)]="ref_no" placeholder="Reference No. here" aria-label="Search">
+                                    <div class="input-group-append">
+                                        <span (click)="getCloseTender()" class="input-group-text amber lighten-3" id="basic-text1"><i class="fa fa-search text-grey" aria-hidden="true"></i></span>
+                                    </div>
+                           
+                                </div>
+                      
+                                <div  class="tender-panel" *ngIf="closeTenderItem.number && closeTenderItem.publisherName">
+                                    <h5>
+                                      <span class="tender-name-block">{{closeTenderItem.name}}</span>
+                                      <span>Tender No: {{closeTenderItem.number}}</span>
+                                    </h5>
+                                    <h5 *ngIf="closeTenderItem.publishedDate">
+                                        <span class="published-on">Published On: {{closeTenderItem.publishedDate}}</span>
+                                    </h5>
+                                    <div class="tender-publisher-block"><strong><i class="fas fa-user-tie"></i>&nbsp;Publisher: </strong>{{closeTenderItem.publisherName}}</div>
+                                    <span  class="close-mark"><i class="fas fa-lock"></i></span>
+                      
+                                    <div class="tender-panel-inner">
+                      
+                                        <div class="tender-left-wrapper">
+                      
+                                            <div class="panel-heading">
+                                              
+                                              </div>
+                                              <div class="panel-body">{{closeTenderItem.description}}</div>
+                                             
+                      
+                                        </div>
+                                        <div class="tender-right-item">
+                                            
+                                            <button (click)="goToTender(closeTenderItem.id)" class="btn btn-primary"><i class="fas fa-share"></i> APPLY</button>
+                                        </div>
+                      
+                                    </div>
+                                    
+                                    
+                                    
+                                  </div>
+                                  <div class="no-tender-items" *ngIf="!( closeTenderItem.number && closeTenderItem.publisherName)">
+                                      <h4>{{emptyCloseTenderMessage}}</h4>
+                                    </div>
+                      
+                            </div>
+                      
+                              
+                              <hr/> 
+                            
+                              <div class="search-tender-wrapper">
+                                  <h3 style="color:#333">Search tenders:</h3>
+                                  <div class="row">
+                                
+                                      <div class="col-sm-12 col-lg-12 search-publisher-wrapper searach-1-field">
+                                          <ng-select (change)="removeLowerSearch()"  [(ngModel)]="selectedPublisher" placeholder="Select the publisher details">
+                                              <ng-option *ngFor="let car of publisherDropdownOptions" [value]="car.id"  >{{car.name}}</ng-option>
+                                          </ng-select>
+                                      </div>
+                                      
+                                      <div class="col-sm-12 col-lg-12 search-text-wrapper searach-1-field">
+                                             
+                                          <div class="input-group md-form form-sm form-2 pl-0">
+                                            <input (input)="removeLowerSearch()"   class="form-control my-0 py-1 amber-border" type="text" [(ngModel)]="publisherDivision" placeholder="Enter Division here">
+                                            
+                                          </div>
+                                     
+                                      </div>
+                      
+                                      <div class="col-sm-12 col-lg-12 search-text-wrapper searach-1-field">
+                                      
+                                        <div class="input-group md-form form-sm form-2 pl-0">
+                                          <input  (input)="removeLowerSearch()"   class="form-control my-0 py-1 amber-border" type="text" [(ngModel)]="tenderNamePart" placeholder="Tender name here" aria-label="Search">
+                                         <!-- <div class="input-group-append">
+                                              <span *ngIf="tenderNo"  class="input-group-text amber lighten-3" id="basic-text-disabled"><i class="fa fa-search text-grey" aria-hidden="true"></i></span>
+                                              <span *ngIf="!tenderNo" (click)="getTenders()" class="input-group-text amber lighten-3" id="basic-text1"><i class="fa fa-search text-grey" aria-hidden="true"></i></span>
+                                          </div>-->
+                                        </div>
+                                        <br/>
+                                      </div>
+                      
+                                      <div class="col-sm-12 col-lg-12 search-text-wrapper" style="text-align:center;margin-top: -26px;margin-bottom: 13px;">
+                                              <button [disabled]="tenderNo" (click)="getTenders()" class="btn btn-primary"><i class="fa fa-search"></i> SEARCH</button>
+                      
+                                       </div>
+                      
+                                     
+                      
+                      
+                      
+                                      <h3 class="tender-search-or">
+                                        <p class="or">OR</p>
+                                        <p class="or-stroke"></p>
+                                      </h3>
+                      
+                      
+                                      <div class="col-sm-12 col-lg-12 search-text-wrapper">
+                                        <div class="input-group md-form form-sm form-2 pl-0">
+                                          <input style="height: 45px" (input)="removeUpperSearch()" class="form-control my-0 py-1 amber-border" type="text" [(ngModel)]="tenderNo" placeholder="Tender Number here" aria-label="Search">
+                                          <div class="input-group-append">
+                                              <span *ngIf="selectedPublisher || tenderNamePart || publisherDivision"  class="input-group-text amber lighten-3" id="basic-text-disabled"><i class="fa fa-search text-grey" aria-hidden="true"></i></span>
+                                              <span *ngIf="!(selectedPublisher || tenderNamePart || publisherDivision )" (click)="getTenders()" class="input-group-text amber lighten-3" id="basic-text2"><i class="fa fa-search text-grey" aria-hidden="true"></i></span>
+                                          </div>
+                                        </div>
+                                      </div>
+                      
+                      
+                                    </div>
+                                 
+                                    <div class="pagination" *ngIf="totalResultPages > 1">
+                                        <span *ngIf="currentPage > 1" class="paginate prev" (click)="getTenders(1)"><i class="fas fa-backward"></i>&nbsp;First</span>
+                                        <span *ngIf="currentPage > 1" class="paginate prev" (click)="getTenders( currentPage -1 )"><i class="far fa-arrow-alt-circle-left"></i>&nbsp;Previous</span>
+                                        <span  class="paginate page-indicator">{{currentPage}} of {{totalResultPages}}</span>
+                                        <span *ngIf="totalResultPages > currentPage" class="paginate next" (click)="getTenders( currentPage + 1 )">Next&nbsp;<i class="far fa-arrow-alt-circle-right"></i></span>
+                                        <span *ngIf="totalResultPages > currentPage" class="paginate next" (click)="getTenders( totalResultPages )">Last&nbsp;<i class="fas fa-forward"></i></span>
+                                       </div>
+                                   
+                                    <div  class="tender-panel" *ngFor="let tender of listItems.items; let i = index">
+                                        <h5>
+                                          <span class="tender-name-block">{{tender.name}}</span>
+                                          <span>Tender No: {{tender.number}}</span>
+                                          
+                                        </h5>
+                                        <h5 *ngIf="tender.publishedDate">
+                                            <span class="published-on">Published On: {{tender.publishedDate}}</span>
+                                        </h5>
+                                        <div class="tender-publisher-block"><strong><i class="fas fa-user-tie"></i>&nbsp;Publisher: </strong><br/>{{tender.ministry}}</div>
+                                        <span  *ngIf="tender.type == 'close'" class="close-mark"><i class="fas fa-lock"></i></span>
+                      
+                                        <div class="tender-panel-inner">
+                      
+                                            <div class="tender-left-wrapper">
+                      
+                                                <div class="panel-heading">
+                                                  
+                                                  </div>
+                                                  <div class="panel-body">{{tender.description}}</div>
+                                                 
+                                            </div>
+                                            <div class="tender-right-item">
+                                                
+                                                <button (click)="goToTender(tender.id)" class="btn btn-primary"><i class="fas fa-share"></i> APPLY</button>
+                                            </div>
+                      
+                                        </div>
+                                        
+                                        
+                                        
+                                      </div>
+                      
+                                      <div class="pagination" *ngIf="totalResultPages > 1">
+                                          <span *ngIf="currentPage > 1" class="paginate prev" (click)="getTenders(1)"><i class="fas fa-backward"></i>&nbsp;First</span>
+                                          <span *ngIf="currentPage > 1" class="paginate prev" (click)="getTenders( currentPage -1 )"><i class="far fa-arrow-alt-circle-left"></i>&nbsp;Previous</span>
+                                          <span  class="paginate page-indicator">{{currentPage}} of {{totalResultPages}}</span>
+                                          <span *ngIf="totalResultPages > currentPage" class="paginate next" (click)="getTenders( currentPage + 1 )">Next&nbsp;<i class="far fa-arrow-alt-circle-right"></i></span>
+                                          <span *ngIf="totalResultPages > currentPage" class="paginate next" (click)="getTenders( totalResultPages )">Last&nbsp;<i class="fas fa-forward"></i></span>
+                                         </div>
+                      
+                                      <div class="no-tender-items" *ngIf="!listItems.items.length">
+                                        <h4>No Tenders Found</h4>
+                                      </div>
+                              </div>
+                              
+                      
+                            
+                              
+                              
+                      
+                      
+                      
+                          </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+      

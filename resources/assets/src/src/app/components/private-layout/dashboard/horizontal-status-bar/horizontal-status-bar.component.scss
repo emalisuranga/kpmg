@@ -1,0 +1,53 @@
+@import "theme-veriable";
+
+.bg-aqua {
+  color: #00c0ef !important
+}
+
+.bg-green {
+  color: #00a65a !important
+}
+
+.bg-yellow {
+  color: #f39c12 !important
+}
+
+.bg-red {
+  color: #dd4b39 !important
+}
+
+.bg-dark-blue {
+  color: #0b3d87
+}
+
+.bg-purple {
+  color: #6d0c84
+}
+
+.bg-light-blue {
+  color: #0f87b2
+}
+.bg-default-color {
+  color: $secondary  $im;
+}
+i{
+  font-size: 32px;
+}
+.glyph {
+  font-family: 'Oswald', sans-serif;
+  color: $gray-600;
+  font-weight: bold;
+}
+
+.count-lable {
+  margin-left: 54px $im;
+  font-size: 16Px $im;
+  font-weight: 500 $im;
+  background: #fff $im;
+}
+
+.mls {
+  float: right;
+  font-weight: bold;
+  text-align: right;
+}

@@ -1,0 +1,96 @@
+<div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{ backdrop: true, ignoreBackdropClick: true }">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title w-100 font-weight-bold">Search for Name :</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formGroup">
+          <div class="col-md-12">
+            <div class="row">
+              
+              <div class="col-md-10">
+                <input type="text" class="form-control" name="search" (click)="targetSelect($event)" style="text-transform:uppercase"
+                  formControlName="search" (keydown)="ckPageZero()" (keydown.enter)="ckSearch()" placeholder="Search Society Name "
+                  aria-label="Search">
+              </div>
+              
+              <div style="margin-top: -5px" class="col-md-2">
+                <button style="padding: 10px;
+                width: 100px;" type="button" class="btn btn-primary" mdbTooltip="Click" (click)="ckSearch();">
+                  <span style="font-size: 10px">
+                    <i class="fas fa-search"></i>&nbsp;Search
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <hr>
+        <div class="row">
+          <div class="col-md-12 col-xl-12">
+            <div *ngIf="availableData">
+              <section *ngIf="notHasData.available">
+                <div class="task-listing mt-5">
+                  <div class="task-listing-details">
+                    <div class="task-listing-description">
+                      <h3 class="task-listing-title">
+                        <b>{{ searchName | uppercase }}</b>
+                      </h3>
+                      <ul class="task-icons">
+                        <li>
+                          <i class="fab fa-cc-visa fa-money" aria-hidden="true"></i>
+                        </li>
+                        <li>
+                          <i class="fab fa-cc-mastercard fa-money" aria-hidden="true"></i>
+                        </li>
+                      </ul>
+                      <div class="task-tags margin-top-15">
+                        <div class="row" *ngIf="notHasData.data?.length > 0">
+                          <div class="col-2">
+                            <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+                          </div>
+                          <div class="col-10">
+                              <div class="text text-danger" *ngFor='let avbData of notHasData.data'>
+                                <small *ngIf="avbData.message != 'SOCIETY and LIMITED both words are not used so need approval letter from minister.'">* {{ avbData.message }}</small>
+                                <small *ngIf="avbData.message == 'SOCIETY and LIMITED both words are not used so need approval letter from minister.'">* Word "Society" and / or "Limited" is not included to the name of the society.</small>
+                                <br>
+                                <small style="line-height: 10px" class="text text-primary" *ngIf="avbData.message == 'SOCIETY and LIMITED both words are not used so need approval letter from minister.'">Note: "SOCIETY and LIMITED both words are not used" Therefor ROC should refer the matter to the minister in charge.
+                                    Only after receiving the approval this society will be registered.
+                                </small>
+                              </div>
+                              <small class="text text-primary">The name contradicts with the above rules but you can proceed.
+                              </small>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span style="color: #3c0ff3;" class="tg-themetag tg-featuretag">Available</span>
+                </div>
+                <hr>
+                <div class="task-listing-bid float-right">
+                  <button (click)="onResavation(); frame.hide()" class="button button-sliding-icon ripple-effect" style="background-color: #00027c;">
+                    Proceed Now
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                  </button>
+                </div>
+              </section>
+              <section *ngIf="!notHasData.available">
+                <div class="col-md-12">
+                  <center>
+                    <h3>Not Available</h3>
+                  </center>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

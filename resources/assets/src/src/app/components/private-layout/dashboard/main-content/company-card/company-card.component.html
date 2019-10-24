@@ -1,0 +1,1973 @@
+<section>
+  <div class="row mb-5">
+    <div class="col-xl-12">
+      <div class="dashboard-box">
+        <ul class="aa dashboard-box-list">
+          <li style="width: 100%;min-height: auto;">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="job-listing">
+                  <div class="job-listing-details">
+                    <a href="#" class="job-listing-company-logo">
+                      <img src="assets/images/icon/company-logo-05.png" alt>
+                    </a>
+                    <div class="job-listing-description">
+                      <h3 class="job-listing-title">
+                        <strong>
+                          <a>
+                            {{ name.name | uppercase }} {{ name.postfix | uppercase }}
+                          </a>
+                        </strong>
+                      </h3>
+                      <div class="job-listing-footer">
+                        <ul>
+                          <li>
+                            <small>
+                              <i class="icon-material-outline-business"></i>
+                              {{ name.id }}
+                            </small>
+                          </li>
+                          <li>
+                            <small>
+                              <i class="icon-material-outline-access-time"></i>
+                              Date : {{ name.created_at | date:'yyyy-MM-dd' }} Time : {{ name.created_at |
+                              date:'shortTime' }}
+                            </small>
+                          </li>
+                        </ul>
+                      </div>
+                      <small *ngIf="gard.isName.indexOf(name.key) === -1">
+                        <strong>Address :</strong>
+                        {{ name.address1 }}, {{ name.address2 }}, {{ name.city }}
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+
+                <div style="margin-top:20px" class="alert alert-info" role="alert" *ngIf="ird.status == 'IRD_SUCCESS'">
+                    <p style="margin:0">
+                      <strong>Tax Identification Number</strong> : {{ird.taxpayer_identification_number}}
+                    
+                    </p>
+
+                  </div>
+
+                  <div style="margin-top:20px" class="alert alert-danger" role="alert" *ngIf="ird.status == 'IRD_ERROR'">
+                      <p style="text-align: center;
+                      font-size: 20px; margin:0">
+                        <strong>Your IRD request is failed because of following reson(s)</strong> 
+                      
+                      </p>
+                      <p [innerHTML]="ird.rejected_resion"></p>
+                      <hr/>
+                      <p><strong><i class="fa fa-info"></i> &nbsp;</strong> Please contact the inland revenue department for further clarifications.</p>
+                       
+    
+                    </div>
+            
+              <!-- <button *ngIf="this.addresschanges?.length <= 0 && name['key'] === 'COMPANY_STATUS_APPROVED'" (click)="getCompanyChangeAddress()"
+                class="button-bl btn-sm float-right">
+                <i class="fas fa-exchange-alt"></i>Address Change
+              </button>
+              <button *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED'" style="margin-right: 5px;" (click)="directorSecretaryChange()"
+                class="button-bl btn-sm float-right">
+                <i class="fas fa-exchange-alt"></i>Director Secretary Change
+              </button> -->
+              <!-- <button style="margin-right: 5px;" *ngIf="showIncompleteActions && this.Acaddresschanges?.length <= 0 && name['key'] === 'COMPANY_STATUS_APPROVED'" (click)="getChangeAddress()"
+                class="button-bl btn-sm float-right">
+                <i class="fas fa-exchange-alt"></i> Accounting Address Add/Change
+              </button> -->
+             <!-- <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED'" (click)="annualReturn()"
+                class="button-bl btn-sm float-right">
+                <i class="fas fa-exchange-alt"></i> Annual Return
+              </button>-->
+              <!--<button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED'" (click)="callsOnShares()"
+                class="button-bl btn-sm float-right">
+                <i class="fas fa-exchange-alt"></i> Calls on Shares
+              </button> -->
+              <!--<button *ngIf="(!this.debentureChangedetails && this.name.key == 'COMPANY_STATUS_APPROVED') || (this.debentureChangedetails && this.debentureChangedetails['setKey'] == 'COMPANY_CHANGE_APPROVED')" (click)="getIssueofDebentures()"
+                class="button-bl btn-sm float-right">
+                <i class="fas fa-exchange-alt"></i>Issue of Debentures 
+              </button> -->
+            </div>
+           
+            <div class="col-md-12">
+              <!-- <button *ngIf="this.bsdchanges?.length <= 0 && name['key'] === 'COMPANY_STATUS_APPROVED'" (click)="getCompanyBalDateChange()"
+                class="button-bl btn-sm float-right">
+                <i class="fas fa-exchange-alt"></i>Balance Sheet Date Add/Change
+              </button> -->
+              <!--<button *ngIf="this.name.key == 'COMPANY_STATUS_APPROVED'" (click)="issueofSharesRegistration()"
+                class="button-bl btn-sm float-right">
+                <i class="fas fa-exchange-alt"></i>Issue of Shares
+              </button>
+              <button *ngIf="(this.name.key == 'COMPANY_STATUS_APPROVED') && (this.issueofshares && this.issueofshares['setKey'] == 'COMPANY_ISSUE_OF_SHARES_REQUEST_TO_RESUBMIT')" (click)="continueIssueofSharesRegistration()"
+                class="button-bl btn-sm float-right">
+                <i class="fas fa-exchange-alt"></i>Issue of Shares Request to Resubmit
+              </button>-->
+            </div>
+
+          
+            <hr>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <small for="staticEmail" class="col-sm-2">Sinhala Name</small>
+                  <small class="col-sm-1">:</small>
+                  <small for="static" class="col-sm-9">{{ name.name_si }}</small>
+                </div>
+                <div class="form-group row">
+                  <small for="staticEmail" class="col-sm-2">Tamil Name</small>
+                  <small class="col-sm-1">:</small>
+                  <small for="static" class="col-sm-9">{{ name.name_ta }}</small>
+                </div>
+                <div class="form-group row">
+                  <small for="staticAbbreviations" class="col-sm-2">Abbreviations</small>
+                  <small class="col-sm-1">:</small>
+                  <small for="staticAbbre" class="col-sm-9">{{ name.abbreviation_desc }}</small>
+                </div>
+              </div>
+            </div>
+          </li>
+          <!-- <li>
+            <div class="dashboard-box" *ngIf="this.addresschanges?.length > 0">
+              <ul class="dashboard-box-list">
+                <li>
+                  <div class="col-md-12">
+                    <h3><strong>Address Changes</strong></h3>
+                  </div>
+                  <hr>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th width="50%">Status</th>
+                        <th width="50%" style="text-align: left"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let addresschange of this.addresschanges">
+                        <td><button
+                            (click)="continueRegistration(addresschange.setKey,addresschange.id,addresschange.new_address_id,addresschange.address_effect_on_date)"
+                            class="button button-sliding-icon ripple-effect society-btn-{{addresschange.setKey}}">
+                            <i class="icon-material-outline-arrow-right-alt"></i>
+                            <strong style="color:white;">{{addresschange.value}}</strong>
+                          </button></td>
+                        <td><span *ngIf="addresschange?.setKey === 'COMPANY_ADDRESS_CHANGE_REQUEST_TO_RESUBMIT'"></span>
+                        </td>
+                        <td><span></span></td>
+                        <td><span></span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </li>
+
+              </ul>
+            </div>
+          </li> -->
+          <!-- <li>
+            <div class="dashboard-box" *ngIf="this.Acaddresschanges?.length > 0">
+              <ul class="dashboard-box-list">
+                <li>
+                  <div class="col-md-12">
+                    <h3><strong>Accounting Address Changes</strong></h3>
+                  </div>
+                  <hr>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th width="50%">Status</th>
+                        <th width="50%" style="text-align: left"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let Acaddresschange of this.Acaddresschanges">
+                        <td><button
+                            (click)="continueRegistrationForAcAddress(Acaddresschange.setKey,Acaddresschange.id,Acaddresschange.request_type)"
+                            class="button button-sliding-icon ripple-effect society-btn-{{Acaddresschange.setKey}}">
+                            <i class="icon-material-outline-arrow-right-alt"></i>
+                            <strong style="color:white;">{{Acaddresschange.value}}</strong>
+                          </button></td>
+                        <td><span
+                            *ngIf="Acaddresschange?.setKey === 'ACCOUNTING_ADDRESS_CHANGE_REQUEST_TO_RESUBMIT'"></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </li>
+              </ul>
+            </div>
+          </li> -->
+          <!-- <li>
+            <div class="dashboard-box" *ngIf="this.bsdchanges?.length > 0">
+              <ul class="dashboard-box-list">
+                <li>
+                  <div class="col-md-12">
+                    <h3><strong>Balance Sheet Date Changes</strong></h3>
+                  </div>
+                  <hr>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th width="50%">Status</th>
+                        <th width="50%" style="text-align: left"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      
+                      <tr *ngFor="let bsdchange of this.bsdchanges">
+                        <td><button
+                            (click)="continueRegistrationForBsDate(bsdchange.setKey,bsdchange.id,bsdchange.request_type,bsdchange.bsdid,bsdchange.bsdchangeid)"
+                            class="button button-sliding-icon ripple-effect society-btn-{{bsdchange.setKey}}">
+                            <i class="icon-material-outline-arrow-right-alt"></i>
+                            <strong style="color:white;">{{bsdchange.value}}</strong>
+                          </button></td>
+                        <td><span *ngIf="bsdchange?.setKey === 'BALANCE_SHEET_DATE_CHANGE_REQUEST_TO_RESUBMIT'"></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </li>
+              </ul>
+            </div>
+          </li> -->
+          <!-- continue debenture processing 
+          <li>
+            <div class="dashboard-box" *ngIf="this.debentureChangedetails && (this.debentureChangedetails['setKey'] == 'COMPANY_DEBENTURES_PROCESSING' || this.debentureChangedetails['setKey'] == 'COMPANY_DEBENTURES_REQUEST_TO_RESUBMIT')">
+              <ul class="dashboard-box-list">
+                <li>
+                  <div class="col-md-12">
+                    <h3><strong>Issue of Debentures</strong></h3>
+                  </div>
+                  <hr>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th width="30%">Status</th>
+                        <th width="30%" style="text-align: left">Comment</th>
+                        <th width="15%" style="text-align: left">Time</th>
+                        <th width="15%" style="text-align: left">Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><button (click)="continueDebentureRegistration(debentureChangedetails['setKey'],debentureChangedetails['changeReqID'])"
+                            class="button button-sliding-icon ripple-effect society-btn-{{debentureChangedetails.setKey}}">
+                            <i class="icon-material-outline-arrow-right-alt"></i>
+                            <strong style="color:white;">{{debentureChangedetails['setValue']}}</strong>
+                          </button></td>
+                        <td><span></span></td>
+                        <td><span></span></td>
+                        <td><span></span></td>
+                      </tr>
+                     
+                    </tbody>
+                  </table>
+                </li>
+              </ul>
+            </div>
+          </li> -->
+          <!-- continue shares processing  -->
+         <!-- <li>
+              <div class="dashboard-box" *ngIf="this.issueofshares && (this.issueofshares['setKey'] == 'COMPANY_ISSUE_OF_SHARES_PROCESSING' || this.issueofshares['setKey'] == 'COMPANY_ISSUE_OF_SHARES_REQUEST_TO_RESUBMIT')">
+                <ul class="dashboard-box-list">
+                  <li>
+                    <div class="col-md-12">
+                      <h3><strong>Issue of Shares</strong></h3>
+                     </div>
+                    <hr>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th width="30%">Status</th>
+                          <th width="30%" style="text-align: left">Comment</th>
+                          <th width="15%" style="text-align: left">Time</th>
+                          <th width="15%" style="text-align: left">Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><button (click)="continueIssueofSharesRegistration(issueofshares['setKey'])"
+                              class="button button-sliding-icon ripple-effect society-btn-{{issueofshares.setKey}}">
+                              <i class="icon-material-outline-arrow-right-alt"></i>
+                              <strong style="color:white;">{{issueofshares['setValue']}}</strong>
+                             </button></td>
+                          <td><span></span></td>
+                          <td><span></span></td>
+                          <td><span></span></td>
+                        </tr>
+                     
+                      </tbody>
+                    </table>
+                  </li>
+                </ul>
+              </div>
+          </li> -->
+          <!-- start address change  -->
+          <li *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+              <div class="dashboard-box">
+                <ul class="dashboard-box-list">
+                  <li>
+                    <div class="col-md-12">
+                      <h3><strong>NOTICE OF COMPANY’S
+                        CHANGE OF REGISTERED OFFICE ADDRESS (Form 13)</strong></h3>
+                    </div>
+                   
+                    <table class="table">
+                      
+                      <tbody>
+                        <!-- (click)="continueRegistration(item.statuskey,item.id,item.name,item.name_si,item.name_ta,item.abbreviation_desc,item.type_id)" -->
+                        <tr>
+                          <td>
+
+                             <p *ngIf=" name['key'] === 'COMPANY_STATUS_APPROVED' && ( addresschanges[0]['setKey'] == '' )">
+                                 Make New Request
+                             </p>
+                             <p *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && ( addresschanges[0]['setKey'] == 'COMPANY_ADDRESS_CHANGE_PROCESSING' )">
+                                Edit Current Request
+                             </p>
+                             <p *ngIf=" name['key'] === 'COMPANY_STATUS_APPROVED' &&  addresschanges[0]['setKey'] == 'COMPANY_ADDRESS_CHANGE_REQUEST_TO_RESUBMIT'">
+                                Record Requesting to Resubmit
+                             </p>
+
+                             <p *ngIf=" name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( addresschanges[0]['setKey'] == 'COMPANY_ADDRESS_CHANGE_REQUEST_TO_RESUBMIT' || addresschanges[0]['setKey'] == 'COMPANY_ADDRESS_CHANGE_PROCESSING' || addresschanges[0]['setKey'] == '' )">
+                               Request Processing....
+                             </p>
+
+                          </td>
+                          <td>
+
+                             <button style="margin-right: 5px;" *ngIf=" name['key'] === 'COMPANY_STATUS_APPROVED' && ( addresschanges[0]['setKey'] == '' )" (click)="getCompanyChangeAddress()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Add
+                            </button>
+                            <button style="margin-right: 5px;" *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && (addresschanges[0]['setKey'] == 'COMPANY_ADDRESS_CHANGE_PROCESSING' )" (click)="continueRegistration()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Go to Record
+                            </button>
+              
+                            <button style="margin-right: 5px;" *ngIf=" name['key'] === 'COMPANY_STATUS_APPROVED' &&  addresschanges[0]['setKey'] == 'COMPANY_ADDRESS_CHANGE_REQUEST_TO_RESUBMIT'" (click)="continueRegistration()"
+                              class="btn btn-primary float-right resubmit-button">
+                              <i class="fas fa-exchange-alt"></i> Resubmit
+                            </button>
+              
+                           <!-- <button disabled style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_RESUBMIT' || registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_PROCESSING' || registerOfChargesRecord['setKey'] == '' )"
+                              class="button-bl btn-sm float-right other-status-button">
+                              <i class="fas fa-exchange-alt"></i> Register Of Charges ( Request Processing )
+                            </button> -->
+
+
+                          </td>
+                          
+                        </tr>
+                      
+                      </tbody>
+                    </table>
+                  </li>
+                </ul>
+              </div>
+        </li>
+        <!-- end address change  -->
+
+        <!-- start accounting address change  -->
+        <li *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+            <div class="dashboard-box">
+              <ul class="dashboard-box-list">
+                <li>
+                  <div class="col-md-12">
+                    <h3><strong>LOCATION OF ACCOUNTING RECORDS (Form 16)</strong></h3>
+                  </div>
+                 
+                  <table class="table">
+                    
+                    <tbody>
+                      <!-- (click)="continueRegistration(item.statuskey,item.id,item.name,item.name_si,item.name_ta,item.abbreviation_desc,item.type_id)" -->
+                      <tr>
+                        <td>
+
+                           <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( Acaddresschanges[0]['setKey'] == '' )">
+                               Make New Request
+                           </p>
+                           <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( Acaddresschanges[0]['setKey'] == 'ACCOUNTING_ADDRESS_CHANGE_PROCESSING' )">
+                              Edit Current Request
+                           </p>
+                           <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  Acaddresschanges[0]['setKey'] == 'ACCOUNTING_ADDRESS_CHANGE_REQUEST_TO_RESUBMIT'">
+                              Record Requesting to Resubmit
+                           </p>
+
+                           <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( Acaddresschanges[0]['setKey'] == 'ACCOUNTING_ADDRESS_CHANGE_REQUEST_TO_RESUBMIT' || Acaddresschanges[0]['setKey'] == 'ACCOUNTING_ADDRESS_CHANGE_PROCESSING' || Acaddresschanges[0]['setKey'] == '' )">
+                             Request Processing....
+                           </p>
+
+                        </td>
+                        <td>
+
+                           <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( Acaddresschanges[0]['setKey'] == '' )" (click)="getChangeAddress()"
+                            class="btn btn-primary  float-right processing-button">
+                            <i class="fas fa-exchange-alt"></i> Add
+                          </button>
+                          <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (Acaddresschanges[0]['setKey'] == 'ACCOUNTING_ADDRESS_CHANGE_PROCESSING' )" (click)="continueRegistrationForAcAddress()"
+                            class="btn btn-primary  float-right processing-button">
+                            <i class="fas fa-exchange-alt"></i> Go to Record
+                          </button>
+            
+                          <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  Acaddresschanges[0]['setKey'] == 'ACCOUNTING_ADDRESS_CHANGE_REQUEST_TO_RESUBMIT'" (click)="continueRegistrationForAcAddress()"
+                            class="btn btn-primary float-right resubmit-button">
+                            <i class="fas fa-exchange-alt"></i> Resubmit
+                          </button>
+            
+                         <!-- <button disabled style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_RESUBMIT' || registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_PROCESSING' || registerOfChargesRecord['setKey'] == '' )"
+                            class="button-bl btn-sm float-right other-status-button">
+                            <i class="fas fa-exchange-alt"></i> Register Of Charges ( Request Processing )
+                          </button> -->
+
+
+                        </td>
+                        
+                      </tr>
+                    
+                    </tbody>
+                  </table>
+                </li>
+              </ul>
+            </div>
+      </li>
+      <!-- end accounting address change  -->
+
+      <!-- start records and registers address change  -->
+      <li *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+        <div class="dashboard-box">
+          <ul class="dashboard-box-list">
+            <li>
+              <div class="col-md-12">
+                <h3><strong>CHANGE OF LOCATION OF THE RECORDS AND REGISTERS (Form 14)</strong></h3>
+              </div>
+             
+              <table class="table">
+                
+                <tbody>
+                  <!-- (click)="continueRegistration(item.statuskey,item.id,item.name,item.name_si,item.name_ta,item.abbreviation_desc,item.type_id)" -->
+                  <tr>
+                    <td>
+
+                       <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( RRaddresschanges[0]['setKey'] == '' )">
+                           Make New Request
+                       </p>
+                       <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( RRaddresschanges[0]['setKey'] == 'RECORDS_REGISTER_ADDRESS_CHANGE_PROCESSING' )">
+                          Edit Current Request
+                       </p>
+                       <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  RRaddresschanges[0]['setKey'] == 'RECORDS_REGISTER_ADDRESS_CHANGE_REQUEST_TO_RESUBMIT'">
+                          Record Requesting to Resubmit
+                       </p>
+
+                       <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( RRaddresschanges[0]['setKey'] == 'RECORDS_REGISTER_ADDRESS_CHANGE_REQUEST_TO_RESUBMIT' || RRaddresschanges[0]['setKey'] == 'RECORDS_REGISTER_ADDRESS_CHANGE_PROCESSING' || RRaddresschanges[0]['setKey'] == '' )">
+                         Request Processing....
+                       </p>
+
+                    </td>
+                    <td>
+
+                       <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( RRaddresschanges[0]['setKey'] == '' )" (click)="getRRChangeAddress()"
+                        class="btn btn-primary  float-right processing-button">
+                        <i class="fas fa-exchange-alt"></i> Add
+                      </button>
+                      <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (RRaddresschanges[0]['setKey'] == 'RECORDS_REGISTER_ADDRESS_CHANGE_PROCESSING' )" (click)="continueRegistrationForRRAddress()"
+                        class="btn btn-primary  float-right processing-button">
+                        <i class="fas fa-exchange-alt"></i> Go to Record
+                      </button>
+        
+                      <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  RRaddresschanges[0]['setKey'] == 'RECORDS_REGISTER_ADDRESS_CHANGE_REQUEST_TO_RESUBMIT'" (click)="continueRegistrationForRRAddress()"
+                        class="btn btn-primary float-right resubmit-button">
+                        <i class="fas fa-exchange-alt"></i> Resubmit
+                      </button>
+        
+                     <!-- <button disabled style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_RESUBMIT' || registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_PROCESSING' || registerOfChargesRecord['setKey'] == '' )"
+                        class="button-bl btn-sm float-right other-status-button">
+                        <i class="fas fa-exchange-alt"></i> Register Of Charges ( Request Processing )
+                      </button> -->
+
+
+                    </td>
+                    
+                  </tr>
+                
+                </tbody>
+              </table>
+            </li>
+          </ul>
+        </div>
+  </li>
+  <!-- end records and registers address change  -->
+
+  <!-- start satisfaction charge change  -->
+  <li *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+    <div class="dashboard-box">
+      <ul class="dashboard-box-list">
+        <li>
+          <div class="col-md-12">
+            <h3><strong>DECLARATION VERIFYING
+              MEMORANDUM OF
+              SATISFACTION OF CHARGE TO
+              ENABLE THE REGISTRAR GENERAL OF COMPANIES
+              TO ACT UNDER SECTION 107 OF
+              THE COMPANIES ACT NO. 7 OF
+              2007
+               (Form 12A)</strong></h3>
+          </div>
+         
+          <table class="table">
+            
+            <tbody>
+              <!-- (click)="continueRegistration(item.statuskey,item.id,item.name,item.name_si,item.name_ta,item.abbreviation_desc,item.type_id)" -->
+              <tr>
+                <td>
+
+                   <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( satisChargechanges[0]['setKey'] == '' )">
+                       Make New Request
+                   </p>
+                   <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( satisChargechanges[0]['setKey'] == 'COMPANY_CHANGE_PROCESSING' )">
+                      Edit Current Request
+                   </p>
+                   <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  satisChargechanges[0]['setKey'] == 'COMPANY_CHANGE_REQUEST_TO_RESUBMIT'">
+                      Record Requesting to Resubmit
+                   </p>
+
+                   <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( satisChargechanges[0]['setKey'] == 'COMPANY_CHANGE_REQUEST_TO_RESUBMIT' || satisChargechanges[0]['setKey'] == 'COMPANY_CHANGE_PROCESSING' || satisChargechanges[0]['setKey'] == '' )">
+                     Request Processing....
+                   </p>
+
+                </td>
+                <td>
+
+                   <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( satisChargechanges[0]['setKey'] == '' )" (click)="satisChargeChange()"
+                    class="btn btn-primary  float-right processing-button">
+                    <i class="fas fa-exchange-alt"></i> Add
+                  </button>
+                  <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (satisChargechanges[0]['setKey'] == 'COMPANY_CHANGE_PROCESSING' )" (click)="satisChargeChange()"
+                    class="btn btn-primary  float-right processing-button">
+                    <i class="fas fa-exchange-alt"></i> Go to Record
+                  </button>
+    
+                  <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  satisChargechanges[0]['setKey'] == 'COMPANY_CHANGE_REQUEST_TO_RESUBMIT'" (click)="continueRegistrationForSatisCharge()"
+                    class="btn btn-primary float-right resubmit-button">
+                    <i class="fas fa-exchange-alt"></i> Resubmit
+                  </button>
+    
+                 <!-- <button disabled style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_RESUBMIT' || registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_PROCESSING' || registerOfChargesRecord['setKey'] == '' )"
+                    class="button-bl btn-sm float-right other-status-button">
+                    <i class="fas fa-exchange-alt"></i> Register Of Charges ( Request Processing )
+                  </button> -->
+
+
+                </td>
+                
+              </tr>
+            
+            </tbody>
+          </table>
+        </li>
+      </ul>
+    </div>
+</li>
+<!-- end satisfaction charge change  -->
+
+      <!-- start bsd change  -->
+      <li *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && showIncompleteActions &&  !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+          <div class="dashboard-box">
+            <ul class="dashboard-box-list">
+              <li>
+                <div class="col-md-12">
+                  <h3><strong>ADOPTION OR CHANGE OF BALANCE SHEET DATE (Form 17)</strong></h3>
+                </div>
+               
+                <table class="table">
+                  
+                  <tbody>
+                    <!-- (click)="continueRegistration(item.statuskey,item.id,item.name,item.name_si,item.name_ta,item.abbreviation_desc,item.type_id)" -->
+                    <tr>
+                      <td>
+
+                         <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( bsdchanges[0]['setKey'] == '' )">
+                             Make New Request
+                         </p>
+                         <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( bsdchanges[0]['setKey'] == 'BALANCE_SHEET_DATE_CHANGE_PROCESSING' )">
+                            Edit Current Request
+                         </p>
+                         <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  bsdchanges[0]['setKey'] == 'BALANCE_SHEET_DATE_CHANGE_REQUEST_TO_RESUBMIT'">
+                            Record Requesting to Resubmit
+                         </p>
+
+                         <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( bsdchanges[0]['setKey'] == 'BALANCE_SHEET_DATE_CHANGE_REQUEST_TO_RESUBMIT' || bsdchanges[0]['setKey'] == 'BALANCE_SHEET_DATE_CHANGE_PROCESSING' || bsdchanges[0]['setKey'] == '' )">
+                           Request Processing....
+                         </p>
+
+                      </td>
+                      <td>
+
+                         <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( bsdchanges[0]['setKey'] == '' )" (click)="areYouSureYes()"
+                          class="btn btn-primary  float-right processing-button">
+                          <i class="fas fa-exchange-alt"></i> Add
+                        </button>
+                        <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (bsdchanges[0]['setKey'] == 'BALANCE_SHEET_DATE_CHANGE_PROCESSING' )" (click)="continueRegistrationForBsDate()"
+                          class="btn btn-primary  float-right processing-button">
+                          <i class="fas fa-exchange-alt"></i> Go to Record
+                        </button>
+          
+                        <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  bsdchanges[0]['setKey'] == 'BALANCE_SHEET_DATE_CHANGE_REQUEST_TO_RESUBMIT'" (click)="continueRegistrationForBsDate()"
+                          class="btn btn-primary float-right resubmit-button">
+                          <i class="fas fa-exchange-alt"></i> Resubmit
+                        </button>
+          
+                       <!-- <button disabled style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_RESUBMIT' || registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_PROCESSING' || registerOfChargesRecord['setKey'] == '' )"
+                          class="button-bl btn-sm float-right other-status-button">
+                          <i class="fas fa-exchange-alt"></i> Register Of Charges ( Request Processing )
+                        </button> -->
+
+
+                      </td>
+                      
+                    </tr>
+                  
+                  </tbody>
+                </table>
+              </li>
+            </ul>
+          </div>
+    </li>
+    <!-- end bsd change  -->
+
+
+          <!-- start director sec change -->
+          <li *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && !(name['typeKey'] == 'COMPANY_TYPE_OVERSEAS' || name['typeKey'] == 'COMPANY_TYPE_OFFSHORE') && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+              <div class="dashboard-box">
+                <ul class="dashboard-box-list">
+                  <li>
+                    <div class="col-md-12">
+                      <h3><strong>CHANGE OF DIRECTOR/SECRETARY AND PARTICULARS OF DIRECTOR/SECRETARY (Form 20)</strong></h3>
+                    </div>
+                   
+                    <table class="table">
+                      
+                      <tbody>
+                      
+                        <tr>
+                          <td>
+
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( directorSecChangeDetails['setKey'] == '' )">
+                                 Make New Request
+                             </p>
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( directorSecChangeDetails['setKey'] == 'COMPANY_CHANGE_PROCESSING' )">
+                                Edit Current Request
+                             </p>
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  directorSecChangeDetails['setKey'] == 'COMPANY_CHANGE_RESUBMISSION'">
+                                Record Requesting to Resubmit
+                             </p>
+
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( directorSecChangeDetails['setKey'] == 'COMPANY_CHANGE_RESUBMISSION' || directorSecChangeDetails['setKey'] == 'COMPANY_CHANGE_PROCESSING' || directorSecChangeDetails['setKey'] == '' )">
+                               Request Processing....
+                             </p>
+
+                          </td>
+                          <td>
+
+                             <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( directorSecChangeDetails['setKey'] == '' )" (click)="directorSecretaryChange()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Add
+                            </button>
+                            <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (directorSecChangeDetails['setKey'] == 'COMPANY_CHANGE_PROCESSING' )" (click)="directorSecretaryChange()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Go to Record
+                            </button>
+              
+                            <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  directorSecChangeDetails['setKey'] == 'COMPANY_CHANGE_RESUBMISSION'" (click)="directorSecretaryChange()"
+                              class="btn btn-primary float-right resubmit-button">
+                              <i class="fas fa-exchange-alt"></i> Resubmit
+                            </button>
+            
+
+                          </td>
+                          
+                        </tr>
+                      
+                      </tbody>
+                    </table>
+                  </li>
+                </ul>
+              </div>
+           </li>
+           <!-- end director sec change -->
+
+          
+          <!-- start debenchers  -->
+          <li *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+              <div class="dashboard-box">
+                <ul class="dashboard-box-list">
+                  <li>
+                    <div class="col-md-12">
+                      <h3><strong>PARTICULARS OF AN ISSUE OF DEBENTURES IN A SERIES BY A COMPANY REGISTERED IN SRI LANKA (Form 10A)</strong></h3>
+                    </div>
+                   
+                    <table class="table">
+                      
+                      <tbody>
+                       
+                        <tr>
+                          <td>
+
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( debentureChangedetails['setKey'] == '' )">
+                                 Make New Request
+                             </p>
+                            <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( debentureChangedetails['setKey'] == 'COMPANY_DEBENTURES_PROCESSING' )">
+                                Edit Current Request
+                             </p>
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  debentureChangedetails['setKey'] == 'COMPANY_DEBENTURES_REQUEST_TO_RESUBMIT'">
+                                Record Requesting to Resubmit
+                             </p>
+
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( debentureChangedetails['setKey'] == 'COMPANY_DEBENTURES_REQUEST_TO_RESUBMIT' || debentureChangedetails['setKey'] == 'COMPANY_DEBENTURES_PROCESSING' || debentureChangedetails['setKey'] == '' )">
+                               Request Processing....
+                             </p>
+
+                          </td>
+                          <td>
+
+                             <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( debentureChangedetails['setKey'] == '')" (click)="getIssueofDebentures()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Add
+                            </button>
+                           <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (debentureChangedetails['setKey'] == 'COMPANY_DEBENTURES_PROCESSING' )" (click)="continueDebentureRegistration(debentureChangedetails['setKey'],debentureChangedetails['changeReqID'])"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Go to Record
+                            </button>
+              
+                            <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  debentureChangedetails['setKey'] == 'COMPANY_DEBENTURES_REQUEST_TO_RESUBMIT'" (click)="continueDebentureRegistration(debentureChangedetails['setKey'],debentureChangedetails['changeReqID'])"
+                              class="btn btn-primary float-right resubmit-button">
+                              <i class="fas fa-exchange-alt"></i> Resubmit
+                            </button>
+              
+                           <!-- <button disabled style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_RESUBMIT' || registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_PROCESSING' || registerOfChargesRecord['setKey'] == '' )"
+                              class="button-bl btn-sm float-right other-status-button">
+                              <i class="fas fa-exchange-alt"></i> Register Of Charges ( Request Processing )
+                            </button> -->
+
+
+                          </td>
+                          
+                        </tr>
+                      
+                      </tbody>
+                    </table>
+                  </li>
+                </ul>
+              </div>
+        </li>
+        <!-- end debenchers  -->
+          
+          <!-- start issue of  shares  -->
+          <li *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' &&  !(name['typeKey'] == 'COMPANY_TYPE_GUARANTEE_32' || name['typeKey'] == 'COMPANY_TYPE_GUARANTEE_34' || name['typeKey'] == 'COMPANY_TYPE_OVERSEAS' || name['typeKey'] == 'COMPANY_TYPE_OFFSHORE') && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+                <div class="dashboard-box">
+                  <ul class="dashboard-box-list">
+                    <li>
+                      <div class="col-md-12">
+                        <h3><strong>Issue of Shares (Form 6)</strong></h3>
+                      </div>
+                     
+                      <table class="table">
+                        
+                        <tbody>
+                         
+                          <tr>
+                            <td>
+  
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( issueofshares['setKey'] == '' || issueofshares['setKey'] == 'COMPANY_ISSUE_OF_SHARES_REJECTED' || issueofshares['setKey'] == 'COMPANY_ISSUE_OF_SHARES_APPROVED' )">
+                                   Make New Request
+                               </p>
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( issueofshares['setKey'] == 'COMPANY_ISSUE_OF_SHARES_PROCESSING' )">
+                                  Edit Current Request
+                               </p>
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  issueofshares['setKey'] == 'COMPANY_ISSUE_OF_SHARES_REQUEST_TO_RESUBMIT'">
+                                  Record Requesting to Resubmit
+                               </p>
+  
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( issueofshares['setKey'] == 'COMPANY_ISSUE_OF_SHARES_REJECTED' || issueofshares['setKey'] == 'COMPANY_ISSUE_OF_SHARES_APPROVED' ||  issueofshares['setKey'] == 'COMPANY_ISSUE_OF_SHARES_REQUEST_TO_RESUBMIT' || issueofshares['setKey'] == 'COMPANY_ISSUE_OF_SHARES_PROCESSING' || issueofshares['setKey'] == '' )">
+                                 Request Processing....
+                               </p>
+  
+                            </td>
+                            <td>
+  
+                               <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( issueofshares['setKey'] == '' || issueofshares['setKey'] == 'COMPANY_ISSUE_OF_SHARES_REJECTED' || issueofshares['setKey'] == 'COMPANY_ISSUE_OF_SHARES_APPROVED' )" (click)="getIssueOfSharesDetails()"
+                                class="btn btn-primary  float-right processing-button">
+                                <i class="fas fa-exchange-alt"></i> Add
+                              </button>
+                              <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (issueofshares['setKey'] == 'COMPANY_ISSUE_OF_SHARES_PROCESSING' )" (click)="getIssueOfSharesDetails()"
+                                class="btn btn-primary  float-right processing-button">
+                                <i class="fas fa-exchange-alt"></i> Go to Record
+                              </button>
+                
+                              <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  issueofshares['setKey'] == 'COMPANY_ISSUE_OF_SHARES_REQUEST_TO_RESUBMIT'" (click)="getIssueOfSharesDetails()"
+                                class="btn btn-primary float-right resubmit-button">
+                                <i class="fas fa-exchange-alt"></i> Resubmit
+                              </button>
+
+  
+                            </td>
+                            
+                          </tr>
+                        
+                        </tbody>
+                      </table>
+                    </li>
+                  </ul>
+                </div>
+          </li>
+          <!-- end issue of  shares  -->
+
+          <!-- start on shares  -->
+          <li *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' &&  !(name['typeKey'] == 'COMPANY_TYPE_GUARANTEE_32' || name['typeKey'] == 'COMPANY_TYPE_GUARANTEE_34' || name['typeKey'] == 'COMPANY_TYPE_OVERSEAS' || name['typeKey'] == 'COMPANY_TYPE_OFFSHORE') && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+                <div class="dashboard-box">
+                  <ul class="dashboard-box-list">
+                    <li>
+                      <div class="col-md-12">
+                        <h3><strong>CALLS ON SHARES/
+                          PARTICULARS OF OBLIGATIONS
+                          ATTACHED TO A SHARE
+                          PERFORMED
+                          BY SHAREHOLDERS
+                           (Form 7)</strong></h3>
+                      </div>
+                     
+                      <table class="table">
+                        
+                        <tbody>
+                          <!-- (click)="continueRegistration(item.statuskey,item.id,item.name,item.name_si,item.name_ta,item.abbreviation_desc,item.type_id)" -->
+                          <tr>
+                            <td>
+  
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( callShareDetails['setKey'] == '' )">
+                                   Make New Request
+                               </p>
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( callShareDetails['setKey'] == 'CALLS_ON_SHARES_PROCESSING' )">
+                                  Edit Current Request
+                               </p>
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  callShareDetails['setKey'] == 'CALLS_ON_SHARES_RESUBMIT'">
+                                  Record Requesting to Resubmit
+                               </p>
+  
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( callShareDetails['setKey'] == 'CALLS_ON_SHARES_RESUBMIT' || callShareDetails['setKey'] == 'CALLS_ON_SHARES_PROCESSING' || callShareDetails['setKey'] == '' )">
+                                 Request Processing....
+                               </p>
+  
+                            </td>
+                            <td>
+  
+                               <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( callShareDetails['setKey'] == '' )" (click)="callsOnShares()"
+                                class="btn btn-primary  float-right processing-button">
+                                <i class="fas fa-exchange-alt"></i> Add
+                              </button>
+                              <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (callShareDetails['setKey'] == 'CALLS_ON_SHARES_PROCESSING' )" (click)="callsOnShares()"
+                                class="btn btn-primary  float-right processing-button">
+                                <i class="fas fa-exchange-alt"></i> Go to Record
+                              </button>
+                
+                              <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  callShareDetails['setKey'] == 'CALLS_ON_SHARES_RESUBMIT'" (click)="callsOnShares()"
+                                class="btn btn-primary float-right resubmit-button">
+                                <i class="fas fa-exchange-alt"></i> Resubmit
+                              </button>
+                
+                             <!-- <button disabled style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_RESUBMIT' || registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_PROCESSING' || registerOfChargesRecord['setKey'] == '' )"
+                                class="button-bl btn-sm float-right other-status-button">
+                                <i class="fas fa-exchange-alt"></i> Register Of Charges ( Request Processing )
+                              </button> -->
+  
+  
+                            </td>
+                            
+                          </tr>
+                        
+                        </tbody>
+                      </table>
+                    </li>
+                  </ul>
+                </div>
+          </li>
+          <!-- end calls on shares  -->
+
+           <!-- start annual return -->
+           <li *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && !(name['companyType'] == 'COMPANY_TYPE_OVERSEAS' || annualReturnDetails['companyType'] == 'COMPANY_TYPE_OFFSHORE') && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+              <div class="dashboard-box">
+                <ul class="dashboard-box-list">
+                  <li>
+                    <div class="col-md-12">
+                      <h3><strong>Annual Return of A Company (Form 15/15A)</strong></h3>
+                    </div>
+                   
+                    <table class="table">
+                      
+                      <tbody>
+                      
+                        <tr>
+                          <td>
+
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( annualReturnDetails['setKey'] == '' )">
+                                 Make New Request
+                             </p>
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( annualReturnDetails['setKey'] == 'ANNUAL_RETURN_PROCESSING' )">
+                                Edit Current Request
+                             </p>
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  annualReturnDetails['setKey'] == 'ANNUAL_RETURN_RESUBMIT'">
+                                Record Requesting to Resubmit
+                             </p>
+
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( annualReturnDetails['setKey'] == 'ANNUAL_RETURN_RESUBMIT' || annualReturnDetails['setKey'] == 'ANNUAL_RETURN_PROCESSING' || annualReturnDetails['setKey'] == '' )">
+                               Request Processing....
+                             </p>
+
+                          </td>
+                          <td>
+
+                             <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( annualReturnDetails['setKey'] == '' )" (click)="annualReturn()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Add
+                            </button>
+                            <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (annualReturnDetails['setKey'] == 'ANNUAL_RETURN_PROCESSING' )" (click)="annualReturn()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Go to Record
+                            </button>
+              
+                            <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  annualReturnDetails['setKey'] == 'ANNUAL_RETURN_RESUBMIT'" (click)="annualReturn()"
+                              class="btn btn-primary float-right resubmit-button">
+                              <i class="fas fa-exchange-alt"></i> Resubmit
+                            </button>
+            
+
+                          </td>
+                          
+                        </tr>
+                      
+                      </tbody>
+                    </table>
+                  </li>
+                </ul>
+              </div>
+           </li>
+           <!-- end annual return -->
+
+
+            <!-- start charges registration  -->
+            <li *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && showIncompleteActions && (stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER' ||  stakeholderKey == 'DERECTOR' || stakeholderKey == 'SECRETARY')">
+                <div class="dashboard-box">
+                  <ul class="dashboard-box-list">
+                    <li>
+                      <div class="col-md-12">
+                        <h3><strong>CERTIFICATE OF CHARGE CREATED BY THE COMPANY (Form 10)</strong></h3>
+                      </div>
+                     
+                      <table class="table">
+                        
+                        <tbody>
+                        
+                          <tr>
+                            <td>
+    
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( chargesRegistrationRecord['setKey'] == '' )">
+                                   Make New Request
+                               </p>
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( chargesRegistrationRecord['setKey'] == 'CHARGES_REGISTRATION_PROCESSING' )">
+                                  Edit Current Request
+                               </p>
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  chargesRegistrationRecord['setKey'] == 'CHARGES_REGISTRATION_RESUBMIT'">
+                                  Record Requesting to Resubmit
+                               </p>
+    
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( chargesRegistrationRecord['setKey'] == 'CHARGES_REGISTRATION_RESUBMIT' || chargesRegistrationRecord['setKey'] == 'CHARGES_REGISTRATION_PROCESSING' || chargesRegistrationRecord['setKey'] == '' )">
+                                 Request Processing....
+                               </p>
+    
+                            </td>
+                            <td>
+    
+                               <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( chargesRegistrationRecord['setKey'] == '' )" (click)="chargesRegistration()"
+                                class="btn btn-primary  float-right processing-button">
+                                <i class="fas fa-exchange-alt"></i> Add
+                              </button>
+                              <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (chargesRegistrationRecord['setKey'] == 'CHARGES_REGISTRATION_PROCESSING' )" (click)="chargesRegistration()"
+                                class="btn btn-primary  float-right processing-button">
+                                <i class="fas fa-exchange-alt"></i> Go to Record
+                              </button>
+                
+                              <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  chargesRegistrationRecord['setKey'] == 'CHARGES_REGISTRATION_RESUBMIT'" (click)="chargesRegistration()"
+                                class="btn btn-primary float-right resubmit-button">
+                                <i class="fas fa-exchange-alt"></i> Resubmit
+                              </button>
+              
+    
+                            </td>
+                            
+                          </tr>
+                        
+                        </tbody>
+                      </table>
+                    </li>
+                  </ul>
+                </div>
+             </li>
+             <!-- end charges registration -->
+
+
+           <!-- start annual return -->
+           <li style="display:none" *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+            <div class="dashboard-box">
+              <ul class="dashboard-box-list">
+                <li>
+                  <div class="col-md-12">
+                    <h3><strong>REGISTER OF CHARGES, AND OF MEMORANDUM OF SATISFACTION OF CHARGES OF (Form 11)</strong></h3>
+                  </div>
+                 
+                  <table class="table">
+                    
+                    <tbody>
+                    
+                      <tr>
+                        <td>
+
+                           <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( registerOfChargesRecord['setKey'] == '' )">
+                               Make New Request
+                           </p>
+                           <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_PROCESSING' )">
+                              Edit Current Request
+                           </p>
+                           <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_RESUBMIT'">
+                              Record Requesting to Resubmit
+                           </p>
+
+                           <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_RESUBMIT' || registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_PROCESSING' || registerOfChargesRecord['setKey'] == '' )">
+                             Request Processing....
+                           </p>
+
+                        </td>
+                        <td>
+
+                           <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( registerOfChargesRecord['setKey'] == '' )" (click)="registerOfCharges()"
+                            class="btn btn-primary  float-right processing-button">
+                            <i class="fas fa-exchange-alt"></i> Add
+                          </button>
+                          <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_PROCESSING' )" (click)="registerOfCharges()"
+                            class="btn btn-primary  float-right processing-button">
+                            <i class="fas fa-exchange-alt"></i> Go to Record
+                          </button>
+            
+                          <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  registerOfChargesRecord['setKey'] == 'REGISTER_OF_CHARGES_RESUBMIT'" (click)="registerOfCharges()"
+                            class="btn btn-primary float-right resubmit-button">
+                            <i class="fas fa-exchange-alt"></i> Resubmit
+                          </button>
+          
+
+                        </td>
+                        
+                      </tr>
+                    
+                    </tbody>
+                  </table>
+                </li>
+              </ul>
+            </div>
+         </li>
+         <!-- end annual return -->
+
+          <!-- start director sec change -->
+          <li *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && showIncompleteActions && !(name['typeKey'] == 'COMPANY_TYPE_GUARANTEE_32' || name['typeKey'] == 'COMPANY_TYPE_GUARANTEE_34' || name['typeKey'] == 'COMPANY_TYPE_OVERSEAS' || name['typeKey'] == 'COMPANY_TYPE_OFFSHORE') && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+              <div class="dashboard-box">
+                <ul class="dashboard-box-list">
+                  <li>
+                    <div class="col-md-12">
+                      <h3><strong>Reduction of Stated Capital (Form 8)</strong></h3>
+                    </div>
+                   
+                    <table class="table">
+                      
+                      <tbody>
+                      
+                        <tr>
+                          <td>
+
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( statedCapital['setKey'] == '' )">
+                                 Make New Request
+                             </p>
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( statedCapital['setKey'] == 'COMPANY_CHANGE_PROCESSING' )">
+                                Edit Current Request
+                             </p>
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  statedCapital['setKey'] == 'COMPANY_CHANGE_REQUEST_TO_RESUBMIT'">
+                                Record Requesting to Resubmit
+                             </p>
+
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( statedCapital['setKey'] == 'COMPANY_CHANGE_REQUEST_TO_RESUBMIT' || statedCapital['setKey'] == 'COMPANY_CHANGE_PROCESSING' || statedCapital['setKey'] == '' )">
+                               Request Processing....
+                             </p>
+
+                          </td>
+                          <td>
+
+                             <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( statedCapital['setKey'] == '' )" (click)="getCapitalSated()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Add
+                            </button>
+                            <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (statedCapital['setKey'] == 'COMPANY_CHANGE_PROCESSING' )" (click)="getCapitalSated()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Go to Record
+                            </button>
+              
+                            <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  statedCapital['setKey'] == 'COMPANY_CHANGE_REQUEST_TO_RESUBMIT'" (click)="getCapitalSated()"
+                              class="btn btn-primary float-right resubmit-button">
+                              <i class="fas fa-exchange-alt"></i> Resubmit
+                            </button>
+            
+
+                          </td>
+                          
+                        </tr>
+                      
+                      </tbody>
+                    </table>
+                  </li>
+                </ul>
+              </div>
+           </li>
+           <!-- end director sec change -->
+
+          
+           <!-- start company notice 
+           <li *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+              <div class="dashboard-box">
+                <ul class="dashboard-box-list">
+                  <li>
+                    <div class="col-md-12">
+                      <h3><strong>Company Notice (Form 22)</strong></h3>
+                    </div>
+                   
+                    <table class="table">
+                      
+                      <tbody>
+                      
+                        <tr>
+                          <td>
+  
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( noticeDetails['setKey'] == '' )">
+                                 Make New Request
+                             </p>
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( noticeDetails['setKey'] == 'COMPANY_NOTICE_PROCESSING' )">
+                                Edit Current Request
+                             </p>
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  noticeDetails['setKey'] == 'COMPANY_NOTICE_RESUBMIT'">
+                                Record Requesting to Resubmit
+                             </p>
+  
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( noticeDetails['setKey'] == 'COMPANY_NOTICE_RESUBMIT' || noticeDetails['setKey'] == 'COMPANY_NOTICE_PROCESSING' || noticeDetails['setKey'] == '' )">
+                               Request Processing....
+                             </p>
+  
+                          </td>
+                          <td>
+  
+                             <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( noticeDetails['setKey'] == '' )" (click)="getNoticeDetails()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Add
+                            </button>
+                            <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (noticeDetails['setKey'] == 'COMPANY_NOTICE_PROCESSING' )" (click)="getNoticeDetails()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Go to Record
+                            </button>
+              
+                            <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  noticeDetails['setKey'] == 'COMPANY_NOTICE_RESUBMIT'" (click)="getNoticeDetails()"
+                              class="btn btn-primary float-right resubmit-button">
+                              <i class="fas fa-exchange-alt"></i> Resubmit
+                            </button>
+            
+  
+                          </td>
+                          
+                        </tr>
+                      
+                      </tbody>
+                    </table>
+                  </li>
+                </ul>
+              </div>
+           </li>
+           end company notice -->
+
+
+            <!-- start appointment of  admin  -->
+            <li *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && showIncompleteActions && stakeholderKey == 'ADMINISTRATOR'">
+              <div class="dashboard-box">
+                <ul class="dashboard-box-list">
+                  <li>
+                    <div class="col-md-12">
+                      <h3><strong>Appointment of Administrator(s) (Form 34)</strong></h3>
+                    </div>
+                   
+                    <table class="table">
+                      
+                      <tbody>
+                      
+                        <tr>
+                          <td>
+  
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( appintAdminDetails['setKey'] == '' )">
+                                 Make New Request
+                             </p>
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( appintAdminDetails['setKey'] == 'APPOINTMENT_OF_ADMIN_PROCESSING' )">
+                                Edit Current Request
+                             </p>
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  appintAdminDetails['setKey'] == 'APPOINTMENT_OF_ADMIN_RESUBMIT'">
+                                Record Requesting to Resubmit
+                             </p>
+  
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( appintAdminDetails['setKey'] == 'APPOINTMENT_OF_ADMIN_RESUBMIT' || appintAdminDetails['setKey'] == 'APPOINTMENT_OF_ADMIN_PROCESSING' || appintAdminDetails['setKey'] == '' )">
+                               Request Processing....
+                             </p>
+  
+                          </td>
+                          <td>
+  
+                             <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( appintAdminDetails['setKey'] == '' )" (click)="appointOfAdmin()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Add
+                            </button>
+                            <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (appintAdminDetails['setKey'] == 'APPOINTMENT_OF_ADMIN_PROCESSING' )" (click)="appointOfAdmin()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Go to Record
+                            </button>
+              
+                            <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  appintAdminDetails['setKey'] == 'APPOINTMENT_OF_ADMIN_RESUBMIT'" (click)="appointOfAdmin()"
+                              class="btn btn-primary float-right resubmit-button">
+                              <i class="fas fa-exchange-alt"></i> Resubmit
+                            </button>
+            
+  
+                          </td>
+                          
+                        </tr>
+                      
+                      </tbody>
+                    </table>
+                  </li>
+                </ul>
+              </div>
+           </li>
+           <!-- start appointment of  admin -->
+
+
+             <!-- start notice of namechange oversease
+          <li *ngIf="name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' && overseasNameChangeNotice['companyType'] == 'COMPANY_TYPE_OVERSEAS' && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+            <div class="dashboard-box">
+              <ul class="dashboard-box-list">
+                <li>
+                  <div class="col-md-12">
+                    <h3><strong>Notice of Change of Name (Overseas Company) (Form 37)</strong></h3>
+                  </div>
+                 
+                  <table class="table">
+                    
+                    <tbody>
+                    
+                      <tr>
+                        <td>
+
+                           <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' && ( overseasNameChangeNotice['setKey'] == '' )">
+                               Make New Request
+                           </p>
+                           <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' && ( overseasNameChangeNotice['setKey'] == 'OVERSEAS_NAME_CHANGE_PROCESSING' )">
+                              Edit Current Request
+                           </p>
+                           <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' &&  overseasNameChangeNotice['setKey'] == 'OVERSEAS_NAME_CHANGE_RESUBMIT'">
+                              Record Requesting to Resubmit
+                           </p>
+
+                           <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' &&  !( overseasNameChangeNotice['setKey'] == 'OVERSEAS_NAME_CHANGE_RESUBMIT' || overseasNameChangeNotice['setKey'] == 'OVERSEAS_NAME_CHANGE_PROCESSING' || overseasNameChangeNotice['setKey'] == '' )">
+                             Request Processing....
+                           </p>
+
+                        </td>
+                        <td>
+
+                           <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' && ( overseasNameChangeNotice['setKey'] == '' )" (click)="getOverseasNameChangeNotice()"
+                            class="btn btn-primary  float-right processing-button">
+                            <i class="fas fa-exchange-alt"></i> Add
+                          </button>
+                          <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' && (overseasNameChangeNotice['setKey'] == 'OVERSEAS_NAME_CHANGE_PROCESSING' )" (click)="getOverseasNameChangeNotice()"
+                            class="btn btn-primary  float-right processing-button">
+                            <i class="fas fa-exchange-alt"></i> Go to Record
+                          </button>
+            
+                          <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' &&  overseasNameChangeNotice['setKey'] == 'OVERSEAS_NAME_CHANGE_RESUBMIT'" (click)="getOverseasNameChangeNotice()"
+                            class="btn btn-primary float-right resubmit-button">
+                            <i class="fas fa-exchange-alt"></i> Resubmit
+                          </button>
+          
+
+                        </td>
+                        
+                      </tr>
+                    
+                    </tbody>
+                  </table>
+                </li>
+              </ul>
+            </div>
+         </li>
+           end notice of namechange oversease -->
+
+
+          <!-- start overseas alterations -->
+          <li *ngIf="name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' && overseaseAltDetails['companyType'] == 'COMPANY_TYPE_OVERSEAS' && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+              <div class="dashboard-box">
+                <ul class="dashboard-box-list">
+                  <li>
+                    <div class="col-md-12">
+                      <h3><strong>
+                        Alterations of Particulars of Overseas Company (Form 35)
+                      </strong></h3>
+                    </div>
+                   
+                    <table class="table">
+                      
+                      <tbody>
+                      
+                        <tr>
+                          <td>
+
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' && ( overseaseAltDetails['setKey'] == '' )">
+                                 Make New Request
+                             </p>
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' && ( overseaseAltDetails['setKey'] == 'OVERSEAS_ALTERATIONS_PROCESSING' )">
+                                Edit Current Request
+                             </p>
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' &&  overseaseAltDetails['setKey'] == 'OVERSEAS_ALTERATIONS_RESUBMIT'">
+                                Record Requesting to Resubmit
+                             </p>
+
+                             <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' &&  !( overseaseAltDetails['setKey'] == 'OVERSEAS_ALTERATIONS_RESUBMIT' || overseaseAltDetails['setKey'] == 'OVERSEAS_ALTERATIONS_PROCESSING' || overseaseAltDetails['setKey'] == '' )">
+                               Request Processing....
+                             </p>
+
+                          </td>
+                          <td>
+
+                             <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' && ( overseaseAltDetails['setKey'] == '' )" (click)="getOversaseAltDetails()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Add
+                            </button>
+                            <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' && (overseaseAltDetails['setKey'] == 'OVERSEAS_ALTERATIONS_PROCESSING' )" (click)="getOversaseAltDetails()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Go to Record
+                            </button>
+              
+                            <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' &&  overseaseAltDetails['setKey'] == 'OVERSEAS_ALTERATIONS_RESUBMIT'" (click)="getOversaseAltDetails()"
+                              class="btn btn-primary float-right resubmit-button">
+                              <i class="fas fa-exchange-alt"></i> Resubmit
+                            </button>
+            
+
+                          </td>
+                          
+                        </tr>
+                      
+                      </tbody>
+                    </table>
+                  </li>
+                </ul>
+              </div>
+           </li>
+           <!-- end overseas alterations -->
+
+            <!-- start offshore alterations -->
+            <li *ngIf="name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' && offshoreAltDetails['companyType'] == 'COMPANY_TYPE_OFFSHORE' && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+                <div class="dashboard-box">
+                  <ul class="dashboard-box-list">
+                    <li>
+                      <div class="col-md-12">
+                        <h3><strong>
+                          Amendments or Alterations of Particulars of an Off-Shore Company (Form 23)
+                        </strong></h3>
+                      </div>
+                     
+                      <table class="table">
+                        
+                        <tbody>
+                        
+                          <tr>
+                            <td>
+    
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' && ( offshoreAltDetails['setKey'] == '' )">
+                                   Make New Request
+                               </p>
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' && ( offshoreAltDetails['setKey'] == 'OFFSHORE_ALTERATIONS_PROCESSING' )">
+                                  Edit Current Request
+                               </p>
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' &&  offshoreAltDetails['setKey'] == 'OFFSHORE_ALTERATIONS_RESUBMIT'">
+                                  Record Requesting to Resubmit
+                               </p>
+    
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' &&  !( offshoreAltDetails['setKey'] == 'OFFSHORE_ALTERATIONS_RESUBMIT' || offshoreAltDetails['setKey'] == 'OFFSHORE_ALTERATIONS_PROCESSING' || offshoreAltDetails['setKey'] == '' )">
+                                 Request Processing....
+                               </p>
+    
+                            </td>
+                            <td>
+    
+                               <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' && ( offshoreAltDetails['setKey'] == '' )" (click)="getOffshoreAltDetails()"
+                                class="btn btn-primary  float-right processing-button">
+                                <i class="fas fa-exchange-alt"></i> Add
+                              </button>
+                              <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' && (offshoreAltDetails['setKey'] == 'OFFSHORE_ALTERATIONS_PROCESSING' )" (click)="getOffshoreAltDetails()"
+                                class="btn btn-primary  float-right processing-button">
+                                <i class="fas fa-exchange-alt"></i> Go to Record
+                              </button>
+                
+                              <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED' &&  offshoreAltDetails['setKey'] == 'OFFSHORE_ALTERATIONS_RESUBMIT'" (click)="getOffshoreAltDetails()"
+                                class="btn btn-primary float-right resubmit-button">
+                                <i class="fas fa-exchange-alt"></i> Resubmit
+                              </button>
+              
+    
+                            </td>
+                            
+                          </tr>
+                        
+                        </tbody>
+                      </table>
+                    </li>
+                  </ul>
+                </div>
+             </li>
+             <!-- end overseas alterations -->
+
+
+             <!-- start form 9 -->
+            <li *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && !(name['typeKey'] == 'COMPANY_TYPE_GUARANTEE_32' || name['typeKey'] == 'COMPANY_TYPE_GUARANTEE_34' || name['typeKey'] == 'COMPANY_TYPE_OVERSEAS' || name['typeKey'] == 'COMPANY_TYPE_OFFSHORE') && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+                <div class="dashboard-box">
+                  <ul class="dashboard-box-list">
+                    <li>
+                      <div class="col-md-12">
+                        <h3><strong>
+                          Acquisition or Redemption by Company of Own Shares (Form 9)
+                        </strong></h3>
+                      </div>
+                     
+                      <table class="table">
+                        
+                        <tbody>
+                        
+                          <tr>
+                            <td>
+    
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( form9Details['setKey'] == '' )">
+                                   Make New Request
+                               </p>
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( form9Details['setKey'] == 'COMPANY_SHARE_FORM9_PROCESSING' )">
+                                  Edit Current Request
+                               </p>
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  form9Details['setKey'] == 'COMPANY_SHARE_FORM9_RESUBMIT'">
+                                  Record Requesting to Resubmit
+                               </p>
+    
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( form9Details['setKey'] == 'COMPANY_SHARE_FORM9_RESUBMIT' || form9Details['setKey'] == 'COMPANY_SHARE_FORM9_PROCESSING' || form9Details['setKey'] == '' )">
+                                 Request Processing....
+                               </p>
+    
+                            </td>
+                            <td>
+    
+                               <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( form9Details['setKey'] == '' )" (click)="getForm9Details()"
+                                class="btn btn-primary  float-right processing-button">
+                                <i class="fas fa-exchange-alt"></i> Add
+                              </button>
+                              <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (form9Details['setKey'] == 'COMPANY_SHARE_FORM9_PROCESSING' )" (click)="getForm9Details()"
+                                class="btn btn-primary  float-right processing-button">
+                                <i class="fas fa-exchange-alt"></i> Go to Record
+                              </button>
+                
+                              <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  form9Details['setKey'] == 'COMPANY_SHARE_FORM9_RESUBMIT'" (click)="getForm9Details()"
+                                class="btn btn-primary float-right resubmit-button">
+                                <i class="fas fa-exchange-alt"></i> Resubmit
+                              </button>
+              
+    
+                            </td>
+                            
+                          </tr>
+                        
+                        </tbody>
+                      </table>
+                    </li>
+                  </ul>
+                </div>
+             </li>
+             <!-- end form 9 -->
+
+
+             <!-- start prospectus registration -->
+            <li *ngIf="(name['key'] === 'COMPANY_STATUS_APPROVED' || name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED') && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+              <div class="dashboard-box">
+                <ul class="dashboard-box-list">
+                  <li>
+                    <div class="col-md-12">
+                      <h3><strong>
+                        SUBMISSION OF PROSPECTUS FOR REGISTRATION
+                      </strong></h3>
+                    </div>
+                   
+                    <table class="table">
+                      
+                      <tbody>
+                      
+                        <tr>
+                          <td>
+  
+                             <p *ngIf="showIncompleteActions  && ( prospectusDetails['setKey'] == '' )">
+                                 Make New Request
+                             </p>
+                             <p *ngIf="showIncompleteActions  && ( prospectusDetails['setKey'] == 'PROSPECTUS_OF_REG_PROCESSING' )">
+                                Edit Current Request
+                             </p>
+                             <p *ngIf="showIncompleteActions  &&  prospectusDetails['setKey'] == 'PROSPECTUS_OF_REG_RESUBMIT'">
+                                Record Requesting to Resubmit
+                             </p>
+  
+                             <p *ngIf="showIncompleteActions  &&  !( prospectusDetails['setKey'] == 'PROSPECTUS_OF_REG_RESUBMIT' || prospectusDetails['setKey'] == 'PROSPECTUS_OF_REG_PROCESSING' || prospectusDetails['setKey'] == '' )">
+                               Request Processing....
+                             </p>
+  
+                          </td>
+                          <td>
+  
+                             <button style="margin-right: 5px;" *ngIf="showIncompleteActions  && ( prospectusDetails['setKey'] == '' )" (click)="getProspectusDetails()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Add
+                            </button>
+                            <button style="margin-right: 5px;" *ngIf="showIncompleteActions  && (prospectusDetails['setKey'] == 'PROSPECTUS_OF_REG_PROCESSING' )" (click)="getProspectusDetails()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Go to Record
+                            </button>
+              
+                            <button style="margin-right: 5px;" *ngIf="showIncompleteActions &&  prospectusDetails['setKey'] == 'PROSPECTUS_OF_REG_RESUBMIT'" (click)="getProspectusDetails()"
+                              class="btn btn-primary float-right resubmit-button">
+                              <i class="fas fa-exchange-alt"></i> Resubmit
+                            </button>
+            
+  
+                          </td>
+                          
+                        </tr>
+                      
+                      </tbody>
+                    </table>
+                  </li>
+                </ul>
+              </div>
+           </li>
+           <!-- end prospectus registration  -->
+
+
+            
+           <!-- start annual accounts -->
+             <li *ngIf="(name['key'] === 'COMPANY_STATUS_APPROVED' || name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED') && showIncompleteActions && annualAccountsDetails['companyType'] != 'COMPANY_TYPE_PRIVATE'  && annualAccountsDetails['companyType'] != 'COMPANY_TYPE_UNLIMITED' && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+              <div class="dashboard-box">
+                <ul class="dashboard-box-list">
+                  <li>
+                    <div class="col-md-12">
+                      <h3><strong>
+                        ANNUAL ACCOUNTS OF THE COMPANY
+                      </strong></h3>
+                    </div>
+                   
+                    <table class="table">
+                      
+                      <tbody>
+                      
+                        <tr>
+                          <td>
+  
+                             <p *ngIf="showIncompleteActions  && ( annualAccountsDetails['setKey'] == '' )">
+                                 Make New Request
+                             </p>
+                             <p *ngIf="showIncompleteActions  && ( annualAccountsDetails['setKey'] == 'ANNUAL_ACCOUNTS_PROCESSING' )">
+                                Edit Current Request
+                             </p>
+                             <p *ngIf="showIncompleteActions  &&  annualAccountsDetails['setKey'] == 'ANNUAL_ACCOUNTS_RESUBMIT'">
+                                Record Requesting to Resubmit
+                             </p>
+  
+                             <p *ngIf="showIncompleteActions  &&  !( annualAccountsDetails['setKey'] == 'ANNUAL_ACCOUNTS_RESUBMIT' || annualAccountsDetails['setKey'] == 'ANNUAL_ACCOUNTS_PROCESSING' || annualAccountsDetails['setKey'] == '' )">
+                               Request Processing....
+                             </p>
+  
+                          </td>
+                          <td>
+  
+                             <button style="margin-right: 5px;" *ngIf="showIncompleteActions  && ( annualAccountsDetails['setKey'] == '' )" (click)="getAnnualAccountDetails()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Add
+                            </button>
+                            <button style="margin-right: 5px;" *ngIf="showIncompleteActions  && (annualAccountsDetails['setKey'] == 'ANNUAL_ACCOUNTS_PROCESSING' )" (click)="getAnnualAccountDetails()"
+                              class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Go to Record
+                            </button>
+              
+                            <button style="margin-right: 5px;" *ngIf="showIncompleteActions &&  annualAccountsDetails['setKey'] == 'ANNUAL_ACCOUNTS_RESUBMIT'" (click)="getAnnualAccountDetails()"
+                              class="btn btn-primary float-right resubmit-button">
+                              <i class="fas fa-exchange-alt"></i> Resubmit
+                            </button>
+            
+  
+                          </td>
+                          
+                        </tr>
+                      
+                      </tbody>
+                    </table>
+                  </li>
+                </ul>
+              </div>
+           </li>
+           <!-- end annual accounts  -->
+
+
+            <!-- start Others / Court Order -->
+            <li *ngIf="(name['key'] === 'COMPANY_STATUS_APPROVED' || name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED')  && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+              <div class="dashboard-box">
+                <ul class="dashboard-box-list">
+                  <li>
+                    <div class="col-md-12">
+                      <h3><strong>
+                          Others / Court Order
+                        </strong></h3>
+                    </div>
+            
+                    <table class="table">
+            
+                      <tbody>
+            
+                        <tr>
+                          <td>
+                            <p
+                              *ngIf="showIncompleteActions && (name['key'] === 'COMPANY_STATUS_APPROVED' || name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED') && ( otherscourtorder[0]['setKey'] == '' )">
+                              Make New Request
+                            </p>
+                            <p
+                              *ngIf="showIncompleteActions && (name['key'] === 'COMPANY_STATUS_APPROVED' || name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED') && ( otherscourtorder[0]['setKey'] == 'OTHERS_COURT_ORDER_PROCESSING' )">
+                              Edit Current Request
+                            </p>
+                            <p
+                              *ngIf="showIncompleteActions && (name['key'] === 'COMPANY_STATUS_APPROVED' || name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED') &&  otherscourtorder[0]['setKey'] == 'OTHERS_COURT_ORDER_RESUBMIT'">
+                              Record Requesting to Resubmit
+                            </p>
+            
+                            <p
+                              *ngIf="showIncompleteActions && (name['key'] === 'COMPANY_STATUS_APPROVED' || name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED') &&  !( otherscourtorder[0]['setKey'] == 'OTHERS_COURT_ORDER_RESUBMIT' || otherscourtorder[0]['setKey'] == 'OTHERS_COURT_ORDER_PROCESSING' || otherscourtorder[0]['setKey'] == '' )">
+                              Request Processing....
+                            </p>
+            
+                          </td>
+                          <td>
+            
+                            <button style="margin-right: 5px;"
+                              *ngIf="showIncompleteActions && (name['key'] === 'COMPANY_STATUS_APPROVED' || name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED') && ( otherscourtorder[0]['setKey'] == '' )"
+                              (click)="othersCourtOrder('individual')" class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Add
+                            </button>
+                            <button style="margin-right: 5px;"
+                              *ngIf="showIncompleteActions && (name['key'] === 'COMPANY_STATUS_APPROVED' || name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED') && (otherscourtorder[0]['setKey'] == 'OTHERS_COURT_ORDER_PROCESSING' )"
+                              (click)="othersCourtOrder('individual')" class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Go to Record
+                            </button>
+            
+                            <button style="margin-right: 5px;"
+                              *ngIf="showIncompleteActions && (name['key'] === 'COMPANY_STATUS_APPROVED' || name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED') &&  otherscourtorder[0]['setKey'] == 'OTHERS_COURT_ORDER_RESUBMIT'"
+                              (click)="othersCourtOrder('individual')" class="btn btn-primary float-right resubmit-button">
+                              <i class="fas fa-exchange-alt"></i> Resubmit
+                            </button>
+            
+            
+                          </td>
+            
+                        </tr>
+            
+                      </tbody>
+                    </table>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <!-- end Others / Court Order-->
+
+
+            <!-- start Request for prior approval -->
+            <li
+              *ngIf="(name['key'] === 'COMPANY_STATUS_APPROVED' || name['key'] === 'COMPANY_FOREIGN_STATUS_APPROVED') && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+              <div class="dashboard-box">
+                <ul class="dashboard-box-list">
+                  <li>
+                    <div class="col-md-12">
+                      <h3><strong>
+                          Request for Prior Approval
+                        </strong></h3>
+                    </div>
+            
+                    <table class="table">
+            
+                      <tbody>
+            
+                        <tr>
+                          <td>
+            
+                            <p>
+                              Make New Request
+                            </p>
+                            <!-- <p
+                              *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( priorApproval[0]['setKey'] == 'PRIOR_APPROVAL_PROCESSING' )">
+                              Edit Current Request
+                            </p> -->
+                            <!-- <p
+                              *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  priorApproval[0]['setKey'] == 'PRIOR_APPROVAL_RESUBMIT'">
+                              Record Requesting to Resubmit
+                            </p> -->
+            
+                            <!-- <p
+                              *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( priorApproval[0]['setKey'] == 'PRIOR_APPROVAL_RESUBMIT' || priorApproval[0]['setKey'] == 'PRIOR_APPROVAL_PROCESSING' || priorApproval[0]['setKey'] == '' )">
+                              Request Processing....
+                            </p> -->
+            
+                          </td>
+                          <td>
+            
+                            <button style="margin-right: 5px;"
+                              (click)="getPriorApproval()" class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Go To Prior Approval
+                            </button>
+                            <!-- <button style="margin-right: 5px;"
+                              *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (priorApproval[0]['setKey'] == 'PRIOR_APPROVAL_PROCESSING' )"
+                              (click)="getPriorApproval()" class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Go to Record
+                            </button> -->
+            
+                            <!-- <button style="margin-right: 5px;"
+                              *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  priorApproval[0]['setKey'] == 'PRIOR_APPROVAL_RESUBMIT'"
+                              (click)="getPriorApproval()" class="btn btn-primary float-right resubmit-button">
+                              <i class="fas fa-exchange-alt"></i> Resubmit
+                            </button> -->
+            
+            
+                          </td>
+            
+                        </tr>
+            
+                      </tbody>
+                    </table>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <!-- end Request for prior approval-->
+
+            <!-- start STATEMENT OF AFFAIRS -->
+            <li
+              *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+
+              
+              
+              <div class="dashboard-box">
+                <ul class="dashboard-box-list">
+                  <li>
+                    <div class="col-md-12">
+                      <h3><strong>
+                          Statement Of Affairs (Form 25)
+                        </strong></h3>
+                    </div>
+            
+                    <table class="table">
+            
+                      <tbody>
+            
+                        <tr>
+                          <td>
+            
+                            <p
+                              *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( affairs[0]['setKey'] == '' )">
+                              Make New Request
+                            </p>
+                            <p
+                              *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( affairs[0]['setKey'] == 'STATEMENT_OF_AFFAIRS_PROCESSING' )">
+                              Edit Current Request
+                            </p>
+                            <p
+                              *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  affairs[0]['setKey'] == 'STATEMENT_OF_AFFAIRS_RESUBMIT'">
+                              Record Requesting to Resubmit
+                            </p>
+            
+                            <p
+                              *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( affairs[0]['setKey'] == 'STATEMENT_OF_AFFAIRS_RESUBMIT' || affairs[0]['setKey'] == 'STATEMENT_OF_AFFAIRS_PROCESSING' || affairs[0]['setKey'] == '' )">
+                              Request Processing....
+                            </p>
+            
+                          </td>
+                          <td>
+            
+                            <button style="margin-right: 5px;"
+                              *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( affairs[0]['setKey'] == ''  )"
+                              (click)="getStatementOfAffairs()" class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Add
+                            </button>
+                            <button style="margin-right: 5px;"
+                              *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (affairs[0]['setKey'] == 'STATEMENT_OF_AFFAIRS_PROCESSING' )"
+                              (click)="getStatementOfAffairs()" class="btn btn-primary  float-right processing-button">
+                              <i class="fas fa-exchange-alt"></i> Go to Record
+                            </button>
+            
+                            <button style="margin-right: 5px;"
+                              *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  affairs[0]['setKey'] == 'STATEMENT_OF_AFFAIRS_RESUBMIT'"
+                              (click)="getStatementOfAffairs()" class="btn btn-primary float-right resubmit-button">
+                              <i class="fas fa-exchange-alt"></i> Resubmit
+                            </button>
+            
+            
+                          </td>
+            
+                        </tr>
+            
+                      </tbody>
+                    </table>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <!-- end STATEMENT OF AFFAIRS-->
+
+           
+           
+            <!-- special Resolutins-->
+
+            <li *ngIf="name['key'] === 'COMPANY_STATUS_APPROVED' && showIncompleteActions && !(stakeholderKey == 'ADMINISTRATOR' || stakeholderKey == 'LAWYER_BANKER_OTHER_STAKEHOLDER')">
+                <div class="dashboard-box">
+                  <ul class="dashboard-box-list">
+                    <li>
+                      <div class="col-md-12">
+                        <h3><strong>NOTICE OF A SPECIAL RESOLUTION (Form 39)</strong></h3>
+                      </div>
+                     
+                      <table class="table">
+                        
+                        <tbody>
+                        
+                          <tr>
+                            <td>
+  
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( specialResolutionDetails['setKey'] == '' )">
+                                   Make New Request
+                               </p>
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( specialResolutionDetails['setKey'] == 'COMPANY_CHANGE_PROCESSING' )">
+                                  Edit Current Request
+                               </p>
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  specialResolutionDetails['setKey'] == 'COMPANY_CHANGE_REQUEST_TO_RESUBMIT'">
+                                  Record Requesting to Resubmit
+                               </p>
+  
+                               <p *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  !( specialResolutionDetails['setKey'] == 'COMPANY_CHANGE_REQUEST_TO_RESUBMIT' || specialResolutionDetails['setKey'] == 'COMPANY_CHANGE_PROCESSING' || specialResolutionDetails['setKey'] == '' )">
+                                 Request Processing....
+                               </p>
+  
+                            </td>
+                            <td>
+  
+                               <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && ( specialResolutionDetails['setKey'] == '' )" (click)="getSpecialResolutionDetails()"
+                                class="btn btn-primary  float-right processing-button">
+                                <i class="fas fa-exchange-alt"></i> Add
+                              </button>
+                              <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' && (specialResolutionDetails['setKey'] == 'COMPANY_CHANGE_PROCESSING' )" (click)="getSpecialResolutionDetails()"
+                                class="btn btn-primary  float-right processing-button">
+                                <i class="fas fa-exchange-alt"></i> Go to Record
+                              </button>
+                
+                              <button style="margin-right: 5px;" *ngIf="showIncompleteActions && name['key'] === 'COMPANY_STATUS_APPROVED' &&  specialResolutionDetails['setKey'] == 'COMPANY_CHANGE_REQUEST_TO_RESUBMIT'" (click)="getSpecialResolutionDetails()"
+                                class="btn btn-primary float-right resubmit-button">
+                                <i class="fas fa-exchange-alt"></i> Resubmit
+                              </button>
+              
+  
+                            </td>
+                            
+                          </tr>
+                        
+                        </tbody>
+                      </table>
+                    </li>
+                  </ul>
+                </div>
+             </li>
+
+
+            <!-- end special Resolutions -->
+
+
+
+        </ul>
+      </div>
+
+      <div class="dashboard-box" *ngIf="this.comments?.length > 0">
+        <ul class="dashboard-box-list">
+          <li *ngFor="let comment of this.comments">
+            <div class="boxed-list-item">
+              <!-- Content -->
+              <div class="item-content">
+                <h4>{{ comment.name }}</h4>
+                <div class="item-details margin-top-10">
+                  <div class="star-rating" data-rating="5.0"></div>
+                  <div class="detail-item"><i class="icon-material-outline-date-range"></i> {{ comment.updated_at
+                    |
+                    date: 'y-MM-dd' }} {{ comment.updated_at |
+                    date:'mediumTime' }} </div>
+                </div>
+                <div class="item-description">
+                  <p>{{ comment.comments }}</p>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="payment-success-wrapper pay-block-wrapper" *ngIf="blockBackToForm">
+  <div class="payment-success-body">
+    <div class="header">
+      <h2>Select the type</h2>
+    </div>
+    <div class="body">
+        <div class="form-row">
+
+            <div class="form-group col-md-4">
+
+              <label class="col-form-label col-form-label-sm"><b>Type :</b> <span
+                  class="req">*</span>
+              </label>
+            </div>
+            <div class="form-group col-md-4">
+                <select [(ngModel)]="bsdtype" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-phone">
+                  <option value="adoption" selected>Adoption</option>
+                  <option value="change">Change</option>
+                </select>
+            </div>
+
+          </div>
+    </div>
+    <div class="footer">
+      <button [disabled]="!bsdtype" style="margin-right: 10px" class="btn btn-primary" (click)="getCompanyBalDateChange()">Go</button>
+      <button style="margin-left: 10px" class="btn btn-previous" (click)="areYouSureNo()">Cancel</button>
+    </div>
+    <br>
+  </div>
+</div>

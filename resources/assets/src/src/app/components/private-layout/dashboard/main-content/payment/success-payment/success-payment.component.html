@@ -1,0 +1,40 @@
+<div class="container top-margin ">
+  <div class="row text-center mt-5 justify-content-center">
+    <div class="col-sm-8 col-sm-offset-3 notify successbox">
+      <h1 style="color:#5f9025" *ngIf="failOrPass">Payment Success</h1>
+      <h1 style="color:#ff0000" *ngIf="!failOrPass">Payment Failed</h1>
+      <div class="swal2-icon swal2-success swal2-animate-success-icon" *ngIf="failOrPass" style="display: flex;">
+        <span class="swal2-success-line-tip"></span>
+        <span class="swal2-success-line-long"></span>
+        <div class="swal2-success-ring"></div>
+      </div>
+
+      <div class="swal2-icon swal2-error swal2-animate-error-icon" *ngIf="!failOrPass" style="display: flex;">
+        <span class="swal2-x-mark">
+          <span class="swal2-x-mark-line-left"></span>
+          <span class="swal2-x-mark-line-right"></span>
+        </span>
+      </div>
+      <br>
+      <div *ngIf="failOrPass">
+        <section *ngIf="user.isUser">
+          <h3>{{ user.getUserName }}</h3>
+          <p style="font-size:18px;color:rgb(75, 75, 75);">
+            Your payment has been processed successfully. 
+            We have sent you an email to "{{ user.getEmail }}". Please check your 
+            email for details.</p>
+        </section>
+        <section *ngIf="!user.isUser">
+          <p style="font-size:18px;color:rgb(75, 75, 75);">Your payment has been processed successfully. Please check your email for details.
+          </p>
+        </section>
+      </div>
+      <div *ngIf="!failOrPass">
+        <p style="font-size:18px;color:rgb(75, 75, 75);">Transaction Status - Uncompleted</p>
+      </div>
+      <a routerLink="/dashboard/home" class="button green-4" *ngIf="Auth.AuthGuard()">Back to Dashboard</a>
+      <a routerLink="/home" class="button green-4" *ngIf="!Auth.AuthGuard()">Back to Home</a>
+      <a (click)="ngOnDownload(refNo)" class="button light-blue ml-3" *ngIf="failOrPass">Print Receipt</a>
+    </div>
+  </div>
+</div>

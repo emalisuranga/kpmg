@@ -1,0 +1,787 @@
+<div class="clearfix">
+</div>
+<section>
+  <div class="container" style="padding-bottom: 50px;">
+    <div class="row">
+
+
+   
+
+
+      <div class="col-md-12 nopadding">
+
+
+        <form role="form" action="" method="post" class="f1">
+          <section class="publication-wrapper">
+            <h3 style="text-align: center">Publication Infomation</h3>
+            <p style="text-align: center">Please provide the tender publication info. Then you can create tenders under this publication.</p>
+         
+          <div class="alert alert-warning">
+              <p style="margin:0">Registration is required for the contract of cost exceeding Rs.5,000,000 as per the Public Contract Act No.03 of 1987 </p>
+            </div>
+            
+            <div class="form-group col-md-12">
+
+                  <h4>Please select your publication </h4>
+
+                  <label class="col-form-label col-form-label-sm">Title of the Publication
+                    <span class="req">*</span>
+                  </label>
+                  <select  class="form-control form-control-sm modal-input-directory-city" [(ngModel)]="tender.publicationId" 
+                  name="tender_publication_id" >
+                    <option value="0">Choose..</option>
+                    <option *ngFor="let p of publicationsList.publications" value="{{p.id}}">{{p.name}}</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-12" [hidden]="tender.publicationId">
+                    <h4>Or create new publication</h4>
+                  <label class="col-form-label col-form-label-sm">Title of the Publication
+                    <span class="req">*</span>
+                  </label>
+
+                  <input  [(ngModel)]="tender.newPublicationName"   name="tender_publication_new_name"  class="form-control form-control-sm modal-input-director-localaddress1"
+                    placeholder="">
+                </div>
+
+                
+
+          <div style="background-color: #155724;" class="alert alert-success" role="alert" *ngIf="tenderSubmissionMessage">
+              <h3 style="text-align: center;font-size: 15px; color: #fff;">{{tenderSubmissionMessage}}</h3>
+          </div>
+          <div class="alert alert-info" *ngIf="tenderSubmissionMessage">
+              <p>You can create new tender by filling below form under the same publication.</p>
+          </div>
+
+
+          </section>
+
+          
+          <section class ="tender-section" [hidden] ="!(tender.publicationId || tender.newPublicationName)">
+              <br/>
+              <hr/>
+            <h3 style="text-align: center">Publish a Tender</h3>
+            <p style="text-align: center">Fill in all steps for completing the process.</p>
+            <div class="f1-steps">
+              <div class="f1-progress">
+                <div class="f1-progress-line" data-now-value="25" data-number-of-steps="2" [ngStyle]="{'width': progress.progressPercentage}"></div>
+              </div>
+
+
+
+              <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}}">
+                <div class="f1-step-icon">
+                  <i class="{{item.icon}}"></i>
+                </div>
+                <p>{{item.label}}</p>
+              </div>
+
+            </div>
+
+            <fieldset [hidden]="stepOn != 0">
+
+
+
+            <!--  
+              <div class="sec_type_wrapper form-row">
+
+                <div class="sec_type_item form-group col-md-12">
+                    <h4>Please select the tender limit</h4>
+                </div>
+
+                <div class="sec_type_item form-group col-md-6">
+
+                  <input type="radio" id="tender-limit-below-limit" class="custom-control-input" [(ngModel)]="tender.tenderLimit" name="tender-limit-below" value="below-limit"
+                    name="tender_limit">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tender-limit-below-limit">&nbsp;&nbsp;&nbsp;&nbsp;Below 5 million</label>
+
+
+                </div>
+
+                <div class="sec_type_item form-group col-md-6">
+
+                  <input type="radio" id="tender-limit-upper-limit" class="custom-control-input" [(ngModel)]="tender.tenderLimit" name="tender-limit-upper" value="upper-limit"
+                    name="tender_limit">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tender-limit-upper-limit">&nbsp;&nbsp;&nbsp;&nbsp;Above 5 million</label>
+
+                </div>
+
+              </div>
+              <div class="sec_type_wrapper upper-limit-content form-group form-row" *ngIf="tender.tenderLimit =='below-limit'">
+                <div class="alert alert-info" style="text-align: center;font-size: 17px;width:100%">
+                  <i class="fa fa-info-circle"></i>&nbsp;You are not required to publish the tender in e-ROC system.
+                </div>
+              </div>
+             -->
+
+              <input type="hidden" [(ngModel)]="tender.tenderLimit" value="upper-limit" />
+
+              <div class="sec_type_wrapper upper-limit-content form-group form-row" *ngIf="tender.tenderLimit =='upper-limit'">
+                 <div class="form-group col-md-6">
+        
+                      <label class="col-form-label col-form-label-sm">Tender Amount
+                         
+                      </label>
+                      <input onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" (input)="validateStep1()" name="tender-amount"  requiried [(ngModel)]="tender.tenderAmount" class="form-control form-control-sm modal-input-member-email"
+                          placeholder="">
+                         <!-- <span *ngIf="cutOffFailMessage" class="req">{{cutOffFailMessage}}</span> -->
+                </div>
+      
+                <div class="sec_type_item form-group col-md-12">
+                      <h4>Please select the tender type</h4>
+                  </div>
+                
+                <div class="sec_type_item form-group col-md-6">
+
+                  <input (input)="validateStep1()" type="radio" id="tender-type-open" class="custom-control-input" [(ngModel)]="tender.tenderType" value="open" name="tender_type">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tender-type-open">&nbsp;&nbsp;&nbsp;&nbsp;Open Tender</label>
+
+
+                </div>
+
+                <div class="sec_type_item form-group col-md-6">
+
+                  <input (change)="validateStep1()" type="radio" id="tender-type-close" class="custom-control-input" [(ngModel)]="tender.tenderType" value="close" name="tender_type">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="tender-type-close">&nbsp;&nbsp;&nbsp;&nbsp;Close Tender</label>
+
+
+                </div>
+              </div>
+
+              <div class="sec_type_wrapper upper-limit-content form-group" *ngIf="tender.tenderLimit =='upper-limit' && tender.tenderType=='close'">
+
+                <div class="add-new-wrapper close-member-add-new-wrapper" style="width: 70%;">
+
+                  <h2>
+                    <span class="add-new-wrapper-label">Add Applicants</span>
+                    <div class="line"></div>
+
+                    <button type="button" mdbBtn class="relative waves-light add-new-stakholder" (click)="tenderMemberModal.show()" mdbWavesEffect>
+                      <i class="fa fa-plus"></i> Add New</button>
+
+                  </h2>
+
+                </div>
+
+                <div class="container uploaded-container">
+                  <div>
+    
+                    <div class="row uploaded-row" style="background-color:#fff;border-bottom:none;border-top:1px solid #ddd;;border-left:1px solid #ddd;;border-right:1px solid #ddd; padding:45px 0;">
+  
+                      <div class="col-9 doc">
+                        <h5 style="font-size:18px;">Applicants - Bulk upload</h5>
+                        <div  class="doc-description">
+                            <a *ngIf="closeApplictionCSV"  class="samples-society-bulk" download="dummy-data.csv" href="{{closeApplictionCSV}}"><i class="fas fa-file-download"></i>&nbsp;Download Example Data (CSV file)</a>
+                        </div>
+                      
+                      </div>
+                      <div class="col-3 no-padding">
+    
+    
+                        <label style="float:right;width:220px" for="doc-bulk-applicant-ad" class="upload-wrapper btn btn-primary btn-sm download">
+                          <i class="fas fa-cloud-upload-alt"></i> Upload CSV file
+                        </label>
+                        <input #csvAplicantUploadElem style="display:block;position: fixed;top:-100000px" id="doc-bulk-applicant-ad" type="file" (change)="fileChangeUploadCSV($event)"
+                          placeholder="Upload file" accept=".csv">
+    
+                      </div>
+    
+    
+                    </div>
+    
+                  </div>
+    
+    
+                </div>
+
+                <div class="tender-member-list" style="display: block;padding:10px 0">
+
+                  <div *ngFor="let member of tenderMembers.members; let i = index" class="director-record stakeholder-record" style="margin: 30px 0;
+                  border-radius: 20px;
+                  background: #fff;
+                  border: 1px solid rgb(243, 91, 63);
+                  width: 80%;">
+
+                    <div class="stakeholder-record-summeru" style="color: red;
+                      font-weight: lighter;
+                      font-size: 22px;
+                      border: none;
+                      cursor: pointer;
+                      width: 100%;
+                      height: 40px;
+                      background-color: transparent !important;
+                      border-radius: 0;
+                      box-shadow: none;">
+
+                      <span style="color:#fd7e14;font-size: 15px">{{member.name}}</span>
+
+
+
+                      <span (click)="removeMember(i,memberId?.id)" title="remove record" style="float:right;" class="record-handler record-handler-remove">
+                        <i class="fa fa-trash"></i>
+                      </span>
+                      <!--<span title="show record" style="float:right;color: #1f365c" class="record-handler record-handler-view">
+                        <i class="fa fa-eye"></i>&nbsp;&nbsp;
+                      </span>-->
+
+
+                    </div>
+
+                    <div class="stakeholder-record-inner" style="padding: 25px 10px 10px;border-top: 1px solid #ddd">
+                      <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <strong>Applicant Name</strong>
+                        </div>
+                        <div class="form-group col-md-8">: {{member.name}}</div>
+
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <strong>Address</strong>
+                        </div>
+                        <div class="form-group col-md-8">: {{member.address}}</div>
+
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <strong>Contact Number</strong>
+                        </div>
+                        <div class="form-group col-md-8">: {{member.contactNo}}</div>
+
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <strong>Email</strong>
+                        </div>
+                        <div class="form-group col-md-8">: {{member.email}}</div>
+
+                      </div>
+
+                    </div>
+
+
+
+                  </div>
+
+                </div>
+
+
+
+              </div>
+
+              <div class="form-row" style="margin:20px 0" *ngIf="tender.tenderLimit =='upper-limit' && ( tender.tenderType =='close' || tender.tenderType =='open' ) ">
+                
+      
+                
+                <div class="form-group col-md-12">
+
+                  <label class="col-form-label col-form-label-sm">Tender Number
+                    <span class="req">*</span>
+                  </label>
+                  <input (input)="validateStep1()" name="tender-number" requiried [(ngModel)]="tender.tenderNo" class="form-control form-control-sm modal-input-tender-no" placeholder="">
+
+                </div>
+
+                <div class="form-group col-md-12">
+
+                    <label class="col-form-label col-form-label-sm">Tender Name
+                      <span class="req">*</span>
+                    </label>
+                    <input (input)="validateStep1()" name="tender-name" requiried [(ngModel)]="tender.tenderName" class="form-control form-control-sm modal-input-tender-no" placeholder="">
+    
+                  </div>
+
+                <div class="form-group col-md-12">
+
+                  <label class="col-form-label col-form-label-sm">Description
+                    <span class="req">*</span>
+                  </label>
+                  <textarea (input)="validateStep1()" name="tender-description" requiried [(ngModel)]="tender.description" class="form-control form-control-sm modal-input-tender-des" placeholder=""></textarea>
+
+
+                </div>
+
+
+              </div>
+
+
+              <div style="display: none" class="authorized-person-details form-group col-md-12" *ngIf="tender.tenderLimit =='upper-limit' && ( tender.tenderType =='close' || tender.tenderType =='open' ) ">
+                  <h3>Authorized Person/Publisher Infomation (Optional)</h3>
+  
+                  <div class="form-group col-md-12">
+  
+                      <label class="col-form-label col-form-label-sm">Name of the Ministry
+                       
+                      </label>
+                      <input name="tender-ministry-name"  [(ngModel)]="tender.ministry" class="form-control form-control-sm modal-input-tender-no" placeholder="">
+      
+                  </div>
+  
+                  <div class="form-group col-md-12">
+  
+                      <label class="col-form-label col-form-label-sm">Name of the Department
+                      
+                      </label>
+                      <input name="tender-department-name"  [(ngModel)]="tender.department" class="form-control form-control-sm modal-input-tender-no" placeholder="">
+      
+                  </div>
+                  <div class="form-group col-md-12">
+  
+                      <label class="col-form-label col-form-label-sm">Division
+                      
+                      </label>
+                      <input name="tender-division-name"  [(ngModel)]="tender.division" class="form-control form-control-sm modal-input-tender-no" placeholder="">
+      
+                  </div>
+  
+                  <br/>
+  
+                  <div class="form-group col-md-12">
+  
+                      <label class="col-form-label col-form-label-sm">Authorized Person Name
+                     
+                      </label>
+                      <input name="tender-auth-name"  [(ngModel)]="tender.authorized_person_name" class="form-control form-control-sm modal-input-tender-no" placeholder="">
+      
+                  </div>
+                  <div class="form-group col-md-12">
+  
+                      <label class="col-form-label col-form-label-sm">Authorized Person Designation
+                       
+                      </label>
+                      <input name="tender-auth-des"  [(ngModel)]="tender.authorized_person_designation" class="form-control form-control-sm modal-input-tender-no" placeholder="">
+      
+                  </div>
+                  <div class="form-group col-md-12">
+  
+                      <label class="col-form-label col-form-label-sm">Authorized Person Address
+                     
+                      </label>
+                      <input name="tender-auth-address"  [(ngModel)]="tender.authorized_person_address" class="form-control form-control-sm modal-input-tender-no" placeholder="">
+      
+                  </div>
+                  <div class="form-group col-md-12">
+  
+                      <label class="col-form-label col-form-label-sm">Authorized Person Contact No.
+                     
+                      </label>
+                      <input pattern="\d{10}" name="tender-auth-contact"  [(ngModel)]="tender.authorized_person_phone" class="form-control form-control-sm modal-input-tender-no" placeholder="">
+                      <span class="req-message">Please enter 10 Digits phone number requried</span>
+                  </div>
+
+                  <div class="form-group col-md-12">
+  
+                    <label class="col-form-label col-form-label-sm">Authorized Person Email.
+                   
+                    </label>
+                    <input pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}" name="tender-auth-email"  [(ngModel)]="tender.authorized_person_email" class="form-control form-control-sm modal-input-tender-no" placeholder="">
+                    <span class="req-message">Please enter valid email address.</span>
+                </div>
+  
+  
+  
+  
+  
+                    
+                </div>
+
+            
+
+
+              <div class="f1-buttons" *ngIf="tender.tenderLimit =='upper-limit' && ( tender.tenderType =='close' || tender.tenderType =='open' ) ">
+
+                <button [disabled]="!isValidStep1" (click)="submitTender()" type="button" class="btn btn-next">Next
+                  <i class="fas fa-forward"></i>
+                </button>
+              </div>
+
+
+            </fieldset>
+            <!-- end of fist step -->
+
+            <fieldset [hidden]="stepOn != 1">
+
+                <div class="form-row add-tedner-item" style="margin:20px 0;max-width: 70%;margin: auto;" >
+                  
+                    <div class="form-group col-md-12">
+    
+                      <h3>Add New Item</h3>
+        
+                    </div>
+                  <div class="form-group col-md-12">
+    
+                    <label class="col-form-label col-form-label-sm">Item Name
+                      <span class="req">*</span>
+                    </label>
+                    <input (input)="validateAddItem()" requiried [(ngModel)]="tenderItem.name" name="item-name" class="form-control form-control-sm modal-input-tender-item-name" placeholder="">
+    
+                  </div>
+    
+                  <div class="form-group col-md-12">
+    
+                    <label class="col-form-label col-form-label-sm">Description
+                      <span class="req">*</span>
+                    </label>
+                    <textarea (input)="validateAddItem()" requiried name="item-description" [(ngModel)]="tenderItem.description" class="form-control form-control-sm modal-input-tender-item-des" placeholder=""></textarea>
+    
+    
+                  </div>
+    
+                  <div class="form-group col-md-12">
+    
+                      <label class="col-form-label col-form-label-sm">Item Quantity
+                        <span class="req">*</span>
+                      </label>
+                      <input (input)="validateAddItem()" style="width: 200px" requiried name="item-cost" [(ngModel)]="tenderItem.qty" class="form-control form-control-sm modal-input-tender-item-cost" placeholder="">
+      
+                    </div>
+
+                   
+                    <div class="form-group col-md-6">
+        
+                      <label class="col-form-label col-form-label-sm">Date From
+                            <span class="req">*</span>
+                      </label>
+                      <input name="item-datefrom" type="date" (input)="validateAddItem()" requiried [(ngModel)]="tenderItem.dateFrom" class="form-control form-control-sm modal-input-member-contact"
+                            placeholder="">
+        
+                      </div>
+        
+                      <div class="form-group col-md-6">
+        
+                        <label class="col-form-label col-form-label-sm">Closing date
+                            <span class="req">*</span>
+                        </label>
+                        <input (input)="validateAddItem()" name="item-dateto" type="date" requiried [(ngModel)]="tenderItem.dateTo" class="form-control form-control-sm modal-input-member-email"
+                            placeholder="">
+        
+                      </div>
+        
+                        
+                     
+    
+                    <div style="display: block; width: 100%;" >
+                        <button [disabled] = "!isValidItem" style="float:right" (click)="addTenderItem()" type="button" class="btn btn-next"><i class="fa fa-plus"></i> Add Item </button>
+                    </div>
+                    <div style="clear: both"></div>
+    
+                    
+                </div>
+    
+                
+                <div class="tender-item-list" >
+    
+                  <h4 class="items-title"
+                    *ngIf="tenderItems.items.length">Added Items
+                    <p>{{tenderItems.items.length}} item(s) currently added</p>
+                    <!--div class="alert alert-danger" *ngIf="cutOffFailMessage">
+
+                      <p>{{cutOffFailMessage}}</p>
+
+                      </div> -->
+                  </h4>
+    
+                  <p class="item-no-title" *ngIf="!tenderItems.items.length">No items currently added</p>
+    
+    
+                    <div *ngFor="let item of tenderItems.items; let i = index" class=" item-record">
+    
+    
+                        <span (click)="removeItem(i,item?.itemId)" title="remove record" style="float:right;" class="record-handler record-handler-remove">
+                          <i class="fa fa-trash"></i>
+                        </span>
+                      <div class="item-record-inner">
+    
+                          <div class="form-row">
+                              <div class="form-group col-md-3">
+                                <h5>Item Name</h5>
+                              </div>
+                              <div class="form-group col-md-9">: {{item.name}}</div>
+        
+                            </div>
+                      
+                        <div class="form-row">
+                          <div class="form-group col-md-12">
+                            <h5>Description</h5>
+                          </div>
+                          <div class="form-group col-md-12">: {{item.description}}</div>
+    
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-3">
+                            <h5>Quantity</h5>
+                          </div>
+                          <div class="form-group col-md-9">: {{item.qty}}</div>
+    
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                              <h5>Date From</h5>
+                            </div>
+                            <div class="form-group col-md-9">: {{item.dateFrom}}</div>
+      
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                              <h5>Date From</h5>
+                            </div>
+                            <div class="form-group col-md-9">: {{item.dateTo}}</div>
+      
+                        </div>
+                        
+    
+                      </div>
+    
+                      </div>
+    
+                  </div>
+    
+                  
+
+                    <div class="f1-buttons">
+                        <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous">
+                          <i class="fas fa-backward"></i> Previous</button>
+                        
+                          <button [disabled]="!isValidStep2" (click)="submitTenderItem()" type="button" class="btn btn-next">Publish
+                          <i class="fas fa-check-double"></i>
+                        </button>
+                      </div>
+          
+    
+    
+    
+              </fieldset>
+
+          <!--    <fieldset [hidden]="stepOn != 2">
+
+              
+      
+                  <div class="container uploaded-container">
+                    <div class="row upload-row">
+                      <div class="col-9 doc">
+                        PCA1 FORM
+                      </div>
+                      <div class="col">
+                      
+      
+                        <label for="doc-paper-ad" class="upload-wrapper btn btn-primary btn-sm download">
+                          <i class="fas fa-cloud-download-alt"></i> Download
+                        </label>
+                      
+      
+                      </div>
+      
+          
+      
+                    </div>
+      
+      
+                  </div>
+      
+                  <div class="container uploaded-container">
+                      <div class="row upload-row">
+                        <div class="col-9 doc">
+                          PCA3 FORM
+                        </div>
+                        <div class="col">
+                        
+        
+                          <label for="doc-paper-ad" class="upload-wrapper btn btn-primary btn-sm download">
+                            <i class="fas fa-cloud-download-alt"></i> Download
+                          </label>
+                        
+        
+                        </div>
+        
+            
+        
+                      </div>
+        
+        
+                    </div>
+      
+      
+      
+      
+      
+      
+                  <div class="f1-buttons">
+                      <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous">
+                        <i class="fas fa-backward"></i> Previous</button>
+                      <button (click)="changeProgressStatuses(3)" type="button" class="btn btn-next">Next
+                        <i class="fas fa-forward"></i>
+                      </button>
+                    </div>
+      
+                </fieldset>
+
+            <fieldset [hidden]="stepOn != 3">
+
+              <div class="alert alert-warning" role="alert">
+
+            
+                <p>
+                  <small>Please upload all files in pdf format,upload only A4 Size, portrait orientation and file size should be less
+                    than 4 MB.</small>
+                </p>
+
+              </div>
+
+              <div class="container uploaded-container">
+                <div class="row upload-row">
+                  <div class="col-9 doc">
+                    Paper advertisement
+                  </div>
+                  <div class="col">
+                  
+
+                    <label for="doc-paper-ad" class="upload-wrapper btn btn-primary btn-sm download">
+                      <i class="fas fa-cloud-upload-alt"></i> Upload
+                    </label>
+                    <input style="display:block;position: fixed;top:-100000px" id="doc-paper-ad" type="file" (change)="fileChange($event)" placeholder="Upload file"
+                      accept=".pdf">
+
+                  </div>
+
+                  <div class="col-12 uploaded-doc">
+                    <i class="fas fa-file-pdf"></i> paper-ad.pdf
+                  </div>
+
+                </div>
+
+
+              </div>
+
+              <div class="container uploaded-container">
+                <div class="row upload-row">
+                  <div class="col-9 doc">
+                    Bid data sheet
+                  </div>
+                  <div class="col">
+                  
+
+                    <label for="doc-bid-data" class="upload-wrapper btn btn-primary btn-sm download">
+                      <i class="fas fa-cloud-upload-alt"></i> Upload
+                    </label>
+                    <input style="display:block;position: fixed;top:-100000px" id="doc-bid-data" type="file" (change)="fileChange($event)" placeholder="Upload file"
+                      accept=".pdf">
+
+                  </div>
+
+                  <div class="col-12 uploaded-doc">
+                    <i class="fas fa-file-pdf"></i> bid-data.pdf
+                  </div>
+
+                </div>
+
+
+              </div>
+
+
+
+
+
+
+              <div class="f1-buttons">
+                  <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-previous">
+                    <i class="fas fa-backward"></i> Previous</button>
+                  <button (click)="submitTender()" type="button" class="btn btn-next">Publish
+                      <i class="fas fa-check-double"></i>
+                  </button>
+                </div>
+
+            </fieldset> -->
+            <!--end of second step-->
+          
+          </section>
+        </form>
+
+      </div>
+      <div style="clear:both"></div>
+      <br/>
+      <br/>
+      <!--end right col main-->
+    </div>
+  </div>
+</section>
+
+
+<div mdbModal #tenderMemberModal="mdbModal" id="tender-close-member" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right close-modal-item" aria-label="Close" (click)="tenderMemberModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">Add New Applicant
+
+
+        </h4>
+      </div>
+      <div class="modal-body">
+
+
+
+        <div class="form-row">
+          <div class="form-group col-md-12">
+
+            <label class="col-form-label col-form-label-sm">Applicant Name
+              <span class="req">*</span>
+            </label>
+            <input (input)="validateCloseMember()" requiried [(ngModel)]="tenderMember.name" class="form-control form-control-sm modal-input-member-name" placeholder="">
+
+          </div>
+
+          <div class="form-group col-md-12">
+
+            <label class="col-form-label col-form-label-sm">Address
+              <span class="req">*</span>
+            </label>
+            <input (input)="validateCloseMember()" requiried [(ngModel)]="tenderMember.address" class="form-control form-control-sm modal-input-member-address" placeholder=""
+            />
+
+
+          </div>
+
+          <div class="form-group col-md-12">
+
+            <label class="col-form-label col-form-label-sm">Contact Number
+              <span class="req">*</span>
+            </label>
+            <input (input)="validateCloseMember()"  maxlength="10"
+            pattern="\d{10}"  type="tel" requiried [(ngModel)]="tenderMember.contactNo" class="form-control form-control-sm modal-input-member-contact"
+              placeholder="">
+              <span class="req-message">10 Digits contact number is requried</span>
+
+          </div>
+
+          <div class="form-group col-md-12">
+
+            <label class="col-form-label col-form-label-sm">Email
+              <span class="req">*</span>
+            </label>
+            <input (input)="validateCloseMember()" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" type="email"  [(ngModel)]="tenderMember.email" class="form-control form-control-sm modal-input-member-email"
+              placeholder="">
+              <span class="req-message">Valid email required</span>
+
+          </div>
+
+
+
+
+        </div>
+
+
+      </div>
+      <div class="modal-footer" style="justify-content: flex-end">
+
+
+        <button [disabled] ="!isValidCreateCloseMember" (click)="saveMember()" type="button" mdbBtn color="secondary" class="btn btn-sm relative waves-light add-member add-new-stakeholder"
+          mdbWavesEffect>ADD</button>
+      </div>
+    </div>
+  </div>
+</div>

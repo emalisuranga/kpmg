@@ -1,0 +1,85 @@
+<div class="clearfix"></div>
+<section>
+  <div class="container" style="padding-bottom: 50px;">
+  
+
+      <div class="tender-list-wrapper">
+
+        <div *ngIf="!emptyListMessage" class="ad-new-tender">
+            <button (click)="goToTenderAdd()" type="button" mdbBtn color="secondary" class="btn btn-sm relative waves-light add-share add-new-stakeholder"
+            mdbWavesEffect><i class="fas fa-plus"></i></button>
+        </div>
+        <div style="clear:both"></div>
+
+        <div class="tender-panel tender-pub-panel" *ngFor="let publication of listItems.list; let j = index"  (click)="openList(j)">
+            <div class="panel-heading">
+
+              <h5>{{publication.name}}</h5>
+              <!--<span class="pub-ctrl pub-delete" ><i class="fas fa-times-circle"></i></span>-->
+              <span class="pub-ctrl pub-view" ><i class="fas fa-eye"></i> view tenders</span>
+              <div style="clear:both"></div>
+            </div>
+
+            <div class="tender-pub-list-wrapper" [hidden] = "publication.openList == false" >
+                <div class="tender-pub-list-inner-wrapper">
+
+                    <h5 style="position: fixed;
+                    margin: auto;
+                    left: 0;
+                    right: 0;
+                    background: #141459;
+                    color: #fff;">All Tenders Under {{publication.name}}&nbsp;
+                      <button (click)="closeList(j)" type="button" class="btn btn-next"><i class="fas fa-times-circle"></i> Close List</button>
+                    </h5>
+                    <span class="pub-delete" ><i class="fa fa-close"></i></span>
+  
+                    <div (click)="goToTender(tender.id)" class="tender-panel" *ngFor="let tender of publication.tendersList; let i = index">
+                        <div class="panel-heading">
+            
+                          <h5>
+                            {{tender.name}} (Tender No: {{tender.number}})
+                          </h5>
+                          
+                          <span class="tender-edit"><i class="fas fa-edit"></i></span>
+            
+                        </div>
+                        <h5 *ngIf="tender.publishedDate" class="tender-published-date"> 
+                            Published Date: {{tender.publishedDate}} 
+                           </h5>
+                        <div class="panel-body">
+                            <p class="applied-count" *ngIf="tender.show_info && tender.applied_count"> {{tender.applied_count}} applicant(s) applied.</p>
+                            <p class="noapplied-count" *ngIf="tender.show_info &&  !tender.applied_count">No one applied yet.</p>
+                         
+                          <div class="tender-des"> {{tender.description}}</div>  
+                        </div>
+    
+                  </div>
+  
+                </div>
+  
+            </div>
+  
+           
+
+        </div>
+
+           
+            
+
+      </div>
+
+      <div *ngIf="emptyListMessage" class="alert alert-info empty-tender-message" role="alert">
+
+        {{emptyListMessage}} <br/>
+
+        <button (click)="goToTenderAdd()" type="button" mdbBtn color="secondary" class="btn btn-sm relative waves-light add-share add-new-stakeholder"
+          mdbWavesEffect><i class="fas fa-plus"></i> ADD NEW TENDER</button>
+
+      </div>
+
+      
+
+  </div>
+</section>
+
+

@@ -1,0 +1,182 @@
+<div class="mb-5 top-margin ">
+  <div class="container bg-back mt-2">
+    <div class="col-md-12 ">
+      <div class="form-group row">
+        <h5 class="col-sm-4">
+          <b>Reservation Name </b>
+        </h5>
+        <h5 class="col-sm-8">
+          <b> {{ name | uppercase }}</b>
+        </h5>
+      </div>
+      <hr>
+      <form (ngSubmit)="onSubmit()" [formGroup]="nameResForm" >
+        <div class="form-group row">
+          <small for="staticEmail" class="col-sm-4 mt-4">Sinhala Name</small>
+          <div class="col-sm-8">
+            <small class="text text-danger float-right">Press the space bar after each word</small>
+            <input type="text" formControlName="sinhalaName" (keyup)='this.onLoadSinhala()' id="sinhalaName" maxlength="190" placeholder="Sinhala Name" class="form-control form-control sinhalaName">
+          </div>
+        </div>
+      
+        <div class="form-group row">
+          <small for="staticEmail" class="col-sm-4 mt-4">Tamil Name</small>
+          <div class="col-sm-8">
+            <small class="text text-danger float-right">Press the space bar after each word</small>
+            <input type="text" formControlName="tamilname" (keyup)='this.onLoadTamil()'  id="tamilname" maxlength="190" placeholder="Tamil Name" class="form-control form-control tamilname">
+          </div>
+        </div>
+        <div class="form-group row">
+          <small for="staticEmail" class="col-sm-4 mt-4">Society Address <span class="req">*</span></small>
+          <div class="col-sm-8">
+            <small class="text text-danger float-right">The maximum character length allowed in this text box is 190.</small>
+            <input type="text" formControlName="address" id="address" maxlength="190" class="form-control form-control address">
+          </div>
+        </div>
+        <div class="form-group row">
+          <small for="staticEmail" class="col-sm-4 mt-4">Address In Sinhala</small>
+          <div class="col-sm-8">
+            <small class="text text-danger float-right">Press the space bar after each word</small>
+            <input type="text" formControlName="adsinhalaName" (keyup)='this.onLoadadSinhala()' id="adsinhalaName" maxlength="190" placeholder="Sinhala Name" class="form-control form-control adsinhalaName">
+          </div>
+        </div>
+      
+        <div class="form-group row">
+          <small for="staticEmail" class="col-sm-4 mt-4">Address In Tamil</small>
+          <div class="col-sm-8">
+            <small class="text text-danger float-right">Press the space bar after each word</small>
+            <input type="text" formControlName="adtamilname" (keyup)='this.onLoadadTamil()'  id="adtamilname" maxlength="190" placeholder="Tamil Name" class="form-control form-control adtamilname">
+          </div>
+        </div>
+      
+        <div class="form-group row">
+          <small for="staticEmail" class="col-sm-4">Abbreviations</small>
+          <div class="col-sm-8">
+            <small class="text text-danger float-right">The maximum character length allowed in this text box is 250.</small>
+            <textarea name="abbreviations" maxlength="190" formControlName="abreviations" placeholder="Abbreviations" class="form-control form-control"
+              cols="30" rows="4"></textarea>
+          </div>
+        </div>
+      
+        <div class="form-group row">
+          <small class="col-sm-1 mt-4">
+            <mat-checkbox class="ck-sm" formControlName="agreeCheck"></mat-checkbox>
+          </small>
+          <div class="col-sm-11" style="text-align: justify;">
+            <small> I authorize an officer from the office of the Registrar of Companies to make the said search on my
+              behalf
+              and I do
+              hear by expressly declare that I absolve the Registrar General of Companies and every officer of his
+              Department
+              from
+              responsibility for any act or omission of the said officer in regard to such search or any information that
+              may
+              be
+              given or omitted to be given by him to me. </small>
+          </div>
+        </div>
+        <hr>
+        <div class="float-right">
+          <button class="btn btn-primary" type="submit" [disabled]="nameResForm.invalid || nameResForm.get('agreeCheck').value != true"
+            mdbWavesEffect>Next</button>
+        </div>
+      </form>
+      <!-- <form (ngSubmit)="onSubmit()" [formGroup]="nameResForm">
+        <div class="form-group row">
+          <small for="staticEmail" class="col-sm-4">Sinhala Name</small>
+          <div class="col-sm-8">
+            <input type="text" formControlName="sinhalaName" maxlength="190" id="transliterateTextarea" placeholder="Sinhala Name"
+              class="form-control form-control">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <small for="staticEmail" class="col-sm-4">Tamil Name</small>
+          <div class="col-sm-8">
+            <input type="text" formControlName="tamilname" maxlength="190" placeholder="Tamil Name" class="form-control form-control">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <small for="staticEmail" class="col-sm-4">Abbreviations</small>
+          <div class="col-sm-8">
+            <small class="text text-danger float-right">The maximum character length allowed in this text box is 250.</small>
+            <textarea name="abbreviations" maxlength="190" formControlName="abreviations" placeholder="Abbreviations"
+              class="form-control form-control" cols="30" rows="4"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <small class="col-sm-1 mt-4">
+            <mat-checkbox class="ck-sm" formControlName="agreeCheck"></mat-checkbox>
+          </small>
+          <div class="col-sm-11" style="text-align: justify;">
+            <small> I authorize an officer from the office of the Registrar of Companies to make the said search on my
+              behalf and I do
+              hear by expressly declare that I absolve the Registrar General of Companies and every officer of his
+              Department from
+              responsibility for any act or omission of the said officer in regard to such search or any information
+              that may be
+              given or omitted to be given by him to me. </small>
+          </div>
+        </div>
+        <hr>
+        <div class="float-right">
+          <button class="btn btn-primary" type="submit" [disabled]="nameResForm.invalid || nameResForm.get('agreeCheck').value != true"
+            mdbWavesEffect>Next</button>
+        </div>
+      </form> -->
+
+    </div>
+  </div>
+</div>
+<!-- <form (ngSubmit)="onSubmit()" [formGroup]="nameResForm" >
+  <div class="form-group row">
+    <small for="staticEmail" class="col-sm-4 mt-4">Sinhala Name</small>
+    <div class="col-sm-8">
+      <small class="text text-danger float-right">Press the space bar after each word</small>
+      <input type="text" formControlName="sinhalaName" (keyup)='this.onLoadSinhala()' id="sinhalaName" maxlength="190" placeholder="Sinhala Name" class="form-control form-control sinhalaName">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <small for="staticEmail" class="col-sm-4 mt-4">Tamil Name</small>
+    <div class="col-sm-8">
+      <small class="text text-danger float-right">Press the space bar after each word</small>
+      <input type="text" formControlName="tamilname" (keyup)='this.onLoadTamil()'  id="tamilname" maxlength="190" placeholder="Tamil Name" class="form-control form-control tamilname">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <small for="staticEmail" class="col-sm-4">Abbreviations</small>
+    <div class="col-sm-8">
+      <small class="text text-danger float-right">The maximum character length allowed in this text box is 250.</small>
+      <textarea name="abbreviations" maxlength="190" formControlName="abreviations" placeholder="Abbreviations" class="form-control form-control"
+        cols="30" rows="4"></textarea>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <small class="col-sm-1 mt-4">
+      <mat-checkbox class="ck-sm" formControlName="agreeCheck"></mat-checkbox>
+    </small>
+    <div class="col-sm-11" style="text-align: justify;">
+      <small> I authorize an officer from the office of the Registrar of Companies to make the said search on my
+        behalf
+        and I do
+        hear by expressly declare that I absolve the Registrar General of Companies and every officer of his
+        Department
+        from
+        responsibility for any act or omission of the said officer in regard to such search or any information that
+        may
+        be
+        given or omitted to be given by him to me. </small>
+    </div>
+  </div>
+  <hr>
+  <div class="float-right">
+    <button class="btn btn-primary" type="submit" [disabled]="nameResForm.invalid || nameResForm.get('agreeCheck').value != true"
+      mdbWavesEffect>Next</button>
+  </div>
+</form> -->
+

@@ -1,0 +1,19 @@
+<div mdbModal #frame="mdbModal" class="modal fade bottom" id="frameModalTop" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true" [config]="{ backdrop: true, ignoreBackdropClick: true }">
+  <div class="modal-dialog modal-frame modal-bottom modal-notify modal-warning" role="document">
+    <div class="modal-content">
+      <div class="modal-body ">
+        <div class="row px-4  justify-content-center">
+          <div class="col-md-5">
+            <span class="text mt-3 float-right text-danger" >
+              <strong> You were idled for too long. You would be logged out </strong>
+            </span>
+          </div>
+          <div class="col-md-4 mt-3">
+              <button type="button" class="button red" (click)="frame.hide()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,114 @@
+@import "theme-veriable";
+
+.align-bottom-date {
+  position: absolute !important;
+  right: 0 !important;
+  bottom: 0 !important;
+}
+
+.task-listing-details {
+  padding: 20px 35px $im;
+}
+
+.icon-feather-edit {
+  color: $blue;
+}
+
+span.propsed-name-lbl {
+  font-weight: bold;
+  display: inline-block;
+  margin: 0px 0 15px;
+  color: darkorange;
+  background: #fefefe;
+  padding: 1px 10px;
+  border-radius: 6px;
+}.prior-approval-alert.alert.alert-warning {
+  margin-top: 10px;
+}
+span.expires_at {
+  font-size: 11px;
+  margin-left: 10px;
+  background-color: #efefef;
+  padding: 2px 10px;
+  border-radius: 7px;
+  color: darkred;
+  font-weight: bold;
+}
+
+.prior-approval-alert.alert.alert-warning p {
+  line-height: normal !important;
+  margin-bottom: 0;
+}
+
+.timeline ul {
+  display: flex;
+  list-style: none;
+
+  .icon-box-check {
+    background-color: $yellow;
+  }
+}
+
+.btn {
+  background: $white $im;
+  color: $darkBlue $im;
+  font-size: 12px;
+  border: 2px solid $secondary;
+
+  :hover {
+    background: $orange $im;
+    color: $white $im;
+  }
+}
+
+
+.pagination.pg-blue .page-item.active .page-link {
+  background: $primary $im;
+  border-radius: 5px $im;
+}
+
+.not-rated,
+.company-not-rated {
+  background-color: #f1f1f1 $im;
+  color: #f00 $im;
+  font-size: 12px $im;
+}
+
+.dashboard-box {
+  margin-top: 10px $im;
+}
+
+.dashboard-status-button {
+  position: absolute;
+  right: 0;
+  border-radius: 0px 2px 0px 10px;
+  padding: 2px 10px;
+}
+
+.dropdown-menu {
+  padding: 5px 0px;
+}
+li.name-change-record-COMPANY_NAME_CHANGE_APPROVED {
+  display: none !important;
+}
+
+li.name-change-record-COMPANY_NAME_CANCELED {
+  display: none !important;
+}
+
+h3.tender-listing-item-heading {
+  font-size: 17px;
+  border-bottom: 1px solid #f6ecec;
+  padding-bottom: 4px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+h4.tender-listing-item {font-size: 15px;color: #777;}
+span.status-text {
+  font-weight: normal;
+  background: #f7f7f7;
+  padding: 10px 15px;
+  border-radius: 21px;
+  font-size: 14px;
+}

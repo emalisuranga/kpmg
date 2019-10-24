@@ -1,0 +1,464 @@
+
+<div class="resolution-date-block" *ngIf="request_status != 'COMPANY_NAME_CHANGE_REQUEST_TO_RESUBMIT'">
+  <h3> Set Resolution Date/ Download Form 03</h3>
+
+    <div class="form-group row">
+        <small for="staticEmail" class="col-sm-4 mt-2">Resolution Date  <sup class="text text-danger">*</sup></small>
+        <div class="col-sm-8" style="position:relative">
+          <span style="position: absolute;
+          background: #fff;
+          width: 300px;
+          left: 23px;
+          top: 4px;
+          z-index: 99;
+          height: 21px;" class="date-picker-overlay">{{resolution_date| date:'dd/MM/yyyy'}}</span>
+         <input
+           [(ngModel)]="resolution_date"
+           [ngModelOptions]="{standalone: true}"
+           type="date"
+           min="{{company_reservation_at}}"
+           max="{{company_exp_at}}"
+           class="form-control form-control-sm modal-input-director-oppointment"
+           placeholder=""
+           onkeydown="return false"
+           data-provide="datepicker"
+           >
+
+        </div>
+    </div>
+    <div class="form-group row">
+        <small for="staticEmail" class="col-sm-4 mt-2">Select Signatory <sup class="text text-danger">*</sup></small>
+        <div class="col-sm-8">
+            <ng-select class="custom" placeholder="--- Select Signatory ---" [searchable]="true" [(ngModel)]="selectCat">
+                <ng-option *ngFor="let item of member" value="{{ item.id + '-' + item.type }}">{{ item.title }}{{ item.first_name }} {{ item.last_name }} {{ '- ' + item.designation }}</ng-option>
+            </ng-select>
+        </div>
+      </div>
+    
+
+    <div>
+        <button style="float:right;" (click)="setResoultionDate()" class="button ripple-effect ico" [disabled]="!( resolution_date && selectCat)" [ngClass]="{'green-4': ( resolution_date && selectCat), 'gray': !( resolution_date && selectCat)}">
+          <i class="fas fa-download"></i> <small> Download</small>
+        </button>
+        <div style="clear:both"></div>
+    </div>
+
+</div>
+
+
+<div class="form-group">
+  <div class="form-group" *ngIf="this.showandhide">
+    <div class="mb-5">
+      <div *ngIf="resolution_date_set">
+
+           
+
+          <div *ngFor="let doc of docs" >
+            <br>
+            <hr>
+            <div class="alert alert-info name-change-form3-alert" >
+ 
+              <p style="margin:0"><i class="fas fa-info-circle"></i>&nbsp;Please upload the short notice if required</p>
+                
+            </div>
+              <div class="alert alert-info name-change-form3-alert" style="color: #474643;
+           background-color: darkorange;">
+
+             <p style="margin:0"><i class="fas fa-bullhorn"></i>&nbsp;Please attach the special resolution along with form 3 as one document</p>
+               
+           </div>
+           <hr>
+              <form #form>
+                <div class="form-group row" *ngFor="let field of doc.fields; let i = index;">
+      
+                  <small class="col-sm-3 mt-2">{{ field.name }} <sup *ngIf="field.is_required === 'yes'" class="text text-danger">*</sup>
+                  </small>
+                  <div class="col-sm-1 mt-2">
+                    <span class="text text-primary" *ngIf="field.key != 'NAME_CHANGE_LETTER' && percentDone[field.id] !== undefined">
+                      <b>{{ percentDone[field.id] + '%' }}</b>
+                    </span>
+                  </div>
+                  <div class="col-sm-4 mt-2" *ngIf="field.key != 'NAME_CHANGE_LETTER' && percentDone[field.id] !== 100">
+                    <div class="progress" style="margin-top: 8px;">
+                      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75"
+                        aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ 'width': percentDone[field.id] + '%' }"></div>
+                    </div>
+                  </div>
+                  <div class="col-sm-3 mt-2" *ngIf="field.key != 'NAME_CHANGE_LETTER' && percentDone[field.id] === 100">
+                    <div class="progress" style="margin-top: 8px;">
+                      <div class="progress-bar progress-bar-striped progress-bar-animated" [ngClass]="{'bg-success': percentDone[field.id] === 100 }"
+                        role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ 'width': percentDone[field.id] + '%' }"></div>
+                    </div>
+                  </div>
+                  <div class="col-sm-3 mt-2" *ngIf="field.key == 'NAME_CHANGE_LETTER'">
+                      <div class="progress" style="margin-top: 8px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" [ngClass]="{'bg-success': true }"
+                          role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ 'width': '100%' }"></div>
+                      </div>
+                    </div>
+                  <div class="col-sm-3" *ngIf="field.key != 'NAME_CHANGE_LETTER' && percentDone[field.id] === 100">
+                    <div class="row">
+                      <div class="col mt-2">
+                        <div class="float-right">
+                          <small class="text text-primary">{{ fileName[field.id] }}</small>
+                        </div>
+                      </div>
+                      <div class="col mt-1">
+                        <div class="float-right">
+                          <button (click)="ngOnDownload(fileToken[field.id])" class="button blue button-sm">
+                            <i class="far fa-file-pdf"></i> View
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-3" *ngIf="field.key == 'NAME_CHANGE_LETTER'">
+                      <div class="row">
+                        <div class="col mt-2">
+                          <div class="float-right">
+                            <small class="text text-primary">{{ prior_approval_letter_name }}</small>
+                          </div>
+                        </div>
+                        <div class="col mt-1">
+                          <div class="float-right">
+                            <button (click)="ngOnDownload(prior_approval_letter_token)" class="button blue button-sm">
+                              <i class="far fa-file-pdf"></i> View
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <div class="col-sm-2 mt-1" *ngIf="percentDone[field.id] > 99 && field.key != 'NAME_CHANGE_LETTER'">
+                    <button (click)="ngOnDestroyfiles(fileToken[field.id],field.id, (field.is_required === 'yes'))" class="button red button-sm">
+                      <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                  </div>
+                  <div class="col-sm-2 mt-2" *ngIf="(percentDone[field.id] < 99 || percentDone[field.id] === undefined) && field.key != 'NAME_CHANGE_LETTER'">
+                    <button class="button green-4 button-sm" [disabled]="percentDone[field.id] >= 50" (click)="uploadbtn.click()"><i
+                        class="fas fa-cloud-upload-alt"></i> Upload</button>
+                    <input  id="file-{{ i + 1 }}" class="upload-btn-wrapper" #uploadbtn type="file" accept=".pdf" (change)="upload($event.target.files,field.id, (field.is_required === 'yes')); form.reset(); ">
+                  </div>
+                </div>
+              </form>
+            </div>
+      
+      
+            <div *ngFor="let doc of docs">
+                <br>
+                <hr>
+                <form #formOther>
+                  <div class="form-group row" *ngFor="let field of doc.other_doc_fields; let i = index;">
+        
+                    <small class="col-sm-3 mt-2">{{ field.name }} <sup *ngIf="field.is_required === 'yes'" class="text text-danger">*</sup>
+                    </small>
+                    
+                  
+                    
+                    <div class="col-sm-7 mt-10" style="padding-right:8px;text-align:right">
+                      <button [disabled]="!other_doc_name" class="button green-4 button-sm"  (click)="uploadbtnOther.click()"><i
+                          class="fas fa-cloud-upload-alt"></i> Upload</button>
+                         <span style="float: left;width: 68%;margin-top: -2px">
+                          <input style="width: 96%;padding:5px;" [(ngModel)]="other_doc_name" name="other_doc_name" placeholder="Enter document name here" />
+                         <!-- <span style="display: block;width: 4%; float: right;color: red;font-size: 24px;margin-top: -10px;">*</span>-->
+                         </span>
+                          <input   id="file-{{ i + 1 }}" class="upload-btn-wrapper"  #uploadbtnOther type="file" accept=".pdf" (change)="uploadOtherDoc($event,field.name,field.id); form.reset(); ">
+                    </div>
+      
+      
+      
+                  </div>
+      
+       
+                  <div style="margin:0;padding:0;margin-bottom:6px" class="container uploaded-container col-sm-10">
+      
+                      <div  class="form-group" *ngFor="let doc of otherUploadedList['docs']; let j = index">
+        
+                        <div class=" uploaded-row">
+        
+                        
+        
+                          <div style="font-size:12px;" class="uploaded-doc" *ngIf="doc.uploaded_path">
+      
+                              {{doc.uploaded_path}}
+      
+                              <button style="float: right; font-size: 12px;padding: 5px !important;" (click)="removeDoc(doc.uploaded_token )"  class="button red button-sm">
+                                  <i class="fas fa-trash-alt"></i> Delete
+                               </button>
+                            
+                              <button style="float: right; font-size: 12px;padding: 5px !important;margin-right:4px;" *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="button blue button-sm">
+                                  <i class="far fa-file-pdf"></i> View
+                              </button>
+
+                              
+      
+      
+                           
+                          </div>
+                          <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                            <strong>Comments:</strong> {{doc.doc_comment}}
+                          </div>
+        
+                        </div>
+        
+                      </div>
+                      <div style="clear:both"></div>
+        
+        
+                    </div>
+      
+      
+                </form>
+              </div>
+
+      </div>
+      
+
+      <table class="table" *ngIf="this.formdataservice.getResubmit">
+        <thead>
+          <tr>
+            <th width="25%">Title</th>
+            <th width="30%">Comment</th>
+            <th width="15%" style="text-align: center">Progress</th>
+            <th width="20%" style="text-align: center">Actions</th>
+            <th width="10%" style="text-align: center">File</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let rDoc of this.reqDocument">
+            <td>
+              <span>{{ rDoc.name }}</span></td>
+            <td>
+              <span>{{ rDoc.comments }}</span>
+            </td>
+            <td>
+              <div class="progress mt-2">
+
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75"
+                  aria-valuemin="0" aria-valuemax="100" [ngClass]="{'bg-success': percentDone[rDoc.id] === 100 || rDoc.file_token !== null }"
+                  [ngStyle]="{ 'width': rDoc.file_token !== null ? 100 + '%' : percentDone[rDoc.id] + '%' }"></div>
+              </div>
+            </td>
+            <td>
+              <div class="float-right">
+                <form #form>
+                  <button type="button" *ngIf="!(rDoc.file_token ? rDoc.file_token : fileToken[rDoc.id])" (click)="uploadbtn.click()"
+                    class="button green-4 mr-2 button-sm"><i class="fas fa-cloud-upload-alt"></i>
+                    Upload</button>
+                  <input accept=".pdf" type="file" class="upload-btn-wrapper" #uploadbtn name="re_{{ rDoc.id }}" id="{{ rDoc.id }}"
+                    (change)="upload($event.target.files, rDoc.id); form.reset();" required="">
+                  <button *ngIf="(rDoc.file_token ? rDoc.file_token : fileToken[rDoc.id])" type="button" (click)="ngOnFileDelete((rDoc.file_token ? rDoc.file_token : fileToken[rDoc.id]),rDoc.id,$event)"
+                    class="button red button-sm mr-2">
+                    <i class="icon-feather-trash-2"></i> Delete
+                  </button>
+                </form>
+              </div>
+            </td>
+            <td>
+              <button type="button" class="button blue button-sm" *ngIf="(rDoc.file_token ? rDoc.file_token : fileToken[rDoc.id])" (click)="ngOnDownload(rDoc.file_token ? rDoc.file_token : fileToken[rDoc.id])">
+                <i class="far fa-file-pdf"></i> View
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <form style="padding: 20px;border: 1px solid #ccc; margin-top: 40px;" #formOther  *ngIf="this.formdataservice.getResubmit">
+          <h3 style="margin: 0px 1% 20px;font-size: 17px;font-weight: bold;">Other Documents</h3>
+          <div class="form-group row">
+              <div class="col-sm-7 mt-10" style="    padding-right: 26px;
+              text-align: right;
+              flex: none;
+              width: 100%;
+              max-width: none;
+              margin-left: 0;">
+                  <button [disabled]="!other_doc_name" class="button green-4 button-sm"  (click)="uploadbtnOther.click()"><i
+                      class="fas fa-cloud-upload-alt"></i> Upload</button>
+                     <span style="float: left;
+                     width: 68%;
+                     margin-top: -2px;
+                     margin-left: -10px;">
+                      <input style="width: 96%;padding:5px;" [(ngModel)]="other_doc_name" name="other_doc_name" placeholder="Enter document name here" />
+                     <!-- <span style="display: block;width: 4%; float: right;color: red;font-size: 24px;margin-top: -10px;">*</span>-->
+                     </span>
+                      <input   id="file-other-resubmit" class="upload-btn-wrapper"  #uploadbtnOther type="file" accept=".pdf" (change)="uploadOtherDoc($event,otherDocsForResubmit.name,otherDocsForResubmit.id); form.reset(); ">
+                </div>
+          </div>
+
+          <div style="margin:0;padding:0;margin-bottom:6px" class="container uploaded-container col-sm-10">
+
+              <div style="width:118% !important;"  class="form-group" *ngFor="let doc of otherUploadedList['docs']; let j = index">
+
+                <div class=" uploaded-row">
+
+                
+
+                  <div style="font-size:12px;margin-left: 2%;" class="uploaded-doc" *ngIf="doc.file_name">
+
+                      {{doc.file_name}}
+
+                      <button *ngIf="doc.uploaded_token" style="float: right; font-size: 12px;padding: 5px !important;" (click)="removeDoc(doc.uploaded_token )"  class="button red button-sm">
+                          <i class="fas fa-trash-alt"></i> Delete
+                       </button>
+                    
+                      <button style="float: right; font-size: 12px;padding: 5px !important;margin-right:4px;" *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="button blue button-sm">
+                          <i class="far fa-file-pdf"></i> View
+                      </button>
+
+                      <label  *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'" style="float: right;
+                        width: 110px;
+                        height: 30px;
+                        margin-top: -2px;
+                        margin-right: 0px;" for="other-resubmit-docs-{{doc.multiple_id}}" class="upload-wrapper btn btn-primary btn-sm download">
+                          <i class="fas fa-cloud-upload-alt"></i> Upload
+                        </label>
+                        <input *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'"  style="display:block;position: fixed;top:-100000px" id="other-resubmit-docs-{{doc.multiple_id}}" type="file" 
+                      placeholder="Upload file" accept=".pdf" (change)="uploadOtherResumittedDoc($event,doc.multiple_id)">
+
+
+                   
+                  </div>
+                  <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                    <strong>Comments:</strong> {{doc.doc_comment}}
+                  </div>
+
+                </div>
+
+              </div>
+              <div style="clear:both"></div>
+
+
+            </div>
+
+        </form>
+      <hr>
+      <div class="boxed-list margin-bottom-60">
+        <ul class="boxed-list-ul">
+          <li *ngFor="let comment of comments">
+            <div class="boxed-list-item">
+              <div class="item-content">
+                <h4>{{ comment.name }}</h4>
+                <div class="item-details margin-top-10">
+                  <div class="star-rating" data-rating="5.0"></div>
+                  <div class="detail-item"><i class="icon-material-outline-date-range"></i> {{ comment.updated_at |
+                    date:'mediumTime' }} {{ comment.updated_at | date: 'y-MM-dd' }}</div>
+                </div>
+                <div class="item-description">
+                  <p>{{ comment.comments }}</p>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="alert alert-warning"  *ngIf="court_status == 'yes' && resolution_date_set" [hidden] = "request_status == 'COMPANY_NAME_CHANGE_REQUEST_TO_RESUBMIT'">
+         <p>
+          Please upload your court case document(s) under the other document section
+        </p>
+      </div>
+
+      <div clas="form-row" *ngIf="penalty_charge && resolution_date_set">
+            <div class="sec_type_item form-group col-md-12">
+
+              <p style="position: relative;">Have you been prosecuted by the court for not filing relevant form during the provided statutory period? <span class="req">*</span>
+                <span style="text-transform:capitalize;" *ngIf="request_status == 'COMPANY_NAME_CHANGE_REQUEST_TO_RESUBMIT'">&nbsp;&nbsp;{{court_status}}</span>
+              </p>
+              
+          </div>
+
+          
+
+          <div class="sec_type_item form-group col-md-6" style="float:left;padding-left: 44px;" [hidden] = "request_status == 'COMPANY_NAME_CHANGE_REQUEST_TO_RESUBMIT'">
+
+            <input (change)="validateCourtSection()"  [(ngModel)]="court_status" type="radio" id="court_status_yes" class="custom-control-input" name="court_status" value="yes">
+            <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_status_yes">&nbsp;&nbsp;&nbsp;&nbsp;Yes</label>
+
+          </div>
+
+          <div class="sec_type_item form-group col-md-6" style="float:left" [hidden] = "request_status == 'COMPANY_NAME_CHANGE_REQUEST_TO_RESUBMIT'">
+
+            <input  (change)="validateCourtSection()"  [(ngModel)]="court_status" type="radio" id="court_status_no" class="custom-control-input" name="court_status" value="no">
+            <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_status_no">&nbsp;&nbsp;&nbsp;&nbsp;No</label>
+
+          </div>
+
+          <div class="form-group col-md-12" style="clear:both;" *ngIf="court_status == 'yes'" [hidden] = "request_status == 'COMPANY_NAME_CHANGE_REQUEST_TO_RESUBMIT'">
+            <label class="col-form-label col-form-label-sm"> Name of the court<span class="req">*</span></label>
+            <input  (input)="validateCourtSection()"  [(ngModel)]="court_name"
+                    [ngModelOptions]="{standalone: true}"
+                    class="form-control form-control-sm modal-input-director-oppointment"
+                    placeholder="">
+          </div>
+
+          <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left" [hidden] = "request_status == 'COMPANY_NAME_CHANGE_REQUEST_TO_RESUBMIT'">
+            <label class="col-form-label col-form-label-sm"> Case number<span class="req">*</span></label>
+            <input  (input)="validateCourtSection()"  [(ngModel)]="court_case_no"
+                    [ngModelOptions]="{standalone: true}"
+                    class="form-control form-control-sm modal-input-director-oppointment"
+                    placeholder="">
+          </div>
+
+
+          <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left" [hidden] = "request_status == 'COMPANY_NAME_CHANGE_REQUEST_TO_RESUBMIT'">
+              <label class="col-form-label col-form-label-sm"> Date of the court decision<span class="req">*</span></label>
+              <input  (input)="validateCourtSection()"  [(ngModel)]="court_date"
+                      [ngModelOptions]="{standalone: true}"
+                      type="date"
+                      max="{{formattedTodayValue}}"
+                      class="form-control form-control-sm modal-input-director-oppointment"
+                      placeholder="">
+          </div>
+
+          <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left" [hidden] = "request_status == 'COMPANY_NAME_CHANGE_REQUEST_TO_RESUBMIT'">
+            <label class="col-form-label col-form-label-sm"> Amount of Penalty/any other charge</label>
+            <input  (input)="validateCourtSection()"  [(ngModel)]="court_penalty"
+                    [ngModelOptions]="{standalone: true}"
+                    class="form-control form-control-sm modal-input-director-oppointment"
+                    onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"
+                    placeholder="">
+          </div>
+
+          <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left" [hidden] = "request_status == 'COMPANY_NAME_CHANGE_REQUEST_TO_RESUBMIT'">
+            <label class="col-form-label col-form-label-sm"> Period of imprisonment</label>
+            <input  (input)="validateCourtSection()"  [(ngModel)]="court_period"
+                    [ngModelOptions]="{standalone: true}"
+                    class="form-control form-control-sm modal-input-director-oppointment"
+                    placeholder="">
+          </div>
+
+
+          <div class="sec_type_item form-group col-md-12" *ngIf="court_status == 'yes'" style="clear:both" [hidden] = "request_status == 'COMPANY_NAME_CHANGE_REQUEST_TO_RESUBMIT'">
+
+            <p style="position: relative"> You have been discharged?</p>
+
+        </div>
+
+        <div class="sec_type_item form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left;padding-left: 44px;" [hidden] = "request_status == 'COMPANY_NAME_CHANGE_REQUEST_TO_RESUBMIT'">
+
+          <input  [(ngModel)]="court_discharged" type="radio" id="court_discharged_yes" class="custom-control-input" name="court_discharged" value="yes">
+          <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_discharged_yes">&nbsp;&nbsp;&nbsp;&nbsp;Yes</label>
+
+        </div>
+
+        <div class="sec_type_item form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left" [hidden] = "request_status == 'COMPANY_NAME_CHANGE_REQUEST_TO_RESUBMIT'">
+
+          <input  [(ngModel)]="court_discharged" type="radio" id="court_discharged_no" class="custom-control-input" name="court_discharged" value="no">
+          <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_discharged_no">&nbsp;&nbsp;&nbsp;&nbsp;No</label>
+
+        </div>
+
+
+
+      </div>
+      
+
+      <div class="float-right">
+        <button class="button" *ngIf="!this.formdataservice.getResubmit" (click)="onSubmit()" [ngClass]="{'gray': !(uploadCount == reqcount && validateCourtSectionFlag), 'green-4': (uploadCount == reqcount && validateCourtSectionFlag) }"
+          mdbWavesEffect [disabled]="!(uploadCount == reqcount && validateCourtSectionFlag && resolution_date_set)"> Next</button>
+        <button class="button" *ngIf="this.formdataservice.getResubmit" (click)="onReSubmit()" [ngClass]="{'gray': !(uploadCountAndMulti === items  && validateCourtSectionFlag), 'green-4': (uploadCountAndMulti === items  && validateCourtSectionFlag) }"
+          mdbWavesEffect [disabled]="!(uploadCountAndMulti === items  && validateCourtSectionFlag)"> <i class="far fa-save"></i> Save</button>
+      </div>
+    </div>
+  </div>
+
+</div>

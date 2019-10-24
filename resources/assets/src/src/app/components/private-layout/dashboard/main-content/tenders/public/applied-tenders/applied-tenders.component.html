@@ -1,0 +1,264 @@
+
+<div class="row" style="    width: 95%;
+margin: 120px auto 30px;">
+  <div class="col-xl-12 col-lg-12">
+    <section>
+     
+    </section>
+    <section>
+
+     
+
+      <div class="row mb-5">
+        <div class="col-xl-12">
+          <div class="dashboard-box">
+            <ul class="dashboard-box-list">
+              
+              <li  class="ng-star-inserted" *ngFor="let application of applicationList ">
+               <!-- <small  class="dashboard-status-button" style="background-color: rgb(76, 175, 80);">Applied</small> -->
+                <div  class="row">
+                   <div  class="col-md-9">
+                      <div  class="job-listing">
+                         <div  class="job-listing-details">
+                            <div class="job-listing-description">
+                               <div  class="row">
+                                  <div class="col-md-12">
+                                     <!---->
+                                     <h3  class="job-listing-title ng-star-inserted"><strong > {{application.tender_name}} </strong></h3>
+                                     <!----><!---->
+                                  </div>
+                                  
+                               </div>
+                               <!---->
+                               <div  class="job-listing-footer">
+                                  <ul >
+                                     <li >
+                                        <small>
+                                           <i class="fas fa-handshake"></i> {{application.tender_id}} <!---->
+                                           <div  class="verified-badge ng-star-inserted" data-original-title="Contract ID" data-tippy="" data-tippy-placement="top"></div>
+                                        </small>
+                                     </li>
+                                     <li>
+                                        <small  class="ng-star-inserted"><i  class="icon-material-outline-access-time"></i> Applied on : {{application.tender_published_date}} </small>
+                                     </li>
+                                  </ul>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                   <div  class="col-md-3">
+                    <div  class="buttons-to-right always-visible" *ngIf="application.button_enabled">
+                    
+                   <!--   <button (click)="updateApplication(application.tender_id)" *ngIf="application.status == 'TENDER_CANCELED'" class="button gray ripple-effect ico float-right ng-star-inserted" style="color: #fff; background-color: #f39b2f;float:none !important;"><i  class="fas fa-edit"></i> {{application.label}} </button> -->
+                      
+                      <a  *ngIf="application.status == 'TENDER_CANCELED'" routerLink="/home/tenders/edit/{{application.tender_id}}/{{application.application_id}}" routerLinkActive="active" class="button gray ripple-effect ico float-right ng-star-inserted"  style="color: #fff; background-color: #f39b2f;float:none !important;">
+                        <i class="fas fa-edit"></i> {{application.label}} 
+                      </a>
+                      
+                      
+                     <!-- <button (click)="resubmitApplication(application.tender_id,application.token)" *ngIf="application.status == 'TENDER_REQUEST_TO_RESUBMIT'" class="button gray ripple-effect ico float-right ng-star-inserted" style="color: #fff; background-color: #f71a1a;float:none !important;"><i  class="fas fa-edit"></i> {{application.label}} </button> -->
+
+                      <a  *ngIf="application.status == 'TENDER_REQUEST_TO_RESUBMIT'" routerLink="/home/tenders/resubmit/{{application.tender_id}}/{{application.token}}" routerLinkActive="active" class="button gray ripple-effect ico float-right ng-star-inserted"  style="color: #fff; background-color: #f71a1a;float:none !important;">
+                        <i class="fas fa-redo"></i> {{application.label}} 
+                      </a>
+                    </div>
+                    <div  class="buttons-to-right always-visible" *ngIf="!application.button_enabled">
+                       <!-- <span class="status-text">{{application.label}}</span> -->
+                      
+                    </div>
+                 </div>
+                </div>
+
+
+
+                    <ul style="    margin: auto !important;
+                    padding: 0;" *ngIf="application['tender_items'].length">
+                      <h3 class="tender-listing-item-heading">Items Applied</h3>
+
+                      <li style="list-style:none"  class="ng-star-inserted" *ngFor="let item of application['tender_items'] ">
+                          <div  class="row">
+                             <div  class="col-md-9">
+                                <div  class="job-listing">
+                                   <div  class="job-listing-details">
+                                      <div class="job-listing-description">
+                                         <div  class="row">
+                                            <div class="col-md-12">
+                                               <!---->
+                                               <h4  class="tender-listing-item job-listing-title ng-star-inserted"><strong > {{item.item_name}} </strong></h4>
+                                               <span class="applicant_name"> 
+                                  
+                                                  <button style="background-color: transparent !important;
+                                                  color: darkorange;
+                                                  border: none;
+                                                  padding: 0;
+                                                  box-shadow: none;"  *ngIf="item['pca1_token']"  (click)="ngOnDownload(item['pca1_token'])"   class="view-file button blue button-sm pca1-form-details">
+                                                      <i class="far fa-eye"></i> View PCA -03 Certificate 
+                                                  </button>
+                                                  <span class="expires_at" *ngIf="item['pca1_expired_at']"><strong>&nbsp;&nbsp;Expiry date: </strong>{{item['pca1_expired_at']}}</span><br/>
+                                                  <button style="background-color: transparent !important;
+                                                  color: darkorange;
+                                                  border: none;
+                                                  padding: 0;
+                                                  box-shadow: none;"  *ngIf="item['pca2_token']"  (click)="ngOnDownload(item['pca2_token'])"   class="view-file button blue button-sm pca1-form-details">
+                                                    <i class="far fa-eye"></i> View PCA -04 Certificate 
+                                                  </button>
+                                                  <span class="expires_at" *ngIf="item['pca2_expired_at']"><strong>&nbsp;&nbsp;Expiry date: </strong>{{item['pca2_expired_at']}}</span><br/>
+                                                </span>
+                                            </div>
+                                            
+                                         </div>
+                                         <!---->
+                                         
+                                      </div>
+                                   </div>
+                                </div>
+                             </div>
+                             <div  class="col-md-3" >
+
+                              <div  class="buttons-to-right always-visible" *ngIf="item.button_enabled">
+
+                                <a *ngIf="item.status == 'TENDER_ITEM_AWARDED'" routerLink="/home/tenders/awarding/{{application.tender_id}}/{{item.token}}" routerLinkActive="active" class="button gray ripple-effect ico float-right ng-star-inserted"  style="color: #fff; background-color: #074d22;float:none !important;">
+                                <i class="fas fa-edit"></i> {{item.label}} 
+                              </a>
+
+                              <a  *ngIf="item.status == 'TENDER_PCA2_REQUEST_TO_RESUBMIT'" routerLink="/home/tenders/awarding/{{application.tender_id}}/{{item.token}}" routerLinkActive="active" class="button gray ripple-effect ico float-right ng-star-inserted" style="color: #fff; background-color: #f71a1a;float:none !important;">
+                                <i class="fas fa-redo"></i> {{item.label}} 
+                              </a>
+                              </div>
+                              <div  class="buttons-to-right always-visible" *ngIf="!item.button_enabled">
+                                <span class="status-text">{{item.label}}</span>
+                                
+                              </div>
+
+                             
+                           </div>
+
+                          <div class="col-md-12" >
+
+                            <div *ngIf="item.pca3_re_rereg_found || item.pca4_re_rereg_found">
+                                <div  class="buttons-to-right always-visible" *ngIf="item.pca3_re_rereg_found && item.renewal_rereg_pca3_button_enabled">
+
+                                  <a *ngIf="item.re_re3_status == 'TENDER_RENEWAL_PCA3_REQUEST_TO_RESUBMIT'" routerLink="/home/tenders/renewal/resubmit/{{application.tender_id}}/{{item.re_rereg_pca3_token}}" routerLinkActive="active" class="button gray ripple-effect ico float-right ng-star-inserted"  style="color: #fff; background-color: #70090e;float:none !important;">
+                                    <i class="fas fa-redo"></i> {{item.renewal_rereg_pca3_label}} 
+                                  </a>
+                                  <a *ngIf="item.re_re3_status == 'TENDER_RENEWAL_PCA3_PENDING'" routerLink="/home/tenders/renewal/apply/{{application.tender_id}}/{{item.re_rereg_pca3_token}}" routerLinkActive="active" class="button gray ripple-effect ico float-right ng-star-inserted"  style="color: #fff; background-color: #074d22;float:none !important;">
+                                    <i class="fas fa-edit"></i> {{item.renewal_rereg_pca3_label}} 
+                                  </a>
+
+
+                                  <a *ngIf="item.re_re3_status == 'TENDER_REREGISTRATION_PCA3_REQUEST_TO_RESUBMIT'" routerLink="/home/tenders/re-register/resubmit/{{application.tender_id}}/{{item.re_rereg_pca3_token}}" routerLinkActive="active" class="button gray ripple-effect ico float-right ng-star-inserted"  style="color: #fff; background-color: #70090e;float:none !important;">
+                                    <i class="fas fa-redo"></i> {{item.renewal_rereg_pca3_label}} 
+                                  </a>
+                                  <a *ngIf="item.re_re3_status == 'TENDER_REREGISTRATION_PCA3_PENDING'" routerLink="/home/tenders/re-register/apply/{{application.tender_id}}/{{item.re_rereg_pca3_token}}" routerLinkActive="active" class="button gray ripple-effect ico float-right ng-star-inserted"  style="color: #fff; background-color: #074d22;float:none !important;">
+                                    <i class="fas fa-edit"></i> {{item.renewal_rereg_pca3_label}} 
+                                  </a>
+                                </div>
+                                <div  class="buttons-to-right always-visible" *ngIf="item.pca3_re_rereg_found && !item.renewal_rereg_pca3_button_enabled">
+                                  <span class="status-text">{{item.renewal_rereg_pca3_label}}</span>
+                                </div>
+
+
+                                <div  class="buttons-to-right always-visible" *ngIf="item.pca4_re_rereg_found && item.renewal_rereg_pca4_button_enabled">
+
+                                  <a *ngIf="item.re_re4_status == 'TENDER_RENEWAL_PCA4_REQUEST_TO_RESUBMIT'" routerLink="/home/tenders/renewal/resubmit/{{application.tender_id}}/{{item.re_rereg_pca4_token}}" routerLinkActive="active" class="button gray ripple-effect ico float-right ng-star-inserted"  style="color: #fff; background-color: #70090e;float:none !important;">
+                                    <i class="fas fa-redo"></i> {{item.renewal_rereg_pca4_label}} 
+                                  </a>
+                                  <a *ngIf="item.re_re4_status == 'TENDER_RENEWAL_PCA4_PENDING'" routerLink="/home/tenders/renewal/apply/{{application.tender_id}}/{{item.re_rereg_pca4_token}}" routerLinkActive="active" class="button gray ripple-effect ico float-right ng-star-inserted"  style="color: #fff; background-color: #074d22;float:none !important;">
+                                    <i class="fas fa-edit"></i> {{item.renewal_rereg_pca4_label}} 
+                                  </a>
+
+
+                                  <a *ngIf="item.re_re4_status == 'TENDER_REREGISTRATION_PCA4_REQUEST_TO_RESUBMIT'" routerLink="/home/tenders/re-register/resubmit/{{application.tender_id}}/{{item.re_rereg_pca4_token}}" routerLinkActive="active" class="button gray ripple-effect ico float-right ng-star-inserted"  style="color: #fff; background-color: #70090e;float:none !important;">
+                                    <i class="fas fa-redo"></i> {{item.renewal_rereg_pca4_label}} 
+                                  </a>
+                                  <a *ngIf="item.re_re4_status == 'TENDER_REREGISTRATION_PCA4_PENDING'" routerLink="/home/tenders/re-register/apply/{{application.tender_id}}/{{item.re_rereg_pca4_token}}" routerLinkActive="active" class="button gray ripple-effect ico float-right ng-star-inserted"  style="color: #fff; background-color: #074d22;float:none !important;">
+                                    <i class="fas fa-edit"></i> {{item.renewal_rereg_pca4_label}} 
+                                  </a>
+
+                                </div>
+                                <div  class="buttons-to-right always-visible" *ngIf="item.pca4_re_rereg_found && !item.renewal_rereg_pca4_button_enabled">
+                                  <span class="status-text">{{item.renewal_rereg_pca4_label}}</span> 
+                                </div>
+
+                            </div>
+                          </div>
+
+                           <div  class="col-md-12" *ngIf="( item.new_pca3_re_rereg_record || item.new_pca4_re_rereg_record )">
+
+                              <div  class="buttons-to-right always-visible" *ngIf="item.renewal_rereg_pca3_button_enabled">
+
+                                  <a *ngIf="item.new_pca3_type == 'renewal'"  routerLink="/home/tenders/renewal/apply/new/{{application.tender_id}}/{{application.application_id}}/{{item.applicant_item_id}}/pca3" routerLinkActive="active" class="button gray ripple-effect ico float-right ng-star-inserted"  style="color: #fff; background-color: #074d22;float:none !important;">
+                                    <i class="fas fa-edit"></i> {{item.renewal_rereg_pca3_label}} 
+                                  </a>
+
+                                  <a *ngIf="item.new_pca3_type == 'reregister'"  routerLink="/home/tenders/re-register/apply/new/{{application.tender_id}}/{{application.application_id}}/{{item.applicant_item_id}}/pca3" routerLinkActive="active" class="button gray ripple-effect ico float-right ng-star-inserted"  style="color: #fff; background-color: #074d22;float:none !important;">
+                                    <i class="fas fa-edit"></i> {{item.renewal_rereg_pca3_label}} 
+                                  </a>
+                               </div>
+
+
+                               <div  class="buttons-to-right always-visible" *ngIf="item.renewal_rereg_pca4_button_enabled">
+
+                                  <a *ngIf="item.new_pca4_type == 'renewal'"  routerLink="/home/tenders/renewal/apply/new/{{application.tender_id}}/{{application.application_id}}/{{item.applicant_item_id}}/pca4" routerLinkActive="active" class="button gray ripple-effect ico float-right ng-star-inserted"  style="color: #fff; background-color: #074d22;float:none !important;">
+                                    <i class="fas fa-edit"></i> {{item.renewal_rereg_pca4_label}} 
+                                  </a>
+
+                                  <a *ngIf="item.new_pca4_type == 'reregister'"  routerLink="/home/tenders/re-register/apply/new/{{application.tender_id}}/{{application.application_id}}/{{item.applicant_item_id}}/pca4" routerLinkActive="active" class="button gray ripple-effect ico float-right ng-star-inserted"  style="color: #fff; background-color: #074d22;float:none !important;">
+                                    <i class="fas fa-edit"></i> {{item.renewal_rereg_pca4_label}} 
+                                  </a>
+
+                                </div>
+
+
+                           </div>
+
+
+                          </div>    
+                       </li>
+
+                   </ul>
+
+                
+             </li>
+             
+           </ul>
+
+           <p style="text-align: center;
+           font-weight: bold;
+           font-size: 23px;
+           color: darkorange;
+           padding: 50px 0;" *ngIf="!applicationList.length">No applications found</p>
+          </div>
+        </div>
+      </div>
+
+    <!--  <div class="row justify-content-md-center mb-5 mt-5">
+        <div class="row justify-content-md-center mt-3">
+          <nav aria-label="pagination " *ngIf="pager.pages && pager.pages.length">
+            <ul class="pagination pagination-circle pg-blue mb-0">
+              <li class="page-item " [ngClass]="{disabled:pager.currentPage === 1}">
+                <a class="page-link" aria-label="Previous" (click)="selectPage(1)">First</a>
+              </li>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                <a class="page-link" (click)="selectPage(pager.currentPage - 1)">Previous</a>
+              </li>
+              <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                <a class="page-link" (click)="selectPage(page)">{{page}} </a>
+              </li>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a class="page-link" (click)="selectPage(pager.currentPage + 1)"> Next</a>
+              </li>
+              <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a class="page-link" (click)="selectPage(pager.totalPages)">Last</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div> -->
+    </section>
+  </div>
+  
+</div>
+
+<app-director-model #fmodel></app-director-model>

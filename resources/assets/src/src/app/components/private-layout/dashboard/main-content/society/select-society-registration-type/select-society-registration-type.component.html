@@ -1,0 +1,125 @@
+<section>
+
+  <div class="row mb-5">
+    <div class="col-xl-12">
+      <div style="padding:50px;" class="dashboard-box">
+        <div class="row">
+          <div class="col-md-12">
+            <h3>
+              <strong>
+                <center>
+                  Society Registration
+                </center>
+
+              </strong>
+            </h3>
+
+          </div>
+        </div>
+        <br>
+        <div class="alert alert-warning" role="alert">
+
+          <p>
+            <small>If you’ve already obtained the approval for the constitution proceed with the application, else please send an email to "societies@drc.gov.lk" with the draft constitution to obtain the approval.</small>
+          </p>
+
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="float-right">
+              <button  [routerLink]="['namereservation']" class="btn btn-blur btn-mr0 nav-link light-orenge-text" type="button"
+                mdbWavesEffect>Mutual provident societies under section 3a</button>
+            </div>
+          </div>
+
+
+          <div class="col-md-6">
+            <div class="float-center">
+              <button [routerLink]="['/dashboard/society/bulk']" class="btn btn-blur btn-mr0 nav-link light-orenge-text"
+                type="button" mdbWavesEffect>
+                Specially authorized societies Under section 3b</button>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <p>
+          <b>To download the copy of the specimen constitution >> </b><a href="{{path}}" target="_blank" download="" style="color: blue">click here</a>
+          <br>
+          <b>To download the standard clauses >> </b><a href="{{path1}}" target="_blank" download="" style="color: blue">click here</a>
+        </p>
+        
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div>
+    <div class="row mb-5">
+      <div class="col-xl-12">
+        <div *ngFor="let item of registeredSocieties; let i = index" class="dashboard-box">
+            <small class="dashboard-status-button float-right" style="z-index: 1;" appHighlight *ngIf="!(item.statuskey === 'SOCIETY_APPROVED' || item.statuskey === 'SOCIETY_REJECTED' || item.statuskey === 'SOCIETY_PROCESSING' || item.statuskey === 'SOCIETY_REQUEST_TO_RESUBMIT' || item.statuskey === 'SOCIETY_CANCELED')">In Progress</small>
+          <ul class="dashboard-box-list">
+            <li>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="job-listing">
+                    <div class="job-listing-details">
+
+                      <div class="job-listing-description">
+                        <h3 class="job-listing-title">
+                          <strong>
+                            <a>
+                              {{item.name}}
+                            </a>
+                          </strong>
+                        </h3>
+                        <div class="job-listing-footer">
+                          <ul>
+                            <li>
+                              <small>
+                                <i class="icon-material-outline-business"></i>
+                                id: {{item.id}}
+                              </small>
+                            </li>
+                            <li>
+                              <small>
+                                <i class="icon-material-outline-access-time"></i>
+                                created at: {{item.created_at}}
+                              </small>
+                            </li>
+                            <li *ngIf="item.certificate_no">
+                              <small>
+                                
+                                registration number : {{item.certificate_no}}
+                              </small>
+                            </li>
+                          </ul>
+                        </div>
+                        <small>
+                          <strong>{{item.status}}</strong>
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="(item.statuskey === 'SOCIETY_REJECTED' || item.statuskey === 'SOCIETY_APPROVED' || item.statuskey === 'SOCIETY_PROCESSING' || item.statuskey === 'SOCIETY_REQUEST_TO_RESUBMIT' || item.statuskey === 'SOCIETY_CANCELED')">
+                <div class="col-md">
+                  <div class="float-right">
+                    <button (click)="continueRegistration(item.statuskey,item.id,item.name,item.name_si,item.name_ta,item.address,item.address_si,item.address_ta,item.abbreviation_desc,item.type_id)"
+                      class="button button-sliding-icon ripple-effect society-btn-{{item.statuskey}}">
+                      <i class="icon-material-outline-arrow-right-alt"></i>
+                      <strong style="color:white;">{{item.status}}</strong>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <hr>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+</section>

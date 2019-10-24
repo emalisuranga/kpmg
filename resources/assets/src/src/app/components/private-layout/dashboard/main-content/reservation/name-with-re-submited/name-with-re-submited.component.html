@@ -1,0 +1,203 @@
+<section>
+  <div class="row mb-5">
+    <div class="col-xl-12">
+      <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+        <div class="dashboard-box">
+          <ul class="dashboard-box-list">
+            <li>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="job-listing">
+                    <div class="job-listing-details">
+                      <a href="#" class="job-listing-company-logo">
+                        <img src="assets/images/icon/company-logo-05.png" alt>
+                      </a>
+                      <div class="job-listing-description">
+                        <h3 class="job-listing-title">
+                          <strong>
+                            <a>
+                              {{ name.name | uppercase }} {{ name.postfix | uppercase }}
+                            </a>
+                          </strong>
+                        </h3>
+                        <div class="job-listing-footer">
+                          <ul>
+                            <li>
+                              <small>
+                                <i class="icon-material-outline-business"></i>
+                                {{ name.id }}
+                              </small>
+                            </li>
+                            <li>
+                              <small>
+                                <i class="icon-material-outline-access-time"></i>
+                                Date : {{ name.created_at | date:'yyyy-MM-dd' }} Time : {{ name.created_at |
+                                date:'shortTime'
+                                }}
+                              </small>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group row">
+                    <small for="staticEmail" class="col-sm-3">Company Name </small>
+                    <small for="staticEmail" class="col-sm-1">: </small>
+                    <div class="col-sm-8">
+                      <input readonly type="text" (click)="model.show(exCompanyType,expostFix)" id="orangeForm-company-name"
+                        formControlName="companyName" placeholder="Company Name" value="" class="form-control form-control-sm">
+                      <input type="hidden" id="orangeForm-company-name" formControlName="name" value="" class="form-control form-control-sm">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <small for="staticEmail" class="col-sm-3">Sinhala Name</small>
+                    <small for="staticEmail" class="col-sm-1">: </small>
+                    <div class="col-sm-8">
+                      <small class="text text-danger float-right">Press the space bar after each word</small>
+                      <input type="text" (keyup)='this.onLoadSinhala()' maxlength="190" id="orangeForm-sinhala-name"
+                        formControlName="sinhalaName" placeholder="Sinhala Name" class="form-control form-control-sm sinhalaName">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <small for="staticEmail" class="col-sm-3">Tamil Name</small>
+                    <small for="staticEmail" class="col-sm-1">: </small>
+                    <div class="col-sm-8">
+                      <small class="text text-danger float-right">Press the space bar after each word</small>
+                      <input type="text" (keyup)='this.onLoadTamil()' maxlength="190" id="orangeForm-tamil-name"
+                        formControlName="tamilName" placeholder="Tamil Name" class="form-control form-control-sm tamilname">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <small for="staticAbbreviations" class="col-sm-3">abbreviations </small>
+                    <small for="staticEmail" class="col-sm-1">: </small>
+                    <div class="col-sm-8">
+                      <textarea type="text" maxlength="190" id="orangeForm-abbreviations" formControlName="abbreviations"
+                        placeholder="Abbreviations" class="form-control form-control-sm"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="dashboard-box" *ngIf="this.comments?.length > 0">
+          <div class="col-md-12 ml-4 mt-4">
+            <h3><strong>Comments</strong></h3>
+          </div>
+          <hr>
+          <ul class="dashboard-box-list">
+            <li *ngFor="let comment of this.comments">
+              <div class="boxed-list-item">
+                <!-- Content -->
+                <div class="item-content">
+                  <h4>{{ comment.name }}</h4>
+                  <div class="item-details margin-top-10">
+                    <div class="star-rating" data-rating="5.0"></div>
+                    <div class="detail-item"><i class="icon-material-outline-date-range"></i> {{ comment.updated_at |
+                      date: 'y-MM-dd' }} {{ comment.updated_at |
+                      date:'mediumTime' }} </div>
+                  </div>
+                  <div class="item-description">
+                    <p>{{ comment.comments }}</p>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="dashboard-box" *ngIf="this.reqDocument.length > 0">
+          <ul class="dashboard-box-list">
+            <li>
+              <div class="col-md-12">
+                <h3>Attachments</h3>
+              </div>
+              <hr>
+              <div class="mt-3 mb-5">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th width="25%">Title</th>
+                      <th width="25%">Comment</th>
+                      <th width="5%"></th>
+                      <th width="15%" style="text-align: center">Progress</th>
+                      <th width="20%" style="text-align: center">Actions</th>
+                      <th width="10%" style="text-align: center">File</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let rDoc of this.reqDocument">
+                      <td>
+                        <span>{{ rDoc.name }}</span>
+                      </td>
+                      <td>
+                        <span>{{ rDoc.comments }}</span>
+                      </td>
+                      <td>
+                        <span *ngIf="percentDone[rDoc.id] !== undefined ">{{ percentDone[rDoc.id] + '%' }}</span>
+                      </td>
+                      <td>
+                          <div class="progress mt-2">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [ngClass]="{'bg-success': percentDone[rDoc.id] >= 100 }"
+                              aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ 'width': percentDone[rDoc.id] + '%' }"></div>
+                          </div>
+                          <span>{{ this.fileName[rDoc.id] }}</span>
+                      </td>
+                      <td>
+                        <div class="float-right">
+                          <form #form>
+                            <button type="button" *ngIf="this.fileToken[rDoc.id] === null"
+                              (click)="uploadbtn.click()" class="button mr-2 button-sm"><i class="fas fa-cloud-upload-alt"></i>
+                              Upload</button>
+                            <input accept=".pdf" type="file" class="upload-btn-wrapper" #uploadbtn name="re_{{ rDoc.id }}"
+                              id="{{ rDoc.id }}" (change)="upload($event.target.files, rDoc.id); form.reset();"
+                              required="">
+                            <button *ngIf="this.fileToken[rDoc.id] !== null" type="button"
+                              (click)="ngOnFileDelete((fileToken[rDoc.id]  === undefined  ? rDoc.file_token : fileToken[rDoc.id]),rDoc.id,$event)"
+                              class="button red button-sm mr-2">
+                              <i class="icon-feather-trash-2"></i> Delete
+                            </button>
+                          </form>
+                        </div>
+                      </td>
+                      <td>
+                        <button type="button" class="button blue button-sm" *ngIf="this.fileToken[rDoc.id] !== null"
+                          (click)="ngOnDownload(this.fileToken[rDoc.id])">
+                          <i class="far fa-file-pdf"></i> View
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="dashboard-box mb-5">
+          <ul class="dashboard-box-list">
+            <li>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="float-right">
+                    <button type="submit" class="button" [disabled]="uploadCountAndMulti !== items" [ngClass]="{'gray': uploadCountAndMulti !== items, 'green-4': uploadCountAndMulti === items}">
+                      <i class="far fa-save"></i> Resubmit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<app-name-check-name-with-re-submite #model (getName)="ngBind($event)"></app-name-check-name-with-re-submite>

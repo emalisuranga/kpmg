@@ -1,0 +1,67 @@
+@import "theme-veriable";
+.modal {
+    color: $secondary;
+    font-size: 15px $im;
+    .modal-header {
+        border-top: 5px solid $secondary;
+        .form-control-login {
+            outline: none $im;
+            box-shadow: none $im;
+            padding: 5px 20px;
+            border-bottom: 1px solid $primary $im;
+            border-radius: $border-radius $im;
+            box-sizing: content-box $im;
+            background-color: transparent $im;
+            &:focus:not([readonly]) {
+                border-bottom: 1px solid $primary $im;
+                +label {
+                    color: $primary $im;
+                }
+            }
+        }
+    }
+    .modal-body {
+        input[type="checkbox"] {
+            margin: 0px 10px 0px 0px;
+        }
+    }
+    .modal-footer {
+        p{
+            color: $primary $im;
+        }
+        button {
+            width: 100%;
+            background: $primary;
+            font-family: Oswald;
+            font-size: 16px;
+            padding: 0.6rem 2.14rem $im;
+        }
+    }
+}
+
+.btn-round {
+    border-radius: $border-radius;
+}
+
+.ng-valid[required],
+.ng-valid.required {
+  border-left: 3px solid #42A948;
+  /* green */
+}
+
+.ng-invalid:not(form) {
+  border-left: 3px solid #a94442;
+  /* red */
+}
+
+.modal-dialog {
+  max-width: 415px $im;
+}
+
+.email-enter-button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 22px;
+    font-size: 27px;
+}

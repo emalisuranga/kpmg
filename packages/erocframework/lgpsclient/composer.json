@@ -1,0 +1,13 @@
+{
+    "name": "lanka/lgpsclient",
+    "description": "Lanka Government Payment Service (LGPS)",
+    "type": "laravel",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "erocframework\\lgpsclient\\": "src"
+        }
+    }
+}

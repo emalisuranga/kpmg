@@ -1,0 +1,14 @@
+.search-background{
+  background: url('/assets/images/header/12search-bg.jpg');
+  background-position: center;
+  background-size: cover;
+  height: 100%;
+  z-index: -100;
+  position: fixed;
+  width: 100%;
+}
+
+.top-margin{
+  position: absolute;
+  top: 15%;
+}

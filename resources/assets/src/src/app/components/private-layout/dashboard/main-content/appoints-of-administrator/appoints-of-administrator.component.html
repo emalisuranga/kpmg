@@ -1,0 +1,1803 @@
+<div class="clearfix">
+</div>
+<section class="top-margin">
+  <div class="container" style="padding-bottom: 50px;">
+    <div class="row">
+
+
+      <!--end left col-->
+
+
+      <div class="col-md-11 nopadding">
+
+
+        <div class="f1">
+
+          <h3 style="text-align: center">APPOINTMENT OF ADMINISTRATOR</h3>
+          <p style="text-align: center">Fill in all steps for completing the process.</p>
+          <div class="f1-steps">
+            <div class="f1-progress">
+              <div class="f1-progress-line" data-now-value="4.17" data-number-of-steps="12" [ngStyle]="{'width': progress.progressPercentage}"></div>
+            </div>
+
+
+
+            <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}} status-{{i}}">
+              <div class="f1-step-icon">
+                <i class="{{item.icon}}"></i>
+              </div>
+              <p>{{item.label}}</p>
+            </div>
+
+          </div>
+
+          <fieldset [hidden]="stepOn != 0">
+
+            <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm">Company Type</label>
+              <div class="col-sm-9">{{compayType.value}}
+              </div>
+
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm">Name of the Company</label>
+              <div class="col-sm-9">{{companyInfo.name}}{{ companyInfo.name ? ' '+ postFixEn : '' }}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label col-form-label-sm">Registration Number</label>
+              <div class="col-sm-9">{{companyRegNumber}}
+              </div>
+            </div>
+            
+
+          
+            <div class="f1-buttons">
+
+              <button  type="button" class="btn btn-next" id="btn1-next" (click)="changeProgressStatuses(1)">Next
+                <i class="fas fa-forward"></i></button>
+            </div>
+          </fieldset>
+
+
+          <fieldset [hidden]="stepOn != 1">
+              <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                  <p style="text-align:center">{{externalGlobComment}}</p>
+              </div>
+           
+              <div class="annual-records-secton stakeholder-section">
+
+                  <div class="add-new-wrapper annual-records-add-new-wrapper">
+    
+                    <h2>
+                      <span class="add-new-wrapper-label">Administrator</span>
+                      <div class="line"></div>
+    
+                     <span  (click)="resetRecord()" *ngIf="moduleStatus != 'APPOINTMENT_OF_ADMIN_RESUBMIT'"> 
+                       <button  data-backdrop="static" data-keyboard="false" 
+                            type="button" mdbBtn class="relative waves-light add-new-stakholder"
+                           (click)="shareRecordModal.show()" mdbWavesEffect>
+                           <i class="fa fa-plus"></i> Add New</button>
+                     </span>
+    
+                    </h2>
+    
+                  </div>
+    
+    
+                  <div class="share-record-list stakeholder-list-wrapper">
+    
+                    <!-- list-->
+    
+                    <div *ngFor="let rec of registerRecordList.record; let i = index" class="director-record stakeholder-record"
+                      style=" margin: 30px 0;border-radius: 20px;background: #fff;border: 1px solid rgb(243, 91, 63);">
+    
+                      <div (click)="showToggleRecord( rec.id)" class="stakeholder-record-summeru" style="background-color: #f35b3f;
+                          color: #fff;
+                          padding: 5px 10px;
+                          font-weight: lighter;
+                          font-size: 14px;
+                          border-top-left-radius: 18px;
+                          box-shadow: 1px 1px 2px #b3aea9;
+                          border-top-right-radius: 18px;
+                          cursor: pointer;
+                          width: 100%;
+                          border-radius: 20px;">
+    
+                        {{rec.firstname}} {{rec.lastname}}
+    
+                        <span *ngIf="moduleStatus != 'APPOINTMENT_OF_ADMIN_RESUBMIT'"  (click)="removeRecord(i,rec.id)"
+                          title="remove record" style="float:right;" class="record-handler record-handler-remove">
+                          <i class="fa fa-trash"></i>
+                        </span>
+                        <span title="show details" style="float:right; margin:0 15px" class="record-handler">
+                          <i class="fa fa-pencil-alt"></i>
+                        </span>
+    
+    
+                      </div>
+    
+                      <div [hidden]="rec.showEditPane != rec.id" [class]="'stakeholder-record-inner'"
+                        class="stakeholder-record-inner" style="padding: 25px 10px 10px;">
+
+                        <div class="form-row">
+
+                          <div class="form-group col-md-6" [hidden]="rec.type != 'local'">
+    
+                            <label class="col-form-label col-form-label-sm">Nic</label>
+    
+                              <input readonly pattern="[0-9]{9}[x|X|v|V]|[0-9]{12}"
+                              maxlength="12" [(ngModel)]="rec.nic" [ngModelOptions]="{standalone: true}"
+                              class="form-control form-control-sm modal-input-director-nic" placeholder="" value="{{rec.nic}}"
+                              (input)="validateRecordEdit(i);" (change)="checkNICrecordexistEdit(i)">
+                            <span class="req-message">Invalid NIC </span>
+                          </div>
+    
+                          <div class="form-group col-md-6" [hidden]="rec.type != 'foreign'">
+    
+                            <label class="col-form-label col-form-label-sm">Passport No.</label>
+    
+                            <input maxlength="15" 
+                             [(ngModel)]="rec.passport"
+                              [ngModelOptions]="{standalone: true}" (input)="validateRecordEdit(i)" class="form-control form-control-sm modal-input-director-passport"
+                              placeholder="" value="{{rec.passport}}">
+                          </div>
+    
+                          <div class="form-group col-md-6" [hidden]="rec.type != 'foreign'">
+    
+                            <label class="col-form-label col-form-label-sm">Passport Issued Country
+                              <span class="req">*</span>
+                            </label>
+                            <select (change)="validateRecordEdit(i)" class="form-control form-control-sm modal-input-director-country"
+                              [(ngModel)]="rec.passport_issued_country">
+                              <option value="">Choose...</option>
+                              <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+                            </select>
+                          </div>
+    
+                        </div>
+    
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+    
+                            <label class="col-form-label col-form-label-sm">First Name(s)
+                              <span class="req">*</span>
+                            </label>
+                            <input  (input)="validateRecordEdit(i)"
+                              [(ngModel)]="rec.firstname" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-firstname"
+                              placeholder="" value="{{rec.firstname}}">
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label class="col-form-label col-form-label-sm">Surname
+                              <span class="req">*</span>
+                            </label>
+                            <input  (input)="validateRecordEdit(i)"
+                              [(ngModel)]="rec.lastname" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-lastname"
+                              placeholder="" value="{{rec.lastname}}">
+                          </div>
+                        </div>
+    
+    
+                        <div class="address-block local-address" >
+    
+                            <h4>Local Address</h4>
+    
+    
+                          <div class="form-row">
+    
+                            <div class="form-group col-md-4">
+    
+                              <label class="col-form-label col-form-label-sm">Province
+                                  <span class="req">*</span>
+                              </label>
+                            
+                              <select  (change)="getDistrictsForStakeholderEdit( i, rec.province)" class="form-control form-control-sm modal-input-director-province"
+                                [(ngModel)]="rec.province" [ngModelOptions]="{standalone: true}">
+                                <option value="">Choose..</option>
+                                <option *ngFor="let p of rec.screen1Provinces" value="{{p.name}}">{{p.name}}</option>
+    
+                              </select>
+                              
+                            </div>
+    
+                            <div class="form-group col-md-4">
+    
+                              <label class="col-form-label col-form-label-sm">District
+                                  <span class="req">*</span>
+                              </label>
+                            
+    
+                              <select  (change)="getCitiesForStakeholderEdit( i,rec.district)" class="form-control form-control-sm modal-input-director-district"
+                                [(ngModel)]="rec.district" [ngModelOptions]="{standalone: true}">
+                                <option value="">Choose..</option>
+                                <option *ngFor="let d of rec.screen1Districts" value="{{d.name}}" >{{d.name}}</option>
+                              </select>
+                            </div>
+    
+                            <div class="form-group col-md-4">
+    
+                              <label class="col-form-label col-form-label-sm">Divisional Secretariat Division
+                                  <span class="req">*</span>
+                              </label>
+                             
+                            
+                              <select  (change)="validateRecordEdit(i)" class="form-control form-control-sm modal-input-directory-city"
+                              [(ngModel)]="rec.city" [ngModelOptions]="{standalone: true}">
+                              <option value="">Choose..</option>
+                              <option *ngFor="let c of rec.screen1Cities" value="{{c.name}}">{{c.name}}</option>
+                              </select>
+                            </div>
+    
+                            <div class="form-group col-md-6">
+    
+                              <label class="col-form-label col-form-label-sm">Address1
+                                  <span class="req">*</span>
+                              </label>
+                              <input  (input)="validateRecordEdit(i)" [(ngModel)]="rec.localAddress1"
+                                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-localaddress1"
+                                placeholder="" value="{{ rec.localAddress1}}">  
+                            </div>
+    
+    
+                            <div class="form-group col-md-6">
+    
+                              <label class="col-form-label col-form-label-sm">Address 2
+                                  <span class="req">*</span>
+                              </label>
+
+                              <input  (input)="validateRecordEdit(i)" [(ngModel)]="rec.localAddress2"
+                                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                                placeholder="" value="{{ rec.localAddress2}}">
+                            </div>
+    
+                            <div class="form-group col-md-4">
+    
+                              <label class="col-form-label col-form-label-sm">Post Code 
+                                  <span class="req">*</span>
+                                </label>
+  
+                                <input  (input)="validateRecordEdit(i)"  [(ngModel)]="rec.postcode"
+                                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-postcode"
+                                placeholder="" value="{{ rec.postcode}}"  maxlength="10" >
+                            </div>
+    
+    
+                          </div>
+    
+                        </div>
+    
+                        <div class="address-block foriegn-address">
+                          <h4>Foreign Address</h4>
+                          <div class="form-row">
+                            <div class="form-group col-md-6">
+    
+                              <label class="col-form-label col-form-label-sm">Address Line 1
+                                  <span class="req" *ngIf="rec.type == 'foreign'">*</span>
+                                  <span class="noreq" *ngIf="rec.type != 'foreign'">*</span>
+                              </label>
+    
+                              <input (input)="validateRecordEdit(i)" [(ngModel)]="rec.forAddress1"
+                                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address1"
+                                placeholder="" value="{{rec.forAddress1}}">
+                            </div>
+                            <div class="form-group col-md-6">
+    
+                              <label class="col-form-label col-form-label-sm">
+                                Address Line 2
+                                <span class="noreq">*</span>
+                              </label>
+    
+                              <input [(ngModel)]="rec.forAddress2" [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-address2" placeholder="" value="{{rec.forAddress2}}">
+                            </div>
+    
+                            <div class="form-group col-md-4">
+    
+                              <label class="col-form-label col-form-label-sm">
+                                City
+                                <span class="req" *ngIf="rec.type == 'foreign'">*</span>
+                                <span class="noreq" *ngIf="rec.type != 'foreign'">*</span>
+                              </label>
+    
+                              <input (input)="validateRecordEdit(i)" [(ngModel)]="rec.forCity"
+                                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-city"
+                                placeholder="" value="{{rec.forCity}}">
+                            </div>
+    
+                            <div class="form-group col-md-4">
+    
+                              <label class="col-form-label col-form-label-sm">
+                                State/Region/Province
+                                <span class="req" *ngIf="rec.type == 'foreign'">*</span>
+                                <span class="noreq" *ngIf="rec.type != 'foreign'">*</span>
+                              </label>
+    
+                              <input (input)="validateRecordEdit(i)" [(ngModel)]="rec.forProvince" [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-province" placeholder="" value="{{rec.forProvince}}">
+                            </div>
+    
+                            <div class="form-group col-md-4">
+    
+                              <label *ngIf="!(compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="col-form-label col-form-label-sm">Postal/ZIP code 
+                                  <span class="req" *ngIf="rec.type == 'foreign'">*</span>
+                                  <span class="noreq" *ngIf="rec.type != 'foreign'">*</span>
+                              </label>
+                              <label *ngIf="(compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="col-form-label col-form-label-sm">Postal/ZIP code 
+                                  <span class="req">*</span>
+                              </label>
+                             
+    
+                              <input (input)="validateRecordEdit(i)" [(ngModel)]="rec.forPostcode"
+                                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-postcode"
+                                placeholder="" value="{{rec.forPostcode}}"  maxlength="10" >
+                            </div>
+    
+    
+                            <div class="form-row">
+    
+                                <div class="form-group col-md-12">
+          
+                                  <label class="col-form-label col-form-label-sm">Country
+                                    <span class="req">*</span>
+                                  </label>
+                                  <select (change)="validateRecordEdit(i)" class="form-control form-control-sm modal-input-director-country"
+                                    [(ngModel)]="rec.country" [ngModelOptions]="{standalone: true}">
+                                    <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+                                  </select>
+          
+          
+                                </div>
+                              </div>
+                          </div>
+    
+                        </div>
+
+                        <div class="address-block local-address" >
+    
+                          <h4>Office Address</h4>
+  
+  
+                        <div class="form-row">
+  
+                          <div class="form-group col-md-4">
+  
+                            <label class="col-form-label col-form-label-sm">Province
+                                <span class="req">*</span>
+                            </label>
+                          
+                            <select  (change)="getDistrictsForStakeholderOfficeAddresEdit( i, rec.officeProvince)" class="form-control form-control-sm modal-input-director-province"
+                              [(ngModel)]="rec.officeProvince" [ngModelOptions]="{standalone: true}">
+                              <option value="">Choose..</option>
+                              <option *ngFor="let p of rec.screen1OfficeProvinces" value="{{p.name}}">{{p.name}}</option>
+  
+                            </select>
+                            
+                          </div>
+  
+                          <div class="form-group col-md-4">
+  
+                            <label class="col-form-label col-form-label-sm">District
+                                <span class="req">*</span>
+                            </label>
+                          
+  
+                            <select  (change)="getCitiesForStakeholderOfficeAddressEdit( i,rec.officeDistrict)" class="form-control form-control-sm modal-input-director-district"
+                              [(ngModel)]="rec.officeDistrict" [ngModelOptions]="{standalone: true}">
+                              <option value="">Choose..</option>
+                              <option *ngFor="let d of rec.screen1OfficeDistricts" value="{{d.name}}" >{{d.name}}</option>
+                            </select>
+                          </div>
+  
+                          <div class="form-group col-md-4">
+  
+                            <label class="col-form-label col-form-label-sm">Divisional Secretariat Division
+                                <span class="req">*</span>
+                            </label>
+                           
+                          
+                            <select  (change)="validateRecordEdit(i)" class="form-control form-control-sm modal-input-directory-city"
+                            [(ngModel)]="rec.officeCity" [ngModelOptions]="{standalone: true}">
+                            <option value="">Choose..</option>
+                            <option *ngFor="let c of rec.screen1OfficeCities" value="{{c.name}}">{{c.name}}</option>
+                            </select>
+                          </div>
+  
+                          <div class="form-group col-md-6">
+  
+                            <label class="col-form-label col-form-label-sm">Address1
+                                <span class="req">*</span>
+                            </label>
+                            <input  (input)="validateRecordEdit(i)" [(ngModel)]="rec.officeAddress1"
+                              [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-localaddress1"
+                              placeholder="" value="{{ rec.officeAddress1}}">  
+                          </div>
+  
+  
+                          <div class="form-group col-md-6">
+  
+                            <label class="col-form-label col-form-label-sm">Address 2
+                                <span class="req">*</span>
+                            </label>
+
+                            <input  (input)="validateRecordEdit(i)" [(ngModel)]="rec.officeAddress2"
+                              [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-address3"
+                              placeholder="" value="{{ rec.officeAddress2}}">
+                          </div>
+  
+                          <div class="form-group col-md-4">
+  
+                            <label class="col-form-label col-form-label-sm">Post Code 
+                                <span class="req">*</span>
+                              </label>
+
+                              <input  (input)="validateRecordEdit(i)"  [(ngModel)]="rec.officePostcode"
+                              [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-postcode"
+                              placeholder="" value="{{ rec.officePostcode}}"  maxlength="10" >
+                          </div>
+  
+  
+                        </div>
+  
+                      </div>
+    
+                        
+    
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <label class="col-form-label col-form-label-sm">Residential Phone No. <span class="noreq">*</span></label>
+                            <input *ngIf="rec.type == 'local'" pattern="\d{10}" maxlength="10" [(ngModel)]="rec.phone"
+                              [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-phone"
+                              placeholder="" value="{{rec.phone}}">
+                            <span *ngIf="rec.type == 'local'" class="req-message">Please enter 10 Digits phone number requried</span>
+    
+                            <input *ngIf="rec.type == 'foreign'" pattern="\d{10,15}" maxlength="15" [(ngModel)]="rec.phone"
+                              [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-phone"
+                              placeholder="" value="{{rec.phone}}">
+                            <span *ngIf="rec.type == 'foreign'"  class="req-message">Please enter valied Digits phone number requried</span>
+                          </div>
+                          <div class="form-group col-md-4">
+                            <label class="col-form-label col-form-label-sm">Mobile <span class="req">*</span></label>
+                            <input *ngIf="rec.type == 'local'" maxlength="10" pattern="\d{10}" (input)="validateRecordEdit(i)" [(ngModel)]="rec.mobile"
+                              [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-mobile"
+                              placeholder="" value="{{rec.mobile}}">
+                            <span *ngIf="rec.type == 'local'" class="req-message">10 Digits mobile number requried</span>
+    
+                            <input *ngIf="rec.type == 'foreign'" maxlength="15" pattern="\d{10,15}" (input)="validateRecordEdit(i)" [(ngModel)]="rec.mobile"
+                            [ngModelOptions]="{standalone: true}" class="form-control form-control-sm modal-input-director-mobile"
+                            placeholder="" value="{{rec.mobile}}">
+                          <span *ngIf="rec.type == 'foreign'" class="req-message">Valid mobile number is requried</span>
+                          </div>
+    
+                          <div class="form-group col-md-4">
+                            <label class="col-form-label col-form-label-sm modal-input-director-email">Email Address <span class="req">*</span></label>
+                            
+                            <input readonly pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" (input)="validateRecordEdit(i)"
+                              [(ngModel)]="rec.email" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm"
+                              placeholder="" value="{{rec.email}}">
+                            <span class="req-message">Invalid Email </span>
+                          </div>
+                        </div>
+    
+                       <!-- <div class="form-row">
+    
+                          <div class="form-group col-md-6">
+                            <label class="col-form-label col-form-label-sm">Date of Appointment<span class="req">*</span></label>
+                            <input (input)="validateRecordEdit(i)"  [(ngModel)]="rec.date"
+                              [ngModelOptions]="{standalone: true}" type="date" max="{{formattedTodayValue}}" class="form-control form-control-sm modal-input-director-oppointment"
+                              placeholder="" value="{{rec.date}}">
+                          </div>
+
+                        </div> -->
+
+
+                        <div class="form-row">
+          
+
+                          <div class="sec_type_item form-group col-md-12">
+          
+                            <p style="position: relative;
+                            top: 30px;">Mode of appointment <span class="req">*</span>
+                             <span style="text-transform:capitalize;" *ngIf="moduleStatus == 'APPOINTMENT_OF_ADMIN_RESUBMIT'">&nbsp;&nbsp;{{rec.appointed_by == 'court_order' ? 'By Court Order' : 'By Resolution'}}</span>
+                            
+                          </p>
+          
+                        </div>
+          
+                        <div class="sec_type_item form-group col-md-6" [hidden]="moduleStatus == 'APPOINTMENT_OF_ADMIN_RESUBMIT'">
+          
+                          <input (change)= "validateRecordEdit(i)"  [(ngModel)]="rec.appointed_by" type="radio" id="appointed_by_admin_court_order_{{i}}" class="custom-control-input" [ngModelOptions]="{standalone: true}" value="court_order">
+                          <label style="font-size:14px;" class="custom-control-label radio-lbl" for="appointed_by_admin_court_order_{{i}}">&nbsp;&nbsp;&nbsp;&nbsp;Court Order</label>
+          
+                        </div>
+          
+                        <div class="sec_type_item form-group col-md-6" [hidden]="moduleStatus == 'APPOINTMENT_OF_ADMIN_RESUBMIT'">
+          
+                            <input  (change)= "validateRecordEdit(i)" [(ngModel)]="rec.appointed_by" type="radio" id="appointed_by_admin_resolution_{{i}}" class="custom-control-input"  [ngModelOptions]="{standalone: true}" value="resolution">
+                            <label style="font-size:14px;" class="custom-control-label radio-lbl" for="appointed_by_admin_resolution_{{i}}">&nbsp;&nbsp;&nbsp;&nbsp;Resolution</label>
+          
+                        </div>
+          
+          
+                      
+                        <div class="form-group col-md-12" *ngIf="rec.appointed_by == 'resolution'">
+                          <label class="col-form-label col-form-label-sm">Resolution Date/Appointment Date<span class="req">*</span> <span *ngIf="moduleStatus == 'APPOINTMENT_OF_ADMIN_RESUBMIT'" > {{rec.resolution_date}}</span></label>
+                          <input *ngIf="moduleStatus != 'APPOINTMENT_OF_ADMIN_RESUBMIT'"  [(ngModel)]="rec.resolution_date"
+                                  [ngModelOptions]="{standalone: true}"
+                                  type="date"
+                                  min="{{companyInfo.incorporation_at}}"
+                                  max="{{formattedTodayValue}}"
+                                  (input) = "validateRecordEdit(i)"
+                                  class="form-control form-control-sm modal-input-director-oppointment"
+                                  placeholder="">
+                         
+                          <input  *ngIf="moduleStatus == 'APPOINTMENT_OF_ADMIN_RESUBMIT'" type="hidden"  [(ngModel)]="rec.resolution_date" [ngModelOptions]="{standalone: true}" />
+                      </div>
+          
+          
+          
+                      <div class="form-group col-md-12" style="clear:both;" *ngIf="rec.appointed_by == 'court_order'">
+                        <label class="col-form-label col-form-label-sm"> Name of the court<span class="req">*</span></label>
+                        <input  (input)="validateRecordEdit(i)"  [(ngModel)]="rec.court_name"
+                                [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-oppointment"
+                                placeholder="">
+                      </div>
+          
+                      <div class="form-group col-md-6" *ngIf="rec.appointed_by == 'court_order'" style="float:left">
+                        <label class="col-form-label col-form-label-sm"> Case number<span class="req">*</span></label>
+                        <input  (input)="validateRecordEdit(i)"  [(ngModel)]="rec.court_case_no"
+                                [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-oppointment"
+                                placeholder="">
+                      </div>
+          
+          
+                      <div class="form-group col-md-12" *ngIf="rec.appointed_by == 'court_order'" style="float:left">
+                        <label class="col-form-label col-form-label-sm">Court Date/Appointment Date<span class="req">*</span></label>
+                        <input  [(ngModel)]="rec.court_date"
+                                [ngModelOptions]="{standalone: true}"
+                                (input)="validateRecordEdit(i)" 
+                                type="date"
+                                min="{{companyInfo.incorporation_at}}"
+                                max="{{formattedTodayValue}}"
+                                class="form-control form-control-sm modal-input-director-oppointment"
+                                placeholder="">
+                    </div>
+          
+                      <div class="form-group col-md-6" *ngIf="rec.appointed_by == 'court_order'" style="float:left;display: none;">
+                        <label class="col-form-label col-form-label-sm"> Amount of Penalty/any other charge</label>
+                        <input  (input)="validateRecordEdit(i)"  [(ngModel)]="rec.court_penalty"
+                                [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-oppointment"
+                                onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"
+                                placeholder="">
+                      </div>
+          
+                      <div class="form-group col-md-6" *ngIf="rec.appointed_by == 'court_order'" style="float:left;display: none;">
+                        <label class="col-form-label col-form-label-sm"> Period of imprisonment</label>
+                        <input  (input)="validateRecordEdit(i)"  [(ngModel)]="rec.court_period"
+                                [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm modal-input-director-oppointment"
+                                placeholder="">
+                      </div>
+          
+          
+                      <div class="sec_type_item form-group col-md-12" *ngIf="rec.appointed_by == 'court_order'" style="clear:both;display: none;" >
+          
+                        <p style="position: relative"> Has this administrator been discharged?</p>
+          
+                    </div>
+          
+                    <div class="sec_type_item form-group col-md-6" *ngIf="rec.appointed_by == 'court_order'" style="float:left;padding-left: 44px;display: none;">
+          
+                      <input  [(ngModel)]="rec.court_discharged" type="radio" id="court_admin_discharged_yes_{{i}}" class="custom-control-input" [ngModelOptions]="{standalone: true}" value="yes">
+                      <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_admin_discharged_yes_{{i}}">&nbsp;&nbsp;&nbsp;&nbsp;Yes</label>
+          
+                    </div>
+          
+                    <div class="sec_type_item form-group col-md-6" *ngIf="rec.appointed_by == 'court_order'" style="float:left;display: none;">
+          
+                      <input  [(ngModel)]="rec.court_discharged" type="radio" id="court_admin_discharged_no_{{i}}" class="custom-control-input" [ngModelOptions]="{standalone: true}" value="no">
+                      <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_admin_discharged_no_{{i}}">&nbsp;&nbsp;&nbsp;&nbsp;No</label>
+          
+                    </div>
+          
+                    </div>
+
+
+                
+                        <div style="clear:both"></div>
+  
+                        <button  style="float: right" (click)="submitRecord('remove')" [disabled]="!enableStep2SubmissionEdit"
+                          type="button" class="btn btn-next">
+                          <i class="fa fa-edit"></i>
+                          Edit</button>
+    
+                      </div>
+                      <!-- end rerord inner -->
+    
+                    </div>
+      
+                    <!-- end list -->
+    
+                    <p [hidden]="registerRecordList.record.length" class="no-stakeholder no-director">No Adminstrator(s) Added</p>
+    
+                  </div>
+    
+              </div>
+
+              <div style="display:none;" class="share-summery-records" *ngIf="registerRecordList.record.length">
+
+                  <div class="form-row">
+
+                      <div class="form-group col-md-12">
+        
+                          <h4>Directors Who giving the Notice</h4>
+                         
+                       </div>
+                       <div (change)="savedcheck()" class="form-group col-md-12" *ngFor="let rec of directorList.director; let i = index">
+                          <input  [(ngModel)]="rec['saved']" type="checkbox" id="director-{{rec['id']}}" class="custom-control-input"  name="director_{{rec['id']}}" value="{{rec['id']}}" >
+                          <label style="font-size:14px;" class="custom-control-label radio-lbl" for="director-{{rec['id']}}">&nbsp;&nbsp;&nbsp;&nbsp;{{rec['first_name']}} {{rec['last_name']}}</label>
+                        </div>
+
+                        <br/>
+                        
+
+              </div>
+
+              </div>
+  
+            
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+                Previous</button>
+                <button   [disabled]="!(enableStep2Submission && registerRecordList.record.length )" (click)="submitRecord()" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+              <!--<button *ngIf="!share_records_already_exists"  [disabled]="!(enableStep2Submission)" (click)="submitShareRecord()" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+              <button *ngIf="share_records_already_exists"  (click)="changeProgressStatuses(4)" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>-->
+            </div>
+
+        </fieldset>
+     
+
+        <fieldset [hidden]="stepOn != 2">
+            <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                <p style="text-align:center">{{externalGlobComment}}</p>
+            </div>
+
+            <div class="container download-container">
+
+
+                <h3>Document List</h3>
+  
+                <div class="doc-block-wrapper">
+  
+                  <div class="doc-block" *ngFor="let doc of docList['docs']">
+  
+                    <div class="stakeholder-doc-row">
+  
+                      <div class="stakeholder-name">{{doc.name}}</div>
+                      <div class="doc-download">
+  
+  
+                        <a [href]="sanitize(doc.download_link)" target="_blank" download="{{doc.file_name_key}}.pdf"
+                          class="btn btn-primary btn-sm download doc-download-link">
+                          <i class="fas fa-cloud-download-alt"></i> Download
+                        </a>
+                      </div>
+                    </div>
+  
+                  </div>
+  
+                </div>
+  
+  
+  
+              </div>
+
+
+          
+              <div style="clear:both"></div>
+           
+          <div class="f1-buttons">
+            <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+              Previous</button>
+            <button (click)="changeProgressStatuses(3)" type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+          </div>
+
+        </fieldset>
+        <!-- end of 10th step -->
+
+        <fieldset [hidden]="stepOn != 3">
+
+            <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                <p style="text-align:center">{{externalGlobComment}}</p>
+            </div>
+            
+
+            <div class="container uploaded-container">
+
+                <div class="alert alert-info"  *ngIf="moduleStatus != 'APPOINTMENT_OF_ADMIN_RESUBMIT'">
+                    <p style="margin:0"><i class="fas fa-info-circle"></i>&nbsp;This Notice should be delivered to the Registrar-General of Companies, within 10 working days of
+                      his appointment.</p>
+                  </div>
+
+                <div *ngFor="let doc of uploadList['docs']; let i = index">
+  
+                  <div class="row uploaded-row">
+  
+                    <div class="col-9 doc">
+                      <h3>{{doc.file_name}} <span *ngIf="doc.is_admin_requested" class="request_roc">(requested by ROC)</span> <span *ngIf="doc.is_required" class="req">*</span></h3>
+                    </div>
+                    <div class="col-3 no-padding" *ngIf="doc.doc_status !='DOCUMENT_APPROVED'">
+  
+  
+                      <label style="float:right" for="other-{{i}}" class="upload-wrapper btn btn-primary btn-sm download">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload
+                      </label>
+                      <input style="display:block;position: fixed;top:-100000px" id="other-{{i}}" type="file" (change)="fileChange($event,doc.file_name,doc.dbid)"
+                        placeholder="Upload file" accept=".pdf">
+  
+                    </div>
+  
+                    <div class="col-12 uploaded-doc" *ngIf="doc.uploaded_path">
+
+                        {{doc.uploaded_path}}
+                        <span class="approved_doc" *ngIf="doc.doc_status =='DOCUMENT_APPROVED'">Document Approved</span>
+
+                        <button *ngIf="!(doc.is_admin_requested || doc.doc_status =='DOCUMENT_APPROVED')" (click)="removeDoc(doc.dbid )"  class="button red button-sm remove-file">
+                            <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                      
+                        <button *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="view-file button blue button-sm">
+                            <i class="far fa-file-pdf"></i> View
+                        </button>
+
+
+                     
+                    </div>
+                    <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                      <strong>Comments:</strong> {{doc.doc_comment}}
+                    </div>
+  
+                  </div>
+  
+                </div>
+  
+  
+              </div>
+
+              <div style="margin-bottom:6px" class="container uploaded-container">
+
+                <div class="row uploaded-row">
+  
+                  <div class="col-4 doc">
+                    <h3>Other Documents
+                      <p style="font-size: 12px;color: darkorange;text-transform: none;" class="other_doc_des">You can upload any number of documents here</p>
+                    </h3>
+                  </div>
+                  <div class="col-5">
+                    <span style="float: left;width: 100%;margin-top: 2px">
+                          <input style="width: 96%;padding:5px;padding: 0 5px;text-align: center;font-size: 14px;" [(ngModel)]="other_doc_name" name="other_doc_name" placeholder="Enter document name here" />
+                         <!-- <span style="display: block;width: 4%; float: right;color: red;font-size: 24px;margin-top: -10px;">*</span> -->
+                    </span>
+                  </div>
+
+                  <div class="col-3 no-padding">
+
+
+                    <label style="float:right" for="other-docs" class="upload-wrapper btn btn-primary btn-sm download {{!other_doc_name ? 'disable' : '' }}">
+                      <i class="fas fa-cloud-upload-alt"></i> Upload
+                    </label>
+
+                    
+                    <input [disabled]="!other_doc_name"  style="display:block;position: fixed;top:-100000px" id="other-docs" type="file" (change)="uploadOtherDoc($event,'Other',uploadOtherList['doc_id'])"
+                      placeholder="Upload file" accept=".pdf">
+
+                  </div>
+
+                  </div>
+
+                <div  class="form-group" *ngFor="let doc of uploadOtherList['docs']; let j = index">
+  
+                  <div class=" uploaded-row">
+  
+                  
+  
+                    <div style="font-size:12px;" class="uploaded-doc" *ngIf="doc.file_name">
+
+                        {{doc.file_name}}
+                        <span class="approved_doc" *ngIf="doc.doc_status =='DOCUMENT_APPROVED'">Document Approved</span>
+
+                        <button *ngIf="doc.doc_status !='DOCUMENT_APPROVED' && doc.uploaded_token" style="float: right; font-size: 12px;padding: 5px !important;" (click)="removeOtherDoc(doc.uploaded_token )"  class="button red button-sm">
+                            <i class="fas fa-trash-alt"></i> Delete
+                         </button>
+                      
+                        <button style="float: right; font-size: 12px;padding: 5px !important;margin-right:4px;" *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="button blue button-sm">
+                            <i class="far fa-file-pdf"></i> View
+                        </button>
+
+                        <label  *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'" style="float: right;
+                        width: 110px;
+                        height: 30px;
+                        margin-top: -2px;
+                        line-height: 30px;
+                        margin-right: 0px;" for="other-resubmit-docs-{{doc.multiple_id}}" class="upload-wrapper btn btn-primary btn-sm download">
+                          <i class="fas fa-cloud-upload-alt"></i> Upload
+                        </label>
+                        <input *ngIf="doc.doc_status =='DOCUMENT_REQUEST_TO_RESUBMIT'"  style="display:block;position: fixed;top:-100000px" id="other-resubmit-docs-{{doc.multiple_id}}" type="file" (change)="uploadOtherResumittedDoc($event,doc.multiple_id)"
+                      placeholder="Upload file" accept=".pdf">
+
+
+                     
+                    </div>
+                    <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                      <strong>Comments:</strong> {{doc.doc_comment}}
+                    </div>
+  
+                  </div>
+  
+                </div>
+                <div style="clear:both"></div>
+  
+  
+              </div>
+
+              <div class="sec_type_item form-group col-md-12 document_confirm">
+
+                  <p style="font-size:14px;"  ><strong>SECTION 511.</strong> “Where in any return, report, certificate, balance
+                    sheet or other document, required by or for the purposes of
+                    this Act, any person wilfully makes a statement which is false
+                    in any material particular knowing it to be false, shall be
+                    guilty of an offence and be liable on conviction to a fine not
+                    exceeding one million rupees or to imprisonment for a term
+                    not exceeding five years or to both such fine and
+                    imprisonment”
+                  </p>
+                    <br/>
+                    <input  [(ngModel)]="document_confirm" type="checkbox" id="document_confirm" class="custom-control-input" [ngModelOptions]="{standalone: true}">
+                    <label style="font-size: 17px;
+                    color: darkred;
+                    font-weight: bold;" class="custom-control-label custom-control-sub-label radio-lbl" for="document_confirm">
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I read over and understood
+                    </label>
+                     
+                </div>
+              <div style="clear:both"></div>
+
+              <div style="padding: 30px 0 50px;margin: 10px 0;" clas="form-row" *ngIf="penalty_charge">
+                <h3>Court Order Details</h3>
+                <div class="sec_type_item form-group col-md-12">
+    
+                  <p style="position: relative;">Have you been prosecuted by the court for not filing relevant form during the provided statutory period? <span class="req">*</span>
+                    <span style="text-transform:capitalize;" *ngIf="moduleStatus == 'APPOINTMENT_OF_ADMIN_RESUBMIT'">&nbsp;&nbsp;{{court_status}}</span>
+                  </p>
+                  
+              </div>
+    
+              <div class="sec_type_item form-group col-md-6" style="float:left;padding-left: 44px;" [hidden] = "moduleStatus == 'APPOINTMENT_OF_ADMIN_RESUBMIT'">
+    
+                <input (change)="validateCourtOrder()"  [(ngModel)]="court_status" type="radio" id="court_status_yes" class="custom-control-input" name="court_status" value="yes">
+                <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_status_yes">&nbsp;&nbsp;&nbsp;&nbsp;Yes</label>
+    
+              </div>
+    
+              <div class="sec_type_item form-group col-md-6" style="float:left" [hidden] = "moduleStatus == 'APPOINTMENT_OF_ADMIN_RESUBMIT'">
+    
+                <input  (change)="validateCourtOrder()"  [(ngModel)]="court_status" type="radio" id="court_status_no" class="custom-control-input" name="court_status" value="no">
+                <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_status_no">&nbsp;&nbsp;&nbsp;&nbsp;No</label>
+    
+              </div>
+    
+              <div class="form-group col-md-12" style="clear:both;" *ngIf="court_status == 'yes'">
+                <label class="col-form-label col-form-label-sm"> Name of the court<span class="req">*</span></label>
+                <input  (input)="validateCourtOrder()"  [(ngModel)]="court_name"
+                        [ngModelOptions]="{standalone: true}"
+                        class="form-control form-control-sm modal-input-director-oppointment"
+                        placeholder="">
+              </div>
+    
+              <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left">
+                <label class="col-form-label col-form-label-sm"> Case number<span class="req">*</span></label>
+                <input  (input)="validateCourtOrder()"  [(ngModel)]="court_case_no"
+                        [ngModelOptions]="{standalone: true}"
+                        class="form-control form-control-sm modal-input-director-oppointment"
+                        placeholder="">
+              </div>
+    
+    
+              <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left">
+                  <label class="col-form-label col-form-label-sm"> Date of the court decision<span class="req">*</span></label>
+                  <input  (input)="validateCourtOrder()"  [(ngModel)]="court_date"
+                          [ngModelOptions]="{standalone: true}"
+                          type="date"
+                          min="{{companyInfo.incorporation_at}}"
+                          max="{{formattedTodayValue}}"
+                          class="form-control form-control-sm modal-input-director-oppointment"
+                          placeholder="">
+              </div>
+    
+              <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left;">
+                <label class="col-form-label col-form-label-sm"> Amount of Penalty/any other charge</label>
+                <input  (input)="validateCourtOrder()"  [(ngModel)]="court_penalty"
+                        [ngModelOptions]="{standalone: true}"
+                        class="form-control form-control-sm modal-input-director-oppointment"
+                        onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"
+                        placeholder="">
+              </div>
+    
+              <div class="form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left">
+                <label class="col-form-label col-form-label-sm"> Period of imprisonment</label>
+                <input  (input)="validateCourtOrder()"  [(ngModel)]="court_period"
+                        [ngModelOptions]="{standalone: true}"
+                        class="form-control form-control-sm modal-input-director-oppointment"
+                        placeholder="">
+              </div>
+    
+    
+              <div class="sec_type_item form-group col-md-12" *ngIf="court_status == 'yes'" style="clear:both">
+    
+                <p style="position: relative"> You have been discharged?</p>
+    
+            </div>
+    
+            <div class="sec_type_item form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left;padding-left: 44px;">
+    
+              <input  [(ngModel)]="court_discharged" type="radio" id="court_discharged_yes" class="custom-control-input" name="court_discharged" value="yes">
+              <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_discharged_yes">&nbsp;&nbsp;&nbsp;&nbsp;Yes</label>
+    
+            </div>
+    
+            <div class="sec_type_item form-group col-md-6" *ngIf="court_status == 'yes'" style="float:left" >
+    
+              <input  [(ngModel)]="court_discharged" type="radio" id="court_discharged_no" class="custom-control-input" name="court_discharged" value="no">
+              <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_discharged_no">&nbsp;&nbsp;&nbsp;&nbsp;No</label>
+    
+            </div>
+
+          </div>
+          <div style="clear:both"></div>
+           
+          <div class="f1-buttons">
+            <button (click)="changeProgressStatuses(2)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+              Previous</button>
+            <button [disabled]="!(allFilesUploaded && court_order_valid && document_confirm)" (click)="updateCourtDetails()"  type="button" class="btn btn-next">Next <i class="fas fa-forward"></i></button>
+          </div>
+
+        </fieldset>
+        <!-- end of 11th step -->
+
+        <fieldset [hidden]="stepOn != 4">
+
+          <div class="comapny_global_resumit_message_wrapper alert alert-danger" *ngIf="externalGlobComment">
+                <p style="text-align:center">{{externalGlobComment}}</p>
+          </div>
+
+          <div class="payment-table" *ngIf="moduleStatus == 'APPOINTMENT_OF_ADMIN_PROCESSING'">
+  
+
+              <div class="payment-row header">
+                  <div class="payment-row-inner">
+                <div class="payment-cell">
+                  Payment Description
+                </div>
+               
+                <div class="payment-cell">
+                 Unit Price (LKR)
+                </div>
+                <div class="payment-cell" style="text-align:right">
+                    Sub Total (LKR)
+                </div>
+                </div>
+
+              </div>
+              
+              <div class="payment-row">
+            
+              <div class="payment-row-inner">
+                <div class="payment-cell">
+                 Form 34
+                </div>
+              
+                <div class="payment-cell" >
+                     {{ ( form34_payment | currency ).replace('$','') }}
+                </div>
+                <div class="payment-cell" style="text-align:right">
+
+                    {{ ( form34_payment | currency ).replace('$','') }}
+
+               
+                  </div>
+
+              </div>
+              </div>
+
+          
+              <br/>
+
+              <div class="payment-row" *ngIf="court_status != 'yes' && penalty_charge">
+            
+                <div class="payment-row-inner">
+                  <div class="payment-cell">
+                    Compounding charges
+                  </div>
+                
+                  <div class="payment-cell" >
+                       {{ ( penalty_charge | currency ).replace('$','') }}
+                  </div>
+                  <div class="payment-cell" style="text-align:right">
+  
+                      {{ ( penalty_charge | currency ).replace('$','') }}
+  
+                 
+                    </div>
+  
+                </div>
+                <br/>
+                </div>
+  
+            
+               
+
+
+              <div class="payment-row" style="font-weight: bold;
+              color: #111;" >
+
+                  <div class="payment-row-inner">
+
+                  <div class="payment-cell">
+                      TOTAL FEE in LKR( Without VAT and Taxes) :
+                    </div>
+                   
+                    <div class="payment-cell">
+  
+                    </div>
+                    <div class="payment-cell"  style="text-align:right">
+    
+                        {{ ( total_wihtout_vat_tax | currency).replace('$','')}}
+     
+                    
+                      </div>
+
+                      </div>
+
+              </div>
+
+              <div class="payment-row" style="font-weight: bold;
+              color: #111;" >
+              <div class="payment-row-inner">
+
+                  <div class="payment-cell">
+                     Other Taxes in LKR&nbsp;( {{ other_tax}}%) :
+                    </div>
+                    
+                    <div class="payment-cell">
+  
+                    </div>
+                    <div class="payment-cell"  style="text-align:right">
+    
+                        {{  ( other_taxVal | currency ).replace('$','') }}
+     
+                    
+                      </div>
+
+                      </div>
+
+              </div>
+
+              <div class="payment-row" style="font-weight: bold;
+              color: #111;" >
+              <div class="payment-row-inner">
+
+                  <div class="payment-cell">
+                     VAT in LKR&nbsp;( {{ vat}}%) :
+                    </div>
+                    
+                    <div class="payment-cell">
+  
+                    </div>
+                    <div class="payment-cell"  style="text-align:right">
+    
+                       
+                        {{  ( vatVal | currency ).replace('$','') }}
+                    
+                      </div>
+
+                      </div>
+
+              </div>
+
+
+              <div class="payment-row" style="font-weight: bold;
+              color: #111;" >
+              <div class="payment-row-inner">
+
+                  <div class="payment-cell">
+                    Convenience fee&nbsp;({{convinienceFee}}%) :
+                    </div>
+                    
+                    <div class="payment-cell">
+  
+                    </div>
+                    <div class="payment-cell"  style="text-align:right">
+                        {{  ( convinienceFeeVal | currency ).replace('$','') }}
+                       
+                      
+                    
+                      </div>
+
+                      </div>
+
+              </div>
+
+            
+
+
+
+              <div class="payment-row header" style=" background: #02001b;">
+
+                  <div class="payment-row-inner">
+
+
+                <div class="payment-cell">
+                  TOTAL FEE in LKR :
+                </div>
+                
+                <div class="payment-cell no-of-copies">
+
+                  </div>
+                <div class="payment-cell" style="    font-size: 16px;
+                color: #fff; text-align:right;">
+                {{ ( total_with_vat_tax | currency ).replace('$','') }}
+                </div>
+
+                </div>
+                
+
+              </div>
+
+            </div>
+          <div class="resubmit-message-block alert alert-primary" *ngIf="moduleStatus == 'APPOINTMENT_OF_ADMIN_RESUBMIT'">
+             <p style="text-align:center">Please complete the process by clicking below resubmit button</p>
+          </div>
+
+          <div class="f1-buttons">
+            <button (click)="changeProgressStatuses(3)" type="button" class="btn btn-previous"><i class="fas fa-backward"></i>
+              Previous</button>
+            <button *ngIf="moduleStatus == 'APPOINTMENT_OF_ADMIN_PROCESSING'"   (click)="pay()" type="button" class="btn btn-next"> Complete/Pay
+                  <i class="fas fa-edit"></i>
+            </button>
+
+            <button *ngIf="moduleStatus == 'APPOINTMENT_OF_ADMIN_RESUBMIT'"  (click)="resubmit()" type="button" class="btn btn-next"> Resubmit
+                <i class="fas fa-check-double"></i>
+            </button>
+            
+          </div>
+
+        </fieldset>
+      
+        </div>
+
+      </div>
+      <div style="clear:both"></div>
+      <br />
+      <br />
+      <!--end right col main-->
+    </div>
+  </div>
+</section>
+
+
+<div [config]="{backdrop: false, ignoreBackdropClick: true}" mdbModal #shareRecordModal="mdbModal"  id="share-record-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right close-modal-item" aria-label="Close" (click)="shareRecordModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel" style="text-align:center;color:#f35b3f">Add New Administrator
+          <br />
+          <span *ngIf="shareRecordValitionMessage" class="stakeholder-validation">{{ shareRecordValitionMessage }}</span>
+        </h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="stakeholder-type-tab-wrapper stakeholder-dir">
+          <div (click)="selectStakeHolderType('local')" class="tab local-tab {{ record.type=='local' ? 'active' : '' }}">Sri Lankan ? </div>
+          <div (click)="selectStakeHolderType('foreign')" class="tab local-tab {{ record.type=='foreign' ? 'active' : '' }}">Non Sri Lankan</div>
+        </div>
+ 
+
+
+        <div class="form-row">
+          <div class="form-group col-md-6 nic-field-wrapper" [hidden]="record.type != 'local' ">
+
+            <label class="col-form-label col-form-label-sm">NIC No
+              <span class="req">*</span>
+            </label>
+            <input pattern="[0-9]{9}[x|X|v|V]|[0-9]{12}" maxlength="12"  (input)="validateRecord();checkNICrecordexist();"
+              [(ngModel)]="record.nic" class="form-control form-control-sm modal-input-director-nic" placeholder="">
+
+            <span class="req-message">Invalid NIC </span>
+            <span *ngIf="nicAlreadyExistShowMessage" style="font-size: 12px;
+            color: red;
+            font-weight: bold;">Admininstrator NIC already exists</span>
+          </div>
+
+
+          <div class="form-group col-md-6" [hidden]="record.type == 'local' ">
+
+            <label class="col-form-label col-form-label-sm">Passport No.
+              <span class="req">*</span>
+            </label>
+
+            <input maxlength="15" (input)="validateRecord()" [(ngModel)]="record.passport" class="form-control form-control-sm modal-input-director-passport"
+              placeholder="">
+          </div>
+
+          <div class="form-group col-md-6" [hidden]="record.type == 'local' ">
+
+            <label class="col-form-label col-form-label-sm">Passport Issued Country
+              <span class="req">*</span>
+            </label>
+            <select (change)="validateRecord()" class="form-control form-control-sm modal-input-director-country"
+              [(ngModel)]="record.passport_issued_country">
+              <option value="">Choose...</option>
+              <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+            </select>
+          </div>
+
+        </div>
+
+
+
+        <div  class="nic-check-block">
+          <!--START NIC/PASSPORT CHECK CODE-->
+
+          <div class="form-row">
+
+ 
+            <div class="form-group col-md-6">
+
+              <label class="col-form-label col-form-label-sm">First Name(s)
+                <span class="req">*</span>
+              </label>
+                <input (input)="validateRecord()" [(ngModel)]="record.firstname" class="form-control form-control-sm modal-input-director-firstname"
+                placeholder="">
+            </div>
+            <div class="form-group col-md-6">
+
+              <label class="col-form-label col-form-label-sm">Surname
+                <span class="req">*</span>
+              </label>
+              <input  (input)="validateRecord()" [(ngModel)]="record.lastname" class="form-control form-control-sm modal-input-director-lastname"
+                placeholder="">
+            </div>
+          </div>
+
+
+          <div class="form-row" [hidden]="record.type != 'foreign' ">
+
+            <div class="form-group col-md-6">
+
+              <label class="col-form-label col-form-label-sm">Country
+                <span class="req">*</span>
+              </label>
+              <select (change)="validateRecord()" class="form-control form-control-sm modal-input-director-country"
+                [(ngModel)]="record.country">
+                <option value="">Choose...</option>
+                <option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="address-block local-address">
+
+            <p style="font-size: 15px;font-weight: bold;">Local Address</p>
+
+            <div class="form-row">
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">Province
+                  <!--  <span class="req">*</span> -->
+                  <span *ngIf="record.type == 'local'" class="req">*</span>
+                  <span *ngIf="record.type != 'local' && !(compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="req">*</span>
+                  <span *ngIf="record.type != 'local' && (compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="noreq">*</span>
+                </label>
+                <select  (change)="getDistrictsForStakeholder( record.province )" class="form-control form-control-sm modal-input-director-country"
+                  [(ngModel)]="record.province">
+                  <option value="">Choose...</option>
+                  <option *ngFor="let p of record.screen1Provinces" value="{{p.name}}">{{p.name}}</option>
+                </select>
+
+              </div>
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">District
+                  <!--  <span class="req">*</span>-->
+                  <span *ngIf="record.type == 'local'" class="req">*</span>
+                  <span *ngIf="record.type != 'local' && !(compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="req">*</span>
+                  <span *ngIf="record.type != 'local' && (compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="noreq">*</span>
+                </label>
+                <select  (change)="getCitiesForStakeholder( record.district)" class="form-control form-control-sm modal-input-director-country"
+                  [(ngModel)]="record.district">
+                  <option value="">Choose...</option>
+                  <option *ngFor="let d of record.screen1Districts" value="{{d.name}}">{{d.name}}</option>
+                </select>
+
+              </div>
+
+
+              <div class="form-group col-md-4">
+                <label class="col-form-label col-form-label-sm">Divisional Secretariat Division
+                 <span *ngIf="record.type == 'local'" class="req">*</span> 
+                 <span *ngIf="record.type != 'local' && !(compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="req">*</span>
+                 <span *ngIf="record.type != 'local' && (compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="noreq">*</span>
+                </label>
+
+
+                <select  (change)="validateRecord()" class="form-control form-control-sm modal-input-director-address2"
+                  [(ngModel)]="record.city">
+                  <option value="">Choose...</option>
+                  <option *ngFor="let c of record.screen1Cities" value="{{c.name}}">{{c.name}}</option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-6">
+
+                <label class="col-form-label col-form-label-sm">Address 1
+                 <!-- <span class="req">*</span>-->
+                  <span *ngIf="record.type == 'local'" class="req">*</span> 
+                  <span *ngIf="record.type != 'local' && !(compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="req">*</span>
+                  <span *ngIf="record.type != 'local' && (compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="noreq">*</span>
+                </label>
+
+                <input (input)="validateRecord()" [(ngModel)]="record.localAddress1" class="form-control form-control-sm modal-input-director-address3"
+                  placeholder="">
+              </div>
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">Address 2
+                    <span *ngIf="record.type == 'local'" class="req">*</span> 
+                    <span *ngIf="record.type != 'local' && !(compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="req">*</span>
+                    <span *ngIf="record.type != 'local' && (compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="noreq">*</span>
+                </label>
+
+                <input  (input)="validateRecord()" [(ngModel)]="record.localAddress2" class="form-control form-control-sm modal-input-director-address3"
+                  placeholder="">
+              </div>
+              <div class="form-group col-md-2">
+
+                <label class="col-form-label col-form-label-sm">Postal code
+                 <!-- <span class="req">*</span> -->
+                  <span *ngIf="record.type == 'local'" class="req">*</span>
+                  <span *ngIf="record.type != 'local' && !(compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="req">*</span>
+                  <span *ngIf="record.type != 'local' && (compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="noreq">*</span>
+                </label>
+
+                <input (input)="validateRecord()" [(ngModel)]="record.postcode" class="form-control form-control-sm modal-input-director-postcode"
+                  placeholder=""  maxlength="10" >
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="address-block local-address">
+
+            <p style="font-size: 15px;font-weight: bold;">Foreign Address
+
+            </p>
+            <div style="clear:both"></div>
+
+            <div class="form-row">
+
+              <div class="form-group col-md-6">
+
+                <label class="col-form-label col-form-label-sm">Address Line 1
+                  <span *ngIf="record.type == 'foreign'" class="req">*</span>
+                  <span *ngIf="record.type != 'foreign'" class="noreq">*</span>
+                </label>
+
+                <input (input)="validateRecord()" [(ngModel)]="record.forAddress1" class="form-control form-control-sm  modal-input-director-for-address1"
+                  placeholder="">
+              </div>
+              <div class="form-group col-md-6">
+
+                <label class="col-form-label col-form-label-sm">Address Line 2
+                  <span class="noreq">*</span>
+                </label>
+
+                <input (input)="validateRecord()" [(ngModel)]="record.forAddress2" class="form-control form-control-sm  modal-input-director-for-address2"
+                  placeholder="">
+              </div>
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">City
+                  <span *ngIf="record.type == 'foreign'" class="req">*</span>
+                  <span *ngIf="record.type != 'foreign'" class="noreq">*</span>
+                </label>
+
+                <input (input)="validateRecord()" [(ngModel)]="record.forCity" class="form-control form-control-sm  modal-input-director-for-address3"
+                  placeholder="">
+              </div>
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">State/Region/Province
+                  <span *ngIf="record.type == 'foreign'" class="req">*</span>
+                  <span *ngIf="record.type != 'foreign'" class="noreq">*</span>
+                </label>
+
+                <input (input)="validateRecord()" [(ngModel)]="record.forProvince" class="form-control form-control-sm  modal-input-director-for-address3"
+                  placeholder="">
+              </div>
+
+              <div class="form-group col-md-4">
+
+                <label *ngIf="!(compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="col-form-label col-form-label-sm">Postal/ZIP code
+                  <span *ngIf="record.type == 'foreign'" class="req">*</span>
+                  <span *ngIf="record.type != 'foreign'" class="noreq">*</span>
+                </label>
+
+                <label *ngIf="(compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="col-form-label col-form-label-sm">Postal/ZIP code
+                  <span *ngIf="record.type == 'foreign'" class="req">*</span>
+                  <span *ngIf="record.type != 'foreign'" class="noreq">*</span>
+                </label>
+
+                <input (input)="validateRecord()" [(ngModel)]="record.forPostcode" class="form-control form-control-sm modal-input-director-postcode"
+                  placeholder=""  maxlength="10" >
+              </div>
+
+            </div>
+          </div>
+
+
+          <div class="address-block local-address">
+
+            <p style="font-size: 15px;font-weight: bold;">Office Address</p>
+
+            <div class="form-row">
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">Province
+                  <!--  <span class="req">*</span> -->
+                  <span *ngIf="record.type == 'local'" class="req">*</span>
+                  <span *ngIf="record.type != 'local' && !(compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="req">*</span>
+                  <span *ngIf="record.type != 'local' && (compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="noreq">*</span>
+                </label>
+                <select  (change)="getDistrictsForStakeholderOfficeAddress( record.officeProvince )" class="form-control form-control-sm modal-input-director-country"
+                  [(ngModel)]="record.officeProvince">
+                  <option value="">Choose...</option>
+                  <option *ngFor="let p of record.screen1OfficeProvinces" value="{{p.name}}">{{p.name}}</option>
+                </select>
+
+              </div>
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">District
+                  <!--  <span class="req">*</span>-->
+                  <span *ngIf="record.type == 'local'" class="req">*</span>
+                  <span *ngIf="record.type != 'local' && !(compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="req">*</span>
+                  <span *ngIf="record.type != 'local' && (compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="noreq">*</span>
+                </label>
+                <select  (change)="getCitiesForStakeholderOfficeAddress( record.officeDistrict)" class="form-control form-control-sm modal-input-director-country"
+                  [(ngModel)]="record.officeDistrict">
+                  <option value="">Choose...</option>
+                  <option *ngFor="let d of record.screen1OfficeDistricts" value="{{d.name}}">{{d.name}}</option>
+                </select>
+
+              </div>
+
+
+              <div class="form-group col-md-4">
+                <label class="col-form-label col-form-label-sm">Divisional Secretariat Division
+                 <span *ngIf="record.type == 'local'" class="req">*</span> 
+                 <span *ngIf="record.type != 'local' && !(compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="req">*</span>
+                 <span *ngIf="record.type != 'local' && (compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="noreq">*</span>
+                </label>
+
+
+                <select  (change)="validateRecord()" class="form-control form-control-sm modal-input-director-address2"
+                  [(ngModel)]="record.officeCity">
+                  <option value="">Choose...</option>
+                  <option *ngFor="let c of record.screen1OfficeCities" value="{{c.name}}">{{c.name}}</option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-6">
+
+                <label class="col-form-label col-form-label-sm">Address 1
+                 <!-- <span class="req">*</span>-->
+                  <span *ngIf="record.type == 'local'" class="req">*</span> 
+                  <span *ngIf="record.type != 'local' && !(compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="req">*</span>
+                  <span *ngIf="record.type != 'local' && (compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="noreq">*</span>
+                </label>
+
+                <input (input)="validateRecord()" [(ngModel)]="record.officeAddress1" class="form-control form-control-sm modal-input-director-address3"
+                  placeholder="">
+              </div>
+
+              <div class="form-group col-md-4">
+
+                <label class="col-form-label col-form-label-sm">Address 2
+                    <span *ngIf="record.type == 'local'" class="req">*</span> 
+                    <span *ngIf="record.type != 'local' && !(compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="req">*</span>
+                    <span *ngIf="record.type != 'local' && (compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="noreq">*</span>
+                </label>
+
+                <input  (input)="validateRecord()" [(ngModel)]="record.officeAddress2" class="form-control form-control-sm modal-input-director-address3"
+                  placeholder="">
+              </div>
+              <div class="form-group col-md-2">
+
+                <label class="col-form-label col-form-label-sm">Postal code
+                 <!-- <span class="req">*</span> -->
+                  <span *ngIf="record.type == 'local'" class="req">*</span>
+                  <span *ngIf="record.type != 'local' && !(compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="req">*</span>
+                  <span *ngIf="record.type != 'local' && (compayType['key'] == 'COMPANY_TYPE_OFFSHORE' || compayType['key'] == 'COMPANY_TYPE_OVERSEAS')" class="noreq">*</span>
+                </label>
+
+                <input (input)="validateRecord()" [(ngModel)]="record.officePostcode" class="form-control form-control-sm modal-input-director-postcode"
+                  placeholder=""  maxlength="10" >
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+
+              <label class="col-form-label col-form-label-sm">Residential Phone No.
+                <span class="noreq">*</span>
+              </label>
+
+              <input *ngIf="record.type =='local'"  maxlength="10" pattern="\d{10}" type="tel" [(ngModel)]="record.phone" class="form-control form-control-sm modal-input-director-phone"
+                placeholder="">
+              <span *ngIf="record.type =='local'" class="req-message">Please enter 10 digits phone number</span>
+
+              <input *ngIf="record.type =='foreign'" maxlength="15" pattern="\d{10,15}" type="tel" [(ngModel)]="record.phone" class="form-control form-control-sm modal-input-director-phone"
+                placeholder="">
+              <span *ngIf="record.type =='foreign'" class="req-message">Please enter valied phone number</span>
+            </div>
+            <div class="form-group col-md-4">
+
+              <label class="col-form-label col-form-label-sm">Mobile
+                <span class="req">*</span>
+              </label>
+
+              <input *ngIf="record.type =='local'" maxlength="10" pattern="\d{10}" type="tel" (input)="validateRecord()" [(ngModel)]="record.mobile"
+                class="form-control form-control-sm modal-input-director-mobile" placeholder="">
+                <span *ngIf="record.type =='local'" class="req-message">10 Digits mobile number requried</span>
+              <input *ngIf="record.type =='foreign'" maxlength="15"  pattern="\d{10,15}" type="tel" (input)="validateRecord()" [(ngModel)]="record.mobile"
+                class="form-control form-control-sm modal-input-director-mobile" placeholder="">
+              <span *ngIf="record.type =='foreign'" class="req-message"> Valied mobile number requried</span>
+            </div>
+
+            <div class="form-group col-md-4">
+
+              <label class="col-form-label col-form-label-sm modal-input-director-email">Email Address
+                <span class="req">*</span>
+              </label>
+
+              <input type="email" (input)="validateRecord()" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
+                [(ngModel)]="record.email" class="with-email-validator form-control form-control-sm" placeholder="">
+              <span class="req-message">Invalid Email </span>
+
+            </div>
+          </div>
+
+         <!-- <div class="form-row">
+
+            <div class="form-group col-md-6">
+
+              <label class="col-form-label col-form-label-sm">Date of Appointment
+                <span class="req">*</span>
+              </label>
+
+              <input max="{{formattedTodayValue}}" (input)="validateRecord()"  [(ngModel)]="record.date" type="date" class="form-control form-control-sm modal-input-director-oppointment"
+                placeholder="">
+            </div>
+
+          </div> -->
+
+          <br />
+          <hr class="form-sep" />
+
+        </div> <!-- END NIC/PASSPORT CHECK CODE-->
+
+          
+          <div class="form-row">
+          
+
+                <div class="sec_type_item form-group col-md-12">
+
+                  <p style="position: relative;
+                  top: 30px;">Mode of appointment <span class="req">*</span></p>
+
+              </div>
+
+              <div class="sec_type_item form-group col-md-6">
+
+                <input (change)= "validateRecord()"  [(ngModel)]="record.appointed_by" type="radio" id="appointed_by_admin_court_order" class="custom-control-input" [ngModelOptions]="{standalone: true}" value="court_order">
+                <label style="font-size:14px;" class="custom-control-label radio-lbl" for="appointed_by_admin_court_order">&nbsp;&nbsp;&nbsp;&nbsp;Court Order</label>
+
+              </div>
+
+              <div class="sec_type_item form-group col-md-6">
+
+                  <input  (change)= "validateRecord()" [(ngModel)]="record.appointed_by" type="radio" id="appointed_by_admin_resolution" class="custom-control-input"  [ngModelOptions]="{standalone: true}" value="resolution">
+                  <label style="font-size:14px;" class="custom-control-label radio-lbl" for="appointed_by_admin_resolution">&nbsp;&nbsp;&nbsp;&nbsp;Resolution</label>
+
+              </div>
+
+
+            
+              <div class="form-group col-md-12" *ngIf="record.appointed_by == 'resolution'">
+                <label class="col-form-label col-form-label-sm">Resolution Date/Appointment Date<span class="req">*</span></label>
+                <input  [(ngModel)]="record.resolution_date"
+                        [ngModelOptions]="{standalone: true}"
+                        type="date"
+                        min="{{companyInfo.incorporation_at}}"
+                        max="{{formattedTodayValue}}"
+                        (input) = "validateRecord()"
+                        class="form-control form-control-sm modal-input-director-oppointment"
+                        placeholder="">
+            </div>
+
+
+
+            <div class="form-group col-md-12" style="clear:both;" *ngIf="record.appointed_by == 'court_order'">
+              <label class="col-form-label col-form-label-sm"> Name of the court<span class="req">*</span></label>
+              <input  (input)="validateRecord()"  [(ngModel)]="record.court_name"
+                      [ngModelOptions]="{standalone: true}"
+                      class="form-control form-control-sm modal-input-director-oppointment"
+                      placeholder="">
+            </div>
+
+            <div class="form-group col-md-6" *ngIf="record.appointed_by == 'court_order'" style="float:left">
+              <label class="col-form-label col-form-label-sm"> Case number<span class="req">*</span></label>
+              <input  (input)="validateRecord()"  [(ngModel)]="record.court_case_no"
+                      [ngModelOptions]="{standalone: true}"
+                      class="form-control form-control-sm modal-input-director-oppointment"
+                      placeholder="">
+            </div>
+
+
+            <div class="form-group col-md-12" *ngIf="record.appointed_by == 'court_order'" style="float:left">
+              <label class="col-form-label col-form-label-sm">Court Date/Appointment Date<span class="req">*</span></label>
+              <input  [(ngModel)]="record.court_date"
+                      [ngModelOptions]="{standalone: true}"
+                      (input)="validateRecord()" 
+                      type="date"  
+                      min="{{companyInfo.incorporation_at}}"
+                      max="{{formattedTodayValue}}"
+                      class="form-control form-control-sm modal-input-director-oppointment"
+                      placeholder="">
+          </div>
+
+            <div class="form-group col-md-6" *ngIf="record.appointed_by == 'court_order'" style="float:left;display: none;">
+              <label class="col-form-label col-form-label-sm"> Amount of Penalty/any other charge</label>
+              <input  (input)="validateRecord()"  [(ngModel)]="record.court_penalty"
+                      [ngModelOptions]="{standalone: true}"
+                      class="form-control form-control-sm modal-input-director-oppointment"
+                      onkeypress="return !((event.which != 46 || this.value.indexOf('.') != -1) && (event.which < 48 || event.which > 57))"
+                      placeholder="">
+            </div>
+
+            <div class="form-group col-md-6" *ngIf="record.appointed_by == 'court_order'" style="float:left;display: none;">
+              <label class="col-form-label col-form-label-sm"> Period of imprisonment</label>
+              <input  (input)="validateRecord()"  [(ngModel)]="record.court_period"
+                      [ngModelOptions]="{standalone: true}"
+                      class="form-control form-control-sm modal-input-director-oppointment"
+                      placeholder="">
+            </div>
+
+
+            <div class="sec_type_item form-group col-md-12" *ngIf="record.appointed_by == 'court_order'" style="clear:both;display: none;" >
+
+              <p style="position: relative"> Has this administrator been discharged?</p>
+
+          </div>
+
+          <div class="sec_type_item form-group col-md-6" *ngIf="record.appointed_by == 'court_order'" style="float:left;padding-left: 44px;display: none;">
+
+            <input  [(ngModel)]="record.court_discharged" type="radio" id="court_admin_discharged_yes" class="custom-control-input" [ngModelOptions]="{standalone: true}" value="yes">
+            <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_admin_discharged_yes">&nbsp;&nbsp;&nbsp;&nbsp;Yes</label>
+
+          </div>
+
+          <div class="sec_type_item form-group col-md-6" *ngIf="record.appointed_by == 'court_order'" style="float:left;display: none;">
+
+            <input  [(ngModel)]="record.court_discharged" type="radio" id="court_admin_discharged_no" class="custom-control-input" [ngModelOptions]="{standalone: true}" value="no">
+            <label style="font-size:14px;" class="custom-control-label radio-lbl" for="court_admin_discharged_no">&nbsp;&nbsp;&nbsp;&nbsp;No</label>
+
+          </div>
+
+          </div>
+
+      </div>
+
+    
+
+
+
+
+      <div class="modal-footer" style="justify-content: flex-end">
+      
+        <button [disabled]="!validShareRecordItem" (click)="saveRecord()" type="button" mdbBtn color="secondary" class="btn btn-sm relative waves-light add-new-stakeholder add-share-record-row"
+          mdbWavesEffect>ADD</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="payment-success-wrapper" *ngIf="payConfirm" >
+
+    <div class="payment-success-body">
+  
+      <div class="header">
+  
+        <h2>Payment Confirmation</h2>
+      </div>
+  
+      <div class="body">
+         <p>Please confirm your payment by clicking the below button.</p>
+      </div>
+  
+      <div class="footer">
+        <div style="text-align: center">
+          <form  ngNoForm action="{{ paymentGateway }}" method="post">
+            <input type="hidden" [(ngModel)]="cipher_message" name="clientPaymentRequest">
+            <button type="submit" class="btn btn-success col-md-8">&nbsp;<i class="far fa-credit-card"></i>&nbsp;Confirm and Continue Payment</button>
+          </form>
+        </div>
+  
+      </div>
+  
+      
+    </div>
+  
+  
+  
+  </div>
+
+  <div class="payment-success-wrapper" *ngIf="resubmitSuccess">
+
+    <div class="payment-success-body">
+  
+      <div class="header">
+  
+        <h2>Success</h2>
+      </div>
+  
+      <div class="body">
+        <p>You have successfully resubmitted the  record for verification</p>
+      </div>
+  
+      <div class="footer">
+         
+        <button class="btn btn-success" (click)="resubmitMessageClick()">ok</button>
+      </div>
+    </div>
+  
+  
+  
+  </div>
+
+
+
+
+

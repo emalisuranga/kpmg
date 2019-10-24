@@ -1,0 +1,176 @@
+
+  <div class="clearfix">
+</div>
+
+<section class="top-margin">
+
+    <div class="container" style="padding-bottom: 50px;">
+        <div class="row">
+
+            <div class="col-md-12 nopadding">
+
+                <div class="f1">
+                    <br/><br/>
+                    <h3 style="text-align: center">Get certified copies</h3>
+                    <p style="text-align: center">Please search your company by name and proceed.</p>
+                   
+                    <fieldset>
+
+                            <div class="tender-list-wrapper">
+
+   
+                                    <div class="search-tender-wrapper">
+                                       
+                                       <!-- <div class="row">
+                                      
+                                        
+                              
+                                            <div class="col-sm-12 col-lg-12 search-text-wrapper searach-1-field">
+                                            
+                                              <div class="input-group md-form form-sm form-2 pl-0">
+                                                <input    class="form-control my-0 py-1 amber-border" type="text" [(ngModel)]="namePart" placeholder="Company name here" aria-label="Search">
+                                             
+                                              </div>
+                                              <br/>
+                                            </div>
+                              
+                                            <div class="col-sm-12 col-lg-12 search-text-wrapper" style="text-align:center;margin-top: -26px;margin-bottom: 13px;">
+                                                    <button [disabled]="!namePart" (click)="getCompanies()" class="btn btn-primary"><i class="fa fa-search"></i> SEARCH</button>
+                              
+                                             </div>
+                              
+                                           
+                              
+                                          </div> -->
+
+
+
+
+
+                                           <!----------------- -->
+
+
+                                           <div class="row">
+                                        
+                                          
+                                
+                                            <div class="col-sm-12 col-lg-12 search-text-wrapper searach-1-field">
+                                            
+                                              <div class="input-group md-form form-sm form-2 pl-0">
+                                                <input    class="form-control my-0 py-1 amber-border" type="text" [(ngModel)]="registration_no" placeholder="Company Registration Number here" aria-label="Search"> 
+                                                <span style="display: inline-block;margin: 0 10px;margin-top: 7px;color: #111;
+                                                font-weight: bold;" class="or">OR/AND</span>
+                                                <input    class="form-control my-0 py-1 amber-border" type="text" [(ngModel)]="namePart" placeholder="Company name here" aria-label="Search">
+                                              
+                                              </div>
+                                              <br/>
+                                            </div>
+                              
+                                            <div class="col-sm-12 col-lg-12 search-text-wrapper" style="text-align:center;margin-top: -26px;margin-bottom: 13px;">
+                                                    <button [disabled]="!(namePart || registration_no)" (click)="getCompanies()" class="btn btn-primary"><i class="fa fa-search"></i> SEARCH</button>
+                              
+                                             </div>
+                              
+                                           
+                              
+                                          </div>
+
+
+
+                                           <!--------------------- -->
+
+
+
+
+
+
+
+
+
+                                       
+                                          <div class="pagination" *ngIf="totalResultPages > 1">
+                                              <span *ngIf="currentPage > 1" class="paginate prev" (click)="getCompanies(1)"><i class="fas fa-backward"></i>&nbsp;First</span>
+                                              <span *ngIf="currentPage > 1" class="paginate prev" (click)="getCompanies( currentPage -1 )"><i class="far fa-arrow-alt-circle-left"></i>&nbsp;Previous</span>
+                                              <span  class="paginate page-indicator">{{currentPage}} of {{totalResultPages}}</span>
+                                              <span *ngIf="totalResultPages > currentPage" class="paginate next" (click)="getCompanies( currentPage + 1 )">Next&nbsp;<i class="far fa-arrow-alt-circle-right"></i></span>
+                                              <span *ngIf="totalResultPages > currentPage" class="paginate next" (click)="getCompanies( totalResultPages )">Last&nbsp;<i class="fas fa-forward"></i></span>
+                                             </div>
+                                         
+                                          <div  class="tender-panel" *ngFor="let company of companyList.list; let i = index">
+                                              <h5>
+                                                <span class="tender-name-block">{{company.name}} {{company.postfix}}</span>
+                                                <span style="color: #78470c;text-transform: uppercase;" class="tender-name-block">{{company.regNo}}</span>
+                                                
+                                              </h5>
+                                            
+                                              
+                                              <div class="tender-panel-inner">
+                              
+                                                  <div class="tender-left-wrapper" *ngIf="!company.is_name_change_company_instant">
+                              
+                                                      <div class="panel-heading">
+                                                        
+                                                        </div>
+                                                        <h5>
+                                                                <span class="published-on">Incorporated On: {{company.incorporation_at}}</span>
+                                                            </h5>
+                                                       
+                                                  </div>
+
+                                                  <div class="tender-left-wrapper" *ngIf="company.is_name_change_company_instant">
+                              
+                                                      <div class="panel-heading company_parent_of_name_change">
+                                                            *This is a name change of the company mentioned below.
+                                                        </div>
+                                                        <h5 style="display: block;
+                                                        text-align: left;
+                                                        padding-left: 0;
+                                                        color: #666;">
+                                                              <span class="company_parent_name">{{company.init_name_of_the_company}} {{company.postfix}} ({{company.init_name_of_the_company_id}})</span>
+                                                              <span class="company_parent_name_incorp_date">Incorporated at: {{company.init_name_of_the_company_incorporation_at}}</span>
+                                                              
+                                                        </h5>
+                                                       
+                                                  </div>
+                                                  <div class="tender-right-item">
+                                                      
+                                                      <button (click)="goToCompany(company.id)" class="btn btn-primary"><i class="fas fa-share"></i> Get Certified Copies</button>
+                                                  </div>
+                              
+                                              </div>
+                                              
+                                              
+                                              
+                                            </div>
+                              
+                                            <div class="pagination" *ngIf="totalResultPages > 1">
+                                                <span *ngIf="currentPage > 1" class="paginate prev" (click)="getCompanies(1)"><i class="fas fa-backward"></i>&nbsp;First</span>
+                                                <span *ngIf="currentPage > 1" class="paginate prev" (click)="getCompanies( currentPage -1 )"><i class="far fa-arrow-alt-circle-left"></i>&nbsp;Previous</span>
+                                                <span  class="paginate page-indicator">{{currentPage}} of {{totalResultPages}}</span>
+                                                <span *ngIf="totalResultPages > currentPage" class="paginate next" (click)="getCompanies( currentPage + 1 )">Next&nbsp;<i class="far fa-arrow-alt-circle-right"></i></span>
+                                                <span *ngIf="totalResultPages > currentPage" class="paginate next" (click)="getCompanies( totalResultPages )">Last&nbsp;<i class="fas fa-forward"></i></span>
+                                               </div>
+                              
+                                            <div class="no-tender-items" *ngIf="!companyList.list.length || !namePart || !registration_no">
+                                              <h4>No Companies Found</h4>
+                                            </div>
+                                    </div>
+                                    
+                              
+                                  
+                                    
+                                    
+                              
+                              
+                              
+                                </div>
+
+                    </fieldset>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+  
+  

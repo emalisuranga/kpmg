@@ -1,0 +1,688 @@
+<div class="clearfix">
+</div>
+<section>
+  <div class="container" style="padding-bottom: 50px;">
+    <div class="row">
+
+
+      <div class="col-md-12 nopadding">
+
+
+        <form role="form" action="" method="post" class="f1">
+
+          <h3 style="text-align: center">Societies (Bulk Creation )</h3>
+          <p style="text-align: center">Go through all steps for completing the process.</p>
+          <div class="f1-steps">
+            <div class="f1-progress">
+              <div class="f1-progress-line" data-now-value="16.67" data-number-of-steps="3" [ngStyle]="{'width': progress.progressPercentage}"></div>
+            </div>
+
+
+
+            <div *ngFor="let item of progress['stepArr']; let i = index" class="f1-step {{item.status}}">
+              <div class="f1-step-icon">
+                <i class="{{item.icon}}"></i>
+              </div>
+              <p>{{item.label}}</p>
+            </div>
+
+          </div>
+
+          <fieldset [hidden]="stepOn != 0">
+
+              <div class="container uploaded-container">
+
+                <div class="currently-added-count-wrapper alert alert-info">
+                    <p><i class="fas fa-users"></i>&nbsp;
+                      {{totalExist}} socities currently added as bulk.
+                      <button *ngIf="totalExist" class="btn btn-danger" (click)="removependingSocietiesAll()">Delete All</button>
+                    </p>
+                </div>
+
+                <div class="currently-added-count-wrapper alert alert-danger" *ngIf="removeErrorMessage">
+                  <p>{{removeErrorMessage}}</p>
+                </div>
+
+                  <div>
+    
+                    <div class="row uploaded-row">
+    
+                      <div class="col-9 doc">
+                        <h3> 
+                          Upload the csv file
+
+                          <a *ngIf="socityList['sample_format']" class="samples-society-bulk" download="sample-csv-format.csv" href="{{socityList['sample_format']}}" ><i class="fas fa-file-download"></i>&nbsp;Download the format of the document</a>
+                          <a *ngIf="socityList['dummy_data']" class="samples-society-bulk" download="dummy-data.csv" href="{{socityList['dummy_data']}}"><i class="fas fa-file-download"></i>&nbsp;Download Example Data (CSV file)</a>
+
+                        </h3>
+                        <div  class="doc-description">Please upload the .csv file where listed all socities infomation</div>
+                      
+                        <br/>
+                       <h3 style="display: none">How do you want to upload socities</h3>
+                       <div class="row" style="margin-left:0" style="display:none">
+                        <div class="sec_type_item form-group col-md-6">
+
+                          <input type="radio" id="upload-socity-reset" class="custom-control-input" [(ngModel)]="uploadMethod"  value="reset"
+                            name="uploadMethod">
+                          <label style="font-size:14px;" class="custom-control-label society-radio-label" for="upload-socity-reset">&nbsp;&nbsp;&nbsp;&nbsp;Erase Existing and Upload</label>
+        
+        
+                          </div>
+        
+                          <div class="sec_type_item form-group col-md-6">
+
+                            <input type="radio" id="upload-socity-append" class="custom-control-input" [(ngModel)]="uploadMethod" name="uploadMethodReset" value="append"
+                              name="uploadMethod">
+                            <label style="font-size:14px;" class="custom-control-label society-radio-label" for="upload-socity-append">&nbsp;&nbsp;&nbsp;&nbsp;Upload and append to existing</label>
+          
+          
+                            </div>
+
+                          </div>
+        
+                      
+                      </div>
+                      <div class="col-3 no-padding">
+    
+    
+                        <label style="float:right" for="society-scv-file" class="upload-wrapper btn btn-primary btn-sm download">
+                          <i class="fas fa-cloud-upload-alt"></i> Upload
+                        </label>
+                        <input #csvUploadElem style="display:block;position: fixed;top:-100000px" id="society-scv-file" type="file" (change)="societyUpload($event )"
+                          placeholder="Upload file" accept=".csv">
+    
+                      </div>
+
+    
+                    </div>
+    
+                  </div>
+    
+    
+                </div>
+
+                <div class="upload-message-block" *ngIf="!removeErrorMessage">
+
+                  <div class="alert alert-info" *ngIf="totalAdded">
+                    <p>{{totalAdded}} societ(y/ies) is/are submitted</p>
+                  </div>
+                  <div class="alert alert-success" *ngIf="totalAccepted">
+                      <p>{{totalAccepted}} societ(y/ies) is/are successfully added.</p>
+                  </div>
+                  <div class="alert alert-danger" *ngIf="totalIgnored">
+                      <p>{{totalIgnored}} societ(y/ies) is/are successfully ignored.</p>
+                  </div>
+
+                </div>
+
+
+
+
+
+            <div class="f1-buttons">
+              <button [disabled]="!totalExist"   (click)="changeProgressStatuses(1)" type="button" class="btn btn-next">Next
+                <i class="fas fa-forward"></i>
+              </button>
+            </div>
+
+
+          </fieldset>
+          <!-- end of fist step -->
+
+          <fieldset [hidden]="stepOn != 1">
+
+
+            <div class="socity-wrapper">
+
+               <div class="society-wrapper-real">
+
+             
+                    
+                <div class="society-item" *ngFor="let so of socityList['recs']; let i = index" [hidden]="showItem != i">
+                    <div class="sos-navigation top">
+                        <div class="item-prev" *ngIf=" i >0 && socityList['count']" (click)="prevItem(i)"><i class="fas fa-arrow-circle-left"></i>&nbsp;Previous</div>
+                        <div class="item-next" *ngIf="socityList['count'] > (i+1)" (click)="nextItem(i)"><i class="fas fa-arrow-circle-right"></i>&nbsp;Next</div>
+                  </div>
+                  <div class="go-item-prev" *ngIf=" i >0 && socityList['count']" (click)="prevItem(i)"><i class="fas fa-arrow-circle-left"></i></div>
+                  
+                   <div class="so-remove">
+                     <button style="float: right;
+                     position: relative;
+                     right: 20px;
+                    " (click)="removeSocieity(so['id'])" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Remove</button>
+                   </div>
+                  <div class="society-info-wrapper">
+                     <h3 class="society-name">{{so['name']}}
+                       <p class="society-address"><span class="adress-label">Address:</span> {{so['address']}}</p>
+                     </h3>
+
+
+                     <div class="form-row" style="width:95%;background-color:#fff; border:1px solid #ccc;margin:auto;margin-bottom:30px;padding:20px;"> 
+
+                        <div class="form-group col-md-12">
+                            <label class="col-form-label col-form-label-sm">Company Name In Sinhala (Optional)</label>
+                            <small *ngIf="societyOptionalInfo['society-' + so['id']]['name_si']" style="float: left !important;font-size: 18px;" class="text text-danger float-right">Press the space bar after each word and <strong>enter two spaces after completing your input</strong></small>
+                            <input  [(ngModel)]="societyOptionalInfo['society-' + so['id']]['name_si']"
+                                    [ngModelOptions]="{standalone: true}"
+                                    (keyup)="onLoadSinhala('name_si_'+ so['id'])"
+                                    id="name_si_{{so['id']}}"
+                                    class="form-control form-control-sm modal-input-director-oppointment" />
+                        </div>
+
+                        <div class="form-group col-md-12">
+                          <label class="col-form-label col-form-label-sm">Company Name In Tamil (Optional)</label>
+                          <small *ngIf="societyOptionalInfo['society-' + so['id']]['name_ta']" style="float: left !important;font-size: 18px;" class="text text-danger float-right">Press the space bar after each word and <strong>enter two spaces after completing your input</strong></small>
+                          <input  [(ngModel)]="societyOptionalInfo['society-' + so['id']]['name_ta']"
+                                  [ngModelOptions]="{standalone: true}"
+                                  (keyup)="onLoadadTamil('name_ta_'+ so['id'])"
+                                  id="name_ta_{{so['id']}}"
+                                  class="form-control form-control-sm modal-input-director-oppointment" />
+                        </div>
+
+                        <div class="form-group col-md-12">
+                          <label class="col-form-label col-form-label-sm">Company Address In Sinhala (Optional)</label>
+                          <small *ngIf="societyOptionalInfo['society-' + so['id']]['address_si']" style="float: left !important;font-size: 18px;" class="text text-danger float-right">Press the space bar after each word and <strong>enter two spaces after completing your input</strong></small>
+                          <input  [(ngModel)]="societyOptionalInfo['society-' + so['id']]['address_si']"
+                                  [ngModelOptions]="{standalone: true}"
+                                  (keyup)="onLoadSinhala('address_si_'+ so['id'])"
+                                  id="address_si_{{so['id']}}"
+                                  class="form-control form-control-sm modal-input-director-oppointment" />
+                      </div>
+
+                      <div class="form-group col-md-12">
+                        <label class="col-form-label col-form-label-sm">Company Address In Tamil (Optional)</label>
+                        <small *ngIf="societyOptionalInfo['society-' + so['id']]['address_ta']" style="float: left !important;font-size: 18px;" class="text text-danger float-right">Press the space bar after each word and <strong>enter two spaces after completing your input</strong></small>
+                        <input  [(ngModel)]="societyOptionalInfo['society-' + so['id']]['address_ta']"
+                                [ngModelOptions]="{standalone: true}"
+                                (keyup)="onLoadadTamil('address_ta_'+ so['id'])"
+                                id="address_ta_{{so['id']}}"
+                                class="form-control form-control-sm modal-input-director-oppointment" />
+                      </div>
+
+
+                      <button style="position: relative;left: calc( 100% - 160px);" [disabled]="!(
+                            societyOptionalInfo['society-' + so['id']]['name_si'] ||
+                           societyOptionalInfo['society-' + so['id']]['name_ta'] ||
+                           societyOptionalInfo['society-' + so['id']]['address_si'] ||
+                           societyOptionalInfo['society-' + so['id']]['address_ta'])" (click)="updateSocietyOptional(so['id'])" type="button" class="btn btn-sm btn-next"> Update Info
+                        <i class="fas fa-pen-alt"></i>
+                      </button>
+
+                      </div>
+
+                     
+                      <div class="clear:both"></div>
+                     
+
+                     <div class="so-q">
+                       <div class="so-q-left">The Name of the Society</div>
+                       <div class="so-q-right"> <span class="num">{{so['name_of_society']}}</span></div>
+                      </div>
+                      <div class="so-q">
+                          <div class="so-q-left">The Place of office of the Society</div>
+                          <div class="so-q-right"> <span class="num">{{so['place_of_office']}}</span></div>
+                      </div>
+                      <div class="so-q">
+                          <div class="so-q-left">The Whole of the objects for which the Society is established</div>
+                          <div class="so-q-right"> <span class="num">{{so['whole_of_the_objects']}}</span></div>
+                      </div>
+                      <div class="so-q">
+                          <div class="so-q-left">The purposes for which the funds of the Society shall be applicable</div>
+                          <div class="so-q-right"> <span class="num">{{so['investment_of_funds']}}</span></div>
+                      </div>
+                      <div class="so-q">
+                          <div class="so-q-left">The terms of admission of members</div>
+                          <div class="so-q-right"> <span class="num">{{so['terms_of_admission']}}</span></div>
+                      </div>
+                      <div class="so-q">
+                          <div class="so-q-left">The conditions under which any member may become entitled to any benefit assured thereby</div>
+                          <div class="so-q-right"> <span class="num">{{so['condition_under_which_any']}}</span></div>
+                      </div>
+                      <div class="so-q">
+                          <div class="so-q-left">The fines and foreitures to be imposed on any member</div>
+                          <div class="so-q-right"> <span class="num">{{so['fines_and_foreitures']}}</span></div>
+                      </div>
+                      <div class="so-q">
+                          <div class="so-q-left">The mode of holding meeting and fight of voting</div>
+                          <div class="so-q-right"> <span class="num">{{so['mode_of_holding_meetings']}}</span></div>
+                      </div>
+                      <div class="so-q">
+                          <div class="so-q-left">The manner of making, altering or rescinding rules</div>
+                          <div class="so-q-right"> <span class="num">{{so['manner_of_rules']}}</span></div>
+                      </div>
+                      <div class="so-q">
+                          <div class="so-q-left">The appoitment and removal of a committee of management (by whatever name called) of a treasurer and other officers and of trustees.</div>
+                          <div class="so-q-right"> <span class="num">{{so['appointment_and_removal_committee']}}</span></div>
+                      </div>
+                      <div class="so-q">
+                          <div class="so-q-left">In the case of a Society with branches., the composition of control body, and the conditions under which a branch may code from the society.</div>
+                          <div class="so-q-right"> <span class="num">{{so['condition_under_which_any']}}</span></div>
+                      </div>
+                      <div class="so-q">
+                          <div class="so-q-left">The investment of the funds</div>
+                          <div class="so-q-right"> <span class="num">{{so['funds']}}</span></div>
+                      </div>
+                      <div class="so-q">
+                          <div class="so-q-left">The keeping of accounts</div>
+                          <div class="so-q-right"> <span class="num">{{so['keeping_accounts']}}</span></div>
+                      </div>
+
+                      <div class="so-q">
+                          <div class="so-q-left">The audit of the accounts once a year at least</div>
+                          <div class="so-q-right"> <span class="num">{{so['audit_of_the_accounts']}}</span></div>
+                      </div>
+                      <div class="so-q">
+                          <div class="so-q-left">Annual returns to the registarar of the receipts,funds, effects and expenditure.</div>
+                          <div class="so-q-right"> <span class="num">{{so['annual_returns']}}</span></div>
+                      </div>
+                      <div class="so-q">
+                          <div class="so-q-left">The number of members of the society.</div>
+                          <div class="so-q-right"> <span class="num">{{so['number_of_members']}}</span></div>
+                      </div>
+                      <div class="so-q">
+                          <div class="so-q-left">The inspection of the books of the society by every person having an interest in the funds of the society.</div>
+                          <div class="so-q-right"> <span class="num">{{so['inspection_of_the_books']}}</span></div>
+                      </div>
+                      <div class="so-q">
+                          <div class="so-q-left">The manner in which disputes between the society and any of its members, or any person claiming through a member of under the rules shall be settled.</div>
+                          <div class="so-q-right"> <span class="num">{{so['disputes_manner']}}</span></div>
+                      </div>
+                  </div>
+
+                  <!-- download doc container-->
+
+                  <div class="container download-container">
+
+
+                      <h3 class="society-section-header">Documents List</h3>
+        
+                      <div class="doc-block-wrapper">
+        
+                        <div class="doc-block" *ngFor="let doc of so['downloadDocs'][0]['docs']">
+        
+                          <div class="stakeholder-doc-row">
+        
+                            <div class="stakeholder-name">{{doc.name}}</div>
+                            <div class="doc-download">
+        
+        
+                              <a [href]="sanitize(doc.download_link)" target="_blank" download="{{doc.file_name_key}}.pdf"
+                                class="btn btn-primary btn-sm download doc-download-link">
+                                <i class="fas fa-cloud-download-alt"></i> Download
+                              </a>
+                            </div>
+                          </div>
+        
+                        </div>
+        
+                      </div>
+        
+        
+        
+                    </div>
+
+
+
+                  <!-- end download doc container-->
+
+
+                  <!-- member upload  doc container-->
+
+                  <div class="container uploaded-container">
+                      <h3 class="society-section-header">Member Infomation</h3>
+
+                      <div *ngFor="let doc of so['uploadDocs']['docs']['member']; let i = index">
+        
+                        <div class="row uploaded-row">
+
+                          <div class="col-12">
+                              <div class="row">
+                                  <div class="col-6">Full name</div>
+                                  <div class="col-6">: {{doc['member_info']['full_name']}}</div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-6">Designation</div>
+                                  <div class="col-6">: {{ getDesignation(doc['member_info']['designation_type']) }}</div>
+                              </div>
+                              <div class="row">
+                                <div class="col-6">Designation  Name</div>
+                                <div class="col-6">: {{ doc['member_info']['designation'] }}</div>
+                            </div>
+                              <div class="row">
+                                  <div class="col-6">NIC</div>
+                                  <div class="col-6">: {{ doc['member_info']['nic'] }}</div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-6">Address</div>
+                                  <div class="col-6">: {{ doc['member_info']['address1'] }},{{ doc['member_info']['address2'] }},{{ doc['member_info']['city'] }}</div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-6">Contact Number</div>
+                                  <div class="col-6">: {{ doc['member_info']['contact_no'] }}</div>
+                              </div>
+
+                          </div>
+
+                          <div class="row" style="width: 100%;
+                          margin: 0 auto 12px;
+                          border-bottom: 1px solid #fff;border-top: 1px solid #fff;">
+        
+                            <div class="col-9 doc">
+                              <h5>{{doc.file_name}}<span class="req">*</span></h5>
+                              <div *ngIf="doc.file_description" class="doc-description"><strong>Description:</strong>{{doc.file_description}}</div>
+                            </div>
+                            <div class="col-3 no-padding">
+          
+          
+                              <label style="float:right" for="member-{{doc.society_id}}-{{i}}" class="upload-wrapper btn btn-primary btn-sm download">
+                                <i class="fas fa-cloud-upload-alt"></i> Upload
+                              </label>
+                              <input style="display:block;position: fixed;top:-100000px" id="member-{{doc.society_id}}-{{i}}" type="file" (change)="fileChange($event,doc.file_name,doc.dbid,doc.society_id,doc.member_id )"
+                                placeholder="Upload file" accept=".pdf">
+          
+                            </div>
+          
+                            <div class="col-12 uploaded-doc" *ngIf="doc.uploaded_path">
+      
+                                {{doc.uploaded_path}}
+      
+                                <button (click)="removeDoc( doc.dbid , doc.society_id, doc.member_id )"     class="button red button-sm remove-file">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                    </button>
+                              
+                                <button *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="view-file button blue button-sm">
+                                    <i class="far fa-file-pdf"></i> View
+                                </button>
+      
+      
+                            
+                            </div>
+                            <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                              <strong>Comments:</strong> {{doc.doc_comment}}
+                            </div>
+
+                          </div>
+
+                        
+
+                          <div class="row" style="width: 100%;
+                          margin: 0 auto 12px;">
+
+                              <div class="col-9 doc">
+                                  <h5>{{doc['nic_doc']['file_name']}}<span class="req">*</span></h5>
+                                  <div *ngIf="doc.file_description" class="doc-description"><strong>Description:</strong>{{doc['nic_doc']['file_description']}}</div>
+                            </div>
+                            <div class="col-3 no-padding">
+                
+                
+                                    <label style="float:right" for="member-nic-{{doc.society_id}}-{{i}}" class="upload-wrapper btn btn-primary btn-sm download">
+                                      <i class="fas fa-cloud-upload-alt"></i> Upload
+                                    </label>
+                                    <input style="display:block;position: fixed;top:-100000px" id="member-nic-{{doc.society_id}}-{{i}}" type="file" (change)="fileChange($event,doc['nic_doc']['file_name'],doc['nic_doc']['dbid'],doc.society_id,doc.member_id )"
+                                      placeholder="Upload file" accept=".pdf">
+                
+                            </div>
+                
+                            <div class="col-12 uploaded-doc" *ngIf="doc['nic_doc']['uploaded_path']">
+            
+                                      {{doc['nic_doc']['uploaded_path']}}
+            
+                                      <button (click)="removeDoc( doc['nic_doc']['dbid'] , doc.society_id, doc.member_id )"     class="button red button-sm remove-file">
+                                          <i class="fas fa-trash-alt"></i> Delete
+                                          </button>
+                                    
+                                      <button *ngIf="doc['nic_doc']['uploaded_token']"  (click)="ngOnDownload(doc['nic_doc']['uploaded_token'])"   class="view-file button blue button-sm">
+                                          <i class="far fa-file-pdf"></i> View
+                                      </button>
+            
+            
+                                  
+                            </div>
+                            <div style="clear:both;width:100%" class="document-comment" *ngIf="doc['nic_doc']['doc_comment']">
+                                    <strong>Comments:</strong> {{doc['nic_doc']['doc_comment']}}
+                            </div>
+
+                          </div>
+                          
+
+
+                         
+        
+                        </div>
+        
+                      </div>
+        
+        
+                    </div>
+
+
+                  <!-- end member upload doc container-->
+
+
+                  <!-- other upload  doc container-->
+
+                  <div class="container uploaded-container">
+                      <h3  class="society-section-header" >Upload Documents</h3>
+
+                      <div *ngFor="let doc of so['uploadDocs']['docs']['other']; let i = index">
+        
+                        <div class="row uploaded-row">
+
+                          <div class="col-9 doc">
+                            <h5>{{doc.file_name}}<span *ngIf="doc.is_required" class="req">*</span></h5>
+                            <div *ngIf="doc.file_description" class="doc-description"><strong>Description:</strong>{{doc.file_description}}</div>
+                          </div>
+                          <div class="col-3 no-padding">
+        
+        
+                            <label style="float:right" for="other-{{doc.society_id}}-{{i}}" class="upload-wrapper btn btn-primary btn-sm download">
+                              <i class="fas fa-cloud-upload-alt"></i> Upload
+                            </label>
+                            <input style="display:block;position: fixed;top:-100000px" id="other-{{doc.society_id}}-{{i}}" type="file" (change)="fileChange($event,doc.file_name,doc.dbid , doc.society_id )"
+                              placeholder="Upload file" accept=".pdf">
+        
+                          </div>
+        
+                          <div class="col-12 uploaded-doc" *ngIf="doc.uploaded_path">
+    
+                              {{doc.uploaded_path}}
+    
+                              <button (click)="removeDoc( doc.dbid , doc.society_id )"  class="button red button-sm remove-file">
+                                  <i class="fas fa-trash-alt"></i> Delete
+                                  </button>
+                            
+                              <button *ngIf="doc.uploaded_token"  (click)="ngOnDownload(doc.uploaded_token)"   class="view-file button blue button-sm">
+                                  <i class="far fa-file-pdf"></i> View
+                              </button>
+    
+    
+                           
+                          </div>
+                          <div style="clear:both;width:100%" class="document-comment" *ngIf="doc.doc_comment">
+                            <strong>Comments:</strong> {{doc.doc_comment}}
+                          </div>
+        
+                        </div>
+        
+                      </div>
+        
+        
+                    </div>
+
+
+                  <!-- end other upload doc container-->
+
+
+
+
+                
+                  <div class="go-item-next" *ngIf="socityList['count'] > (i+1)" (click)="nextItem(i)"><i class="fas fa-arrow-circle-right"></i></div>
+                
+                  
+                  <div class="sos-navigation bottom">
+                      <div class="item-prev" *ngIf=" i >0 && socityList['count']" (click)="prevItem(i)"><i class="fas fa-arrow-circle-left"></i>&nbsp;Previous</div>
+                      <div class="item-next" *ngIf="socityList['count'] > (i+1)" (click)="nextItem(i)"><i class="fas fa-arrow-circle-right"></i>&nbsp;Next</div>
+                    </div>
+                
+                </div>
+               </div>
+            </div>
+
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(0)" type="button" class="btn btn-previous">
+                <i class="fas fa-backward"></i>Previous</button>
+              <button [disabled]="!step2Validation" (click)="changeProgressStatuses(2)" type="button" class="btn btn-next"> Make Payments
+                <i class="fas fa-edit"></i>
+              </button>
+            </div>
+
+
+
+
+          </fieldset>
+
+          <fieldset [hidden]="stepOn != 2">
+
+             <div class="payment-wrapper">
+                <h4>Great! You are almost done</h4>
+                <p>Please make payment and complete everything you did.</p>
+             </div>
+
+            <p style="text-align: center;
+            color: #6a3d06;
+            font-weight: bold;
+            font-size: 17px;">
+            <input style="width: 25px;
+            height: 25px;
+            position: relative;
+            top: 6px;" type="checkbox" name="paymentAcceptTerms" [(ngModel)]="paymentAcceptTerms" />&nbsp;I/We agree that the data added to the system by our Institution is true and accurate.(Please note that Register of Companies will not take any responsibility regarding inconveniences caused by falsely added data.) </p>
+
+            <button [disabled]="!paymentAcceptTerms" style="margin-bottom: 100px;" (click)="confirmPay()" type="button" class="btn btn-submit re-submit"><i class="fas fa-money-bill"></i>&nbsp;<i class="fas fa-credit-card"></i>&nbsp;Start Payment</button>
+
+
+
+            <div class="f1-buttons">
+              <button (click)="changeProgressStatuses(1)" type="button" class="btn btn-previous">
+                <i class="fas fa-backward"></i> Previous</button>
+            </div>
+
+          </fieldset>
+
+
+
+
+        </form>
+
+      </div>
+      <div style="clear:both"></div>
+      <br />
+      <br />
+      <!--end right col main-->
+    </div>
+  </div>
+</section>
+
+<div class="payment-success-wrapper error-wrapper" *ngIf="errorUploadFlag">
+
+  <div class="payment-success-body" style="width:300px;height:210px;">
+
+    <div class="header">
+
+      <h2 class="alert alert-danger "><i class="fas fa-exclamation-triangle"></i>&nbsp;Warning!</h2>
+    </div>
+
+    <div class="body">
+       <p>{{errorUloadMessage}}</p>
+    </div>
+
+    <div class="footer">
+      <div style="text-align: center">
+
+        <button class="btn btn-danger" (click)="closeErrorUploadPopup()">OK</button>
+         <br/>
+      </div>
+
+    </div>
+
+    
+  </div>
+
+
+
+</div>
+
+<div class="payment-success-wrapper" *ngIf="payConfirm">
+
+    <div class="payment-success-body">
+  
+      <div class="header">
+  
+        <h2>Payment Confirmation</h2>
+      </div>
+  
+      <div class="body">
+         <p>Please confirm your payment by clicking below button.</p>
+      </div>
+  
+      <div class="footer">
+        <div style="text-align: center">
+          <form  ngNoForm action="{{ paymentGateway }}" method="post">
+            <input type="hidden" [(ngModel)]="cipher_message" name="clientPaymentRequest">
+            <button type="submit" class="btn btn-success col-md-8">&nbsp;<i class="far fa-credit-card"></i>Confirm and Continue Payment</button>
+          </form>
+        </div>
+  
+      </div>
+  
+      
+    </div>
+  
+  
+  
+  </div>
+
+
+  <div class="payment-success-wrapper"  *ngIf="updateOptionalRecord">
+
+    <div class="payment-success-body">
+  
+      <div class="header">
+  
+        <h2>Success</h2>
+      </div>
+  
+      <div class="body">
+        <p>Successfully updated society information</p>
+      </div>
+  
+      <div class="footer">
+         
+        <button class="btn btn-success" (click)="closeUpdateOptionalRerocd()">ok</button>
+      </div>
+    </div>
+
+  </div>  
+
+
+  <div class="payment-success-wrapper"  *ngIf="removeSocietyFlag">
+
+      <div class="payment-success-body {{removeSocietyFlag}}">
+    
+        <div class="header">
+    
+          <h2>{{removeSocietyFlag ? 'Success' : 'Failed'}}</h2>
+        </div>
+    
+        <div class="body">
+          <p>{{removeSocieityMessage}}</p>
+        </div>
+    
+        <div class="footer">
+           
+          <button class="btn btn-{{removeSocietyFlag ? 'success' : 'danger'}}" (click)="closeRemoveOverlay()">ok</button>
+        </div>
+      </div>
+  
+    </div>  
+

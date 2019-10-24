@@ -1,0 +1,39 @@
+@import "theme-veriable";
+.bottom-br {
+  padding-top: 6px;
+  border-bottom: 1px solid $gray-200;
+  .row {
+    max-height: 41px;
+  }
+  .input-with-icon input {
+    padding-right: 15px;
+    padding-left: 40px;
+    border: 0;
+    background: #dadada;
+    border-radius: 30px;
+    font-size: 12px;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    width: 275px;
+  }
+  .icon-material-outline-search {
+    position: absolute;
+    left: 12px;
+  }
+  .icon-material-outline-add-circle-outline {
+    font-size: 35px;
+    color: $secondary;
+  }
+  ul {
+    display: inline-block;
+    display: flex;
+    li {
+      list-style: none;
+      padding-right: 35px;
+      padding-top: 4px;
+    }
+    .last-li {
+      padding: 0px $im;
+    }
+  }
+}
